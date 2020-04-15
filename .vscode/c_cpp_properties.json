@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "includePath": [
+                "/home/walther/Arduino/libraries/FastLED",
+                "/home/walther/.arduino15/packages/esp32/tools/**",
+                "/home/walther/.arduino15/packages/esp32/hardware/esp32/1.0.4/**",
+                "${config:idf.espIdfPath}/components/**",
+                "${workspaceFolder}/**"
+            ],
+            "browse": {
+                "path": [
+                    "${config:idf.espIdfPath}/components",
+                    "${workspaceFolder}",
+                    "/home/walther/Arduino/libraries",
+                    "/home/walther/.arduino15/packages/esp32/hardware/esp32/1.0.4/libraries"
+                ],
+                "limitSymbolsToIncludedHeaders": false
+            },
+            "forcedInclude": []
+        }
+    ],
+    "version": 4
+}
