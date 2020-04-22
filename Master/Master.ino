@@ -31,15 +31,12 @@
 
 #include <esp_now.h>
 #include <WiFi.h>
-#include <FastLED.h>
 
 // Global copy of slave
 esp_now_peer_info_t slave;
 #define CHANNEL 3
 #define PRINTSCANRESULTS 0
 #define DELETEBEFOREPAIR 0
-
-
 
 // Init ESP Now with fallback
 void InitESPNow() {
