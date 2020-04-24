@@ -5,6 +5,7 @@
             "cStandard": "c11",
             "cppStandard": "c++17",
             "includePath": [
+                "/home/walther/Arduino/libraries/ArtnetWifi/src",
                 "/home/walther/Arduino/libraries/FastLED",
                 "/home/walther/.arduino15/packages/esp32/tools/**",
                 "/home/walther/.arduino15/packages/esp32/hardware/esp32/1.0.4/**",
