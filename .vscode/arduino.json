@@ -1,6 +1,6 @@
 {
-    "board": "esp32:esp32:firebeetle32",
-    "configuration": "FlashFreq=80,UploadSpeed=921600",
+    "board": "esp32:esp32:esp32doit-devkit-v1",
+    "configuration": "FlashFreq=80,UploadSpeed=921600,DebugLevel=none",
     "port": "/dev/ttyUSB0",
-    "sketch": "ArtNet/ArtnetWifiDebug.ino"
+    "sketch": "ESP-Now-simple/Sender/Sender.ino"
 }

@@ -8,8 +8,8 @@ https://github.com/rstephan
 #include <Arduino.h>
 
 //Wifi settings
-const char* ssid = "incubator";
-const char* password = "password";
+const char* ssid = "Incubator";
+const char* password = "Fl4mongo";
 
 WiFiUDP UdpSend;
 ArtnetWifi artnet;
