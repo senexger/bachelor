@@ -2,7 +2,7 @@
    ESPNOW - Basic communication - Slave
    Date: 26th September 2017
    Author: Arvind Ravulavaru <https://github.com/arvindr21>
-   Purpose: ESPNow Communication between a Master ESP32 and a Slave ESP32
+   Purpose: ESPNow Communication between a Master ESP32 and multiple ESP32 Slaves
    Description: This sketch consists of the code for the Slave module.
    Resources: (A bit outdated)
    a. https://espressif.com/sites/default/files/documentation/esp-now_user_guide_en.pdf
@@ -15,7 +15,7 @@
    Step 2 : Start scanning for Slave ESP32 (we have added a prefix of `slave` to the SSID of slave for an easy setup)
    Step 3 : Once found, add Slave as peer
    Step 4 : Register for send callback
-   Step 5 : Start Transmitting data from Master to Slave
+   Step 5 : Start Transmitting data from Master to Slave(s)
 
    Flow: Slave
    Step 1 : ESPNow Init on Slave
@@ -32,6 +32,7 @@
 #include <esp_now.h>
 #include <WiFi.h>
 
+// TODO what defines Channel exactly Master Slave same channel?
 #define CHANNEL 1
 
 // Init ESP Now with fallback
@@ -51,8 +52,11 @@ void InitESPNow() {
 
 // config AP SSID
 void configDeviceAP() {
-  const char *SSID = "Slave_1";
-  bool result = WiFi.softAP(SSID, "Slave_1_Password", CHANNEL, 0);
+  String Prefix = "Slave:";
+  String Mac = WiFi.macAddress();
+  String SSID = Prefix + Mac;
+  String Password = "123456789";
+  bool result = WiFi.softAP(SSID.c_str(), Password.c_str(), CHANNEL, 0);
   if (!result) {
     Serial.println("AP Config failed.");
   } else {
@@ -62,7 +66,7 @@ void configDeviceAP() {
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("ESPNow/Basic/Slave Example");
+  Serial.println("Slave Node is ready");
   //Set device in AP mode to begin with
   WiFi.mode(WIFI_AP);
   // configure device AP mode
@@ -76,14 +80,26 @@ void setup() {
   esp_now_register_recv_cb(OnDataRecv);
 }
 
-// callback when data is recv from Master
-void OnDataRecv(const uint8_t *mac_addr, const uint8_t *data, int data_len) {
-  char macStr[18];
-  snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
-           mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
-  Serial.print("Last Packet Recv from: "); Serial.println(macStr);
-  Serial.print("Last Packet Recv Data: "); Serial.println(*data);
-  Serial.println("");
+typedef struct esp_dmx_message {
+  uint8_t a[5];
+} esp_dmx_message;
+
+// Create a struct_message called myData
+esp_dmx_message myData;
+
+// callback when data is recv from Master just printing incomming data
+void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
+  memcpy(&myData, incommingData, sizeof(myData));
+  Serial.print("Bytes received: ");
+  Serial.println(data_len);
+  Serial.print("uint: ");
+  Serial.println(myData.a[0]);
+  Serial.println(myData.a[1]);
+  Serial.println();
+
+  // snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
+  //          mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
+  // Serial.print("Last Packet Recv from: "); Serial.println(macStr);
 }
 
 void loop() {

@@ -52,7 +52,7 @@ void setup() {
   // Init ESP-NOW
   if (esp_now_init() != ESP_OK) {
     Serial.println("Error initializing ESP-NOW");
-    return;
+    ESP.restart();
   }
 
   // Once ESPNow is successfully Init, we will register for Send CB to
@@ -83,7 +83,7 @@ void loop() {
   Serial.println(" ================= ");
   for (selectedNode=0; selectedNode<4; selectedNode++) {
 
-    uint8_t * swap = broadcastAddress0;
+    uint8_t * swap;// = broadcastAddress1;
 
     switch (selectedNode)
     {
