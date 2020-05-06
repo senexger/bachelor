@@ -72,7 +72,7 @@ esp_dmx_message myData;
 // timestamping
 void setTimestamp() {
   timestamp = esp_timer_get_time();
-  Serial.print("timestamp: "); Serial.println(timestamp);
+  // Serial.print("timestamp: "); Serial.println(timestamp);
   return;
 }
 unsigned long getTimestamp() {
@@ -214,14 +214,14 @@ void sendData() {
   for (int i = 0; i < SlaveCnt; i++) {
     const uint8_t *peer_addr = slaves[i].peer_addr;
     if (i == 0) { // print only for first slave
-      Serial.print("==== Sending: ====");
-      //Serial.println(data);
+      Serial.println("==== Sending: ====");
     }
     esp_err_t result = esp_now_send(peer_addr, (uint8_t *) &myData, sizeof(myData));
-    Serial.println("Send Status: ");
+    Serial.print("Send Status: ");
     if (result == ESP_OK) {
-      Serial.println("Success: Bytes sended: ");
+      Serial.println("Success, Bytes sended: ");
       Serial.println((int) sizeof(myData));
+
       Serial.print("uint8_t: ");
       Serial.print(myData.a[0]); Serial.print(", ");
       Serial.println(myData.a[1]);
@@ -281,7 +281,9 @@ void loop() {
     manageSlave();
     // pair success or already paired
     // Send data to device
+    setTimestamp();
     sendData();
+    getTimestamp();
   } else {
     // No slave found to process
     Serial.println("No slave found.");
