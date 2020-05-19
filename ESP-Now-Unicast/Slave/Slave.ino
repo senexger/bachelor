@@ -35,6 +35,15 @@
 // TODO what defines Channel exactly Master Slave same channel?
 #define CHANNEL 1
 
+#define DMX_FRAME_SIZE 200
+
+typedef struct esp_dmx_message {
+  uint8_t payload[DMX_FRAME_SIZE];
+  int testValue;
+} esp_dmx_message;
+
+// Create a struct_message called myData
+esp_dmx_message myData;
 // Init ESP Now with fallback
 void InitESPNow() {
   WiFi.disconnect();
@@ -80,21 +89,18 @@ void setup() {
   esp_now_register_recv_cb(OnDataRecv);
 }
 
-typedef struct esp_dmx_message {
-  uint8_t a[5];
-} esp_dmx_message;
-
-// Create a struct_message called myData
-esp_dmx_message myData;
-
 // callback when data is recv from Master just printing incomming data
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
   memcpy(&myData, incommingData, sizeof(myData));
   Serial.print("Bytes received: ");
   Serial.println(data_len);
-  Serial.print("uint: ");
-  Serial.println(myData.a[0]);
-  Serial.println(myData.a[1]);
+
+  Serial.print("testvalue: ");
+  Serial.println(myData.testValue);
+  
+  for (int i=0; i < DMX_FRAME_SIZE; i++) {
+    Serial.println(myData.payload[i]);
+  }
   Serial.println();
 
   // snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",

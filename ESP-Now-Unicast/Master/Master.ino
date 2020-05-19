@@ -63,8 +63,10 @@ int SlaveCnt = 0;
 #define PRINTSCANRESULTS 0
 
 // ESP write message
+#define DMX_FRAME_SIZE 200
+
 typedef struct esp_dmx_message {
-  uint8_t dmxFrame[5];
+  uint8_t dmxFrame[DMX_FRAME_SIZE];
 } esp_dmx_message;
 
 esp_dmx_message myData;
@@ -76,7 +78,7 @@ void setTimestamp() {
 }
 unsigned long getTimestamp() {
   timediff = (unsigned long) (esp_timer_get_time() ) - timestamp;
-  Serial.print(timediff); Serial.print(" us");
+  Serial.print(timediff); Serial.println(" us");
   return timediff;
 }
 
@@ -88,9 +90,6 @@ void InitESPNow() {
   }
   else {
     Serial.println("ESPNow init failed");
-    // Retry InitESPNow, add a counte and then restart?
-    // InitESPNow();
-    // or Simply Restart
     ESP.restart();
   }
 }
@@ -213,18 +212,16 @@ void sendData() {
   for (int i = 0; i < SlaveCnt; i++) {
     const uint8_t *peer_addr = slaves[i].peer_addr;
     if (i == 0) { // print only for first slave
-      // Serial.println("==== Begin Sending ====");
+      Serial.println("==== Begin Sending ====");
     }
     esp_err_t result = esp_now_send(peer_addr, (uint8_t *) &myData, sizeof(myData));
     if (result == ESP_OK) {
-      // Serial.print("Success, Bytes sended: ");
-      // Serial.println((int) sizeof(myData));
-// 
-      // Serial.print("Body: ");
-      // for (int j = 0; i < sizeof(myData.dmxFrame) / sizeof(myData.dmxFrame[0]); i++) {
-        // Serial.print(myData.dmxFrame[i]); Serial.print(", ");
-      // }
+      Serial.print("Success, Bytes sended: ");
+      Serial.println((int) sizeof(myData));
       // Serial.println();
+      // for (int i=0; i>DMX_FRAME_SIZE; i++) {
+      //   Serial.println(myData.dmxFrame[i]);
+      // }
       
     } else if (result == ESP_ERR_ESPNOW_NOT_INIT) {
       // How did we get so far!!
@@ -240,7 +237,6 @@ void sendData() {
     } else {
       Serial.println("Not sure what happened");
     }
-    // delay(101); // why delay it?
   }
   // Serial.println(" ==== End Sending ====");
 }
@@ -250,12 +246,18 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   char macStr[18];
   snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
            mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
-  Serial.print("\n\rLast Packet Sent to: "); Serial.print(macStr);
-  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+  Serial.print("Last Packet Sent to: "); Serial.print(macStr);
+  Serial.println(status == ESP_NOW_SEND_SUCCESS ? " Delivery Success" : " Delivery Fail");
 }
 
 void setup() {
   Serial.begin(115200);
+
+  // setup test data
+  for (int i=0; i<DMX_FRAME_SIZE; i++) {
+    myData.dmxFrame[i] = i;
+  }
+
   //Set device in STA mode to begin with
   WiFi.mode(WIFI_STA);
   Serial.println("MultiSlave ESP-Now Master");
@@ -265,14 +267,12 @@ void setup() {
   InitESPNow();
   // Init ESPTimer with a fallback logic
   InitESPTimer();
-  // Once ESPNow is successfully Init, we will register for Send CB to
-  // get the status of Trasnmitted packet
+  // Register for Send CB to
+  // get the status of transmitted packet
   esp_now_register_send_cb(OnDataSent);
 }
 
 void loop() {
-  myData.dmxFrame[0] = 255;
-  myData.dmxFrame[1] = 12;
   // In the loop we scan for slave
   ScanForSlave();
   // If Slave is found, it would be populate in `slave` variable
@@ -284,9 +284,9 @@ void loop() {
     // pair success or already paired
     // Send data to device
     setTimestamp();
+    // Send XY packages in a raw
     for (int r = 0; r < 10; r++){
       sendData();
-      //delay(1);
     }
     getTimestamp();
   } else {
