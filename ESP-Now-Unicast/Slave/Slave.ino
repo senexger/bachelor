@@ -34,12 +34,10 @@
 
 // TODO what defines Channel exactly Master Slave same channel?
 #define CHANNEL 1
-
 #define DMX_FRAME_SIZE 200
 
 typedef struct esp_dmx_message {
   uint8_t payload[DMX_FRAME_SIZE];
-  int testValue;
 } esp_dmx_message;
 
 // Create a struct_message called myData

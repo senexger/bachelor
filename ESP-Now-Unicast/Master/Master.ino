@@ -63,7 +63,7 @@ int SlaveCnt = 0;
 #define PRINTSCANRESULTS 0
 
 // ESP write message
-#define DMX_FRAME_SIZE 200
+#define DMX_FRAME_SIZE 20
 
 typedef struct esp_dmx_message {
   uint8_t dmxFrame[DMX_FRAME_SIZE];
@@ -254,7 +254,7 @@ void setup() {
   Serial.begin(115200);
 
   // setup test data
-  for (int i=0; i<DMX_FRAME_SIZE; i++) {
+  for (int i=0; i < DMX_FRAME_SIZE; i++) {
     myData.dmxFrame[i] = i;
   }
 
@@ -284,7 +284,7 @@ void loop() {
     // pair success or already paired
     // Send data to device
     setTimestamp();
-    // Send XY packages in a raw
+    // Send XY packages in a row
     for (int r = 0; r < 10; r++){
       sendData();
     }
