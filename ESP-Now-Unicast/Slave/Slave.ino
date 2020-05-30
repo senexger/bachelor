@@ -34,7 +34,7 @@
 
 // TODO what defines Channel exactly Master Slave same channel?
 #define CHANNEL 1
-#define DMX_FRAME_SIZE 200
+#define DMX_FRAME_SIZE 20
 
 typedef struct esp_dmx_message {
   uint8_t payload[DMX_FRAME_SIZE];
@@ -92,9 +92,6 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
   memcpy(&myData, incommingData, sizeof(myData));
   Serial.print("Bytes received: ");
   Serial.println(data_len);
-
-  Serial.print("testvalue: ");
-  Serial.println(myData.testValue);
   
   for (int i=0; i < DMX_FRAME_SIZE; i++) {
     Serial.println(myData.payload[i]);
