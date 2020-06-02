@@ -216,7 +216,6 @@ void manageSlave() {
 // send data
 void sendData() {
   Serial.println("==== Begin Sending ====");
-
   esp_err_t result;
   int i = 0;
 

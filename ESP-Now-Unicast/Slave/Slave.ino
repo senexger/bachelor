@@ -55,6 +55,20 @@ void InitESPNow() {
     // or Simply Restart
     ESP.restart();
   }
+
+  // Broadcasting
+  esp_now_peer_info_t peer_info;
+  peer_info.channel = WIFI_CHANNEL;
+  memcpy(peer_info.peer_addr, broadcast_mac, 6);
+  peer_info.ifidx = ESP_IF_WIFI_STA;
+  peer_info.encrypt = false;
+  esp_err_t status = esp_now_add_peer(&peer_info);
+  if (ESP_OK != status)
+  {
+    Serial.println("Could not add peer");
+    handle_error(status);
+  }
+
 }
 
 // config AP SSID
