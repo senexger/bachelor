@@ -1,9 +1,9 @@
 /**
-   ESPNOW - Basic communication - Slave
-   Date: 26th September 2017
-   Author: Arvind Ravulavaru <https://github.com/arvindr21>
-   Purpose: ESPNow Communication between a Master ESP32 and multiple ESP32 Slaves
-   Description: This sketch consists of the code for the Slave module.
+   ESPNOW - Bachelor Thesis Project
+   Date: 1th March 2020
+   Author: Maximilian W. Gotthardt
+   Purpose: DMX implementation via ESP-Now instead of Art-Net
+   Description: ...
    Resources: (A bit outdated)
    a. https://espressif.com/sites/default/files/documentation/esp-now_user_guide_en.pdf
    b. http://www.esploradores.com/practica-6-conexion-esp-now/
@@ -34,7 +34,7 @@
 
 // TODO what defines Channel exactly Master Slave same channel?
 #define CHANNEL 1
-#define DMX_FRAME_SIZE 20
+#define DMX_FRAME_SIZE 250
 
 typedef struct esp_dmx_message {
   uint8_t payload[DMX_FRAME_SIZE];
@@ -42,6 +42,7 @@ typedef struct esp_dmx_message {
 
 // Create a struct_message called myData
 esp_dmx_message myData;
+
 // Init ESP Now with fallback
 void InitESPNow() {
   WiFi.disconnect();
@@ -56,9 +57,10 @@ void InitESPNow() {
     ESP.restart();
   }
 
+  /*
   // Broadcasting
   esp_now_peer_info_t peer_info;
-  peer_info.channel = WIFI_CHANNEL;
+  peer_info.channel = CHANNEL;
   memcpy(peer_info.peer_addr, broadcast_mac, 6);
   peer_info.ifidx = ESP_IF_WIFI_STA;
   peer_info.encrypt = false;
@@ -66,9 +68,9 @@ void InitESPNow() {
   if (ESP_OK != status)
   {
     Serial.println("Could not add peer");
-    handle_error(status);
+    // handle_error(status);
   }
-
+  */
 }
 
 // config AP SSID
@@ -88,12 +90,14 @@ void configDeviceAP() {
 void setup() {
   Serial.begin(115200);
   Serial.println("Slave Node is ready");
+
   //Set device in AP mode to begin with
   WiFi.mode(WIFI_AP);
   // configure device AP mode
   configDeviceAP();
   // This is the mac address of the Slave in AP Mode
   Serial.print("AP MAC: "); Serial.println(WiFi.softAPmacAddress());
+  
   // Init ESPNow with a fallback logic
   InitESPNow();
   // Once ESPNow is successfully Init, we will register for recv CB to
@@ -104,13 +108,21 @@ void setup() {
 // callback when data is recv from Master just printing incomming data
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
   memcpy(&myData, incommingData, sizeof(myData));
-  Serial.print("Bytes received: ");
-  Serial.println(data_len);
+  Serial.print("Bytes received: "); Serial.print(data_len);
   
-  for (int i=0; i < DMX_FRAME_SIZE; i++) {
-    Serial.println(myData.payload[i]);
+  // magic number 20 should be data_len
+  bool signalBroken = false;
+  for (int i=0; i < data_len; i++) {
+    if (myData.payload[i] != i) {
+      signalBroken = true;
+    }
   }
-  Serial.println();
+  if (signalBroken) {
+    Serial.println(" (broken)");
+  }
+  else {
+    Serial.println(" (correct)");
+  }
 
   // snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
   //          mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);

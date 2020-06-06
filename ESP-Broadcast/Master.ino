@@ -29,11 +29,6 @@ static uint8_t broadcast_mac[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
 #define DMX_FRAME_SIZE 20
 #define ISBROADCASTING true
 
-// typedef struct esp_dmx_message {
-//   uint8_t dmxFrame[DMX_FRAME_SIZE];
-// } esp_dmx_message;
-
-
 typedef struct esp_dmx_message
 {
   uint8_t dmxFrame[DMX_FRAME_SIZE];

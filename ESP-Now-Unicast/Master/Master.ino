@@ -1,9 +1,9 @@
 /**
-   ESPNOW - Basic communication - Master
-   Date: 26th September 2017
-   Author: Arvind Ravulavaru <https://github.com/arvindr21>
-   Purpose: ESPNow Communication between a Master ESP32 and multiple ESP32 Slaves
-   Description: This sketch consists of the code for the Master module.
+   ESPNOW - Bachelor Thesis Project
+   Date: 1th March 2020
+   Author: Maximilian W. Gotthardt
+   Purpose: DMX implementation via ESP-Now instead of Art-Net
+   Description: ...
    Resources: (A bit outdated)
    a. https://espressif.com/sites/default/files/documentation/esp-now_user_guide_en.pdf
    b. http://www.esploradores.com/practica-6-conexion-esp-now/
@@ -43,7 +43,6 @@
       Send Status: Success
       Last Packet Sent to: 30:ae:a4:02:6d:cd
       Last Packet Send Status: Delivery Success
-
 */
 
 #include <esp_now.h>
@@ -59,18 +58,19 @@ unsigned long timediff;
 esp_now_peer_info_t slaves[NUMSLAVES] = {};
 int SlaveCnt = 0;
 
-// From Github:
-// Global copy of slave / peer device 
+// Broadcast mac 
 // for broadcasts the addr needs to be ff:ff:ff:ff:ff:ff
 // all devices on the same channel
+static uint8_t broadcast_mac[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+
 esp_now_peer_info_t slave;
 
 #define CHANNEL 3
 #define PRINTSCANRESULTS 0
 
 // ESP write message
-#define DMX_FRAME_SIZE 20
-#define ISBROADCASTING true
+#define DMX_FRAME_SIZE 250
+#define ISBROADCASTING 0
 
 typedef struct esp_dmx_message {
   uint8_t dmxFrame[DMX_FRAME_SIZE];
@@ -78,7 +78,7 @@ typedef struct esp_dmx_message {
 
 esp_dmx_message myData;
 
-// timestamping
+// Timestamping
 void setTimestamp() {
   timestamp = (unsigned long) (esp_timer_get_time() );
   return;
@@ -136,13 +136,15 @@ void ScanForSlave() {
       String BSSIDstr = WiFi.BSSIDstr(i);
 
       if (PRINTSCANRESULTS) {
-        Serial.print(i + 1); Serial.print(": "); Serial.print(SSID); Serial.print(" ["); Serial.print(BSSIDstr); Serial.print("]"); Serial.print(" ("); Serial.print(RSSI); Serial.print(")"); Serial.println("");
+        Serial.print(i + 1); Serial.print(": "); Serial.print(SSID); Serial.print(" ["); Serial.print(BSSIDstr); 
+        Serial.print("]"); Serial.print(" ("); Serial.print(RSSI); Serial.print(")"); Serial.println("");
       }
       delay(10);
       // Check if the current device starts with `Slave`
       if (SSID.indexOf("Slave") == 0) {
         // SSID of interest
-        Serial.print(i + 1); Serial.print(": "); Serial.print(SSID); Serial.print(" ["); Serial.print(BSSIDstr); Serial.print("]"); Serial.print(" ("); Serial.print(RSSI); Serial.print(")"); Serial.println("");
+        Serial.print(i + 1); Serial.print(": "); Serial.print(SSID); Serial.print(" ["); Serial.print(BSSIDstr); 
+        Serial.print("]"); Serial.print(" ("); Serial.print(RSSI); Serial.print(")"); Serial.println("");
         // Get BSSID => Mac Address of the Slave
         int mac[6];
 
@@ -157,7 +159,6 @@ void ScanForSlave() {
       }
     }
   }
-
   if (SlaveCnt > 0) {
     Serial.print(SlaveCnt); Serial.println(" Slave(s) found, processing..");
   } else {
@@ -213,53 +214,41 @@ void manageSlave() {
   }
 }
 
+void sendESPBroadcast() {
+  Serial.println("==== Begin Broadcasts ====");
+  esp_err_t broadcastResult = esp_now_send(broadcast_mac, (uint8_t *) &myData, sizeof(myData));
+}
+
 // send data
-void sendData() {
-  Serial.println("==== Begin Sending ====");
-  esp_err_t result;
-  int i = 0;
+void sendESPUnicast() {
+  Serial.println("==== Begin Unicasts ====");
+  for (int i = 0; i < SlaveCnt; i++) {
+    const uint8_t *peer_addr = slaves[i].peer_addr;
+    Serial.print("Slave "); Serial.print(i); Serial.print(": ");
+    esp_err_t unicastResult = esp_now_send(peer_addr, (uint8_t *) &myData, sizeof(myData));
+  }
+}
 
-  do {
-    if (ISBROADCASTING) { 
-      // const uint8_t *peer_addr = NULL;
-     	const uint8_t *peer_addr = slave.peer_addr;
-     	//Serial.print("Sending: "); Serial.println(mydata);
-
-      //const uint8_t broadcast_addr[6] = {(uint8_t)0xff, (uint8_t)0xff, (uint8_t)0xff, (uint8_t)0xff, (uint8_t)0xff, (uint8_t)0xff};
-
-      //char macStr[18];
-      //snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
-      //     broadcast_addr[0], broadcast_addr[1], broadcast_addr[2], broadcast_addr[3], broadcast_addr[4], broadcast_addr[5]);
-
-      //Serial.println("Broadcasting");
-      result = esp_now_send(peer_addr, (uint8_t *) &myData, sizeof(myData));
-    }
-    else {
-      const uint8_t *peer_addr = slaves[i].peer_addr;
-      Serial.print("Slave "); Serial.print(i); Serial.print(": ");
-      result = esp_now_send(peer_addr, (uint8_t *) &myData, sizeof(myData));
-    }
-    // Print status of sended data
-    Serial.print("Send Status: ");
-    if (result == ESP_OK) {
-      Serial.print("Success, Bytes sended: ");
-      Serial.println((int) sizeof(myData));
-    } else if (result == ESP_ERR_ESPNOW_NOT_INIT) {
-      // How did we get so far!!
-      Serial.println("ESPNOW not Init.");
-    } else if (result == ESP_ERR_ESPNOW_ARG) {
-      Serial.println("Invalid Argument");
-    } else if (result == ESP_ERR_ESPNOW_INTERNAL) {
-      Serial.println("Internal Error");
-    } else if (result == ESP_ERR_ESPNOW_NO_MEM) {
-      Serial.println("ESP_ERR_ESPNOW_NO_MEM");
-    } else if (result == ESP_ERR_ESPNOW_NOT_FOUND) {
-      Serial.println("Peer not found.");
-    } else {
-      Serial.println("Not sure what happened");
-    }
-    i++;
-  } while (i < SlaveCnt && ISBROADCASTING);
+void espNowStatus(esp_err_t result) {
+  // Print status of sended data
+  Serial.print("Send Status: ");
+  if (result == ESP_OK) {
+    Serial.print("Success, Bytes sended: ");
+    Serial.println((int) sizeof(myData));
+  } else if (result == ESP_ERR_ESPNOW_NOT_INIT) {
+    // How did we get so far!!
+    Serial.println("ESPNOW not Init.");
+  } else if (result == ESP_ERR_ESPNOW_ARG) {
+    Serial.println("Invalid Argument");
+  } else if (result == ESP_ERR_ESPNOW_INTERNAL) {
+    Serial.println("Internal Error");
+  } else if (result == ESP_ERR_ESPNOW_NO_MEM) {
+    Serial.println("ESP_ERR_ESPNOW_NO_MEM");
+  } else if (result == ESP_ERR_ESPNOW_NOT_FOUND) {
+    Serial.println("Peer not found.");
+  } else {
+    Serial.println("Not sure what happened");
+  }
 }
 
 // callback when data is sent from Master to Slave
@@ -270,7 +259,6 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   Serial.print("Last Packet Sent to: "); Serial.print(macStr);
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? " Delivery Success" : " Delivery Fail");
 }
-
 
 void initBroadcastSlave() {
 	// clear slave data
@@ -311,7 +299,7 @@ void loop() {
   // In the loop we scan for slave
   if (ISBROADCASTING) {
     setTimestamp();
-    sendData();
+    sendESPBroadcast();
     getTimestamp();
   }
   else {
@@ -327,7 +315,8 @@ void loop() {
       setTimestamp();
       // Send XY packages in a row
       for (int r = 0; r < 10; r++){
-        sendData();
+        // send ESP message to each connected peer
+        sendESPUnicast();
       }
       getTimestamp();
     } else {
