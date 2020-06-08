@@ -69,8 +69,8 @@ esp_now_peer_info_t slave;
 #define PRINTSCANRESULTS 0
 
 // ESP write message
-#define DMX_FRAME_SIZE 250
-#define ISBROADCASTING 0
+#define DMX_FRAME_SIZE 50
+#define ISBROADCASTING 1
 
 typedef struct esp_dmx_message {
   uint8_t dmxFrame[DMX_FRAME_SIZE];
@@ -98,6 +98,30 @@ void InitESPNow() {
   else {
     Serial.println("ESPNow init failed");
     ESP.restart();
+  }
+
+  // add broadcast peer
+  esp_now_peer_info_t peer_info;
+  peer_info.channel = CHANNEL;
+  memcpy(peer_info.peer_addr, broadcast_mac, 6);
+  peer_info.ifidx = ESP_IF_WIFI_STA;
+  peer_info.encrypt = false;
+  esp_err_t status = esp_now_add_peer(&peer_info);
+  if (ESP_OK != status)
+  {
+    Serial.println("Could not add peer");
+  }
+
+  // Set up callback TODO: Why?!
+  status = esp_now_register_recv_cb(msg_recv_cb);
+  if (ESP_OK != status)
+  {
+    Serial.println("Could not register callback");
+  }
+  status = esp_now_register_send_cb(msg_send_cb);
+  if (ESP_OK != status)
+  {
+    Serial.println("Could not register send callback");
   }
 }
 
@@ -217,6 +241,7 @@ void manageSlave() {
 void sendESPBroadcast() {
   Serial.println("==== Begin Broadcasts ====");
   esp_err_t broadcastResult = esp_now_send(broadcast_mac, (uint8_t *) &myData, sizeof(myData));
+  espNowStatus(broadcastResult);
 }
 
 // send data
@@ -260,17 +285,6 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? " Delivery Success" : " Delivery Fail");
 }
 
-void initBroadcastSlave() {
-	// clear slave data
-	memset(&slave, 0, sizeof(slave));
-	for (int ii = 0; ii < 6; ++ii) {
-		slave.peer_addr[ii] = (uint8_t)0xff;
-	}
-	slave.channel = CHANNEL; // pick a channel
-	slave.encrypt = 0; // no encryption
-	manageSlave();
-}
-
 void setup() {
   // setup test data
   for (int i=0; i < DMX_FRAME_SIZE; i++) {
@@ -290,19 +304,19 @@ void setup() {
   InitESPTimer();
   // Register for Send CB to
   // add broadcast peer
-  initBroadcastSlave();
-  // add broadcast peer
-
 }
 
 void loop() {
+  esp_dmx_message msg;
   // In the loop we scan for slave
   if (ISBROADCASTING) {
+    Serial.println("correct loop!");
     setTimestamp();
-    sendESPBroadcast();
+    sendData();
     getTimestamp();
   }
   else {
+    Serial.println("you should not pass!");
     ScanForSlave();
     // If Slave is found, it would be populate in `slave` variable
     // We will check if `slave` is defined and then we proceed further
@@ -327,4 +341,58 @@ void loop() {
 
   // wait for three seconds to run the logic again
   delay(3000);
+}
+
+void sendData() {
+  Serial.println("==== Begin Sending ====");
+
+  Serial.println("Broadcasting");
+  esp_err_t result = esp_now_send(broadcast_mac, (uint8_t *) &myData, sizeof(myData));
+
+  // Print status of sended data
+  Serial.print("Send Status: ");
+  if (result == ESP_OK) {
+    Serial.print("Success, Bytes sended: ");
+    Serial.println((int) sizeof(myData));
+  } else if (result == ESP_ERR_ESPNOW_NOT_INIT) {
+    // How did we get so far!!
+    Serial.println("ESPNOW not Init.");
+  } else if (result == ESP_ERR_ESPNOW_ARG) {
+    Serial.println("Invalid Argument");
+  } else if (result == ESP_ERR_ESPNOW_INTERNAL) {
+    Serial.println("Internal Error");
+  } else if (result == ESP_ERR_ESPNOW_NO_MEM) {
+    Serial.println("ESP_ERR_ESPNOW_NO_MEM");
+  } else if (result == ESP_ERR_ESPNOW_NOT_FOUND) {
+    Serial.println("Peer not found.");
+  } else {
+    Serial.println("Not sure what happened");
+  }
+}
+
+static void msg_recv_cb(const uint8_t *mac_addr, const uint8_t *data, int len)
+{
+  if (len == sizeof(esp_dmx_message))
+  {
+    esp_dmx_message msg;
+    memcpy(&msg, data, len);
+  }
+}
+
+static void msg_send_cb(const uint8_t* mac, esp_now_send_status_t sendStatus)
+{
+
+  switch (sendStatus)
+  {
+    case ESP_NOW_SEND_SUCCESS:
+      Serial.println("Send success");
+      break;
+
+    case ESP_NOW_SEND_FAIL:
+      Serial.println("Send Failure");
+      break;
+
+    default:
+      break;
+  }
 }
