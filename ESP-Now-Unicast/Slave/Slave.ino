@@ -36,6 +36,8 @@
 #define CHANNEL 1
 #define DMX_FRAME_SIZE 250
 
+#define DEBUG 1
+
 typedef struct esp_dmx_message {
   uint8_t payload[DMX_FRAME_SIZE];
 } esp_dmx_message;
@@ -56,21 +58,6 @@ void InitESPNow() {
     // or Simply Restart
     ESP.restart();
   }
-
-  /*
-  // Broadcasting
-  esp_now_peer_info_t peer_info;
-  peer_info.channel = CHANNEL;
-  memcpy(peer_info.peer_addr, broadcast_mac, 6);
-  peer_info.ifidx = ESP_IF_WIFI_STA;
-  peer_info.encrypt = false;
-  esp_err_t status = esp_now_add_peer(&peer_info);
-  if (ESP_OK != status)
-  {
-    Serial.println("Could not add peer");
-    // handle_error(status);
-  }
-  */
 }
 
 // config AP SSID
@@ -118,10 +105,10 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
     }
   }
   if (signalBroken) {
-    Serial.println(" (broken)");
+    if(DEBUG) Serial.println(" (F)"); // F stands for False
   }
   else {
-    Serial.println(" (correct)");
+    if(DEBUG) Serial.println(" (T)"); // T stands for True
   }
 
   // snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",

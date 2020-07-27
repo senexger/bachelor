@@ -49,7 +49,7 @@
 #include <WiFi.h>
 #include <esp_timer.h>
 
-#define DEBUG 0
+#define DEBUG 1
 
 // timestamps
 unsigned long timestamp;
@@ -67,11 +67,12 @@ static uint8_t broadcast_mac[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
 
 esp_now_peer_info_t slave;
 
-#define CHANNEL 3
+#define CHANNEL 7
 #define PRINTSCANRESULTS 0
 
 // ESP write message
 #define DMX_FRAME_SIZE 250
+#define SEND_REPITITION 1
 #define ISBROADCASTING 1
 
 typedef struct esp_dmx_message {
@@ -79,167 +80,6 @@ typedef struct esp_dmx_message {
 } esp_dmx_message;
 
 esp_dmx_message myData;
-
-// Timestamping
-void setTimestamp() {
-  timestamp = (unsigned long) (esp_timer_get_time() );
-  return;
-}
-unsigned long getTimestamp() {
-  timediff = (unsigned long) (esp_timer_get_time() ) - timestamp;
-  Serial.print(timediff); Serial.println(" us");
-  return timediff;
-}
-
-// Init ESP Now with fallback
-void InitESPNow() {
-  WiFi.disconnect();
-  if (esp_now_init() == ESP_OK) {
-    Serial.println("ESPNow success");
-  }
-  else {
-    Serial.println("ESPNow init failed");
-    ESP.restart();
-  }
-
-  // add broadcast peer
-  esp_now_peer_info_t peer_info;
-  peer_info.channel = CHANNEL;
-  memcpy(peer_info.peer_addr, broadcast_mac, 6);
-  peer_info.ifidx = ESP_IF_WIFI_STA;
-  peer_info.encrypt = false;
-  esp_err_t status = esp_now_add_peer(&peer_info);
-  if (ESP_OK != status)
-  {
-    Serial.println("Could not add peer");
-  }
-
-  // Set up callback TODO: Why?!
-  status = esp_now_register_recv_cb(msg_recv_cb);
-  if (ESP_OK != status)
-  {
-    Serial.println("Could not register callback");
-  }
-  status = esp_now_register_send_cb(msg_send_cb);
-  if (ESP_OK != status)
-  {
-    Serial.println("Could not register send callback");
-  }
-}
-
-// Init ESP Timer with fallback
-void InitESPTimer() {
-  if (esp_timer_init() == ESP_OK) {
-    Serial.println("ESPTimer Init Success");
-  }
-  if (esp_timer_init() == ESP_ERR_NO_MEM) {
-    Serial.println("ESPTimer allocation has failed");
-  }
-  if (esp_timer_init() == ESP_ERR_INVALID_STATE) {
-    Serial.println("ESPTimer already initialized");
-  }
-  else {
-    Serial.println("ESPTimer Init Failed");
-    ESP.restart();
-  }
-}
-
-// Scan for slaves in AP mode
-void ScanForSlave() {
-  int8_t scanResults = WiFi.scanNetworks();
-  //reset slaves
-  memset(slaves, 0, sizeof(slaves));
-  SlaveCnt = 0;
-  Serial.println("");
-  if (scanResults == 0) {
-    Serial.println("No WiFi devices in AP Mode found");
-  } else {
-    Serial.print("Found "); Serial.print(scanResults); Serial.println(" devices ");
-    for (int i = 0; i < scanResults; ++i) {
-      // Print SSID and RSSI for each device found
-      String SSID = WiFi.SSID(i);
-      int32_t RSSI = WiFi.RSSI(i);
-      String BSSIDstr = WiFi.BSSIDstr(i);
-
-      if (PRINTSCANRESULTS) {
-        Serial.print(i + 1); Serial.print(": "); Serial.print(SSID); Serial.print(" ["); Serial.print(BSSIDstr); 
-        Serial.print("]"); Serial.print(" ("); Serial.print(RSSI); Serial.print(")"); Serial.println("");
-      }
-      delay(10);
-      // Check if the current device starts with `Slave`
-      if (SSID.indexOf("Slave") == 0) {
-        // SSID of interest
-        Serial.print(i + 1); Serial.print(": "); Serial.print(SSID); Serial.print(" ["); Serial.print(BSSIDstr); 
-        Serial.print("]"); Serial.print(" ("); Serial.print(RSSI); Serial.print(")"); Serial.println("");
-        // Get BSSID => Mac Address of the Slave
-        int mac[6];
-
-        if ( 6 == sscanf(BSSIDstr.c_str(), "%x:%x:%x:%x:%x:%x",  &mac[0], &mac[1], &mac[2], &mac[3], &mac[4], &mac[5] ) ) {
-          for (int ii = 0; ii < 6; ++ii ) {
-            slaves[SlaveCnt].peer_addr[ii] = (uint8_t) mac[ii];
-          }
-        }
-        slaves[SlaveCnt].channel = CHANNEL; // pick a channel
-        slaves[SlaveCnt].encrypt = 0; // no encryption
-        SlaveCnt++;
-      }
-    }
-  }
-  if (SlaveCnt > 0) {
-    Serial.print(SlaveCnt); Serial.println(" Slave(s) found, processing..");
-  } else {
-    Serial.println("No Slave Found, trying again.");
-  }
-
-  // clean up ram
-  WiFi.scanDelete();
-}
-
-// Check if the slave is already paired with the master.
-// If not, pair the slave with master
-void manageSlave() {
-  if (SlaveCnt > 0) {
-    for (int i = 0; i < SlaveCnt; i++) {
-      Serial.print("Processing: ");
-      for (int ii = 0; ii < 6; ++ii ) {
-        Serial.print((uint8_t) slaves[i].peer_addr[ii], HEX);
-        if (ii != 5) Serial.print(":");
-      }
-      Serial.print(" Status: ");
-      // check if the peer exists
-      bool exists = esp_now_is_peer_exist(slaves[i].peer_addr);
-      if (exists) {
-        // Slave already paired.
-        Serial.println("Already Paired");
-      } else {
-        // Slave not paired, attempt pair
-        esp_err_t addStatus = esp_now_add_peer(&slaves[i]);
-        if(DEBUG) espNowStatus(addStatus);
-        // if (addStatus == ESP_OK) {
-        //   // Pair success
-        //   Serial.println("Pair success");
-        // } else if (addStatus == ESP_ERR_ESPNOW_NOT_INIT) {
-        //   // How did we get so far!!
-        //   Serial.println("ESPNOW Not Init");
-        // } else if (addStatus == ESP_ERR_ESPNOW_ARG) {
-        //   Serial.println("Add Peer - Invalid Argument");
-        // } else if (addStatus == ESP_ERR_ESPNOW_FULL) {
-        //   Serial.println("Peer list full");
-        // } else if (addStatus == ESP_ERR_ESPNOW_NO_MEM) {
-        //   Serial.println("Out of memory");
-        // } else if (addStatus == ESP_ERR_ESPNOW_EXIST) {
-        //   Serial.println("Peer Exists");
-        // } else {
-        //   Serial.println("Not sure what happened");
-        // }
-        delay(100);
-      }
-    }
-  } else {
-    // No slave found to process
-    Serial.println("No Slave found to process");
-  }
-}
 
 void sendESPBroadcast() {
   if(DEBUG) Serial.println("==== Begin Broadcasts ====");
@@ -255,28 +95,6 @@ void sendESPUnicast() {
     Serial.print("Slave "); Serial.print(i); Serial.print(": ");
     esp_err_t unicastResult = esp_now_send(peer_addr, (uint8_t *) &myData, sizeof(myData));
     if(DEBUG) espNowStatus(unicastResult);
-  }
-}
-
-void espNowStatus(esp_err_t result) {
-  // Print status of sended data
-  Serial.print("Send Status: ");
-  if (result == ESP_OK) {
-    Serial.print("Success, Bytes sended: ");
-    Serial.println((int) sizeof(myData));
-  } else if (result == ESP_ERR_ESPNOW_NOT_INIT) {
-    // How did we get so far!!
-    Serial.println("ESPNOW not Init.");
-  } else if (result == ESP_ERR_ESPNOW_ARG) {
-    Serial.println("Invalid Argument");
-  } else if (result == ESP_ERR_ESPNOW_INTERNAL) {
-    Serial.println("Internal Error");
-  } else if (result == ESP_ERR_ESPNOW_NO_MEM) {
-    Serial.println("ESP_ERR_ESPNOW_NO_MEM");
-  } else if (result == ESP_ERR_ESPNOW_NOT_FOUND) {
-    Serial.println("Peer not found.");
-  } else {
-    Serial.println("Not sure what happened");
   }
 }
 
@@ -314,7 +132,7 @@ void loop() {
   // In the loop we scan for slave
   if (ISBROADCASTING) {
     if(DEBUG) setTimestamp();
-      for (int r = 0; r < 10; r++){
+      for (int r = 0; r < SEND_REPITITION; r++){
       // send ESP message to each connected peer
       sendESPBroadcast();
       }
@@ -344,34 +162,8 @@ void loop() {
   }
 
   // wait for shortly to run the logic again
-  delay(30);
+  delay(200); //delay(30);
 }
-
-// void sendData() {
-//   // Serial.println("==== Begin Broadcast ====");
-// 
-//   esp_err_t result = esp_now_send(broadcast_mac, (uint8_t *) &myData, sizeof(myData));
-// 
-//   // Print status of sended data
-//   Serial.print("Send Status: ");
-//   if (result == ESP_OK) {
-//     Serial.print("Success, Bytes sended: ");
-//     Serial.println((int) sizeof(myData));
-//   } else if (result == ESP_ERR_ESPNOW_NOT_INIT) {
-//     // How did we get so far!!
-//     Serial.println("ESPNOW not Init.");
-//   } else if (result == ESP_ERR_ESPNOW_ARG) {
-//     Serial.println("Invalid Argument");
-//   } else if (result == ESP_ERR_ESPNOW_INTERNAL) {
-//     Serial.println("Internal Error");
-//   } else if (result == ESP_ERR_ESPNOW_NO_MEM) {
-//     Serial.println("ESP_ERR_ESPNOW_NO_MEM");
-//   } else if (result == ESP_ERR_ESPNOW_NOT_FOUND) {
-//     Serial.println("Peer not found.");
-//   } else {
-//     Serial.println("Not sure what happened");
-//   }
-// }
 
 static void msg_recv_cb(const uint8_t *mac_addr, const uint8_t *data, int len)
 {
