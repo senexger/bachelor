@@ -123,8 +123,9 @@ void setup() {
   InitESPNow();
   // Init ESPTimer with a fallback logic
   InitESPTimer();
-  // Register for Send CB to
-  // add broadcast peer
+
+  // TODO: test - Try to receive data from Peers
+  esp_now_register_recv_cb(OnDataRecv);
 }
 
 void loop() {
@@ -132,13 +133,13 @@ void loop() {
   // In the loop we scan for slave
   if (ISBROADCASTING) {
     if(DEBUG) setTimestamp();
-      for (int r = 0; r < SEND_REPITITION; r++){
-      // send ESP message to each connected peer
-      sendESPBroadcast();
-      }
+    for (int r = 0; r < SEND_REPITITION; r++){
+    // send ESP message to each connected peer
+    sendESPBroadcast();
+    }
     if(DEBUG) getTimestamp();
   }
-  else {
+  else { // UNICASTING
     ScanForSlave();
     // If Slave is found, it would be populate in `slave` variable
     // We will check if `slave` is defined and then we proceed further
