@@ -105,7 +105,7 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
            mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
   Serial.print("Last Packet Sent to: "); Serial.print(macStr);
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? " Delivery Success" : " Delivery Fail");
-}
+  }
 
 void setup() {
   // setup test data
@@ -125,7 +125,7 @@ void setup() {
   InitESPTimer();
 
   // TODO: test - Try to receive data from Peers
-  esp_now_register_recv_cb(OnDataRecv);
+  // esp_now_register_recv_cb(OnDataRecv);
 }
 
 void loop() {
