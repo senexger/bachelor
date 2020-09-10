@@ -38,6 +38,23 @@
 
 #define DEBUG 1
 
+#define CHANNEL_NEEDED 14
+
+// ++++ INIT STUFF FOR SLAVE - SENDING ++++
+// hardcoded mac from the master
+uint8_t master_mac[] = {0xFC, 0xF5, 0xC4, 0x31, 0x9A, 0x44};
+
+typedef struct struct_slavePackage {
+    int channel;
+} struct_slavePackage;
+
+// Create a struct_slavePackage called slavePackage to send required channels
+struct_slavePackage slavePackage;
+
+// Variable to store if sending data was successful
+String success;
+
+// ++++ STUFF FOR RECEIVE ++++
 typedef struct esp_dmx_message {
   uint8_t payload[DMX_FRAME_SIZE];
 } esp_dmx_message;
@@ -116,6 +133,24 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
   // Serial.print("Last Packet Recv from: "); Serial.println(macStr);
 }
 
+void subscribeToMaster() {
+  return;
+}
+
+// Callback when data is sent - we are in the Slave node!
+void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+  Serial.print("\r\nLast Packet Send Status:\t");
+  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+  if (status ==0){
+    success = "Delivery Success :)";
+  }
+  else{
+    success = "Delivery Fail :(";
+  }
+}
+
 void loop() {
   // Chill
+  esp_err_t result = esp_now_send(master_mac, (uint8_t *) &slavePackage, sizeof(slavePackage));
+  delay(10000);
 }
