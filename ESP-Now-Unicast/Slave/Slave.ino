@@ -42,7 +42,8 @@
 
 // ++++ INIT STUFF FOR SLAVE - SENDING ++++
 // hardcoded mac from the master
-uint8_t master_mac[] = {0xFC, 0xF5, 0xC4, 0x31, 0x9A, 0x44};
+static uint8_t MASTER_MAC[] = {0xFC, 0xF5, 0xC4, 0x31, 0x9A, 0x44};
+static uint8_t BROADCAST_MAC[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
 
 typedef struct struct_slavePackage {
     int channel;
@@ -70,9 +71,6 @@ void InitESPNow() {
   }
   else {
     Serial.println("ESPNow Init Failed");
-    // Retry InitESPNow, add a counte and then restart?
-    // InitESPNow();
-    // or Simply Restart
     ESP.restart();
   }
 }
@@ -109,10 +107,12 @@ void setup() {
   // Once ESPNow is successfully Init, we will register for recv CB to
   // get recv packer info.
   esp_now_register_send_cb(OnDataSent);
+  // Register for a callback function that will be called when data is received
+  esp_now_register_recv_cb(OnDataRecv);
 
   // Register peer
   esp_now_peer_info_t peerInfo;
-  memcpy(peerInfo.peer_addr, master_mac, 6);
+  memcpy(peerInfo.peer_addr, BROADCAST_MAC, 6);
   peerInfo.channel = 0; // TODO: correct channel 
   peerInfo.encrypt = false;
   // Add peer
@@ -121,11 +121,6 @@ void setup() {
     return;
   }
   else { Serial.println("Added master as peer"); }
-
-  // Register for a callback function that will be called when data is received
-  esp_now_register_recv_cb(OnDataRecv);
-  // Register for a callback function that will be called when data is sent
-  esp_now_register_send_cb(OnDataSent);
 }
 
 // callback when data is recv from Master just printing incomming data
@@ -170,10 +165,10 @@ void subscribeToMaster() {
 void loop() {
   // Chill
   Serial.println("i am here...");
-  //esp_err_t result = esp_now_send(master_mac, (uint8_t *) &slavePackage, sizeof(slavePackage));
+  //esp_err_t result = esp_now_send(MASTER_MAC, (uint8_t *) &slavePackage, sizeof(slavePackage));
 
   // Send message via ESP-NOW
-  esp_err_t result = esp_now_send(master_mac, (uint8_t *) &slavePackage, sizeof(slavePackage));
+  esp_err_t result = esp_now_send(BROADCAST_MAC, (uint8_t *) &slavePackage, sizeof(slavePackage));
    
   if (result == ESP_OK) {
     Serial.println("Sent with success");
