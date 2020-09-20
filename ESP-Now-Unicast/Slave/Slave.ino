@@ -97,16 +97,35 @@ void setup() {
 
   //Set device in AP mode to begin with
   WiFi.mode(WIFI_AP);
-  // configure device AP mode
-  configDeviceAP();
+  // configure device AP mode - not needed anymore using ESP-Unicast
+  // configDeviceAP();
+
   // This is the mac address of the Slave in AP Mode
   Serial.print("AP MAC: "); Serial.println(WiFi.softAPmacAddress());
   
   // Init ESPNow with a fallback logic
   InitESPNow();
+
   // Once ESPNow is successfully Init, we will register for recv CB to
   // get recv packer info.
+  esp_now_register_send_cb(OnDataSent);
+
+  // Register peer
+  esp_now_peer_info_t peerInfo;
+  memcpy(peerInfo.peer_addr, master_mac, 6);
+  peerInfo.channel = 0; // TODO: correct channel 
+  peerInfo.encrypt = false;
+  // Add peer
+  if (esp_now_add_peer(&peerInfo) != ESP_OK){
+    Serial.println("Failed to add peer");
+    return;
+  }
+  else { Serial.println("Added master as peer"); }
+
+  // Register for a callback function that will be called when data is received
   esp_now_register_recv_cb(OnDataRecv);
+  // Register for a callback function that will be called when data is sent
+  esp_now_register_send_cb(OnDataSent);
 }
 
 // callback when data is recv from Master just printing incomming data
@@ -127,14 +146,9 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
   else {
     if(DEBUG) Serial.println(" (T)"); // T stands for True
   }
-
   // snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
   //          mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
   // Serial.print("Last Packet Recv from: "); Serial.println(macStr);
-}
-
-void subscribeToMaster() {
-  return;
 }
 
 // Callback when data is sent - we are in the Slave node!
@@ -149,8 +163,23 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   }
 }
 
+void subscribeToMaster() {
+  return;
+}
+
 void loop() {
   // Chill
+  Serial.println("i am here...");
+  //esp_err_t result = esp_now_send(master_mac, (uint8_t *) &slavePackage, sizeof(slavePackage));
+
+  // Send message via ESP-NOW
   esp_err_t result = esp_now_send(master_mac, (uint8_t *) &slavePackage, sizeof(slavePackage));
-  delay(10000);
+   
+  if (result == ESP_OK) {
+    Serial.println("Sent with success");
+  }
+  else {
+    Serial.println("Error sending the data");
+  }
+  delay(1000);
 }

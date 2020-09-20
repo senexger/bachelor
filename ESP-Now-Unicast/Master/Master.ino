@@ -55,6 +55,9 @@
 unsigned long timestamp;
 unsigned long timediff;
 
+// TODO removeme
+String success;
+
 // Global copy of slave
 #define NUMSLAVES 20
 esp_now_peer_info_t slaves[NUMSLAVES] = {};
@@ -107,6 +110,18 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? " Delivery Success" : " Delivery Fail");
   }
 
+// Callback when data is sent
+// void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+  // Serial.print("\r\nLast Packet Send Status:\t");
+  // Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+  // if (status ==0){
+    // success = "Delivery Success :)";
+  // }
+  // else{
+    // success = "Delivery Fail :(";
+  // }
+// }
+
 void setup() {
   // setup test data
   for (int i=0; i < DMX_FRAME_SIZE; i++) {
@@ -126,6 +141,10 @@ void setup() {
 
   // TODO: test - Try to receive data from Peers
   // esp_now_register_recv_cb(OnDataRecv);
+
+  // Once ESPNow is successfully Init, we will register for Send CB to
+  // get the status of Trasnmitted packet
+  if(DEBUG) esp_now_register_send_cb(OnDataSent);
 }
 
 void loop() {
