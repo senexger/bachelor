@@ -101,41 +101,33 @@ void sendESPUnicast() {
   }
 }
 
-// callback when data is sent from Master to Slave
-void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
-  char macStr[18];
-  snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
-           mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
-  Serial.print("Last Packet Sent to: "); Serial.print(macStr);
-  Serial.println(status == ESP_NOW_SEND_SUCCESS ? " Delivery Success" : " Delivery Fail");
-  }
-
 // Callback when data is sent
-// void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
-  // Serial.print("\r\nLast Packet Send Status:\t");
-  // Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
-  // if (status ==0){
-    // success = "Delivery Success :)";
-  // }
-  // else{
-    // success = "Delivery Fail :(";
-  // }
-// }
+void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+  Serial.print("Last Packet Send Status:\t");
+  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+  if (status ==0){
+    success = "Delivery Success :)";
+  }
+  else{
+    success = "Delivery Fail :(";
+  }
+}
 
 void setup() {
-  // setup test data
-  for (int i=0; i < DMX_FRAME_SIZE; i++) {
-    myData.dmxFrame[i] = i;
-  }
+  // Setup test data
+  for (int i=0; i < DMX_FRAME_SIZE; i++) { myData.dmxFrame[i] = i; }
 
+  // Setup Serial
   Serial.begin(115200);
-  //Set device in STA mode to begin with
-  WiFi.mode(WIFI_STA);
   Serial.println("ESP-Now Master");
-  // This is the mac address of the Master in Station Mode
+
+  // Set device in STA mode to begin with
+  WiFi.mode(WIFI_STA);
   Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
+
   // Init ESPNow with a fallback logic
   InitESPNow();
+
   // Init ESPTimer with a fallback logic
   InitESPTimer();
 
@@ -148,13 +140,12 @@ void setup() {
 }
 
 void loop() {
-  esp_dmx_message msg;
   // In the loop we scan for slave
   if (ISBROADCASTING) {
     if(DEBUG) setTimestamp();
     for (int r = 0; r < SEND_REPITITION; r++){
     // send ESP message to each connected peer
-    sendESPBroadcast();
+    sendESPBroadcast(); // TODO: give parameter msg
     }
     if(DEBUG) getTimestamp();
   }
@@ -183,30 +174,4 @@ void loop() {
 
   // wait for shortly to run the logic again
   delay(200); //delay(30);
-}
-
-static void msg_recv_cb(const uint8_t *mac_addr, const uint8_t *data, int len)
-{
-  if (len == sizeof(esp_dmx_message))
-  {
-    esp_dmx_message msg;
-    memcpy(&msg, data, len);
-  }
-}
-
-static void msg_send_cb(const uint8_t* mac, esp_now_send_status_t sendStatus)
-{
-  switch (sendStatus)
-  {
-    case ESP_NOW_SEND_SUCCESS:
-      if(DEBUG) Serial.println("Send success");
-      break;
-
-    case ESP_NOW_SEND_FAIL:
-      if(DEBUG) Serial.println("Send Failure");
-      break;
-
-    default:
-      break;
-  }
 }

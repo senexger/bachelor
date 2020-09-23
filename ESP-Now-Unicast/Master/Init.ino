@@ -20,18 +20,6 @@ void InitESPNow() {
   {
     Serial.println("Could not add peer");
   }
-
-  // Set up callback TODO: Why?!
-  status = esp_now_register_recv_cb(msg_recv_cb);
-  if (ESP_OK != status)
-  {
-    Serial.println("Could not register callback");
-  }
-  status = esp_now_register_send_cb(msg_send_cb);
-  if (ESP_OK != status)
-  {
-    Serial.println("Could not register send callback");
-  }
 }
 
 // Timestamping
