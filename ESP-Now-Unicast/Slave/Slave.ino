@@ -73,6 +73,17 @@ void InitESPNow() {
     Serial.println("ESPNow Init Failed");
     ESP.restart();
   }
+  addBroadcastPeer();
+}
+
+void addBroadcastPeer () {
+  esp_now_peer_info_t peer_info;
+  peer_info.channel = CHANNEL;
+  memcpy(peer_info.peer_addr, BROADCAST_MAC, 6);
+  peer_info.ifidx = ESP_IF_WIFI_STA;
+  peer_info.encrypt = false;
+  esp_err_t status = esp_now_add_peer(&peer_info);
+  if (ESP_OK != status) { Serial.println("Could not add peer"); }
 }
 
 // config AP SSID
@@ -90,38 +101,38 @@ void configDeviceAP() {
 }
 
 void setup() {
+  // Setup Serial
   Serial.begin(115200);
-  Serial.println("Slave Node is ready");
+  Serial.println("Slave Node here");
 
   //Set device in AP mode to begin with
   WiFi.mode(WIFI_AP);
-  // configure device AP mode - not needed anymore using ESP-Unicast
-  // configDeviceAP();
-
-  // This is the mac address of the Slave in AP Mode
   Serial.print("AP MAC: "); Serial.println(WiFi.softAPmacAddress());
-  
+
   // Init ESPNow with a fallback logic
   InitESPNow();
+
+  // // Register peer
+  // esp_now_peer_info_t peerInfo;
+  // memcpy(peerInfo.peer_addr, BROADCAST_MAC, 6);
+  // peerInfo.channel = 0; // TODO: correct channel 
+  // peerInfo.encrypt = false;
+
+  // // Add peer not needed for multicast
+  // if (esp_now_add_peer(&peerInfo) != ESP_OK){
+  //   Serial.println("Failed to add peer");
+  //   return;
+  // }
+  // else { Serial.println("Added master as peer"); }
 
   // Once ESPNow is successfully Init, we will register for recv CB to
   // get recv packer info.
   esp_now_register_send_cb(OnDataSent);
   // Register for a callback function that will be called when data is received
-  esp_now_register_recv_cb(OnDataRecv);
-
-  // Register peer
-  esp_now_peer_info_t peerInfo;
-  memcpy(peerInfo.peer_addr, BROADCAST_MAC, 6);
-  peerInfo.channel = 0; // TODO: correct channel 
-  peerInfo.encrypt = false;
-  // Add peer
-  if (esp_now_add_peer(&peerInfo) != ESP_OK){
-    Serial.println("Failed to add peer");
-    return;
-  }
-  else { Serial.println("Added master as peer"); }
+  // esp_now_register_recv_cb(OnDataRecv);
 }
+
+// TODO register peer function
 
 // callback when data is recv from Master just printing incomming data
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
@@ -146,9 +157,9 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
   // Serial.print("Last Packet Recv from: "); Serial.println(macStr);
 }
 
-// Callback when data is sent - we are in the Slave node!
+// Callback when data is sent - Slave
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
-  Serial.print("\r\nLast Packet Send Status:\t");
+  Serial.print("Last Packet Send Status:\t");
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
   if (status ==0){
     success = "Delivery Success :)";
@@ -158,23 +169,44 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   }
 }
 
-void subscribeToMaster() {
-  return;
+// callback when data is sent from Master to Slave
+// void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+  // char macStr[18];
+  // snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
+          //  mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
+  // Serial.print("Last Packet Sent to: "); Serial.print(macStr);
+  // Serial.println(status == ESP_NOW_SEND_SUCCESS ? " Delivery Success" : " Delivery Fail");
+  // }
+
+// copied from master
+void sendESPBroadcast() {
+  if(DEBUG) Serial.println("==== Begin Broadcasts ====");
+  esp_err_t broadcastResult = esp_now_send(BROADCAST_MAC, (uint8_t *) &myData, sizeof(myData));
+  if (broadcastResult == ESP_OK) {
+    Serial.print("Success, Bytes sended: ");
+    Serial.println((int) sizeof(myData));
+  } else if (broadcastResult == ESP_ERR_ESPNOW_NOT_INIT) {
+    // How did we get so far!!
+    Serial.println("ESPNOW not Init.");
+  } else if (broadcastResult == ESP_ERR_ESPNOW_ARG) {
+    Serial.println("Invalid Argument");
+  } else if (broadcastResult == ESP_ERR_ESPNOW_INTERNAL) {
+    Serial.println("Internal Error");
+  } else if (broadcastResult == ESP_ERR_ESPNOW_NO_MEM) {
+    Serial.println("ESP_ERR_ESPNOW_NO_MEM");
+  } else if (broadcastResult == ESP_ERR_ESPNOW_NOT_FOUND) {
+    Serial.println("Peer not found.");
+  } else {
+    Serial.println("Not sure what happened");
+  }
 }
 
 void loop() {
   // Chill
-  Serial.println("i am here...");
-  //esp_err_t result = esp_now_send(MASTER_MAC, (uint8_t *) &slavePackage, sizeof(slavePackage));
 
   // Send message via ESP-NOW
-  esp_err_t result = esp_now_send(BROADCAST_MAC, (uint8_t *) &slavePackage, sizeof(slavePackage));
-   
-  if (result == ESP_OK) {
-    Serial.println("Sent with success");
-  }
-  else {
-    Serial.println("Error sending the data");
-  }
+  sendESPBroadcast();
+
+  // wait for incomming messages
   delay(1000);
 }
