@@ -86,28 +86,14 @@ void addBroadcastPeer () {
   if (ESP_OK != status) { Serial.println("Could not add peer"); }
 }
 
-// config AP SSID
-void configDeviceAP() {
-  String Prefix = "Slave:";
-  String Mac = WiFi.macAddress();
-  String SSID = Prefix + Mac;
-  String Password = "123456789";
-  bool result = WiFi.softAP(SSID.c_str(), Password.c_str(), CHANNEL, 0);
-  if (!result) {
-    Serial.println("AP Config failed.");
-  } else {
-    Serial.println("AP Config Success. Broadcasting with AP: " + String(SSID));
-  }
-}
-
 void setup() {
   // Setup Serial
   Serial.begin(115200);
   Serial.println("Slave Node here");
 
   //Set device in AP mode to begin with
-  WiFi.mode(WIFI_AP);
-  Serial.print("AP MAC: "); Serial.println(WiFi.softAPmacAddress());
+  WiFi.mode(WIFI_STA);
+  Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
 
   // Init ESPNow with a fallback logic
   InitESPNow();
@@ -127,9 +113,9 @@ void setup() {
 
   // Once ESPNow is successfully Init, we will register for recv CB to
   // get recv packer info.
-  esp_now_register_send_cb(OnDataSent);
+  if(DEBUG) esp_now_register_send_cb(OnDataSent);
   // Register for a callback function that will be called when data is received
-  // esp_now_register_recv_cb(OnDataRecv);
+  if(DEBUG) esp_now_register_recv_cb(OnDataRecv);
 }
 
 // TODO register peer function
@@ -137,7 +123,7 @@ void setup() {
 // callback when data is recv from Master just printing incomming data
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
   memcpy(&myData, incommingData, sizeof(myData));
-  Serial.print("Bytes received: "); Serial.print(data_len);
+  if(DEBUG) { Serial.print("Bytes received: "); Serial.print(data_len); }
   
   // magic number 20 should be data_len
   bool signalBroken = false;
@@ -147,10 +133,10 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
     }
   }
   if (signalBroken) {
-    if(DEBUG) Serial.println(" (F)"); // F stands for False
+    if(DEBUG) Serial.println(" (F)"); // F for False
   }
   else {
-    if(DEBUG) Serial.println(" (T)"); // T stands for True
+    if(DEBUG) Serial.println(" (T)"); // T for True
   }
   // snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
   //          mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
@@ -210,3 +196,17 @@ void loop() {
   // wait for incomming messages
   delay(1000);
 }
+
+// config AP SSID
+// void configDeviceAP() {
+  // String Prefix = "Slave:";
+  // String Mac = WiFi.macAddress();
+  // String SSID = Prefix + Mac;
+  // String Password = "123456789";
+  // bool result = WiFi.softAP(SSID.c_str(), Password.c_str(), CHANNEL, 0);
+  // if (!result) {
+    // Serial.println("AP Config failed.");
+  // } else {
+    // Serial.println("AP Config Success. Broadcasting with AP: " + String(SSID));
+  // }
+// }
