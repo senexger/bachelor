@@ -35,6 +35,7 @@
 // TODO what defines Channel exactly Master Slave same channel?
 #define CHANNEL 1
 #define DMX_FRAME_SIZE 250
+#define SLAVE_INFORMATION_SIZE 50
 
 #define DEBUG 1
 
@@ -45,23 +46,26 @@
 static uint8_t MASTER_MAC[] = {0xFC, 0xF5, 0xC4, 0x31, 0x9A, 0x44};
 static uint8_t BROADCAST_MAC[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
 
-typedef struct struct_slavePackage {
-    int channel;
-} struct_slavePackage;
-
-// Create a struct_slavePackage called slavePackage to send required channels
-struct_slavePackage slavePackage;
-
 // Variable to store if sending data was successful
 String success;
 
 // ++++ STUFF FOR RECEIVE ++++
-typedef struct esp_dmx_message {
+typedef struct struct_dmx_package {
   uint8_t payload[DMX_FRAME_SIZE];
-} esp_dmx_message;
+} struct_slavePackage;
 
-// Create a struct_message called myData
-esp_dmx_message myData;
+// ++++ STUFF FOR SENDING ++++
+typedef struct struct_slave_information {
+  // TODO: macaddresse uint8_t ...
+  // TODO: channelcount
+  // TODO: semi informations
+  uint8_t channelCount;
+} struct_slave_information;
+
+// Create a struct_message called dmxData
+struct_dmx_package dmxData;
+// Create a struct_slavePackage called slavePackage to send required channels
+struct_slave_information slaveInformation;
 
 // Init ESP Now with fallback
 void InitESPNow() {
@@ -118,17 +122,15 @@ void setup() {
   if(DEBUG) esp_now_register_recv_cb(OnDataRecv);
 }
 
-// TODO register peer function
-
 // callback when data is recv from Master just printing incomming data
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
-  memcpy(&myData, incommingData, sizeof(myData));
+  memcpy(&dmxData, incommingData, sizeof(dmxData));
   if(DEBUG) { Serial.print("Bytes received: "); Serial.print(data_len); }
   
   // magic number 20 should be data_len
   bool signalBroken = false;
   for (int i=0; i < data_len; i++) {
-    if (myData.payload[i] != i) {
+    if (dmxData.payload[i] != i) {
       signalBroken = true;
     }
   }
@@ -155,22 +157,13 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   }
 }
 
-// callback when data is sent from Master to Slave
-// void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
-  // char macStr[18];
-  // snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
-          //  mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
-  // Serial.print("Last Packet Sent to: "); Serial.print(macStr);
-  // Serial.println(status == ESP_NOW_SEND_SUCCESS ? " Delivery Success" : " Delivery Fail");
-  // }
-
 // copied from master
 void sendESPBroadcast() {
   if(DEBUG) Serial.println("==== Begin Broadcasts ====");
-  esp_err_t broadcastResult = esp_now_send(BROADCAST_MAC, (uint8_t *) &myData, sizeof(myData));
+  esp_err_t broadcastResult = esp_now_send(BROADCAST_MAC, (uint8_t *) &dmxData, sizeof(dmxData));
   if (broadcastResult == ESP_OK) {
     Serial.print("Success, Bytes sended: ");
-    Serial.println((int) sizeof(myData));
+    Serial.println((int) sizeof(dmxData));
   } else if (broadcastResult == ESP_ERR_ESPNOW_NOT_INIT) {
     // How did we get so far!!
     Serial.println("ESPNOW not Init.");

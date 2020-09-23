@@ -56,7 +56,7 @@ void espNowStatus(esp_err_t result) {
   Serial.print("Send Status: ");
   if (result == ESP_OK) {
     Serial.print("Success, Bytes sended: ");
-    Serial.println((int) sizeof(myData));
+    Serial.println((int) sizeof(dmxData));
   } else if (result == ESP_ERR_ESPNOW_NOT_INIT) {
     // How did we get so far!!
     Serial.println("ESPNOW not Init.");

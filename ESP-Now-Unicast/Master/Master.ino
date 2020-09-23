@@ -78,15 +78,24 @@ esp_now_peer_info_t slave;
 #define SEND_REPITITION 1
 #define ISBROADCASTING 1
 
+// ++++ STUFF FOR Sending ++++
 typedef struct esp_dmx_message {
   uint8_t dmxFrame[DMX_FRAME_SIZE];
 } esp_dmx_message;
 
-esp_dmx_message myData;
+// ++++ STUFF FOR RECEIVE ++++
+typedef struct esp_slave_information {
+  // TODO: macaddresse
+  // char macStr[18];
+  // TODO: channelcount
+  // TODO: semi informations
+} esp_slave_information;
+
+esp_dmx_message dmxData;
 
 void sendESPBroadcast() {
   if(DEBUG) Serial.println("==== Begin Broadcasts ====");
-  esp_err_t broadcastResult = esp_now_send(broadcast_mac, (uint8_t *) &myData, sizeof(myData));
+  esp_err_t broadcastResult = esp_now_send(broadcast_mac, (uint8_t *) &dmxData, sizeof(dmxData));
   if(DEBUG) espNowStatus(broadcastResult);
 }
 
@@ -96,7 +105,7 @@ void sendESPUnicast() {
   for (int i = 0; i < SlaveCnt; i++) {
     const uint8_t *peer_addr = slaves[i].peer_addr;
     Serial.print("Slave "); Serial.print(i); Serial.print(": ");
-    esp_err_t unicastResult = esp_now_send(peer_addr, (uint8_t *) &myData, sizeof(myData));
+    esp_err_t unicastResult = esp_now_send(peer_addr, (uint8_t *) &dmxData, sizeof(dmxData));
     if(DEBUG) espNowStatus(unicastResult);
   }
 }
@@ -115,7 +124,7 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
 
 void setup() {
   // Setup test data
-  for (int i=0; i < DMX_FRAME_SIZE; i++) { myData.dmxFrame[i] = i; }
+  for (int i=0; i < DMX_FRAME_SIZE; i++) { dmxData.dmxFrame[i] = i; }
 
   // Setup Serial
   Serial.begin(115200);
@@ -132,7 +141,7 @@ void setup() {
   InitESPTimer();
 
   // TODO: test - Try to receive data from Peers
-  // esp_now_register_recv_cb(OnDataRecv);
+  esp_now_register_recv_cb(OnDataRecv);
 
   // Once ESPNow is successfully Init, we will register for Send CB to
   // get the status of Trasnmitted packet
@@ -174,4 +183,15 @@ void loop() {
 
   // wait for shortly to run the logic again
   delay(200); //delay(30);
+}
+
+// callback when data is recv from Slave just printing incomming data
+void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
+  memcpy(&dmxData, incommingData, sizeof(dmxData));
+  if(DEBUG) { Serial.print("Bytes received: "); Serial.println(data_len); }
+  
+  // snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
+  //          mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
+  // Serial.print("Last Packet Recv from: "); Serial.println(macStr);
+  // Serial.println(status == ESP_NOW_SEND_SUCCESS ? " Delivery Success" : " Delivery Fail");
 }

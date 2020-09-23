@@ -1,12 +1,12 @@
 // // callback when data is recv from Master just printing incomming data
 // void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
-//   memcpy(&myData, incommingData, sizeof(myData));
+//   memcpy(&dmxData, incommingData, sizeof(dmxData));
 //   Serial.print("Bytes received: "); Serial.print(data_len);
   
 //   // magic number 20 should be data_len
 //   bool signalBroken = false;
 //   for (int i=0; i < data_len; i++) {
-//     if (myData.payload[i] != i) {
+//     if (dmxData.payload[i] != i) {
 //       signalBroken = true;
 //     }
 //   }
