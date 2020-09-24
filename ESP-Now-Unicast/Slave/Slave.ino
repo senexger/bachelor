@@ -35,14 +35,13 @@
 // TODO what defines Channel exactly Master Slave same channel?
 #define CHANNEL 1
 #define DMX_FRAME_SIZE 250
-#define SLAVE_INFORMATION_SIZE 50
 
 #define DEBUG 1
 
-#define CHANNEL_NEEDED 14
+#define CHANNELS_NEEDED 14
 
 // ++++ INIT STUFF FOR SLAVE - SENDING ++++
-// hardcoded mac from the master
+// hardcoded mac from the master FC:F5:C4:31:9A:44
 static uint8_t MASTER_MAC[] = {0xFC, 0xF5, 0xC4, 0x31, 0x9A, 0x44};
 static uint8_t BROADCAST_MAC[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
 
@@ -83,7 +82,7 @@ void InitESPNow() {
 void addBroadcastPeer () {
   esp_now_peer_info_t peer_info;
   peer_info.channel = CHANNEL;
-  memcpy(peer_info.peer_addr, BROADCAST_MAC, 6);
+  memcpy(peer_info.peer_addr, MASTER_MAC, 6);
   peer_info.ifidx = ESP_IF_WIFI_STA;
   peer_info.encrypt = false;
   esp_err_t status = esp_now_add_peer(&peer_info);
@@ -91,6 +90,9 @@ void addBroadcastPeer () {
 }
 
 void setup() {
+  // Setup test data
+  slaveInformation.channelCount = CHANNELS_NEEDED;
+  
   // Setup Serial
   Serial.begin(115200);
   Serial.println("Slave Node here");
@@ -160,10 +162,11 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
 // copied from master
 void sendESPBroadcast() {
   if(DEBUG) Serial.println("==== Begin Broadcasts ====");
-  esp_err_t broadcastResult = esp_now_send(BROADCAST_MAC, (uint8_t *) &dmxData, sizeof(dmxData));
+  esp_err_t broadcastResult = 
+        esp_now_send(BROADCAST_MAC, (uint8_t *) &slaveInformation, sizeof(slaveInformation));
   if (broadcastResult == ESP_OK) {
     Serial.print("Success, Bytes sended: ");
-    Serial.println((int) sizeof(dmxData));
+    Serial.println((int) sizeof(slaveInformation));
   } else if (broadcastResult == ESP_ERR_ESPNOW_NOT_INIT) {
     // How did we get so far!!
     Serial.println("ESPNOW not Init.");

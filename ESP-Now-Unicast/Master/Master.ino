@@ -78,20 +78,16 @@ esp_now_peer_info_t slave;
 #define SEND_REPITITION 1
 #define ISBROADCASTING 1
 
-// ++++ STUFF FOR Sending ++++
-typedef struct esp_dmx_message {
+typedef struct struct_dmx_message {
   uint8_t dmxFrame[DMX_FRAME_SIZE];
-} esp_dmx_message;
+} struct_dmx_message;
 
-// ++++ STUFF FOR RECEIVE ++++
-typedef struct esp_slave_information {
-  // TODO: macaddresse
-  // char macStr[18];
-  // TODO: channelcount
-  // TODO: semi informations
-} esp_slave_information;
+typedef struct struct_slave_information {
+  uint8_t channelCount;
+} struct_slave_information;
 
-esp_dmx_message dmxData;
+struct_dmx_message dmxData;
+struct_slave_information slave_information;
 
 void sendESPBroadcast() {
   if(DEBUG) Serial.println("==== Begin Broadcasts ====");
@@ -187,8 +183,11 @@ void loop() {
 
 // callback when data is recv from Slave just printing incomming data
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
-  memcpy(&dmxData, incommingData, sizeof(dmxData));
-  if(DEBUG) { Serial.print("Bytes received: "); Serial.println(data_len); }
+  memcpy(&slave_information, incommingData, sizeof(slave_information));
+  if(DEBUG) { 
+    Serial.print("Package receive: "); 
+    Serial.println(slave_information.channelCount);
+  }
   
   // snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
   //          mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
