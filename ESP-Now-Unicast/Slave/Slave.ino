@@ -36,14 +36,20 @@
 #define CHANNEL 1
 #define DMX_FRAME_SIZE 250
 
+// Two level debug information
+#define INFO 0
 #define DEBUG 1
 
 #define CHANNELS_NEEDED 14
 
 // ++++ INIT STUFF FOR SLAVE - SENDING ++++
-// hardcoded mac from the master FC:F5:C4:31:9A:44
-static uint8_t MASTER_MAC[] = {0xFC, 0xF5, 0xC4, 0x31, 0x9A, 0x44};
-static uint8_t BROADCAST_MAC[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+#define IS_BROADCAST 0
+
+#if IS_BROADCAST
+  static uint8_t MAC_ADDRESS[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+#else 
+  static uint8_t MAC_ADDRESS[] = {0xFC, 0xF5, 0xC4, 0x31, 0x9A, 0x44};
+#endif
 
 // Variable to store if sending data was successful
 String success;
@@ -55,9 +61,10 @@ typedef struct struct_dmx_package {
 
 // ++++ STUFF FOR SENDING ++++
 typedef struct struct_slave_information {
-  // TODO: macaddresse uint8_t ...
-  // TODO: channelcount
+  // TODO: macaddresse uint8_t ?
   // TODO: semi informations
+  // uint8_t packageID;
+  // uint8_t slaveID;
   uint8_t channelCount;
 } struct_slave_information;
 
@@ -76,13 +83,14 @@ void InitESPNow() {
     Serial.println("ESPNow Init Failed");
     ESP.restart();
   }
-  addBroadcastPeer();
+
+  addPeer(MAC_ADDRESS);
 }
 
-void addBroadcastPeer () {
+void addPeer (uint8_t mac_address[6]) {
   esp_now_peer_info_t peer_info;
   peer_info.channel = CHANNEL;
-  memcpy(peer_info.peer_addr, MASTER_MAC, 6);
+  memcpy(peer_info.peer_addr, mac_address, 6);
   peer_info.ifidx = ESP_IF_WIFI_STA;
   peer_info.encrypt = false;
   esp_err_t status = esp_now_add_peer(&peer_info);
@@ -104,19 +112,6 @@ void setup() {
   // Init ESPNow with a fallback logic
   InitESPNow();
 
-  // // Register peer
-  // esp_now_peer_info_t peerInfo;
-  // memcpy(peerInfo.peer_addr, BROADCAST_MAC, 6);
-  // peerInfo.channel = 0; // TODO: correct channel 
-  // peerInfo.encrypt = false;
-
-  // // Add peer not needed for multicast
-  // if (esp_now_add_peer(&peerInfo) != ESP_OK){
-  //   Serial.println("Failed to add peer");
-  //   return;
-  // }
-  // else { Serial.println("Added master as peer"); }
-
   // Once ESPNow is successfully Init, we will register for recv CB to
   // get recv packer info.
   if(DEBUG) esp_now_register_send_cb(OnDataSent);
@@ -127,7 +122,6 @@ void setup() {
 // callback when data is recv from Master just printing incomming data
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
   memcpy(&dmxData, incommingData, sizeof(dmxData));
-  if(DEBUG) { Serial.print("Bytes received: "); Serial.print(data_len); }
   
   // magic number 20 should be data_len
   bool signalBroken = false;
@@ -137,49 +131,55 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
     }
   }
   if (signalBroken) {
-    if(DEBUG) Serial.println(" (F)"); // F for False
+    if(DEBUG) {
+      Serial.print("[ERROR] Incomming Data broken: "); 
+      Serial.print(data_len);
+      Serial.println(" B");
+    }
   }
   else {
-    if(DEBUG) Serial.println(" (T)"); // T for True
+    if(DEBUG) { 
+      Serial.print("[OK] Rcvd: "); 
+      Serial.print(data_len);
+      Serial.println(" B");
+    }
   }
-  // snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
-  //          mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
-  // Serial.print("Last Packet Recv from: "); Serial.println(macStr);
 }
 
 // Callback when data is sent - Slave
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
-  Serial.print("Last Packet Send Status:\t");
-  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
-  if (status ==0){
-    success = "Delivery Success :)";
+  // Serial.println("Last Packet Send Status");
+  if (status != ESP_NOW_SEND_SUCCESS) {
+    Serial.println("[ERROR] Delivery Fail");
   }
-  else{
-    success = "Delivery Fail :(";
+  else {
+    Serial.println("[OK] Send Ack");
   }
 }
 
 // copied from master
-void sendESPBroadcast() {
-  if(DEBUG) Serial.println("==== Begin Broadcasts ====");
+void sendESPCast(uint8_t mac_address[6]) {
+  if(INFO && IS_BROADCAST) Serial.println("[Info] Begin BROADCAST");
+  if(INFO && !IS_BROADCAST) Serial.println("[Info] Begin UNICAST");
   esp_err_t broadcastResult = 
-        esp_now_send(BROADCAST_MAC, (uint8_t *) &slaveInformation, sizeof(slaveInformation));
+        esp_now_send(mac_address, (uint8_t *) &slaveInformation, sizeof(slaveInformation));
   if (broadcastResult == ESP_OK) {
-    Serial.print("Success, Bytes sended: ");
-    Serial.println((int) sizeof(slaveInformation));
+    Serial.print("[OK] Send: ");
+    Serial.print((int) sizeof(slaveInformation));
+    Serial.println(" B");
   } else if (broadcastResult == ESP_ERR_ESPNOW_NOT_INIT) {
     // How did we get so far!!
-    Serial.println("ESPNOW not Init.");
+    Serial.println("[ERROR] ESPNOW not Init.");
   } else if (broadcastResult == ESP_ERR_ESPNOW_ARG) {
-    Serial.println("Invalid Argument");
+    Serial.println("[ERROR] Invalid Argument");
   } else if (broadcastResult == ESP_ERR_ESPNOW_INTERNAL) {
-    Serial.println("Internal Error");
+    Serial.println("[ERROR] Internal Error");
   } else if (broadcastResult == ESP_ERR_ESPNOW_NO_MEM) {
-    Serial.println("ESP_ERR_ESPNOW_NO_MEM");
+    Serial.println("[ERROR] ESP_ERR_ESPNOW_NO_MEM");
   } else if (broadcastResult == ESP_ERR_ESPNOW_NOT_FOUND) {
-    Serial.println("Peer not found.");
+    Serial.println("[ERROR] Peer not found.");
   } else {
-    Serial.println("Not sure what happened");
+    Serial.println("[ERROR] Not sure what happened");
   }
 }
 
@@ -187,7 +187,7 @@ void loop() {
   // Chill
 
   // Send message via ESP-NOW
-  sendESPBroadcast();
+  sendESPCast(MAC_ADDRESS);
 
   // wait for incomming messages
   delay(1000);

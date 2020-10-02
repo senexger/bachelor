@@ -29,23 +29,25 @@ void setTimestamp() {
 }
 unsigned long getTimestamp() {
   timediff = (unsigned long) (esp_timer_get_time() ) - timestamp;
-  Serial.print(timediff); Serial.println(" us");
+  if (INFO) {
+    Serial.print("[INFO] "); Serial.print(timediff); Serial.println(" us");
+  }
   return timediff;
 }
 
 // Init ESP Timer with fallback
 void InitESPTimer() {
   if (esp_timer_init() == ESP_OK) {
-    Serial.println("ESPTimer Init Success");
+    Serial.println("[OK] ESPTimer Init Success");
   }
   else if (esp_timer_init() == ESP_ERR_NO_MEM) {
-    Serial.println("ESPTimer allocation has failed");
+    Serial.println("[ERROR] ESPTimer allocation has failed");
   }
   else if (esp_timer_init() == ESP_ERR_INVALID_STATE) {
-    Serial.println("ESPTimer already initialized");
+    Serial.println("[ERROR] ESPTimer already initialized");
   }
   else {
-    Serial.println("ESPTimer Init Failed");
+    Serial.println("[ERROR] ESPTimer Init Failed");
     ESP.restart();
   }
 }
@@ -53,22 +55,22 @@ void InitESPTimer() {
 // Translating status of ESP-Now return
 void espNowStatus(esp_err_t result) {
   // Print status of sended data
-  Serial.print("Send Status: ");
   if (result == ESP_OK) {
-    Serial.print("Success, Bytes sended: ");
-    Serial.println((int) sizeof(dmxData));
+    Serial.print("[OK] Send: ");
+    Serial.print((int) sizeof(dmxData));
+    Serial.println(" B");
   } else if (result == ESP_ERR_ESPNOW_NOT_INIT) {
     // How did we get so far!!
-    Serial.println("ESPNOW not Init.");
+    Serial.println("[ERROR] ESPNOW not Init.");
   } else if (result == ESP_ERR_ESPNOW_ARG) {
-    Serial.println("Invalid Argument");
+    Serial.println("[ERROR] Invalid Argument");
   } else if (result == ESP_ERR_ESPNOW_INTERNAL) {
-    Serial.println("Internal Error");
+    Serial.println("[ERROR] Internal Error");
   } else if (result == ESP_ERR_ESPNOW_NO_MEM) {
-    Serial.println("ESP_ERR_ESPNOW_NO_MEM");
+    Serial.println("[ERROR] ESP_ERR_ESPNOW_NO_MEM");
   } else if (result == ESP_ERR_ESPNOW_NOT_FOUND) {
-    Serial.println("Peer not found.");
+    Serial.println("[ERROR] Peer not found.");
   } else {
-    Serial.println("Not sure what happened");
+    Serial.println("[ERROR] Not sure what happened");
   }
 }

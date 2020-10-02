@@ -49,6 +49,7 @@
 #include <WiFi.h>
 #include <esp_timer.h>
 
+#define INFO 1
 #define DEBUG 1
 
 // timestamps
@@ -76,7 +77,7 @@ esp_now_peer_info_t slave;
 // ESP write message
 #define DMX_FRAME_SIZE 250
 #define SEND_REPITITION 1
-#define ISBROADCASTING 1
+#define ISBROADCASTING 1 // broadcast for DMX information
 
 typedef struct struct_dmx_message {
   uint8_t dmxFrame[DMX_FRAME_SIZE];
@@ -89,15 +90,20 @@ typedef struct struct_slave_information {
 struct_dmx_message dmxData;
 struct_slave_information slave_information;
 
-void sendESPBroadcast() {
-  if(DEBUG) Serial.println("==== Begin Broadcasts ====");
-  esp_err_t broadcastResult = esp_now_send(broadcast_mac, (uint8_t *) &dmxData, sizeof(dmxData));
-  if(DEBUG) espNowStatus(broadcastResult);
+void sendDmxBroadcast() {
+  if(INFO) Serial.println("[Info] Init DMX Broadcasting");
+
+  for (int i=0; i<=0; i++) // just run once for first testing
+  {
+    if(DEBUG) { Serial.print("[OK] DMX Broadcast "); Serial.println(i); }
+    esp_err_t broadcastResult = esp_now_send(broadcast_mac, (uint8_t *) &dmxData, sizeof(dmxData));
+    if(DEBUG) espNowStatus(broadcastResult);
+  }
 }
 
 // send data
 void sendESPUnicast() {
-  if(DEBUG) Serial.println("==== Begin Unicasts ====");
+  if(INFO) Serial.println("[Info] DMX Unicasting");
   for (int i = 0; i < SlaveCnt; i++) {
     const uint8_t *peer_addr = slaves[i].peer_addr;
     Serial.print("Slave "); Serial.print(i); Serial.print(": ");
@@ -108,13 +114,12 @@ void sendESPUnicast() {
 
 // Callback when data is sent
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
-  Serial.print("Last Packet Send Status:\t");
-  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
-  if (status ==0){
-    success = "Delivery Success :)";
+  // Serial.println("Last Packet Send Status");
+  if (status != ESP_NOW_SEND_SUCCESS) {
+    Serial.println("[ERROR] Delivery Fail");
   }
-  else{
-    success = "Delivery Fail :(";
+  else {
+    // Serial.println("[OK] Rcvd: Ack");
   }
 }
 
@@ -150,7 +155,7 @@ void loop() {
     if(DEBUG) setTimestamp();
     for (int r = 0; r < SEND_REPITITION; r++){
     // send ESP message to each connected peer
-    sendESPBroadcast(); // TODO: give parameter msg
+    sendDmxBroadcast(); // TODO: give parameter msg
     }
     if(DEBUG) getTimestamp();
   }
@@ -185,8 +190,9 @@ void loop() {
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
   memcpy(&slave_information, incommingData, sizeof(slave_information));
   if(DEBUG) { 
-    Serial.print("Package receive: "); 
-    Serial.println(slave_information.channelCount);
+    Serial.print("[Callback] pkg receive: "); 
+    Serial.print(slave_information.channelCount);
+    Serial.println(" B");
   }
   
   // snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
