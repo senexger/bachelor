@@ -4,18 +4,22 @@
    Author: Maximilian W. Gotthardt
    Purpose: DMX implementation via ESP-Now instead of Art-Net
    Description: ...
-   Resources: (A bit outdated)
-   a. https://espressif.com/sites/default/files/documentation/esp-now_user_guide_en.pdf
-   b. http://www.esploradores.com/practica-6-conexion-esp-now/
 
    << This Device Slave >>
 
-   Flow: Master
+   Flow: Master Broadcast
    Step 1 : ESPNow Init on Master and set it in STA mode
-   Step 2 : Start scanning for Slave ESP32 (we have added a prefix of `slave` to the SSID of slave for an easy setup)
-   Step 3 : Once found, add Slave as peer
-   Step 4 : Register for send callback
-   Step 5 : Start Transmitting data from Master to Slave(s)
+   Step 2 : Waiting for Unicast messages from slaves
+   Step 3 : Adding slave information
+   Step 4 : calculate broadcast information
+   Step 5 : Send Slave Unicast information for broadcasts
+   Step 6 : Send broadcasts
+
+   Flow: Master Unicast answer
+   Step 1 : ESPNow Init on Master and set it in STA mode
+   Step 2 : Waiting for Unicast messages from slaves
+   Step 3 : Adding slave information
+   Step 4 : Send Unicast dmx information to each slave
 
    Flow: Slave
    Step 1 : ESPNow Init on Slave
@@ -23,10 +27,6 @@
    Step 3 : Set Slave in AP mode
    Step 4 : Register for receive callback and wait for data
    Step 5 : Once data arrives, print it in the serial monitor
-
-   Note: Master and Slave have been defined to easily understand the setup.
-         Based on the ESPNOW API, there is no concept of Master and Slave.
-         Any devices can act as master or salve.
 */
 
 #include <esp_now.h>

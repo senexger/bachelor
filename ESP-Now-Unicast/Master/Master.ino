@@ -3,19 +3,22 @@
    Date: 1th March 2020
    Author: Maximilian W. Gotthardt
    Purpose: DMX implementation via ESP-Now instead of Art-Net
-   Description: ...
-   Resources: (A bit outdated)
-   a. https://espressif.com/sites/default/files/documentation/esp-now_user_guide_en.pdf
-   b. http://www.esploradores.com/practica-6-conexion-esp-now/
 
    << This Device Master >>
 
-   Flow: Master
+   Flow: Master Broadcast
    Step 1 : ESPNow Init on Master and set it in STA mode
-   Step 2 : Start scanning for Slave ESP32 (we have added a prefix of `slave` to the SSID of slave for an easy setup)
-   Step 3 : Once found, add Slave as peer
-   Step 4 : Register for send callback
-   Step 5 : Start Transmitting data from Master to Slave(s)
+   Step 2 : Waiting for Unicast messages from slaves
+   Step 3 : Adding slave information
+   Step 4 : calculate broadcast information
+   Step 5 : Send Slave Unicast information for broadcasts
+   Step 6 : Send broadcasts
+
+   Flow: Master Unicast answer
+   Step 1 : ESPNow Init on Master and set it in STA mode
+   Step 2 : Waiting for Unicast messages from slaves
+   Step 3 : Adding slave information
+   Step 4 : Send Unicast dmx information to each slave
 
    Flow: Slave
    Step 1 : ESPNow Init on Slave
@@ -23,27 +26,9 @@
    Step 3 : Set Slave in AP mode
    Step 4 : Register for receive callback and wait for data
    Step 5 : Once data arrives, print it in the serial monitor
-
-   Note: Master and Slave have been defined to easily understand the setup.
-         Based on the ESPNOW API, there is no concept of Master and Slave.
-         Any devices can act as master or salve.
-
-
-  // Sample Serial log with 1 master & 2 slaves
-      Found 12 devices 
-      1: Slave:24:0A:C4:81:CF:A4 [24:0A:C4:81:CF:A5] (-44)
-      3: Slave:30:AE:A4:02:6D:CC [30:AE:A4:02:6D:CD] (-55)
-      2 Slave(s) found, processing..
-      Processing: 24:A:C4:81:CF:A5 Status: Already Paired
-      Processing: 30:AE:A4:2:6D:CD Status: Already Paired
-      Sending: 9
-      Send Status: Success
-      Last Packet Sent to: 24:0a:c4:81:cf:a5
-      Last Packet Send Status: Delivery Success
-      Send Status: Success
-      Last Packet Sent to: 30:ae:a4:02:6d:cd
-      Last Packet Send Status: Delivery Success
 */
+
+// TODO: Slave -> Fixture better naming
 
 #include <esp_now.h>
 #include <WiFi.h>
@@ -62,7 +47,11 @@ String success;
 // Global copy of slave
 #define NUMSLAVES 20
 esp_now_peer_info_t slaves[NUMSLAVES] = {};
-int SlaveCnt = 0;
+#define MAX_SLAVES 20
+uint8_t slaveArray[MAX_SLAVES][6];
+int slaveCnt = 0;
+// TODO:
+// uint8_t slaveMacList;
 
 // Broadcast mac 
 // for broadcasts the addr needs to be ff:ff:ff:ff:ff:ff
@@ -77,17 +66,24 @@ esp_now_peer_info_t slave;
 // ESP write message
 #define DMX_FRAME_SIZE 250
 #define SEND_REPITITION 1
-#define ISBROADCASTING 1 // broadcast for DMX information
+#define DMX_BROADCASTING 1 // broadcast for DMX information
 
 typedef struct struct_dmx_message {
   uint8_t dmxFrame[DMX_FRAME_SIZE];
 } struct_dmx_message;
+
+// gives the slave the information where to find his channel
+typedef struct struct_dmx_meta {
+  uint8_t broadcastID;
+  uint8_t broadcastOffset;
+} struct_dmx_meta;
 
 typedef struct struct_slave_information {
   uint8_t channelCount;
 } struct_slave_information;
 
 struct_dmx_message dmxData;
+struct_dmx_meta dmxMeta;
 struct_slave_information slave_information;
 
 void sendDmxBroadcast() {
@@ -102,9 +98,16 @@ void sendDmxBroadcast() {
 }
 
 // send data
+void sendUnicastToMac(uint8_t *peer_addr) {
+  if(INFO) Serial.println("[Info] DMX Unicasting");
+    esp_err_t unicastResult = esp_now_send(peer_addr, (uint8_t *) &dmxData, sizeof(dmxData));
+    if(DEBUG) espNowStatus(unicastResult);
+}
+
+// send data
 void sendESPUnicast() {
   if(INFO) Serial.println("[Info] DMX Unicasting");
-  for (int i = 0; i < SlaveCnt; i++) {
+  for (int i = 0; i < slaveCnt; i++) {
     const uint8_t *peer_addr = slaves[i].peer_addr;
     Serial.print("Slave "); Serial.print(i); Serial.print(": ");
     esp_err_t unicastResult = esp_now_send(peer_addr, (uint8_t *) &dmxData, sizeof(dmxData));
@@ -114,7 +117,6 @@ void sendESPUnicast() {
 
 // Callback when data is sent
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
-  // Serial.println("Last Packet Send Status");
   if (status != ESP_NOW_SEND_SUCCESS) {
     Serial.println("[ERROR] Delivery Fail");
   }
@@ -142,6 +144,7 @@ void setup() {
   InitESPTimer();
 
   // TODO: test - Try to receive data from Peers
+  bool newSlave = 0; // is changed after a new peer appears
   esp_now_register_recv_cb(OnDataRecv);
 
   // Once ESPNow is successfully Init, we will register for Send CB to
@@ -150,24 +153,28 @@ void setup() {
 }
 
 void loop() {
-  // In the loop we scan for slave
-  if (ISBROADCASTING) {
-    if(DEBUG) setTimestamp();
-    for (int r = 0; r < SEND_REPITITION; r++){
-    // send ESP message to each connected peer
-    sendDmxBroadcast(); // TODO: give parameter msg
+  // TODO:
+  // peer should be already added in callback function befor the newSlave flag is changed
+  // if (newSlave) {
+    // calculate new broadcasts
+    // for (each slave) { tell each slave the bradcastID and offset }
+
+  // Serial.print("[Info] Slave Count = ");
+  // Serial.println(slaveCnt);
+  if ( slaveCnt != 0 ) {
+    // In the loop we scan for slave
+    if (DMX_BROADCASTING) {
+      if(DEBUG) setTimestamp();
+      for (int r = 0; r < SEND_REPITITION; r++){
+      // send DMX broadcast to all peers
+      sendDmxBroadcast(); // TODO: give parameter msg
+      }
+      if(DEBUG) getTimestamp();
     }
-    if(DEBUG) getTimestamp();
-  }
-  else { // UNICASTING
-    ScanForSlave();
-    // If Slave is found, it would be populate in `slave` variable
-    // We will check if `slave` is defined and then we proceed further
-    if (SlaveCnt > 0) { // check if slave channel is defined
-      // `slave` is defined
-      // Add slave as peer if it has not been added already
+    else { 
+      // UNICASTING
+      // TODO add slaves
       manageSlave();
-      // pair success or already paired
       // Send data to device
       if(DEBUG) setTimestamp();
       // Send XY packages in a row
@@ -176,27 +183,71 @@ void loop() {
         sendESPUnicast();
       }
       if(DEBUG) getTimestamp();
-    } else {
-      // No slave found to process
-      if(DEBUG) Serial.println("No slave found.");
-    }
+    } 
+    // wait for shortly to run the logic again
+    delay(1000); //delay(30);
   }
-
-  // wait for shortly to run the logic again
-  delay(200); //delay(30);
 }
 
-// callback when data is recv from Slave just printing incomming data
+// callback when data is recv from Slave
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
   memcpy(&slave_information, incommingData, sizeof(slave_information));
   if(DEBUG) { 
-    Serial.print("[Callback] pkg receive: "); 
-    Serial.print(slave_information.channelCount);
-    Serial.println(" B");
+    Serial.print("[OK] received from "); 
+    // print mac
+    for (int i = 0; i < 6; i++)
+    {
+      Serial.printf("%02X", mac_addr[i]);
+      if (i < 5)Serial.print(":");
+    }
+    Serial.print(" ("); 
+    Serial.print(slave_information.channelCount); 
+    Serial.println(" Channel)");
   }
-  
-  // snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
-  //          mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
-  // Serial.print("Last Packet Recv from: "); Serial.println(macStr);
-  // Serial.println(status == ESP_NOW_SEND_SUCCESS ? " Delivery Success" : " Delivery Fail");
+
+  uint8_t sameEntries;
+
+  // print hole array
+  for (int slaveRaw = 0; slaveRaw < MAX_SLAVES; slaveRaw ++) {
+
+    sameEntries = 0;
+
+    // Iterate trough MAC
+    for (int i = 0; i < 6; i++) {
+      Serial.printf("%02X", slaveArray[slaveRaw][i]); if (i < 5)Serial.print(":");
+      // Check if exists
+      if (slaveArray[slaveRaw][i] == mac_addr[i]){
+        sameEntries ++;
+      }
+    }
+    Serial.println("");
+
+    // Serial.print(" Same entries: "); Serial.println(sameEntries);
+    if (sameEntries == 6) {
+      Serial.println("[ERROR] MAC already exist");
+      break;
+    }
+  }
+
+  // Write mac in slaveArray
+   if (sameEntries < 6) {
+    for (int i = 0; i < 6; i++) {
+      slaveArray[slaveCnt][i] = mac_addr[i];
+    }
+    Serial.println("[OK] Slave added");
+    slaveCnt ++;
+  }
 }
+
+  /*
+  bool exists = esp_now_is_peer_exist(mac_addr);
+  if (exists) {
+    // Slave already paired.
+    Serial.println("Already Paired");
+  } else {
+    // Slave not paired, attempt pair
+    // esp_err_t addStatus = esp_now_add_peer(&slaves[i]);
+    // if(DEBUG) espNowStatus(addStatus);
+    delay(100);
+  }
+  */
