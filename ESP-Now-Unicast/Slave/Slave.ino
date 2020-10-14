@@ -34,7 +34,7 @@
 
 // TODO what defines Channel exactly Master Slave same channel?
 #define CHANNEL 1
-#define DMX_FRAME_SIZE 250
+#define DMX_FRAME_SIZE 200
 
 // Two level debug information
 #define INFO 0
@@ -55,23 +55,36 @@
 String success;
 
 // ++++ STUFF FOR RECEIVE ++++
-typedef struct struct_dmx_package {
+typedef struct struct_dmx_data {
+  uint8_t broadcastID;
   uint8_t payload[DMX_FRAME_SIZE];
-} struct_slavePackage;
+} struct_dmx_data;
+
+// gives the slave the information where to find his channel
+typedef struct struct_dmx_meta {
+  uint8_t isMetaData; // should set to -1
+  uint8_t broadcastID; // must be positive
+  uint8_t broadcastOffset;
+} struct_dmx_meta;
 
 // ++++ STUFF FOR SENDING ++++
-typedef struct struct_slave_information {
+typedef struct struct_slave_requirements {
   // TODO: macaddresse uint8_t ?
   // TODO: semi informations
   // uint8_t packageID;
   // uint8_t slaveID;
   uint8_t channelCount;
-} struct_slave_information;
+} struct_slave_requirements;
 
 // Create a struct_message called dmxData
-struct_dmx_package dmxData;
+struct_dmx_data dmxData;
+int thisBroadcastID;
+int thisBroadcastOffset;
 // Create a struct_slavePackage called slavePackage to send required channels
-struct_slave_information slaveInformation;
+struct_slave_requirements slaveRequirements;
+// create struct for the broadcast offsets and IDs
+struct_dmx_meta dmxMeta;
+bool isDmxMetaReceived = 0;
 
 // Init ESP Now with fallback
 void InitESPNow() {
@@ -99,7 +112,7 @@ void addPeer (uint8_t mac_address[6]) {
 
 void setup() {
   // Setup test data
-  slaveInformation.channelCount = CHANNELS_NEEDED;
+  slaveRequirements.channelCount = CHANNELS_NEEDED;
   
   // Setup Serial
   Serial.begin(115200);
@@ -121,27 +134,45 @@ void setup() {
 
 // callback when data is recv from Master just printing incomming data
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
+  // memcpy(&dmxMeta, incommingData, sizeof(dmxMeta));
   memcpy(&dmxData, incommingData, sizeof(dmxData));
   
-  // magic number 20 should be data_len
-  bool signalBroken = false;
-  for (int i=0; i < data_len; i++) {
-    if (dmxData.payload[i] != i) {
-      signalBroken = true;
-    }
-  }
-  if (signalBroken) {
-    if(DEBUG) {
-      Serial.print("[ERROR] Incomming Data broken: "); 
-      Serial.print(data_len);
-      Serial.println(" B");
-    }
+  // check if the package is a DMXData or DMXMeta package
+  if (dmxData.broadcastID == 0) {
+    // memcpy(&dmxMeta, incommingData, sizeof(dmxMeta));
+    Serial.print("DmxBit: "); Serial.println(dmxData.broadcastID);
+    Serial.print("ID    : "); Serial.println(dmxData.payload[3]);
+    Serial.print("Offset: "); Serial.println(dmxData.payload[4]);
+    // meta data received, so dont aks for them anymore
+    isDmxMetaReceived = 1;
   }
   else {
-    if(DEBUG) { 
-      Serial.print("[OK] Rcvd: "); 
-      Serial.print(data_len);
-      Serial.println(" B");
+    Serial.print("[Info] dmx broadcast ID: "); Serial.println(dmxData.broadcastID)
+    // read all input
+    for (int i = 0; i > data_len; i++) {
+      Serial.println(dmxData.payload[i]);
+    }
+
+    // magic number 20 should be data_len
+    bool signalBroken = false;
+    for (int i=1; i < data_len + 1 ; i++) {
+      if (dmxData.payload[i] != i) {
+        signalBroken = true;
+      }
+    }
+    if (signalBroken) {
+      if(DEBUG) {
+        Serial.print("[ERROR] Incomming Data broken: "); 
+        Serial.print(data_len);
+        Serial.println(" B");
+      }
+    }
+    else {
+      if(DEBUG) { 
+        Serial.print("[OK] Rcvd: "); 
+        Serial.print(data_len);
+        Serial.println(" B");
+      }
     }
   }
 }
@@ -162,10 +193,10 @@ void sendESPCast(uint8_t mac_address[6]) {
   if(INFO && IS_BROADCAST) Serial.println("[Info] Begin BROADCAST");
   if(INFO && !IS_BROADCAST) Serial.println("[Info] Begin UNICAST");
   esp_err_t broadcastResult = 
-        esp_now_send(mac_address, (uint8_t *) &slaveInformation, sizeof(slaveInformation));
+        esp_now_send(mac_address, (uint8_t *) &slaveRequirements, sizeof(slaveRequirements));
   if (broadcastResult == ESP_OK) {
     Serial.print("[OK] Send: ");
-    Serial.print((int) sizeof(slaveInformation));
+    Serial.print((int) sizeof(slaveRequirements));
     Serial.println(" B");
   } else if (broadcastResult == ESP_ERR_ESPNOW_NOT_INIT) {
     // How did we get so far!!
@@ -187,7 +218,7 @@ void loop() {
   // Chill
 
   // Send message via ESP-NOW
-  sendESPCast(MAC_ADDRESS);
+  if (!isDmxMetaReceived) { sendESPCast(MAC_ADDRESS); }
 
   // wait for incomming messages
   delay(1000);

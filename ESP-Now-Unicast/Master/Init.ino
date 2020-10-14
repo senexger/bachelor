@@ -55,9 +55,9 @@ void InitESPTimer() {
 void espNowStatus(esp_err_t result) {
   // Print status of sended data
   if (result == ESP_OK) {
-    Serial.print("[OK] Send: ");
-    Serial.print((int) sizeof(dmxData));
-    Serial.println(" B");
+    Serial.print("[OK] Send");
+    // Serial.print((int) sizeof(dmxData));
+    // Serial.println(" B");
   } else if (result == ESP_ERR_ESPNOW_NOT_INIT) {
     // How did we get so far!!
     Serial.println("[ERROR] ESPNOW not Init.");

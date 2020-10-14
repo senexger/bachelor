@@ -65,20 +65,24 @@ esp_now_peer_info_t slave;
 #define PRINTSCANRESULTS 0
 
 // ESP write message
-#define DMX_FRAME_SIZE 250
+#define DMX_FRAME_SIZE 200
 #define SEND_REPITITION 1
 #define DMX_BROADCASTING 1 // broadcast for DMX information
 
 typedef struct struct_dmx_message {
+  uint8_t broadcastID; // != 0
   uint8_t dmxFrame[DMX_FRAME_SIZE];
 } struct_dmx_message;
 
 // gives the slave the information where to find his channel
 typedef struct struct_dmx_meta {
-  uint8_t broadcastID;
+  uint8_t isMetaData;
+  uint8_t broadcastID; // != 0
   uint8_t broadcastOffset;
+  // MAC_Address for the node as check, maybe instead of 0 flag for BroadcastID
 } struct_dmx_meta;
 
+// ++ RECEIVED MESSAGES ++
 typedef struct struct_slave_information {
   uint8_t channelCount;
 } struct_slave_information;
@@ -87,35 +91,29 @@ struct_dmx_message dmxData;
 struct_dmx_meta dmxMeta;
 struct_slave_information slave_information;
 
+int broadcastID;
+int slaveoffsets[20];
+
 void sendDmxBroadcast() {
   if(INFO) Serial.println("[Info] Init DMX Broadcasting");
 
-  for (int i=0; i<=0; i++) // just run once for first testing
+  for (int i=1; i<=1; i++) // start with ID 1, because 0 is for metainformation only
   {
+    dmxData.broadcastID = i;
     if(DEBUG) { Serial.print("[OK] DMX Broadcast "); Serial.println(i); }
     esp_err_t broadcastResult = esp_now_send(broadcast_mac, (uint8_t *) &dmxData, sizeof(dmxData));
     if(DEBUG) espNowStatus(broadcastResult);
   }
 }
 
-// send data to slave
-void sendUnicastToMac(const uint8_t *peer_addr) {
-  if(INFO) Serial.println("[Info] Send DMX Information");
-
-  for (int i=0; i<=0; i++) // just run once for first testing
-  {
-    if(DEBUG) { Serial.print("[OK] DMX Unicast "); Serial.println(i); }
-    esp_err_t unicastResult = esp_now_send(peer_addr, (uint8_t *) &dmxData, sizeof(dmxData));
-    if(DEBUG) espNowStatus(unicastResult);
+// send meta Data to Slave with BroadcastID and Offset
+void sendUnicastToMac(const uint8_t *peer_addr, struct_dmx_meta metaData) {
+  if(INFO) {
+    Serial.print("[Info] Send DMX Information ");
+    Serial.println((int) sizeof(metaData));
   }
-  // if(INFO) Serial.println("[Info] DMX unicast to Slave");
-    // esp_err_t unicastResult = esp_now_send(peer_addr, (uint8_t *) &dmxData, sizeof(dmxData));
-    // if(DEBUG) espNowStatus(unicastResult);
-    // for (int i = 0; i < 6; i++)
-    // {
-      // Serial.printf("%02X", peer_addr[i]);
-      // if (i < 5)Serial.print(":");
-    // }
+  esp_err_t unicastResult = esp_now_send(peer_addr, (uint8_t *) &metaData, sizeof(metaData));
+  if(DEBUG) espNowStatus(unicastResult);
 }
 
 // send data
@@ -141,7 +139,7 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
 
 void setup() {
   // Setup test data
-  for (int i=0; i < DMX_FRAME_SIZE; i++) { dmxData.dmxFrame[i] = i; }
+  for (int i=1; i < DMX_FRAME_SIZE +1; i++) { dmxData.dmxFrame[i] = i; }
 
   // Setup Serial
   Serial.begin(115200);
@@ -179,15 +177,16 @@ void loop() {
   // TODO: remove 1, or remove hole if?
   // if ( slaveCnt != 0 || 1 ) {
     // In the loop we scan for slave
-  /*
+
   if (DMX_BROADCASTING) {
     if(DEBUG) setTimestamp();
     for (int r = 0; r < SEND_REPITITION; r++){
-    // send DMX broadcast to all peers
-    sendDmxBroadcast(); // TODO: give parameter msg
+      // send DMX broadcast to all peers
+      sendDmxBroadcast(); // TODO: give parameter msg
     }
     if(DEBUG) getTimestamp();
   }
+  /*
   else { 
     // UNICASTING
     // TODO add slaves
@@ -268,25 +267,14 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
 
   // send a massage back with the slave information
   Serial.println("[info] send unicast back");
-  sendUnicastToMac(mac_addr);
 
-  // remove slave (needed?!)
+  dmxMeta.isMetaData = 0;
+  dmxMeta.broadcastID = 0; // no id becaus its the information channel
+  dmxMeta.broadcastOffset = 0;
+  sendUnicastToMac(mac_addr, dmxMeta);
+
+  // remove slave (needed?!) - not for DMX-Unicast!
   // esp_err_t status2 = esp_now_del_peer(&peer_info);
   // if (ESP_OK != status2) { Serial.println("Could not remove peer"); }
   // else { Serial.println("Slave-peer removed successfully"); }
 }
-
-  /*
-  // TODO: maybe better than doing own for loops and creating own arrays. 
-  // but what about maximum peer count?
-  bool exists = esp_now_is_peer_exist(mac_addr);
-  if (exists) {
-    // Slave already paired.
-    Serial.println("Already Paired");
-  } else {
-    // Slave not paired, attempt pair
-    // esp_err_t addStatus = esp_now_add_peer(&slaves[i]);
-    // if(DEBUG) espNowStatus(addStatus);
-    delay(100);
-  }
-  */
