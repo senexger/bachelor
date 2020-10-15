@@ -143,19 +143,15 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
     Serial.print("DmxBit: "); Serial.println(dmxData.broadcastID);
     Serial.print("ID    : "); Serial.println(dmxData.payload[3]);
     Serial.print("Offset: "); Serial.println(dmxData.payload[4]);
-    // meta data received, so dont aks for them anymore
+    // meta data received, so dont aks for them anymore in the loop
     isDmxMetaReceived = 1;
   }
-  else {
-    Serial.print("[Info] dmx broadcast ID: "); Serial.println(dmxData.broadcastID)
-    // read all input
-    for (int i = 0; i > data_len; i++) {
-      Serial.println(dmxData.payload[i]);
-    }
+  // else {
+    Serial.print("[Info] dmx broadcast ID: "); Serial.println(dmxData.broadcastID);
 
     // magic number 20 should be data_len
     bool signalBroken = false;
-    for (int i=1; i < data_len + 1 ; i++) {
+    for (int i=0; i < data_len -1; i++) {
       if (dmxData.payload[i] != i) {
         signalBroken = true;
       }
@@ -174,7 +170,7 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
         Serial.println(" B");
       }
     }
-  }
+  // }
 }
 
 // Callback when data is sent - Slave
