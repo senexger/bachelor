@@ -33,8 +33,9 @@
 #include <esp_now.h>
 #include <WiFi.h>
 #include <esp_timer.h>
+#include "MacList.h"
 
-#define INFO 
+#define INFO 1
 #define DEBUG 1
 
 // timestamps
