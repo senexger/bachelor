@@ -84,6 +84,7 @@ typedef struct struct_slave_information {
 } struct_slave_information;
 
 struct_dmx_message dmxData;
+struct_dmx_message dmxData1;
 struct_dmx_meta dmxMeta;
 struct_slave_information slave_information;
 
@@ -93,13 +94,16 @@ int slaveoffsets[20];
 void sendDmxBroadcast() {
   if(INFO) Serial.println("[Info] Init DMX Broadcasting");
 
-  for (int i=1; i<=1; i++) // start with ID 1, because 0 is for metainformation only
-  {
-    dmxData.broadcastID = i;
-    if(DEBUG) { Serial.print("[OK] DMX Broadcast "); Serial.println(i); }
-    esp_err_t broadcastResult = esp_now_send(broadcast_mac, (uint8_t *) &dmxData, sizeof(dmxData));
-    if(DEBUG) espNowStatus(broadcastResult);
-  }
+  if(DEBUG) { Serial.println("[OK] DMX Broadcast 1"); }
+  dmxData.broadcastID = 1;
+  esp_err_t broadcastResult = esp_now_send(broadcast_mac, (uint8_t *) &dmxData, sizeof(dmxData));
+  if(DEBUG) espNowStatus(broadcastResult);
+  delay(200);
+
+  if(DEBUG) { Serial.println("[OK] DMX Broadcast 2"); }
+  dmxData1.broadcastID = 2;
+  esp_err_t broadcastResult1 = esp_now_send(broadcast_mac, (uint8_t *) &dmxData1, sizeof(dmxData1));
+  if(DEBUG) espNowStatus(broadcastResult1);
 }
 
 // send meta Data to Slave with BroadcastID and Offset
@@ -136,6 +140,9 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
 void setup() {
   // Setup test data
   for (int i=1; i < DMX_FRAME_SIZE +1; i++) { dmxData.dmxFrame[i] = i; }
+  dmxData.broadcastID = 1;
+  for (int i=1; i < DMX_FRAME_SIZE +1; i++) { dmxData1.dmxFrame[i] = i; }
+  dmxData1.broadcastID = 2;
 
   // Setup Serial
   Serial.begin(115200);

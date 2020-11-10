@@ -37,8 +37,8 @@
 #define DMX_FRAME_SIZE 200
 
 // Two level debug information
-#define INFO 0
-#define DEBUG 1
+#define DEBUG   1
+#define VERBOSE 0
 
 #define CHANNELS_NEEDED 14
 
@@ -151,9 +151,34 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
 
     // magic number 20 should be data_len
     bool signalBroken = false;
-    for (int i=0; i < data_len -1; i++) {
-      if (dmxData.payload[i] != i) {
-        signalBroken = true;
+
+    // check broadcast integrity
+    if (dmxData.broadcastID == 1) {
+      Serial.println("Its Broadcast 1");
+      for (int i=1; i < data_len -1; i++) { // sub 1 becaus there is no broadcastID in payload
+        if (VERBOSE) {
+          Serial.print(i); 
+          Serial.print(" != "); 
+          Serial.println(dmxData.payload[i]); 
+        }
+        if (dmxData.payload[i] != i) {
+          signalBroken = true;
+        }
+      }
+    }
+    
+    signalBroken = false;
+    if (dmxData.broadcastID == 2) {
+      Serial.println("Its Broadcast 2");
+      for (int i=1; i < data_len -1; i++) { // sub 1 becaus there is no broadcastID in payload
+        if (VERBOSE) {
+          Serial.print(i); 
+          Serial.print(" != "); 
+          Serial.println(dmxData.payload[i]); 
+        }
+        if (dmxData.payload[i] != i) {
+          signalBroken = true;
+          }
       }
     }
     if (signalBroken) {
@@ -186,8 +211,8 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
 
 // copied from master
 void sendESPCast(uint8_t mac_address[6]) {
-  if(INFO && IS_BROADCAST) Serial.println("[Info] Begin BROADCAST");
-  if(INFO && !IS_BROADCAST) Serial.println("[Info] Begin UNICAST");
+  if(VERBOSE && IS_BROADCAST) Serial.println("[Info] Begin BROADCAST");
+  if(VERBOSE && !IS_BROADCAST) Serial.println("[Info] Begin UNICAST");
   esp_err_t broadcastResult = 
         esp_now_send(mac_address, (uint8_t *) &slaveRequirements, sizeof(slaveRequirements));
   if (broadcastResult == ESP_OK) {
