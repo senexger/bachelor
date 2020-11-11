@@ -141,8 +141,8 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
   if (dmxData.broadcastID == 0) {
     // memcpy(&dmxMeta, incommingData, sizeof(dmxMeta));
     Serial.print("DmxBit: "); Serial.println(dmxData.broadcastID);
-    Serial.print("ID    : "); Serial.println(dmxData.payload[3]);
-    Serial.print("Offset: "); Serial.println(dmxData.payload[4]);
+    Serial.print("ID    : "); Serial.println(dmxData.payload[0]);
+    Serial.print("Offset: "); Serial.println(dmxData.payload[1]);
     // meta data received, so dont aks for them anymore in the loop
     isDmxMetaReceived = 1;
   }

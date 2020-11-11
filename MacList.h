@@ -8,4 +8,7 @@
 static uint8_t broadcast_mac[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
 static uint8_t slave_mac[] = { 0xFC, 0xF5, 0xC4, 0x31, 0x69, 0x0C };
 
+static uint8_t slave_offset         = 30;
+static uint8_t slave_broadcastId    = 1;
+
 #endif

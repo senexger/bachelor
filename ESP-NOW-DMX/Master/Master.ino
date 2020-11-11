@@ -72,7 +72,7 @@ typedef struct struct_dmx_message {
 
 // gives the slave the information where to find his channel
 typedef struct struct_dmx_meta {
-  uint8_t isMetaData;
+  uint8_t broadcastIdZero;
   uint8_t broadcastID; // != 0
   uint8_t broadcastOffset;
   // MAC_Address for the node as check, maybe instead of 0 flag for BroadcastID
@@ -271,9 +271,11 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
   // send a massage back with the slave information
   Serial.println("[info] send unicast back");
 
-  dmxMeta.isMetaData = 0;
-  dmxMeta.broadcastID = 0; // no id becaus its the information channel
-  dmxMeta.broadcastOffset = 0;
+  // TODO: Get values from MACList!!!
+  dmxMeta.broadcastIdZero = 0;
+  dmxMeta.broadcastID     = 1; // no id becaus its the information channel
+  dmxMeta.broadcastOffset = 20;
+
   sendUnicastToMac(mac_addr, dmxMeta);
 
   // remove slave (needed?!) - not for DMX-Unicast!
