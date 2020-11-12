@@ -54,6 +54,9 @@
 // Variable to store if sending data was successful
 String success;
 
+uint8_t broadcastId;
+uint8_t offset;
+
 // ++++ STUFF FOR RECEIVE ++++
 typedef struct struct_dmx_data {
   uint8_t broadcastID;
@@ -140,25 +143,34 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
   // check if the package is a DMXData or DMXMeta package
   if (dmxData.broadcastID == 0) {
     // memcpy(&dmxMeta, incommingData, sizeof(dmxMeta));
-    Serial.print("DmxBit: "); Serial.println(dmxData.broadcastID);
-    Serial.print("ID    : "); Serial.println(dmxData.payload[0]);
-    Serial.print("Offset: "); Serial.println(dmxData.payload[1]);
+    if(DEBUG) {
+      Serial.print("DmxBit: "); Serial.println(dmxData.broadcastID);
+      Serial.print("ID    : "); Serial.println(dmxData.payload[0]);
+      Serial.print("Offset: "); Serial.println(dmxData.payload[1]);
+    }
+    broadcastId = dmxData.payload[0];
+    offset = dmxData.payload[1];
     // meta data received, so dont aks for them anymore in the loop
     isDmxMetaReceived = 1;
   }
-  // else {
+  // package containing payload
+  else {
     Serial.print("[Info] dmx broadcast ID: "); Serial.println(dmxData.broadcastID);
 
     // magic number 20 should be data_len
     bool signalBroken = false;
 
     // check broadcast integrity
-    if (dmxData.broadcastID == 1) {
-      Serial.println("Its Broadcast 1");
-      for (int i=1; i < data_len -1; i++) { // sub 1 becaus there is no broadcastID in payload
-        if (VERBOSE) {
+    Serial.print("BroadcastID :"); Serial.println(dmxData.broadcastID);
+    // sub 1 becaus there is no broadcastID in payload
+    // iterating through the payload
+    if (dmxData.broadcastID == broadcastId) {
+      for (int i=1; i < data_len -1; i++) { 
+        // just select needed channel
+        // if (VERBOSE) {
+        if ((i >= offset) && (i < offset + CHANNELS_NEEDED)) {
           Serial.print(i); 
-          Serial.print(" != "); 
+          Serial.print(" = "); 
           Serial.println(dmxData.payload[i]); 
         }
         if (dmxData.payload[i] != i) {
@@ -166,21 +178,7 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
         }
       }
     }
-    
-    signalBroken = false;
-    if (dmxData.broadcastID == 2) {
-      Serial.println("Its Broadcast 2");
-      for (int i=1; i < data_len -1; i++) { // sub 1 becaus there is no broadcastID in payload
-        if (VERBOSE) {
-          Serial.print(i); 
-          Serial.print(" != "); 
-          Serial.println(dmxData.payload[i]); 
-        }
-        if (dmxData.payload[i] != i) {
-          signalBroken = true;
-          }
-      }
-    }
+
     if (signalBroken) {
       if(DEBUG) {
         Serial.print("[ERROR] Incomming Data broken: "); 
@@ -195,7 +193,7 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
         Serial.println(" B");
       }
     }
-  // }
+  }
 }
 
 // Callback when data is sent - Slave

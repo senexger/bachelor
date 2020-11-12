@@ -110,7 +110,8 @@ void sendDmxBroadcast() {
 void sendUnicastToMac(const uint8_t *peer_addr, struct_dmx_meta metaData) {
   if(INFO) {
     Serial.print("[Info] Send DMX Information ");
-    Serial.println((int) sizeof(metaData));
+    Serial.print((int) sizeof(metaData));
+    Serial.println(" (B)");
   }
   esp_err_t unicastResult = esp_now_send(peer_addr, (uint8_t *) &metaData, sizeof(metaData));
   if(DEBUG) espNowStatus(unicastResult);
@@ -270,6 +271,8 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
 
   // send a massage back with the slave information
   Serial.println("[info] send unicast back");
+  Serial.print("broadcastId:     "); Serial.println(dmxMeta.broadcastID);
+  Serial.print("broadcastoffset: "); Serial.println(dmxMeta.broadcastOffset);
 
   // TODO: Get values from MACList!!!
   dmxMeta.broadcastIdZero = 0;
