@@ -15,9 +15,7 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
 - [ ] slave-master  : need offset, broadcastID; have lenght
 - [ ] master-slave  : send offset, broadcastID
 - [ ] master-broad  : send broadcast
-- [ ] slave         : write extracted input to serial   
-
-* Bachelorarbeit
+- [ ] slave         : write extracted input to serial
 
 So langsam muss es mal vorran gehen.
 
@@ -27,17 +25,21 @@ Was ist als nächstes zu tun?
 
 - Master sendet zwei broadcasts
 - Slave checkt nach integrity
-
-  + [ ] slave-master  : need offset, broadcastID; have lenght
-  + [ ] master-slave  : send offset, broadcastID
-  + [ ] master-broad  : send broadcast
-  + [ ] slave         : write extracted input to serial
+- [ ] slave-master  : need offset, broadcastID; have lenght
+- [ ] master-slave  : send offset, broadcastID
+- [ ] master-broad  : send broadcast
+- [ ] slave         : write extracted input to serial
 
 ** Abarbeiten
 
+- [ ] structs sollten bei master und slave gleich aussehen.
+  + also entweder den Slave korregieren, sodass er den anderen struct verwendet
+  + ODER den Master auf den Slave struct herunterbrechen und hinnehmen, dass der Payload nicht so schön formatiert ist
 - [ ] Berechnen, wie lange die kommunikation dauern müsste
-- [ ] den Prof kontaktieren!
+- [ ] Get meta information from maclist.h
+- [ ] Unicast vs Multicast
 - [ ] Grafen plotten
   - [ ] unicast, alle nacheinander
   - [ ] broadcast, zwei broadcasts hintereinander
   - [ ] und?
+- [ ] den Prof kontaktieren!

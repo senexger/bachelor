@@ -153,7 +153,7 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
     // meta data received, so dont aks for them anymore in the loop
     isDmxMetaReceived = 1;
   }
-  // package containing payload
+  // package containing DMX Data
   else {
     Serial.print("[Info] dmx broadcast ID: "); Serial.println(dmxData.broadcastID);
 
