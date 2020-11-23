@@ -25,10 +25,10 @@ Was ist als nächstes zu tun?
 
 - Master sendet zwei broadcasts
 - Slave checkt nach integrity
-- [ ] slave-master  : need offset, broadcastID; have lenght
-- [ ] master-slave  : send offset, broadcastID
-- [ ] master-broad  : send broadcast
-- [ ] slave         : write extracted input to serial
+- slave-master  : need offset, broadcastID; have lenght
+- master-slave  : send offset, broadcastID
+- master-broad  : send broadcast
+- slave         : write extracted input to serial
 
 ** Abarbeiten
 
@@ -37,7 +37,8 @@ Was ist als nächstes zu tun?
   + ODER den Master auf den Slave struct herunterbrechen und hinnehmen, dass der Payload nicht so schön formatiert ist
 - [ ] Berechnen, wie lange die kommunikation dauern müsste
 - [ ] Get meta information from maclist.h
-- [ ] Unicast vs Multicast
+- [ ] Multicast Berechnung durchführen
+- [ ] Unicast Berechnung durchführen
 - [ ] Grafen plotten
   - [ ] unicast, alle nacheinander
   - [ ] broadcast, zwei broadcasts hintereinander

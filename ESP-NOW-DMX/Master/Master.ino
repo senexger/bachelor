@@ -63,8 +63,9 @@ esp_now_peer_info_t slave;
 
 // ESP write message
 #define DMX_FRAME_SIZE 200
-#define SEND_REPITITION 1
+#define SEND_REPITITION 10
 #define DMX_BROADCASTING 1 // broadcast for DMX information
+#define WAIT_AFTER_SEND 3 // ms
 
 typedef struct struct_dmx_message {
   uint8_t broadcastID; // != 0
@@ -97,20 +98,27 @@ int slaveoffsets[20];
 void sendDmxBroadcast() {
   if(VERBOSE) Serial.println("[Info] Init DMX Broadcasting");
 
-  if(DEBUG) { Serial.println("[OK] DMX Broadcast 1"); }
-  // dmxData3.broadcastID = 2;
-  esp_err_t broadcastResult3 = esp_now_send(broadcast_mac, (uint8_t *) &dmxData3, sizeof(dmxData3));
-  if(DEBUG) espNowStatus(broadcastResult3);
-  //delay(200);
   if(DEBUG) { Serial.println("[OK] DMX Broadcast 2"); }
   // dmxData2.broadcastID = 2;
   esp_err_t broadcastResult2 = esp_now_send(broadcast_mac, (uint8_t *) &dmxData2, sizeof(dmxData2));
   if(DEBUG) espNowStatus(broadcastResult2);
 
+  delay(WAIT_AFTER_SEND); // No delay crashs the system
+
+  if(DEBUG) { Serial.println("[OK] DMX Broadcast 1"); }
+  // dmxData3.broadcastID = 2;
+  esp_err_t broadcastResult3 = esp_now_send(broadcast_mac, (uint8_t *) &dmxData3, sizeof(dmxData3));
+  if(DEBUG) espNowStatus(broadcastResult3);
+  //delay(200);
+
+  delay(WAIT_AFTER_SEND); // No delay crashs the system
+
   if(DEBUG) { Serial.println("[OK] DMX Broadcast 4"); }
   // dmxData4.broadcastID = 2;
   esp_err_t broadcastResult4 = esp_now_send(broadcast_mac, (uint8_t *) &dmxData4, sizeof(dmxData4));
   if(DEBUG) espNowStatus(broadcastResult4);
+  
+  delay(WAIT_AFTER_SEND); // No delay crashs the system
 }
 
 // send meta Data to Slave with BroadcastID and Offset
@@ -217,7 +225,6 @@ void loop() {
   */ 
   // }
     // wait for shortly to run the logic again
-    delay(30); //delay(30);
 }
 
 // callback when data is recv from Slave
@@ -274,10 +281,14 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
   if (!exists) {
     memcpy(peer_info.peer_addr, mac_addr, 6);
     esp_err_t status = esp_now_add_peer(&peer_info);
-    if (ESP_OK != status) { Serial.println("[ERROR] Could not add peer"); }
-    else { Serial.println("[OK] Slave-peer added"); }
+    if (ESP_OK != status && DEBUG) {
+      Serial.println("[ERROR] Could not add peer"); }
+    else { 
+      if(DEBUG) Serial.println("[OK] Slave-peer added"); }
   }
-  else Serial.println("[Warning] peer still exists");
+  else {
+    if(DEBUG) Serial.println("[Warning] peer still exists");
+  }
 
   // TODO: Get values from MACList!!!
   dmxMeta.broadcastIdZero = 0;
@@ -285,9 +296,11 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
   dmxMeta.broadcastOffset = 20;
 
   // send a massage back with the slave information
-  Serial.println("[info] send unicast back");
-  Serial.print("broadcastId:     "); Serial.println(dmxMeta.broadcastID);
-  Serial.print("broadcastoffset: "); Serial.println(dmxMeta.broadcastOffset);
+  if (DEBUG) {
+    Serial.println("[info] send unicast back");
+    Serial.print("broadcastId:     "); Serial.println(dmxMeta.broadcastID);
+    Serial.print("broadcastoffset: "); Serial.println(dmxMeta.broadcastOffset);
+  }
 
   sendUnicastToMac(mac_addr, dmxMeta);
 

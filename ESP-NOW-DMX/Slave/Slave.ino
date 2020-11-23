@@ -37,10 +37,10 @@
 #define DMX_FRAME_SIZE 200
 
 // Two level debug information
-#define DEBUG   1
+#define DEBUG   0
 #define VERBOSE 0
 
-#define CHANNELS_NEEDED 14
+#define CHANNELS_NEEDED 6
 
 // ++++ INIT STUFF FOR SLAVE - SENDING ++++
 #define IS_BROADCAST 0
@@ -130,9 +130,9 @@ void setup() {
 
   // Once ESPNow is successfully Init, we will register for recv CB to
   // get recv packer info.
-  if(DEBUG) esp_now_register_send_cb(OnDataSent);
+  esp_now_register_send_cb(OnDataSent);
   // Register for a callback function that will be called when data is received
-  if(DEBUG) esp_now_register_recv_cb(OnDataRecv);
+  esp_now_register_recv_cb(OnDataRecv);
 }
 
 // callback when data is recv from Master just printing incomming data
@@ -161,13 +161,11 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
     bool signalBroken = false;
 
     // check broadcast integrity
-    Serial.print("BroadcastID :"); Serial.println(dmxData.broadcastID);
     // sub 1 becaus there is no broadcastID in payload
     // iterating through the payload
     if (dmxData.broadcastID == broadcastId) {
       for (int i=1; i < data_len -1; i++) { 
         // just select needed channel
-        // if (VERBOSE) {
         if ((i >= offset) && (i < offset + CHANNELS_NEEDED)) {
           Serial.print(i); 
           Serial.print(" = "); 
@@ -187,7 +185,7 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
       }
     }
     else {
-      if(DEBUG) { 
+      if(1) { 
         Serial.print("[OK] Rcvd: "); 
         Serial.print(data_len);
         Serial.println(" B");
@@ -238,6 +236,7 @@ void loop() {
 
   // Send message via ESP-NOW
   if (!isDmxMetaReceived) { sendESPCast(MAC_ADDRESS); }
+  else { Serial.println("noMetaReceived"); }
 
   // wait for incomming messages
   delay(1000);

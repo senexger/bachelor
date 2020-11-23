@@ -276,7 +276,7 @@
 	noitemsep,
 	itemindent=0pt,
 }
-\DeclareAcroListStyle{acronyms}{list}{list=acronyms}
+% \DeclareAcroListStyle{acronyms}{list}{list=acronyms}
 \acsetup{list-heading={chapter*},list-name={\glossarytitlename},list-style=acronyms,extra-style=comma,extra-format={\emph}}
 
 
