@@ -62,10 +62,12 @@ esp_now_peer_info_t slave;
 #define PRINTSCANRESULTS 0
 
 // ESP write message
+#define DMX_BROADCASTING 1 // else: Unicast
+#define CHANNEL_TOTAL 1000
 #define DMX_FRAME_SIZE 200
 #define SEND_REPITITION 10
-#define DMX_BROADCASTING 1 // broadcast for DMX information
 #define WAIT_AFTER_SEND 3 // ms
+
 
 typedef struct struct_dmx_message {
   uint8_t broadcastID; // != 0
@@ -85,10 +87,14 @@ typedef struct struct_slave_information {
   uint8_t channelCount;
 } struct_slave_information;
 
+// Setup dmx broadcast messages
 struct_dmx_message dmxData1;
 struct_dmx_message dmxData2;
 struct_dmx_message dmxData3;
 struct_dmx_message dmxData4;
+struct_dmx_message dmxData5;
+struct_dmx_message broadcastArray[5];
+
 struct_dmx_meta dmxMeta;
 struct_slave_information slave_information;
 
@@ -98,27 +104,33 @@ int slaveoffsets[20];
 void sendDmxBroadcast() {
   if(VERBOSE) Serial.println("[Info] Init DMX Broadcasting");
 
-  if(DEBUG) { Serial.println("[OK] DMX Broadcast 2"); }
-  // dmxData2.broadcastID = 2;
-  esp_err_t broadcastResult2 = esp_now_send(broadcast_mac, (uint8_t *) &dmxData2, sizeof(dmxData2));
-  if(DEBUG) espNowStatus(broadcastResult2);
+  for (int j = 0; j < CHANNEL_TOTAL; j+=DMX_FRAME_SIZE) {
+    int i = j/DMX_FRAME_SIZE;
+    if(DEBUG) { 
+      Serial.print("[OK] DMX Broadcast "); 
+      Serial.println(broadcastArray[i].broadcastID); }
+    esp_err_t broadcastResult = esp_now_send(broadcast_mac, (uint8_t *) &broadcastArray[i], sizeof(broadcastArray[i]));
+    if(DEBUG) espNowStatus(broadcastResult);
+    delay(WAIT_AFTER_SEND); // No delay crashs the system
+  }
 
-  delay(WAIT_AFTER_SEND); // No delay crashs the system
-
-  if(DEBUG) { Serial.println("[OK] DMX Broadcast 1"); }
-  // dmxData3.broadcastID = 2;
-  esp_err_t broadcastResult3 = esp_now_send(broadcast_mac, (uint8_t *) &dmxData3, sizeof(dmxData3));
-  if(DEBUG) espNowStatus(broadcastResult3);
-  //delay(200);
-
-  delay(WAIT_AFTER_SEND); // No delay crashs the system
-
-  if(DEBUG) { Serial.println("[OK] DMX Broadcast 4"); }
-  // dmxData4.broadcastID = 2;
-  esp_err_t broadcastResult4 = esp_now_send(broadcast_mac, (uint8_t *) &dmxData4, sizeof(dmxData4));
-  if(DEBUG) espNowStatus(broadcastResult4);
-  
-  delay(WAIT_AFTER_SEND); // No delay crashs the system
+  // if(DEBUG) { Serial.println("[OK] DMX Broadcast 2"); }
+  // esp_err_t broadcastResult2 = esp_now_send(broadcast_mac, (uint8_t *) &dmxData2, sizeof(dmxData2));
+  // if(DEBUG) espNowStatus(broadcastResult2);
+// 
+  // delay(WAIT_AFTER_SEND); // No delay crashs the system
+// 
+  // if(DEBUG) { Serial.println("[OK] DMX Broadcast 3"); }
+  // esp_err_t broadcastResult3 = esp_now_send(broadcast_mac, (uint8_t *) &dmxData3, sizeof(dmxData3));
+  // if(DEBUG) espNowStatus(broadcastResult3);
+// 
+  // delay(WAIT_AFTER_SEND); // No delay crashs the system
+// 
+  // if(DEBUG) { Serial.println("[OK] DMX Broadcast 4"); }
+  // esp_err_t broadcastResult4 = esp_now_send(broadcast_mac, (uint8_t *) &dmxData4, sizeof(dmxData4));
+  // if(DEBUG) espNowStatus(broadcastResult4);
+  // 
+  // delay(WAIT_AFTER_SEND); // No delay crashs the system
 }
 
 // send meta Data to Slave with BroadcastID and Offset
@@ -156,12 +168,18 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
 
 void setup() {
   // Setup test data
-  for (int i=1; i < DMX_FRAME_SIZE +1; i++) { dmxData3.dmxFrame[i] = i; }
-  dmxData3.broadcastID = 1;
   for (int i=1; i < DMX_FRAME_SIZE +1; i++) { dmxData2.dmxFrame[i] = i; }
   dmxData2.broadcastID = 2;
-  for (int i=1; i < DMX_FRAME_SIZE +1; i++) { dmxData2.dmxFrame[i] = i; }
+  broadcastArray[0] = dmxData2;
+  for (int i=1; i < DMX_FRAME_SIZE +1; i++) { dmxData3.dmxFrame[i] = i; }
+  dmxData3.broadcastID = 3;
+  broadcastArray[1] = dmxData3;
+  for (int i=1; i < DMX_FRAME_SIZE +1; i++) { dmxData4.dmxFrame[i] = i; }
   dmxData4.broadcastID = 4;
+  broadcastArray[2] = dmxData4;
+  for (int i=1; i < DMX_FRAME_SIZE +1; i++) { dmxData5.dmxFrame[i] = i; }
+  dmxData5.broadcastID = 5;
+  broadcastArray[3] = dmxData5;
 
   // Setup Serial
   Serial.begin(115200);
