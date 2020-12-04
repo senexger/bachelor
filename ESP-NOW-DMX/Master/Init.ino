@@ -11,7 +11,7 @@ void InitESPNow() {
 
   // add broadcast peer
   peer_info.channel = CHANNEL;
-  memcpy(peer_info.peer_addr, broadcast_mac, 6);
+  memcpy(peer_info.peer_addr, BROADCAST_MAC, 6);
   peer_info.ifidx = ESP_IF_WIFI_STA;
   peer_info.encrypt = false;
   esp_err_t status = esp_now_add_peer(&peer_info);

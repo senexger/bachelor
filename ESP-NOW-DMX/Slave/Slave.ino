@@ -37,8 +37,8 @@
 #define DMX_FRAME_SIZE 200
 
 // Two level debug information
-#define DEBUG   0
-#define VERBOSE 0
+#define DEBUG   1
+#define VERBOSE 1
 
 #define CHANNELS_NEEDED 6
 
@@ -86,7 +86,7 @@ int thisBroadcastOffset;
 // Create a struct_slavePackage called slavePackage to send required channels
 struct_slave_requirements slaveRequirements;
 // create struct for the broadcast offsets and IDs
-struct_dmx_meta dmxMeta;
+struct_dmx_meta dmx_meta;
 bool isDmxMetaReceived = 0;
 
 // Init ESP Now with fallback
@@ -137,12 +137,12 @@ void setup() {
 
 // callback when data is recv from Master just printing incomming data
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
-  // memcpy(&dmxMeta, incommingData, sizeof(dmxMeta));
+  // memcpy(&dmx_meta, incommingData, sizeof(dmx_meta));
   memcpy(&dmxData, incommingData, sizeof(dmxData));
   
   // check if the package is a DMXData or DMXMeta package
   if (dmxData.broadcastID == 0) {
-    // memcpy(&dmxMeta, incommingData, sizeof(dmxMeta));
+    // memcpy(&dmx_meta, incommingData, sizeof(dmx_meta));
     if(DEBUG) {
       Serial.print("DmxBit: "); Serial.println(dmxData.broadcastID);
       Serial.print("ID    : "); Serial.println(dmxData.payload[0]);
@@ -235,8 +235,8 @@ void loop() {
   // Chill
 
   // Send message via ESP-NOW
-  if (!isDmxMetaReceived) { sendESPCast(MAC_ADDRESS); }
-  else { Serial.println("noMetaReceived"); }
+  if (!isDmxMetaReceived) sendESPCast(MAC_ADDRESS);
+  else Serial.println("noMetaReceived");
 
   // wait for incomming messages
   delay(1000);
