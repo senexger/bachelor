@@ -31,14 +31,20 @@
 
 #include <esp_now.h>
 #include <WiFi.h>
+#include <esp_timer.h>
 
 // TODO what defines Channel exactly Master Slave same channel?
 #define CHANNEL 1
 #define DMX_FRAME_SIZE 200
 
 // Two level debug information
-#define DEBUG   1
-#define VERBOSE 1
+#define DEBUG     0
+#define VERBOSE   0
+#define TIMESTAMP 1
+
+// timestamps
+unsigned long timestamp;
+unsigned long timediff;
 
 #define CHANNELS_NEEDED 6
 
@@ -54,6 +60,8 @@
 // Variable to store if sending data was successful
 String success;
 
+// Variables for sending and receiving
+bool isDmxMetaReceived = 0;
 uint8_t broadcastId;
 uint8_t offset;
 
@@ -87,7 +95,6 @@ int thisBroadcastOffset;
 struct_slave_requirements slaveRequirements;
 // create struct for the broadcast offsets and IDs
 struct_dmx_meta dmx_meta;
-bool isDmxMetaReceived = 0;
 
 // Init ESP Now with fallback
 void InitESPNow() {
@@ -140,7 +147,7 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
   // memcpy(&dmx_meta, incommingData, sizeof(dmx_meta));
   memcpy(&dmxData, incommingData, sizeof(dmxData));
   
-  // check if the package is a DMXData or DMXMeta package
+  // DMX META PACKAGE HANDLING
   if (dmxData.broadcastID == 0) {
     // memcpy(&dmx_meta, incommingData, sizeof(dmx_meta));
     if(DEBUG) {
@@ -148,21 +155,26 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
       Serial.print("ID    : "); Serial.println(dmxData.payload[0]);
       Serial.print("Offset: "); Serial.println(dmxData.payload[1]);
     }
+    // set broadcastId and payload offset
     broadcastId = dmxData.payload[0];
     offset = dmxData.payload[1];
     // meta data received, so dont aks for them anymore in the loop
     isDmxMetaReceived = 1;
+    Serial.println("ID IS ZERO!");
   }
-  // package containing DMX Data
-  else {
-    Serial.print("[Info] dmx broadcast ID: "); Serial.println(dmxData.broadcastID);
 
-    // magic number 20 should be data_len
-    bool signalBroken = false;
+  // DMX DATA PACKAGE HANDLING
+  else {
+    if (VERBOSE) {
+      Serial.print("dmxData.broadcastID=");Serial.println(dmxData.broadcastID);
+      Serial.print("dmxData.payload[0] =");Serial.println(dmxData.payload[0]);
+      Serial.print("dmxData.payload[1] =");Serial.println(dmxData.payload[1]);
+    }
 
     // check broadcast integrity
     // sub 1 becaus there is no broadcastID in payload
     // iterating through the payload
+    bool signalBroken = false;
     if (dmxData.broadcastID == broadcastId) {
       for (int i=1; i < data_len -1; i++) { 
         // just select needed channel
@@ -176,7 +188,6 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
         }
       }
     }
-
     if (signalBroken) {
       if(DEBUG) {
         Serial.print("[ERROR] Incomming Data broken: "); 
@@ -185,12 +196,16 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
       }
     }
     else {
-      if(1) { 
+      if(DEBUG) { 
         Serial.print("[OK] Rcvd: "); 
         Serial.print(data_len);
         Serial.println(" B");
+
+        // TODO: timestamp here...
       }
     }
+      getTimestamp();
+      setTimestamp();
   }
 }
 
@@ -234,9 +249,8 @@ void sendESPCast(uint8_t mac_address[6]) {
 void loop() {
   // Chill
 
-  // Send message via ESP-NOW
+  // Send message via ESP-NOW if MetaData wasn't received
   if (!isDmxMetaReceived) sendESPCast(MAC_ADDRESS);
-  else Serial.println("noMetaReceived");
 
   // wait for incomming messages
   delay(1000);
@@ -255,3 +269,16 @@ void loop() {
     // Serial.println("AP Config Success. Broadcasting with AP: " + String(SSID));
   // }
 // }
+
+// Timestamping
+void setTimestamp() {
+  timestamp = (unsigned long) (esp_timer_get_time() );
+  return;
+}
+unsigned long getTimestamp() {
+  timediff = (unsigned long) (esp_timer_get_time() ) - timestamp;
+  if (TIMESTAMP) {
+    Serial.print("[T] "); Serial.println(timediff);
+  }
+  return timediff;
+}

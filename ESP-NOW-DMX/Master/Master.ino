@@ -35,37 +35,38 @@
 #include <esp_timer.h>
 #include "MacList.h"
 
-#define VERBOSE 1
-#define DEBUG 1
+// print level
+#define VERBOSE   1
+#define DEBUG     1
 #define TIMESTAMP 1 // taking timestamps
-
-// timestamps
-unsigned long timestamp;
-unsigned long timediff;
-
-// TODO removeme
-String success;
-
-// peerlist information
-esp_now_peer_info_t peer_info;
-// Global copy of slave
-#define MAX_SLAVES 20
-esp_now_peer_info_t slaves[MAX_SLAVES] = {};
-uint8_t slaveArray[MAX_SLAVES][6];
-int slaveCnt = 10;
-
-// depricated
-esp_now_peer_info_t slave;
 
 #define CHANNEL 7
 #define PRINTSCANRESULTS 0
 
 // ESP write message
-#define DMX_BROADCASTING 1 // else: Unicast
-#define CHANNEL_TOTAL 1000
-#define DMX_FRAME_SIZE 200
-#define SEND_REPITITION 10
-#define WAIT_AFTER_SEND 3 // ms
+#define DMX_BROADCASTING  1   // else: Unicast
+#define CHANNEL_TOTAL     20  // total count of channels of all fixtures
+#define DMX_FRAME_SIZE    20  // Broadcast: Channel/Broadcast
+#define SEND_REPITITION   10  // Sending-Measuring Interval
+#define WAIT_AFTER_SEND   50  // delay between sendings - prevent errors?
+
+// Global copy of slave
+#define MAX_SLAVES 20
+
+// peerlist information
+esp_now_peer_info_t peer_info;
+
+// timestamps
+unsigned long timestamp;
+unsigned long timediff;
+
+// TODO remove
+String success;
+esp_now_peer_info_t slaves[MAX_SLAVES] = {};
+uint8_t slaveArray[MAX_SLAVES][6];
+int slaveCnt = 5;
+// depricated
+esp_now_peer_info_t slave;
 
 typedef struct struct_dmx_unicast {
   uint8_t mac[6]; // != 0
@@ -73,14 +74,14 @@ typedef struct struct_dmx_unicast {
 } struct_dmx_unicast;
 
 typedef struct struct_dmx_message {
-  uint8_t broadcastID; // != 0
+  uint8_t broadcastId; // != 0
   uint8_t dmxFrame[DMX_FRAME_SIZE];
 } struct_dmx_message;
 
 // gives the slave the information where to find his channel
 typedef struct struct_dmx_meta {
   uint8_t broadcastIdZero;
-  uint8_t broadcastID; // != 0
+  uint8_t broadcastId; // != 0
   uint8_t broadcastOffset;
   // MAC_Address for the node as check, maybe instead of 0 flag for BroadcastID
 } struct_dmx_meta;
@@ -125,7 +126,7 @@ void sendDmxBroadcast() {
     int i = j/DMX_FRAME_SIZE;
     if(DEBUG) { 
       Serial.print("[OK] DMX Broadcast "); 
-      Serial.println(broadcastArray[i].broadcastID); }
+      Serial.println(broadcastArray[i].broadcastId); }
     esp_err_t broadcastResult = esp_now_send(BROADCAST_MAC, (uint8_t *) &broadcastArray[i], sizeof(broadcastArray[i]));
     if(DEBUG) espNowStatus(broadcastResult);
     delay(WAIT_AFTER_SEND); // No delay crashs the system
@@ -136,11 +137,12 @@ void sendDmxBroadcast() {
 void sendESPUnicast() {
   // TODO: iterate over all MAC addresses und use sendUnicastToMac
   if(VERBOSE) Serial.println("[Info] Init DMX Unicasting");
-  for (int i = 0; i < slaveCnt; i++) {
+  for (int i = 0; i <= slaveCnt; i++) {
     if(VERBOSE) { Serial.print("Unicast: "); Serial.println(i); }
     esp_err_t broadcastResult = esp_now_send(unicastDataArray[i].mac, (uint8_t *) &unicastDataArray[i].dmxFrame, sizeof(unicastDataArray[i].dmxFrame));
     if(DEBUG) espNowStatus(broadcastResult);
     // sendUnicastStupid(unicastDataArray[i].mac, unicastDataArray[i].dmxFrame);
+    delay(WAIT_AFTER_SEND); // No delay crashs the system
   }
 }
 
@@ -184,18 +186,18 @@ void copyArray(uint8_t array[6], uint8_t copy[6]) {
 void setup() {
   // Setup test data
   // BROADCAST:
+  for (int i=1; i < DMX_FRAME_SIZE +1; i++) { broadcastData1.dmxFrame[i] = i; }
+  broadcastData1.broadcastId = 1;
+  broadcastArray[0] = broadcastData1;
   for (int i=1; i < DMX_FRAME_SIZE +1; i++) { broadcastData2.dmxFrame[i] = i; }
-  broadcastData2.broadcastID = 2;
-  broadcastArray[0] = broadcastData2;
+  broadcastData2.broadcastId = 2;
+  broadcastArray[1] = broadcastData2;
   for (int i=1; i < DMX_FRAME_SIZE +1; i++) { broadcastData3.dmxFrame[i] = i; }
-  broadcastData3.broadcastID = 3;
-  broadcastArray[1] = broadcastData3;
+  broadcastData3.broadcastId = 3;
+  broadcastArray[2] = broadcastData3;
   for (int i=1; i < DMX_FRAME_SIZE +1; i++) { broadcastData4.dmxFrame[i] = i; }
-  broadcastData4.broadcastID = 4;
-  broadcastArray[2] = broadcastData4;
-  for (int i=1; i < DMX_FRAME_SIZE +1; i++) { broadcastData5.dmxFrame[i] = i; }
-  broadcastData5.broadcastID = 5;
-  broadcastArray[3] = broadcastData5;
+  broadcastData4.broadcastId = 4;
+  broadcastArray[3] = broadcastData4;
   // UNICAST:
   for (int i=0; i<=MAX_SLAVES; i++) { unicastData1.dmxFrame[i] = i; }
   copyArray(unicastData1.mac, SLAVE_MAC_1);
@@ -243,11 +245,15 @@ void loop() {
   else { 
     if(TIMESTAMP) setTimestamp();
     // Send data to device
-      sendESPUnicast();
+      for (int r = 0; r < SEND_REPITITION; r++){
+        // send DMX broadcast to all peers
+        sendESPUnicast();
+      }
     }
     if(DEBUG) getTimestamp();
   // }
     // wait for shortly to run the logic again
+    delay(200);
 }
 
 // callback when data is recv from Slave
@@ -314,14 +320,15 @@ void onDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
   }
 
   // TODO: Get values from MACList!!!
-  dmx_meta.broadcastIdZero = 0;
-  dmx_meta.broadcastID     = 2; // no id because its the information channel
-  dmx_meta.broadcastOffset = 20;
+  dmx_meta.broadcastIdZero = 0;   // 0 means, that this boradcast contains just metainformation
+  dmx_meta.broadcastId     = 1;   // it's the Broadcast ID where the slave has to read the information
+  dmx_meta.broadcastOffset = 20;  // ... with this offset <-
 
   // send a massage back with the slave information
   if (DEBUG) {
-    Serial.println("[info] Send meta unicast back");
-    Serial.print("broadcastId:     "); Serial.println(dmx_meta.broadcastID);
+    Serial.println("[info] Send Broadcast information back (as unicast)");
+    Serial.print("broadcastIDZero: "); Serial.println(dmx_meta.broadcastIdZero);
+    Serial.print("broadcastId:     "); Serial.println(dmx_meta.broadcastId);
     Serial.print("broadcastoffset: "); Serial.println(dmx_meta.broadcastOffset);
   }
 

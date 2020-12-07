@@ -1,45 +1,39 @@
 #+TITLE: Bachelorarbeit ESP-Now as light protocol
 
-* DONE Broadcast
-Broadcasting just works fine. But I need a good solution, if I will transmit more than one universer at once.
-Now I will try to send Messages as Slave and receive as Master. So the Slave tells the Master how many bytes he needs (via unicast) and the Master talks back his position.
-After this I have to check, with a lot of nodes to transmit two universes. There has to be a checksum in the beginning.
-Maybe its more easy to send a part of the Mac of each fixture, and the number of used channels. There is to calculate the lost traffic.
-Optional: In the ideal case, the master splits all Broadcasts in same sized packages.
-* TODO Unicast
-* TODO [#1] Prof Zubow schreiben!
-
-* Roadmap
-
-- [ ] slave-master  : need offset, broadcastID; have lenght
-- [ ] master-slave  : send offset, broadcastID
-- [ ] master-broad  : send broadcast
-- [ ] slave         : write extracted input to serial
-
-So langsam muss es mal vorran gehen.
-
-Was ist als nächstes zu tun?
-
-** Ablauf:
-
-- Master sendet zwei broadcasts
+Ablauf:
 - Slave checkt nach integrity
 - slave-master  : need offset, broadcastID; have lenght
 - master-slave  : send offset, broadcastID
 - master-broad  : send broadcast
 - slave         : write extracted input to serial
 
-** Abarbeiten
-
+* DONE Broadcast
+Broadcasting just works fine. But I need a good solution, if I will transmit more than one universer at once.
+Now I will try to send Messages as Slave and receive as Master. So the Slave tells the Master how many bytes he needs (via unicast) and the Master talks back his position.
+After this I have to check, with a lot of nodes to transmit two universes. There has to be a checksum in the beginning.
+Maybe its more easy to send a part of the Mac of each fixture, and the number of used channels. There is to calculate the lost traffic.
+Optional: In the ideal case, the master splits all Broadcasts in same sized packages.
+- [X] Unicast
+- [X] Tolja schreiben!
+- [X] Unicast reparieren
+* DONE Konferenz mit Toja
+  + [X] Delay damit ESP nicht abraucht
+  + [X] Theorie Hybrid Wireles Mesh Protocol Metrik
+    - [X] geeignete Metrik?
+    - [X] wie Dauer messen? Im Slave oder Master, Ausgabe via Serial ok?
+    - [X] PER?
+    - [X] Bitte die Formeln für die resultierenden Fehlerraten auf der Applikationsebene herleiten und die Plots erzeugen.
+  + [X] bitrate - selber messen? keine Doku! ~1 Mbps
+    - erreichte rountrip rate: 0.6 ms, gut?
+* TODO ESP IDE Optimierunge:n
+- [ ] SDK macht wohl doch einen Unterschied!
+- [ ] Optimierung:
+  DISABLE BOTH Components => Wi-Fi => "WiFi AMPDU TX" & "WiFi AMPDU RX"
+  https://www.esp32.com/viewtopic.php?t=9965
+* TODO C Structs
 - [ ] structs sollten bei master und slave gleich aussehen.
   + also entweder den Slave korregieren, sodass er den anderen struct verwendet
   + ODER den Master auf den Slave struct herunterbrechen und hinnehmen, dass der Payload nicht so schön formatiert ist
-- [ ] Berechnen, wie lange die kommunikation dauern müsste
+* TODO maclist.h informationen besser einbinden
 - [ ] Get meta information from maclist.h
-- [ ] Multicast Berechnung durchführen
-- [ ] Unicast Berechnung durchführen
-- [ ] Grafen plotten
-  - [ ] unicast, alle nacheinander
-  - [ ] broadcast, zwei broadcasts hintereinander
-  - [ ] und?
-- [ ] den Prof kontaktieren!
+* TODO Präsentation vorbereiten [2020-12-14]

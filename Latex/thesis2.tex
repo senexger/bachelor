@@ -22,6 +22,7 @@
 
 \usepackage{tikz}
 \usepackage{pgfplots}
+\pgfplotsset{width=15cm,compat=1.9}
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
@@ -79,13 +80,15 @@
 \pagenumbering{arabic}
 
 %---------------------------------------------------------------------
-\section{Theorie}
+\section{Unicast vs Broadcast}
+
+Channelzahl pro Node = 20 (entspricht 20 Byte Payload). \\
 
 \begin{tikzpicture}
 \begin{axis}[
     title={Unicast vs. Multicast},
     xlabel={Channel},
-    ylabel={Time in us},
+    ylabel={Airtime in µs},
     xmin=0, xmax=600,
     ymin=0, ymax=10000,
     xtick={0,200,400,600},
@@ -100,32 +103,40 @@
     mark=square,
     ]
     coordinates {
-    ( 20  , 2997    )
-    ( 100 , 2997       )
-    ( 200 , 2997       )
-    ( 300 , 5997       )
-    ( 400 , 5997       )
-    ( 500 , 8997       )
-    ( 600 , 8997       )
+    ( 20  , 1327      )
+    ( 100 , 1327      )
+    ( 150 , 1327      )
+    ( 200 , 1327      )
+    ( 220 , 3199      )
+    ( 300 , 3199      )
+    ( 390 , 3199      )
+    ( 400 , 4596)
+    ( 430 , 4596)
+    ( 500 , 4596      )
+    ( 600 , 4596      )
     };
     \legend{Broadcast}
+
+\addplot[
+    color=red,
+    mark=square,
+    ]
+    coordinates {
+    ( 20  ,  997    )
+    ( 40 , 1500       )
+    ( 60 , 2100       )
+    ( 80 , 2790       )
+    ( 100 , 3206       )
+    ( 120 , 3942       )
+    ( 140 , 4310       )
+    ( 160 , 5141       )
+    ( 180 , 5813       )
+    ( 200 , 6400       )
+    ( 220 , 7100       )
+    ( 240 , 7727       )
+    };
+    \legend{Unicast}
 \end{axis}
 \end{tikzpicture}
 
-\newpage
-%--------------------------------------------------------------------
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Abschlie{\ss}end sind die Quellen von Bildern und Zitaten nicht zu vergessen.
-\begin{thebibliography}{}
-\newblock {\it Laborskript
-Messtechnik}
-\newblock TU Berlin, WS 2015/16, Prof. Dr.-Ing. Clemens Gühmann,
-Hauke Brunken, M. Sc.   
-\end{thebibliography}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%--------------------------------------------------------------------
-
-
-
-Fragen: Warum 1 Hz bei ADU1, Regression wie?
 \end{document}
