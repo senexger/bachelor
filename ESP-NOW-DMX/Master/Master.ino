@@ -36,22 +36,28 @@
 #include "MacList.h"
 
 // print level
-#define VERBOSE   1
-#define DEBUG     1
+#define VERBOSE   0
+#define DEBUG     0
 #define TIMESTAMP 1 // taking timestamps
 
 #define CHANNEL 7
 #define PRINTSCANRESULTS 0
 
 // ESP write message
-#define DMX_BROADCASTING  1   // else: Unicast
-#define CHANNEL_TOTAL     20  // total count of channels of all fixtures
-#define DMX_FRAME_SIZE    20  // Broadcast: Channel/Broadcast
-#define SEND_REPITITION   10  // Sending-Measuring Interval
-#define WAIT_AFTER_SEND   50  // delay between sendings - prevent errors?
+#define DMX_BROADCASTING      0   // else: Unicast
+#define CHANNEL_TOTAL         20  // total count of channels of all fixtures
+#define BROADCAST_FRAME_SIZE  20  // Broadcast: Channel/Broadcast
+#define SEND_REPITITION       10  // Sending-Measuring Interval
+#define WAIT_AFTER_SEND       3   // delay between sendings - prevent errors?
+#define WAIT_AFTER_REP_SEND   200 // delay between sendings - prevent errors?
 
 // Global copy of slave
 #define MAX_SLAVES 20
+esp_now_peer_info_t slaves[MAX_SLAVES] = {};
+uint8_t slaveArray[MAX_SLAVES][6];
+int slaveCount = 2;
+// depricated
+esp_now_peer_info_t slave;
 
 // peerlist information
 esp_now_peer_info_t peer_info;
@@ -62,11 +68,6 @@ unsigned long timediff;
 
 // TODO remove
 String success;
-esp_now_peer_info_t slaves[MAX_SLAVES] = {};
-uint8_t slaveArray[MAX_SLAVES][6];
-int slaveCnt = 5;
-// depricated
-esp_now_peer_info_t slave;
 
 typedef struct struct_dmx_unicast {
   uint8_t mac[6]; // != 0
@@ -75,7 +76,7 @@ typedef struct struct_dmx_unicast {
 
 typedef struct struct_dmx_message {
   uint8_t broadcastId; // != 0
-  uint8_t dmxFrame[DMX_FRAME_SIZE];
+  uint8_t dmxFrame[BROADCAST_FRAME_SIZE];
 } struct_dmx_message;
 
 // gives the slave the information where to find his channel
@@ -122,8 +123,8 @@ int slaveoffsets[20];
 void sendDmxBroadcast() {
   if(VERBOSE) Serial.println("[Info] Init DMX Broadcasting");
 
-  for (int j = 0; j < CHANNEL_TOTAL; j+=DMX_FRAME_SIZE) {
-    int i = j/DMX_FRAME_SIZE;
+  for (int j = 0; j < CHANNEL_TOTAL; j+=BROADCAST_FRAME_SIZE) {
+    int i = j/BROADCAST_FRAME_SIZE;
     if(DEBUG) { 
       Serial.print("[OK] DMX Broadcast "); 
       Serial.println(broadcastArray[i].broadcastId); }
@@ -137,8 +138,13 @@ void sendDmxBroadcast() {
 void sendESPUnicast() {
   // TODO: iterate over all MAC addresses und use sendUnicastToMac
   if(VERBOSE) Serial.println("[Info] Init DMX Unicasting");
-  for (int i = 0; i <= slaveCnt; i++) {
-    if(VERBOSE) { Serial.print("Unicast: "); Serial.println(i); }
+  for (int i = 0; i < slaveCount; i++) {
+    if(VERBOSE) { 
+      Serial.print("Unicast: "); Serial.println(i);
+      for (int j=0; j < 6; j++) {
+        Serial.print(unicastDataArray[i].mac[j]);Serial.print(":");
+      }
+    }
     esp_err_t broadcastResult = esp_now_send(unicastDataArray[i].mac, (uint8_t *) &unicastDataArray[i].dmxFrame, sizeof(unicastDataArray[i].dmxFrame));
     if(DEBUG) espNowStatus(broadcastResult);
     // sendUnicastStupid(unicastDataArray[i].mac, unicastDataArray[i].dmxFrame);
@@ -186,16 +192,16 @@ void copyArray(uint8_t array[6], uint8_t copy[6]) {
 void setup() {
   // Setup test data
   // BROADCAST:
-  for (int i=1; i < DMX_FRAME_SIZE +1; i++) { broadcastData1.dmxFrame[i] = i; }
+  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData1.dmxFrame[i] = i; }
   broadcastData1.broadcastId = 1;
   broadcastArray[0] = broadcastData1;
-  for (int i=1; i < DMX_FRAME_SIZE +1; i++) { broadcastData2.dmxFrame[i] = i; }
+  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData2.dmxFrame[i] = i; }
   broadcastData2.broadcastId = 2;
   broadcastArray[1] = broadcastData2;
-  for (int i=1; i < DMX_FRAME_SIZE +1; i++) { broadcastData3.dmxFrame[i] = i; }
+  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData3.dmxFrame[i] = i; }
   broadcastData3.broadcastId = 3;
   broadcastArray[2] = broadcastData3;
-  for (int i=1; i < DMX_FRAME_SIZE +1; i++) { broadcastData4.dmxFrame[i] = i; }
+  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData4.dmxFrame[i] = i; }
   broadcastData4.broadcastId = 4;
   broadcastArray[3] = broadcastData4;
   // UNICAST:
@@ -250,10 +256,10 @@ void loop() {
         sendESPUnicast();
       }
     }
-    if(DEBUG) getTimestamp();
+    if(TIMESTAMP) getTimestamp();
   // }
-    // wait for shortly to run the logic again
-    delay(200);
+    // wait for shortly to run the sending groups again
+    delay(WAIT_AFTER_REP_SEND);
 }
 
 // callback when data is recv from Slave

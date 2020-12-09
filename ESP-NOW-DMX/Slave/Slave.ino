@@ -68,7 +68,7 @@ uint8_t offset;
 // ++++ STUFF FOR RECEIVE ++++
 typedef struct struct_dmx_data {
   uint8_t broadcastID;
-  uint8_t payload[DMX_FRAME_SIZE];
+  uint8_t payload[BROADCAST_FRAME_SIZE];
 } struct_dmx_data;
 
 // gives the slave the information where to find his channel
@@ -251,6 +251,7 @@ void loop() {
 
   // Send message via ESP-NOW if MetaData wasn't received
   if (!isDmxMetaReceived) sendESPCast(MAC_ADDRESS);
+  else Serial.println("DMX Meta already received");
 
   // wait for incomming messages
   delay(1000);

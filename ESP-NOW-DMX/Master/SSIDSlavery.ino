@@ -3,7 +3,7 @@ void ScanForSlave() {
   int8_t scanResults = WiFi.scanNetworks();
   //reset slaves
   memset(slaves, 0, sizeof(slaves));
-  slaveCnt = 0;
+  slaveCount = 0;
   Serial.println("");
   if (scanResults == 0) {
     Serial.println("No WiFi devices in AP Mode found");
@@ -30,17 +30,17 @@ void ScanForSlave() {
 
         if ( 6 == sscanf(BSSIDstr.c_str(), "%x:%x:%x:%x:%x:%x",  &mac[0], &mac[1], &mac[2], &mac[3], &mac[4], &mac[5] ) ) {
           for (int ii = 0; ii < 6; ++ii ) {
-            slaves[slaveCnt].peer_addr[ii] = (uint8_t) mac[ii];
+            slaves[slaveCount].peer_addr[ii] = (uint8_t) mac[ii];
           }
         }
-        slaves[slaveCnt].channel = CHANNEL; // pick a channel
-        slaves[slaveCnt].encrypt = 0; // no encryption
-        slaveCnt++;
+        slaves[slaveCount].channel = CHANNEL; // pick a channel
+        slaves[slaveCount].encrypt = 0; // no encryption
+        slaveCount++;
       }
     }
   }
-  if (slaveCnt > 0) {
-    Serial.print(slaveCnt); Serial.println(" Slave(s) found, processing..");
+  if (slaveCount > 0) {
+    Serial.print(slaveCount); Serial.println(" Slave(s) found, processing..");
   } else {
     Serial.println("No Slave Found, trying again.");
   }
@@ -52,8 +52,8 @@ void ScanForSlave() {
 // Check if the slave is already paired with the master.
 // If not, pair the slave with master
 void manageSlave() {
-  if (slaveCnt > 0) {
-    for (int i = 0; i < slaveCnt; i++) {
+  if (slaveCount > 0) {
+    for (int i = 0; i < slaveCount; i++) {
       Serial.print("Processing: ");
       for (int ii = 0; ii < 6; ++ii ) {
         Serial.print((uint8_t) slaves[i].peer_addr[ii], HEX);

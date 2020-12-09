@@ -25,6 +25,7 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
     - [X] Bitte die Formeln für die resultierenden Fehlerraten auf der Applikationsebene herleiten und die Plots erzeugen.
   + [X] bitrate - selber messen? keine Doku! ~1 Mbps
     - erreichte rountrip rate: 0.6 ms, gut?
+* DONE Unicast reparieren
 * TODO ESP IDE Optimierunge:n
 - [ ] SDK macht wohl doch einen Unterschied!
 - [ ] Optimierung:
@@ -37,3 +38,5 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
 * TODO maclist.h informationen besser einbinden
 - [ ] Get meta information from maclist.h
 * TODO Präsentation vorbereiten [2020-12-14]
+* TODO Plotten: Latenz/Sendung und Latenz/Payload
+* TODO MAC in HEX printen
