@@ -35,7 +35,7 @@
 
 // TODO what defines Channel exactly Master Slave same channel?
 #define CHANNEL 1
-#define DMX_FRAME_SIZE 200
+#define BROADCAST_FRAME_SIZE 200
 
 // Two level debug information
 #define DEBUG     0
@@ -279,7 +279,8 @@ void setTimestamp() {
 unsigned long getTimestamp() {
   timediff = (unsigned long) (esp_timer_get_time() ) - timestamp;
   if (TIMESTAMP) {
-    Serial.print("[T] "); Serial.println(timediff);
+    // Serial.print("[T] "); 
+    Serial.println(timediff);
   }
   return timediff;
 }
