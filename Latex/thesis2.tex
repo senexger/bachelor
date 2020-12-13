@@ -1,4 +1,4 @@
- \documentclass[12 pt, a4paper, ngerman]{article}
+\documentclass[12 pt, a4paper, ngerman]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage{subfigure}
@@ -12,13 +12,18 @@
 %\usepackage{times}
 \usepackage{float}
 \usepackage{amsmath}
-\usepackage{amssymb}
+% \usepackage{amssymb}
 \usepackage{exscale}
 \usepackage{subfig} 					
 \usepackage{booktabs}
 \usepackage{ulem}
 \usepackage{color} 
 \usepackage{listings}
+
+% needed for plotting experiment
+\usepackage{pgfplots}       % <-- required in preamble
+\usepackage{SIunits}        % <-- required in preamble
+\pgfplotsset{compat=newest} % <-- optional in preamble
 
 \usepackage{tikz}
 \usepackage{pgfplots}
@@ -85,57 +90,84 @@
 Channelzahl pro Node = 20 (entspricht 20 Byte Payload). \\
 
 \begin{tikzpicture}
-\begin{axis}[
-    title={Unicast vs. Multicast},
-    xlabel={Channel},
-    ylabel={Airtime in µs},
-    xmin=0, xmax=600,
-    ymin=0, ymax=10000,
-    xtick={0,200,400,600},
-    ytick={0,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000},
-    legend pos=north west,
-    ymajorgrids=true,
-    grid style=dashed,
-]
+    \begin{axis}[
+        title={Unicast vs. Multicast},
+        xlabel={Channel},
+        ylabel={Airtime in µs},
+        xmin=0, xmax=600,
+        ymin=0, ymax=10000,
+        xtick={0,200,400,600},
+        ytick={0,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000},
+        legend pos=north west,
+        ymajorgrids=true,
+        grid style=dashed,
+    ]
 
+    \addplot[
+        color=blue,
+        mark=square,
+        ]
+        coordinates {
+        ( 20  , 1327      )
+        ( 100 , 1327      )
+        ( 150 , 1327      )
+        ( 200 , 1327      )
+        ( 220 , 3199      )
+        ( 300 , 3199      )
+        ( 390 , 3199      )
+        ( 400 , 4596)
+        ( 430 , 4596)
+        ( 500 , 4596      )
+        ( 600 , 4596      )
+        };
+        \legend{Broadcast}
+
+    \addplot[
+        color=red,
+        mark=square,
+        ]
+        coordinates {
+        ( 20  ,  997    )
+        ( 40 , 1500       )
+        ( 60 , 2100       )
+        ( 80 , 2790       )
+        ( 100 , 3206       )
+        ( 120 , 3942       )
+        ( 140 , 4310       )
+        ( 160 , 5141       )
+        ( 180 , 5813       )
+        ( 200 , 6400       )
+        ( 220 , 7100       )
+        ( 240 , 7727       )
+        };
+        \legend{Unicast}
+    \end{axis}
+\end{tikzpicture}
+
+
+\newpage
+\section{Unicast Abweichung}
+
+One slave sending 100 times \\
+
+\begin{tikzpicture}
+\begin{axis}[
+	xlabel=Repitition,
+	ylabel=Airtime (us),
+	title={Airtime over time},
+	grid=both,
+	minor grid style={gray!25},
+	major grid style={gray!25},
+	width=0.75\linewidth,
+	no marks]
 \addplot[
+    line width=1pt,
+    solid,
     color=blue,
     mark=square,
     ]
-    coordinates {
-    ( 20  , 1327      )
-    ( 100 , 1327      )
-    ( 150 , 1327      )
-    ( 200 , 1327      )
-    ( 220 , 3199      )
-    ( 300 , 3199      )
-    ( 390 , 3199      )
-    ( 400 , 4596)
-    ( 430 , 4596)
-    ( 500 , 4596      )
-    ( 600 , 4596      )
-    };
-    \legend{Broadcast}
-
-\addplot[
-    color=red,
-    mark=square,
-    ]
-    coordinates {
-    ( 20  ,  997    )
-    ( 40 , 1500       )
-    ( 60 , 2100       )
-    ( 80 , 2790       )
-    ( 100 , 3206       )
-    ( 120 , 3942       )
-    ( 140 , 4310       )
-    ( 160 , 5141       )
-    ( 180 , 5813       )
-    ( 200 , 6400       )
-    ( 220 , 7100       )
-    ( 240 , 7727       )
-    };
-    \legend{Unicast}
+	table[x=R,y=f,col sep=comma]{data/TimePerSendOver100.csv};
+\addlegendentry{Master-Slave Unicast};
 \end{axis}
 \end{tikzpicture}
 

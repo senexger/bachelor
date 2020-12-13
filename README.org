@@ -40,3 +40,6 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
 * TODO Präsentation vorbereiten [2020-12-14]
 * TODO Plotten: Latenz/Sendung und Latenz/Payload
 * TODO MAC in HEX printen
+* TODO DEBUG und VERBOSE sinnvoll trennen
+* DONE Airtime 100 times Unicast
+* TODO Airtime 100 times Broadcast
