@@ -251,7 +251,7 @@ void loop() {
 
   // Send message via ESP-NOW if MetaData wasn't received
   if (!isDmxMetaReceived) sendESPCast(MAC_ADDRESS);
-  else Serial.println("DMX Meta already received");
+  else if (DEBUG) Serial.println("DMX Meta already received");
 
   // wait for incomming messages
   delay(1000);

@@ -37,7 +37,7 @@
 
 // print level
 #define VERBOSE   0
-#define DEBUG     0
+#define DEBUG     1
 #define TIMESTAMP 1 // taking timestamps
 
 #define CHANNEL 7
@@ -47,15 +47,15 @@
 #define DMX_BROADCASTING      0   // else: Unicast
 #define CHANNEL_TOTAL         20  // total count of channels of all fixtures
 #define BROADCAST_FRAME_SIZE  20  // Broadcast: Channel/Broadcast
-#define SEND_REPITITION       10  // Sending-Measuring Interval
-#define WAIT_AFTER_SEND       3   // delay between sendings - prevent errors?
+#define SEND_REPITITION       101  // Sending-Measuring Interval
+#define WAIT_AFTER_SEND       0   // delay between sendings - prevent errors?
 #define WAIT_AFTER_REP_SEND   200 // delay between sendings - prevent errors?
 
 // Global copy of slave
 #define MAX_SLAVES 20
 esp_now_peer_info_t slaves[MAX_SLAVES] = {};
 uint8_t slaveArray[MAX_SLAVES][6];
-int slaveCount = 2;
+int slaveCount = 1;
 // depricated
 esp_now_peer_info_t slave;
 
