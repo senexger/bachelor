@@ -93,7 +93,7 @@ Channelzahl pro Node = 20 (entspricht 20 Byte Payload). \\
     \begin{axis}[
         title={Unicast vs. Multicast},
         xlabel={Channel},
-        ylabel={Airtime in µs},
+        ylabel={Latency in µs},
         xmin=0, xmax=600,
         ymin=0, ymax=10000,
         xtick={0,200,400,600},
@@ -108,17 +108,11 @@ Channelzahl pro Node = 20 (entspricht 20 Byte Payload). \\
         mark=square,
         ]
         coordinates {
-        ( 20  , 1327      )
-        ( 100 , 1327      )
-        ( 150 , 1327      )
-        ( 200 , 1327      )
-        ( 220 , 3199      )
-        ( 300 , 3199      )
-        ( 390 , 3199      )
-        ( 400 , 4596)
-        ( 430 , 4596)
-        ( 500 , 4596      )
-        ( 600 , 4596      )
+        ( 20  , 1189      )
+        ( 100 , 6258      )
+        ( 160 , 9845      )
+        ( 200 , 14499     )
+        ( 400 , 34113     )
         };
         \legend{Broadcast}
 
@@ -127,18 +121,24 @@ Channelzahl pro Node = 20 (entspricht 20 Byte Payload). \\
         mark=square,
         ]
         coordinates {
-        ( 20  ,  997    )
-        ( 40 , 1500       )
-        ( 60 , 2100       )
-        ( 80 , 2790       )
-        ( 100 , 3206       )
-        ( 120 , 3942       )
-        ( 140 , 4310       )
-        ( 160 , 5141       )
-        ( 180 , 5813       )
-        ( 200 , 6400       )
-        ( 220 , 7100       )
-        ( 240 , 7727       )
+        ( 20  , 847    )
+        ( 40  , 3981       )
+        ( 60  , 3981       )
+        ( 80  , 3981       )
+        ( 100 , 3981       )
+        ( 120 , 3981       )
+        ( 140 , 3981       )
+        ( 160 , 3981       )
+        ( 180 , 3981       )
+        ( 200 , 5311       )
+        ( 399 , 5311       )
+        ( 400 , 5311       )
+        ( 599 , 5311       )
+        ( 600 , 3551       )
+        ( 650 , 3551       )
+        ( 700 , 3551       )
+        ( 750 , 3551       )
+        ( 800 , 3551       )
         };
         \legend{Unicast}
     \end{axis}
@@ -148,7 +148,7 @@ Channelzahl pro Node = 20 (entspricht 20 Byte Payload). \\
 \newpage
 \section{Unicast Abweichung}
 
-One slave sending 100 times \\
+Master-Slave-Unicast airtime one Node \\
 
 \begin{tikzpicture}
 \begin{axis}[
@@ -166,8 +166,168 @@ One slave sending 100 times \\
     color=blue,
     mark=square,
     ]
-	table[x=R,y=f,col sep=comma]{data/TimePerSendOver100.csv};
+	table[x=R,y=u20c,col sep=comma]{data/TimePerSendOver100.csv};
 \addlegendentry{Master-Slave Unicast};
+\addplot[
+    line width=1pt,
+    solid,
+    color=red,
+    mark=square,
+    ]
+	table[x=R,y=b20c,col sep=comma]{data/TimePerSendOver100.csv};
+\addlegendentry{Master-Slave Broadcast};
+\end{axis}
+\end{tikzpicture}
+
+\newpage
+\section{Broadcast Abweichung}
+
+Master-Slave-Broadcast airtime one Node \\
+
+\begin{tikzpicture}
+\begin{axis}[
+	xlabel=Repitition,
+	ylabel=Airtime (us),
+	title={Airtime over time},
+	grid=both,
+	minor grid style={gray!25},
+	major grid style={gray!25},
+	width=0.75\linewidth,
+	no marks]
+\addplot[
+    line width=1pt,
+    solid,
+    color=red,
+    mark=square,
+    ]
+	table[x=R,y=b20c,col sep=comma]{data/TimePerSendOver100.csv};
+\addlegendentry{Master-Slave Broadcast};
+\end{axis}
+\end{tikzpicture}
+
+\newpage
+\section{Sending to multiple nodes}
+Master-Slave-Broadcast airtime one Node \\
+
+\begin{tikzpicture}
+\begin{axis}[
+	xlabel=Repitition,
+	ylabel=Airtime (us),
+	title={Airtime over time},
+	grid=both,
+	minor grid style={gray!25},
+	major grid style={gray!25},
+	width=0.75\linewidth,
+	no marks]
+\addplot[
+    line width=1pt,
+    solid,
+    color=red,
+    mark=square,
+    ]
+	table[x=R,y=u_c60n3,col sep=comma]{data/TimePerSendOver100.csv};
+\addlegendentry{Master-Slave Broadcast};
+\end{axis}
+\end{tikzpicture}
+
+\newpage
+\section{Unicast increasing Nodes}
+Master-Slave-Broadcast airtime one Node \\
+
+\begin{tikzpicture}
+\begin{axis}[
+	xlabel=Repitition,
+	ylabel=Latency (us),
+	title={Increasing Nodes over time},
+	grid=both,
+	minor grid style={gray!25},
+	major grid style={gray!25},
+	width=0.75\linewidth,
+	no marks]
+\addplot[
+    line width=1pt,
+    solid,
+    color=red,
+    mark=square,
+    ]
+	table[x=R,y=u_c60n3,col sep=comma]{data/TimePerSendOver100.csv};
+\addlegendentry{3 Nodes};
+\addplot[
+    line width=1pt,
+    solid,
+    color=blue,
+    mark=square,
+    ]
+	table[x=R,y=u_c80n4,col sep=comma]{data/TimePerSendOver100.csv};
+\addlegendentry{4 Nodes};
+\addplot[
+    line width=1pt,
+    solid,
+    color=green,
+    mark=square,
+    ]
+	table[x=R,y=u_c200n10,col sep=comma]{data/TimePerSendOver100.csv};
+\addlegendentry{10 Nodes};
+\addplot[
+    line width=1pt,
+    solid,
+    color=yellow,
+    mark=square,
+    ]
+	table[x=R,y=u_c400n20,col sep=comma]{data/TimePerSendOver100.csv};
+\addlegendentry{20 Nodes};
+\end{axis}
+\end{tikzpicture}
+
+
+
+
+\newpage
+\section{Broadcast increasing Nodes}
+Master-Slave-Broadcast airtime one Node \\
+
+\begin{tikzpicture}
+\begin{axis}[
+	xlabel=Repitition,
+	ylabel=Latency (us),
+	title={Increasing Nodes over time},
+	grid=both,
+	minor grid style={gray!25},
+	major grid style={gray!25},
+	width=0.75\linewidth,
+	no marks]
+\addplot[
+    line width=1pt,
+    solid,
+    color=red,
+    mark=square,
+    ]
+	table[x=R,y=b_c20n1,col sep=comma]{data/TimePerSendOver100.csv};
+\addlegendentry{1 Nodes};
+\addplot[
+    line width=1pt,
+    solid,
+    color=blue,
+    mark=square,
+    ]
+	table[x=R,y=b_c200n10,col sep=comma]{data/TimePerSendOver100.csv};
+\addlegendentry{10 Nodes};
+\addplot[
+    line width=1pt,
+    solid,
+    color=green,
+    mark=square,
+    ]
+	table[x=R,y=b_c400n20,col sep=comma]{data/TimePerSendOver100.csv};
+\addlegendentry{20 Nodes};
+\addplot[
+    line width=1pt,
+    solid,
+    color=black,
+    mark=square,
+    ]
+	table[x=R,y=b_c600n30,col sep=comma]{data/TimePerSendOver100.csv};
+\addlegendentry{30 Nodes};
 \end{axis}
 \end{tikzpicture}
 

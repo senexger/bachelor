@@ -1,5 +1,7 @@
 #+TITLE: Bachelorarbeit ESP-Now as light protocol
 
+[[file:/home/walther/Documents/org-mode/pinnwand.org][Pinnwand]
+
 Ablauf:
 - Slave checkt nach integrity
 - slave-master  : need offset, broadcastID; have lenght
@@ -26,20 +28,45 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
   + [X] bitrate - selber messen? keine Doku! ~1 Mbps
     - erreichte rountrip rate: 0.6 ms, gut?
 * DONE Unicast reparieren
-* TODO ESP IDE Optimierunge:n
+* TODO Code verschönern
+** TODO ESP IDE Optimierunge:n
 - [ ] SDK macht wohl doch einen Unterschied!
 - [ ] Optimierung:
   DISABLE BOTH Components => Wi-Fi => "WiFi AMPDU TX" & "WiFi AMPDU RX"
   https://www.esp32.com/viewtopic.php?t=9965
-* TODO C Structs
+** TODO C Structs
 - [ ] structs sollten bei master und slave gleich aussehen.
   + also entweder den Slave korregieren, sodass er den anderen struct verwendet
   + ODER den Master auf den Slave struct herunterbrechen und hinnehmen, dass der Payload nicht so schön formatiert ist
-* TODO maclist.h informationen besser einbinden
+** TODO maclist.h informationen besser einbinden
 - [ ] Get meta information from maclist.h
-* TODO Präsentation vorbereiten [2020-12-14]
-* TODO Plotten: Latenz/Sendung und Latenz/Payload
-* TODO MAC in HEX printen
-* TODO DEBUG und VERBOSE sinnvoll trennen
-* DONE Airtime 100 times Unicast
-* TODO Airtime 100 times Broadcast
+** TODO Plotten: Latenz/Sendung und Latenz/Payload
+** DONE Airtime 100 times Unicast
+** DONE Airtime 100 times Broadcast
+** TODO MAC in HEX printen
+** TODO DEBUG und VERBOSE sinnvoll trennen
+** TODO Feherlmeldung: TXQ_BLOCK=2000 bekämpfen
+* DONE Präsentation vorbereiten [2020-12-14]
+* DONE Tolja schreiben
+* TODO GPIO communication packet ackn (UART)
+- [X] I2C Bus Protocol
+  - just 1m distance
+  - 1Mbps!!
+  - Bus protocol...
+- [X] SPI
+  - Duplex?!
+  - 25Mbps!!!
+  - 4 wires.....
+  - 20cm distance...
+- [ ] UART
+  - 1 to 1
+  - asynchronous
+  - 2 wires
+  - just 20Kbps
+  - acknoledge!
+  - 15m distance!!!
+The ESP has three UART controllers UART0, UART1 and UART2) use UART1 or 2
+here is how to setup uart on the ESP32
+https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/uart.html
+* TODO Package loss fixen
+* TODO Telefonkonferenz [2021-11-01 14:00]

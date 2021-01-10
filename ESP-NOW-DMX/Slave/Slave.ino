@@ -38,8 +38,8 @@
 #define BROADCAST_FRAME_SIZE 200
 
 // Two level debug information
-#define DEBUG     0
-#define VERBOSE   0
+#define DEBUG     1
+#define VERBOSE   1
 #define TIMESTAMP 1
 
 // timestamps
@@ -175,7 +175,7 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
     // sub 1 becaus there is no broadcastID in payload
     // iterating through the payload
     bool signalBroken = false;
-    if (dmxData.broadcastID == broadcastId) {
+    if (VERBOSE && dmxData.broadcastID == broadcastId) {
       for (int i=1; i < data_len -1; i++) { 
         // just select needed channel
         if ((i >= offset) && (i < offset + CHANNELS_NEEDED)) {
@@ -259,7 +259,7 @@ void loop() {
 
 // config AP SSID
 // void configDeviceAP() {
-  // String Prefix = "Slave:";
+  // String Prefix = "Slave:"
   // String Mac = WiFi.macAddress();
   // String SSID = Prefix + Mac;
   // String Password = "123456789";

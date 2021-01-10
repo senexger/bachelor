@@ -31,30 +31,34 @@
 // TODO: Slave -> Fixture better naming
 
 #include <esp_now.h>
+#include <HardwareSerial.h>
 #include <WiFi.h>
 #include <esp_timer.h>
 #include "MacList.h"
 
 // print level
-#define VERBOSE   0
+#define VERBOSE   1
 #define DEBUG     1
-#define TIMESTAMP 1 // taking timestamps
+#define TIMESTAMP 0 // taking timestamps
 
 #define CHANNEL 7
 #define PRINTSCANRESULTS 0
 
+// #define SERIAL_BUFFER_SIZE 256
+
 // ESP write message
-#define DMX_BROADCASTING      0   // else: Unicast
-#define CHANNEL_TOTAL         20  // total count of channels of all fixtures
-#define BROADCAST_FRAME_SIZE  20  // Broadcast: Channel/Broadcast
-#define SEND_REPITITION       101  // Sending-Measuring Interval
-#define WAIT_AFTER_SEND       0   // delay between sendings - prevent errors?
-#define WAIT_AFTER_REP_SEND   200 // delay between sendings - prevent errors?
+#define DMX_BROADCASTING      1    // else: Unicast
+#define CHANNEL_TOTAL         600  // Broadcast: total count of channels of all fixtures
+#define BROADCAST_FRAME_SIZE  200  // Broadcast: Channel/Broadcast
+#define UNICAST_FRAME_SIZE    20   // Unicast: Channel/Unicast
+#define SEND_REPITITION       51   // Sending-Measuring Interval
+#define WAIT_AFTER_SEND       0    // delay between sendings - prevent errors?
+#define WAIT_AFTER_REP_SEND   1000 // delay between sendings - prevent errors?
 
 // Global copy of slave
-#define MAX_SLAVES 20
+#define MAX_SLAVES            20
 esp_now_peer_info_t slaves[MAX_SLAVES] = {};
-uint8_t slaveArray[MAX_SLAVES][6];
+uint8_t slaveArray[MAX_SLAVES][6]; // magic 6 - MAC has 6 byte
 int slaveCount = 1;
 // depricated
 esp_now_peer_info_t slave;
@@ -71,7 +75,7 @@ String success;
 
 typedef struct struct_dmx_unicast {
   uint8_t mac[6]; // != 0
-  uint8_t dmxFrame[20];
+  uint8_t dmxFrame[UNICAST_FRAME_SIZE];
 } struct_dmx_unicast;
 
 typedef struct struct_dmx_message {
@@ -145,8 +149,16 @@ void sendESPUnicast() {
         Serial.print(unicastDataArray[i].mac[j]);Serial.print(":");
       }
     }
-    esp_err_t broadcastResult = esp_now_send(unicastDataArray[i].mac, (uint8_t *) &unicastDataArray[i].dmxFrame, sizeof(unicastDataArray[i].dmxFrame));
-    if(DEBUG) espNowStatus(broadcastResult);
+    // if statement is JUST FOR TESTING! Faking to send to X nodes
+    if (i == 0) {
+      esp_err_t unicastResult = esp_now_send(unicastDataArray[i].mac, (uint8_t *) &unicastDataArray[i].dmxFrame, sizeof(unicastDataArray[i].dmxFrame));
+      if(DEBUG) espNowStatus(unicastResult);
+    }
+    else {
+      esp_err_t unicastResult = esp_now_send(unicastDataArray[1].mac, (uint8_t *) &unicastDataArray[i].dmxFrame, sizeof(unicastDataArray[i].dmxFrame));
+      if(DEBUG) espNowStatus(unicastResult);
+    }
+
     // sendUnicastStupid(unicastDataArray[i].mac, unicastDataArray[i].dmxFrame);
     delay(WAIT_AFTER_SEND); // No delay crashs the system
   }
@@ -191,33 +203,10 @@ void copyArray(uint8_t array[6], uint8_t copy[6]) {
 
 void setup() {
   // Setup test data
-  // BROADCAST:
-  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData1.dmxFrame[i] = i; }
-  broadcastData1.broadcastId = 1;
-  broadcastArray[0] = broadcastData1;
-  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData2.dmxFrame[i] = i; }
-  broadcastData2.broadcastId = 2;
-  broadcastArray[1] = broadcastData2;
-  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData3.dmxFrame[i] = i; }
-  broadcastData3.broadcastId = 3;
-  broadcastArray[2] = broadcastData3;
-  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData4.dmxFrame[i] = i; }
-  broadcastData4.broadcastId = 4;
-  broadcastArray[3] = broadcastData4;
-  // UNICAST:
-  for (int i=0; i<=MAX_SLAVES; i++) { unicastData1.dmxFrame[i] = i; }
-  copyArray(unicastData1.mac, SLAVE_MAC_1);
-  unicastData1.mac[6] = SLAVE_MAC_1[6];
-  unicastDataArray[0] = unicastData1;
-  for (int i=0; i<=MAX_SLAVES; i++) { unicastData2.dmxFrame[i] = i; }
-  copyArray(unicastData2.mac, SLAVE_MAC_2);
-  unicastDataArray[1] = unicastData2;
-  for (int i=0; i<=MAX_SLAVES; i++) { unicastData3.dmxFrame[i] = i; }
-  copyArray(unicastData3.mac, SLAVE_MAC_3);
-  unicastDataArray[2] = unicastData3;
-
+  createData();
   // Setup Serial
   Serial.begin(115200);
+  hSerial.begin(115200);
   Serial.println("ESP-Now Master");
 
   // Set device in STA mode to begin with
@@ -237,6 +226,7 @@ void setup() {
   // Once ESPNow is successfully Init, we will register for Send CB to
   // get the status of Trasnmitted packet
   if(DEBUG) esp_now_register_send_cb(onDataSent);
+  delay(1000);
 }
 
 void loop() {
