@@ -27,8 +27,8 @@ HardwareSerial &hSerial = Serial2; //can be Serial2 as well, just use proper pin
 
 void setup() 
 {
-  Serial.begin(115200);  //open serial via USB to PC on default port
-  hSerial.begin(115200); //open the other serial port
+  Serial.begin(115200);  // open serial via USB to PC on default port
+  hSerial.begin(115200); // open serial port to Slave TX2 RX2 GND
 }
 
 void loop() 

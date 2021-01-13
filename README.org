@@ -1,6 +1,6 @@
 #+TITLE: Bachelorarbeit ESP-Now as light protocol
 
-[[file:/home/walther/Documents/org-mode/pinnwand.org][Pinnwand]
+[[file:/home/walther/Documents/org-mode/pinnwand.org][Pinnwand]]
 
 Ablauf:
 - Slave checkt nach integrity
@@ -48,7 +48,7 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
 ** TODO Feherlmeldung: TXQ_BLOCK=2000 bekämpfen
 * DONE Präsentation vorbereiten [2020-12-14]
 * DONE Tolja schreiben
-* TODO GPIO communication packet ackn (UART)
+* DONE GPIO communication packet ackn (UART)
 - [X] I2C Bus Protocol
   - just 1m distance
   - 1Mbps!!
@@ -68,5 +68,6 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
 The ESP has three UART controllers UART0, UART1 and UART2) use UART1 or 2
 here is how to setup uart on the ESP32
 https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/uart.html
+* TODO Unicast reparieren
 * TODO Package loss fixen
 * TODO Telefonkonferenz [2021-11-01 14:00]

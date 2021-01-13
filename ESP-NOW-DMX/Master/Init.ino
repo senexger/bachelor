@@ -28,9 +28,7 @@ void setTimestamp() {
 }
 unsigned long getTimestamp() {
   timediff = (unsigned long) (esp_timer_get_time() ) - timestamp;
-  if (TIMESTAMP) {
-    Serial.print("[T] "); Serial.println(timediff);
-  }
+  Serial.print("[T] "); Serial.println(timediff);
   return timediff;
 }
 

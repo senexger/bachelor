@@ -32,15 +32,17 @@
 #include <esp_now.h>
 #include <WiFi.h>
 #include <esp_timer.h>
+#include <HardwareSerial.h>
 
 // TODO what defines Channel exactly Master Slave same channel?
 #define CHANNEL 1
 #define BROADCAST_FRAME_SIZE 200
 
-// Two level debug information
+// DEBUG and Measuring Flags
 #define DEBUG     1
 #define VERBOSE   1
-#define TIMESTAMP 1
+#define TIMESTAMP 0
+#define AIRTIME   1 // measuring airtime
 
 // timestamps
 unsigned long timestamp;
@@ -52,7 +54,7 @@ unsigned long timediff;
 #define IS_BROADCAST 0
 
 #if IS_BROADCAST
-  static uint8_t MAC_ADDRESS[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+  static uint8_t MAC_ADDRESS[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 #else 
   static uint8_t MAC_ADDRESS[] = {0xFC, 0xF5, 0xC4, 0x31, 0x9A, 0x44};
 #endif
@@ -64,6 +66,9 @@ String success;
 bool isDmxMetaReceived = 0;
 uint8_t broadcastId;
 uint8_t offset;
+
+// UART checking
+HardwareSerial &hSerial = Serial2; //can be Serial2 as well, just use proper pins
 
 // ++++ STUFF FOR RECEIVE ++++
 typedef struct struct_dmx_data {
@@ -126,6 +131,7 @@ void setup() {
   
   // Setup Serial
   Serial.begin(115200);
+  hSerial.begin(115200); // open Serial Port to the Master RX2 TX2 GND
   Serial.println("Slave Node here");
 
   //Set device in AP mode to begin with
@@ -144,6 +150,9 @@ void setup() {
 
 // callback when data is recv from Master just printing incomming data
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
+  if (AIRTIME) {
+    Serial2.print("!");
+  }
   // memcpy(&dmx_meta, incommingData, sizeof(dmx_meta));
   memcpy(&dmxData, incommingData, sizeof(dmxData));
   
@@ -224,8 +233,9 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
 void sendESPCast(uint8_t mac_address[6]) {
   if(VERBOSE && IS_BROADCAST) Serial.println("[Info] Begin BROADCAST");
   if(VERBOSE && !IS_BROADCAST) Serial.println("[Info] Begin UNICAST");
-  esp_err_t broadcastResult = 
-        esp_now_send(mac_address, (uint8_t *) &slaveRequirements, sizeof(slaveRequirements));
+  esp_err_t broadcastResult = esp_now_send(mac_address,
+                                          (uint8_t *) &slaveRequirements,
+                                          sizeof(slaveRequirements));
   if (broadcastResult == ESP_OK) {
     Serial.print("[OK] Send: ");
     Serial.print((int) sizeof(slaveRequirements));
