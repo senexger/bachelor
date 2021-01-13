@@ -44,14 +44,13 @@
 #define TIMESTAMP 0
 #define AIRTIME   1 // measuring airtime
 
+#define CHANNELS_NEEDED 6
+#define IS_BROADCAST 1
+
 // timestamps
 unsigned long timestamp;
 unsigned long timediff;
 
-#define CHANNELS_NEEDED 6
-
-// ++++ INIT STUFF FOR SLAVE - SENDING ++++
-#define IS_BROADCAST 0
 
 #if IS_BROADCAST
   static uint8_t MAC_ADDRESS[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
