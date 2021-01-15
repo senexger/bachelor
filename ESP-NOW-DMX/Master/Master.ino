@@ -174,7 +174,6 @@ void loop() {
   // Collecting timestamps
   if(TIMESTAMP || hSerial.available()) { // aka AIRTIME
     getTimestamp();
-    // Serial.println("I am here.");
     Serial.write(hSerial.read());Serial.println("");
   }
     

@@ -41,7 +41,7 @@
 #define MASTER_CHANNEL   7
 
 // MASTER CONSTANTS:
-#define DMX_BROADCASTING      1    // 1 = Broadcast, 0 = Unicast
+#define DMX_BROADCASTING      0    // 1 = Broadcast, 0 = Unicast
 #define CHANNEL_TOTAL         10   // Broadcast: total count of channels of all fixtures
 #define BROADCAST_FRAME_SIZE  10   // Broadcast: Channel/Broadcast
 #define UNICAST_FRAME_SIZE    20   // Unicast: Channel/Unicast

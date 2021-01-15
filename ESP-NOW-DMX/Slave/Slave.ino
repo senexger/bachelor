@@ -45,7 +45,7 @@
 #define AIRTIME   1 // measuring airtime
 
 #define CHANNELS_NEEDED 6
-#define IS_BROADCAST 1
+#define IS_BROADCAST 0
 
 // timestamps
 unsigned long timestamp;

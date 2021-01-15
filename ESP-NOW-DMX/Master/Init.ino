@@ -71,3 +71,19 @@ void espNowStatus(esp_err_t result) {
     Serial.println("[ERROR] Not sure what happened");
   }
 }
+
+void addNodeToPeerlist(const uint8_t *mac_addr) {
+  // add peer to send the slave information
+  bool exists = esp_now_is_peer_exist(mac_addr);
+  if (!exists) {
+    memcpy(peer_info.peer_addr, mac_addr, 6);
+    esp_err_t status = esp_now_add_peer(&peer_info);
+    if (ESP_OK != status && DEBUG) {
+      Serial.println("[ERROR] Could not add peer"); }
+    else { 
+      if(DEBUG) Serial.println("[OK] Slave-peer added"); }
+  }
+  else {
+    if(DEBUG) Serial.println("[Warning] peer still exists");
+  }
+}

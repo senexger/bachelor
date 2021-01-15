@@ -94,7 +94,7 @@ void onDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, 
   }
 
   // add node to the peerlist, for transmitting a single unicast package
-  selectNodeForUnicast(mac_addr);
+  addNodeToPeerlist(mac_addr);
 
   // TODO: Get values from MACList!!!
   dmx_meta.broadcastIdZero = 0;   // 0 -> boradcast contains just metainformation

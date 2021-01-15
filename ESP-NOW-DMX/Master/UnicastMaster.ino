@@ -62,13 +62,13 @@ void sendESPUnicast() {
 
 // Split function to BroadcastMAster and UnicastMaster
 // callback when data is recv from Slave
+// /* NEEDED FOR SLAVE?!
 void onDataRecvUnicast(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
   memcpy(&slave_information, incommingData, sizeof(slave_information));
   if(DEBUG) { 
     Serial.print("[OK] received from "); 
     // print mac
-    for (int i = 0; i < 6; i++)
-    {
+    for (int i = 0; i < 6; i++) {
       Serial.printf("%02X", mac_addr[i]);
       if (i < 5)Serial.print(":");
     }
@@ -78,36 +78,5 @@ void onDataRecvUnicast(const uint8_t *mac_addr, const uint8_t *incommingData, in
   }
 
   // add peer to send the slave information
-  bool exists = esp_now_is_peer_exist(mac_addr);
-  if (!exists) {
-    memcpy(peer_info.peer_addr, mac_addr, 6);
-    esp_err_t status = esp_now_add_peer(&peer_info);
-    if (ESP_OK != status && DEBUG) {
-      Serial.println("[ERROR] Could not add peer"); }
-    else { 
-      if(DEBUG) Serial.println("[OK] Slave-peer added"); }
-  }
-  else {
-    if(DEBUG) Serial.println("[Warning] peer still exists");
-  }
-
-  // TODO: Get values from MACList!!!
-  dmx_meta.broadcastIdZero = 0;   // 0 means, that this boradcast contains just metainformation
-  dmx_meta.broadcastId     = 1;   // where the slave has to read the information
-  dmx_meta.broadcastOffset = 20;  // ... with this offset <-
-
-  // send a massage back with the slave information
-  if (DEBUG) {
-    Serial.println("[info] Send Broadcast information back (as unicast)");
-    Serial.print("broadcastIDZero: "); Serial.println(dmx_meta.broadcastIdZero);
-    Serial.print("broadcastId:     "); Serial.println(dmx_meta.broadcastId);
-    Serial.print("broadcastoffset: "); Serial.println(dmx_meta.broadcastOffset);
-  }
-
-  sendUnicastBackToSlave(mac_addr, dmx_meta);
-
-  // remove slave (needed?!) - not for DMX-Unicast!
-  // esp_err_t status2 = esp_now_del_peer(&peer_info);
-  // if (ESP_OK != status2) { Serial.println("Could not remove peer"); }
-  // else { Serial.println("Slave-peer removed successfully"); }
+  addNodeToPeerlist(mac_addr);
 }
