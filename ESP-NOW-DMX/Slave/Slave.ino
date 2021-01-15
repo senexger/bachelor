@@ -148,6 +148,7 @@ void setup() {
 }
 
 // callback when data is recv from Master just printing incomming data
+// TODO devide in Broadcast & Unicast
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
   if (AIRTIME) {
     Serial2.print("!");
@@ -217,20 +218,9 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
   }
 }
 
-// Callback when data is sent - Slave
-void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
-  // Serial.println("Last Packet Send Status");
-  if (status != ESP_NOW_SEND_SUCCESS) {
-    Serial.println("[ERROR] Delivery Fail");
-  }
-  else {
-    Serial.println("[OK] Send Ack");
-  }
-}
-
 // copied from master
 void sendESPCast(uint8_t mac_address[6]) {
-  if(VERBOSE && IS_BROADCAST) Serial.println("[Info] Begin BROADCAST");
+  if(VERBOSE && IS_BROADCAST)  Serial.println("[Info] Begin BROADCAST");
   if(VERBOSE && !IS_BROADCAST) Serial.println("[Info] Begin UNICAST");
   esp_err_t broadcastResult = esp_now_send(mac_address,
                                           (uint8_t *) &slaveRequirements,
@@ -255,12 +245,25 @@ void sendESPCast(uint8_t mac_address[6]) {
   }
 }
 
+// Callback when data is sent - Slave
+void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+  // Serial.println("Last Packet Send Status");
+  if (status != ESP_NOW_SEND_SUCCESS) {
+    Serial.println("[ERROR] Delivery Fail");
+  }
+  else {
+    Serial.println("[OK] Send Ack");
+  }
+}
+
 void loop() {
   // Chill
 
   // Send message via ESP-NOW if MetaData wasn't received
-  if (!isDmxMetaReceived) sendESPCast(MAC_ADDRESS);
-  else if (DEBUG) Serial.println("DMX Meta already received");
+  if (!isDmxMetaReceived) 
+    sendESPCast(MAC_ADDRESS);
+  else if (DEBUG) 
+    Serial.println("DMX Meta already received");
 
   // wait for incomming messages
   delay(1000);
@@ -287,9 +290,6 @@ void setTimestamp() {
 }
 unsigned long getTimestamp() {
   timediff = (unsigned long) (esp_timer_get_time() ) - timestamp;
-  if (TIMESTAMP) {
-    // Serial.print("[T] "); 
-    Serial.println(timediff);
-  }
+  Serial.println(timediff);
   return timediff;
 }

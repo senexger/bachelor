@@ -22,7 +22,7 @@ void setupBroadcast() {
 
   InitESPTimer();
 
-  esp_now_register_recv_cb(onDataRecv);
+  esp_now_register_recv_cb(onDataRecvBroadcast);
 }
 
 // void loopBroadcast() {
@@ -30,7 +30,7 @@ void setupBroadcast() {
 // }
 
 // send meta Data to Slave with BroadcastID and Offset
-void sendUnicastToMac(const uint8_t *peer_addr, struct_dmx_meta metaData) {
+void sendUnicastBackToSlave(const uint8_t *peer_addr, struct_dmx_meta metaData) {
   if(VERBOSE) {
     Serial.print("[Info] Send DMX Information ");
     Serial.print((int) sizeof(metaData));
@@ -42,6 +42,21 @@ void sendUnicastToMac(const uint8_t *peer_addr, struct_dmx_meta metaData) {
   if(DEBUG) espNowStatus(unicastResult);
 }
 
+void selectNodeForUnicast(const uint8_t *mac_addr) {
+  // add peer to send the slave information
+  bool exists = esp_now_is_peer_exist(mac_addr);
+  if (!exists) {
+    memcpy(peer_info.peer_addr, mac_addr, 6);
+    esp_err_t status = esp_now_add_peer(&peer_info);
+    if (ESP_OK != status && DEBUG) {
+      Serial.println("[ERROR] Could not add peer"); }
+    else { 
+      if(DEBUG) Serial.println("[OK] Slave-peer added"); }
+  }
+  else {
+    if(DEBUG) Serial.println("[Warning] peer still exists");
+  }
+}
 
 void sendDmxBroadcast() {
   if(VERBOSE) Serial.println("[Info] Init DMX Broadcasting");
@@ -60,10 +75,11 @@ void sendDmxBroadcast() {
   }
 }
 
-// TODO what is for broadcast what is needed for unicast
+// Split function to BroadcastMAster and UnicastMaster
 // callback when data is recv from Slave
-void onDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
+void onDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
   memcpy(&slave_information, incommingData, sizeof(slave_information));
+  // Print information of the incomming package
   if(DEBUG) { 
     Serial.print("[OK] received from "); 
     // print mac
@@ -77,24 +93,13 @@ void onDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
     Serial.println(" Channel)");
   }
 
-  // add peer to send the slave information
-  bool exists = esp_now_is_peer_exist(mac_addr);
-  if (!exists) {
-    memcpy(peer_info.peer_addr, mac_addr, 6);
-    esp_err_t status = esp_now_add_peer(&peer_info);
-    if (ESP_OK != status && DEBUG) {
-      Serial.println("[ERROR] Could not add peer"); }
-    else { 
-      if(DEBUG) Serial.println("[OK] Slave-peer added"); }
-  }
-  else {
-    if(DEBUG) Serial.println("[Warning] peer still exists");
-  }
+  // add node to the peerlist, for transmitting a single unicast package
+  selectNodeForUnicast(mac_addr);
 
   // TODO: Get values from MACList!!!
-  dmx_meta.broadcastIdZero = 0;   // 0 means, that this boradcast contains just metainformation
+  dmx_meta.broadcastIdZero = 0;   // 0 -> boradcast contains just metainformation
   dmx_meta.broadcastId     = 1;   // where the slave has to read the information
-  dmx_meta.broadcastOffset = 20;  // ... with this offset <-
+  dmx_meta.broadcastOffset = 20;  // offset within the broadcast
 
   // send a massage back with the slave information
   if (DEBUG) {
@@ -104,7 +109,8 @@ void onDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
     Serial.print("broadcastoffset: "); Serial.println(dmx_meta.broadcastOffset);
   }
 
-  sendUnicastToMac(mac_addr, dmx_meta);
+  // send message
+  sendUnicastBackToSlave(mac_addr, dmx_meta);
 
   // remove slave (needed?!) - not for DMX-Unicast!
   // esp_err_t status2 = esp_now_del_peer(&peer_info);

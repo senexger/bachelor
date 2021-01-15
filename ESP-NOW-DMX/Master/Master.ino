@@ -56,17 +56,14 @@ String success;
 // init HardwareSerial
 HardwareSerial &hSerial = Serial2; //can be Serial2 as well, just use proper pins
 
-typedef struct struct_dmx_unicast {
-  uint8_t mac[6]; // != 0
-  uint8_t dmxFrame[UNICAST_FRAME_SIZE];
-} struct_dmx_unicast;
-
+// ++ SENDING MESSAGES
+// Master-Slave DMX information BROADCAST
 typedef struct struct_dmx_message {
   uint8_t broadcastId; // != 0
   uint8_t dmxFrame[BROADCAST_FRAME_SIZE];
 } struct_dmx_message;
 
-// gives the slave the information where to find his channel
+// Master-Slave Broadcast Meta Information
 typedef struct struct_dmx_meta {
   uint8_t broadcastIdZero;
   uint8_t broadcastId; // != 0
@@ -79,10 +76,18 @@ typedef struct struct_slave_information {
   uint8_t channelCount;
 } struct_slave_information;
 
+typedef struct struct_dmx_unicast {
+  uint8_t mac[6]; // != 0
+  uint8_t dmxFrame[UNICAST_FRAME_SIZE];
+} struct_dmx_unicast;
 
-// Init metadata
-struct_dmx_meta dmx_meta;
-struct_slave_information slave_information;
+// Setup dmx broadcast messages
+struct_dmx_message broadcastData1;
+struct_dmx_message broadcastData2;
+struct_dmx_message broadcastData3;
+struct_dmx_message broadcastData4;
+struct_dmx_message broadcastData5;
+struct_dmx_message broadcastArray[5];
 
 // Setup dmx unicast messages
 struct_dmx_unicast unicastData1;
@@ -96,13 +101,9 @@ struct_dmx_unicast unicastData8;
 struct_dmx_unicast unicastData9;
 struct_dmx_unicast unicastDataArray[9];
 
-// Setup dmx broadcast messages
-struct_dmx_message broadcastData1;
-struct_dmx_message broadcastData2;
-struct_dmx_message broadcastData3;
-struct_dmx_message broadcastData4;
-struct_dmx_message broadcastData5;
-struct_dmx_message broadcastArray[5];
+// Init metadata
+struct_dmx_meta dmx_meta;
+struct_slave_information slave_information;
 
 int broadcastID;
 int slaveoffsets[20];
@@ -114,12 +115,6 @@ void onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   }
   else {
     // Serial.println("[OK] Rcvd: Ack");
-  }
-}
-
-void copyArray(uint8_t array[6], uint8_t copy[6]) {
-  for (int i=0; i <= 6; i++) {
-    array[i] = copy[i];
   }
 }
 
