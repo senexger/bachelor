@@ -1,0 +1,54 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"workbench.colorCustomizations": {
+			"activityBar.activeBackground": "#2b768b",
+			"activityBar.activeBorder": "#611e53",
+			"activityBar.background": "#2b768b",
+			"activityBar.foreground": "#e7e7e7",
+			"activityBar.inactiveForeground": "#e7e7e799",
+			"activityBarBadge.background": "#611e53",
+			"activityBarBadge.foreground": "#e7e7e7",
+			"statusBar.background": "#1f5564",
+			"statusBar.foreground": "#e7e7e7",
+			"statusBarItem.hoverBackground": "#2b768b",
+			"titleBar.activeBackground": "#1f5564",
+			"titleBar.activeForeground": "#e7e7e7",
+			"titleBar.inactiveBackground": "#1f556499",
+			"titleBar.inactiveForeground": "#e7e7e799"
+		},
+		"peacock.color": "#1f5564",
+		"files.associations": {
+			"array": "cpp",
+			"*.tcc": "cpp",
+			"string": "cpp",
+			"unordered_map": "cpp",
+			"unordered_set": "cpp",
+			"memory": "cpp",
+			"optional": "cpp",
+			"string_view": "cpp",
+			"fstream": "cpp",
+			"future": "cpp",
+			"istream": "cpp",
+			"ostream": "cpp",
+			"vector": "cpp",
+			"sstream": "cpp",
+			"streambuf": "cpp",
+			"thread": "cpp",
+			"functional": "cpp",
+			"tuple": "cpp",
+			"variant": "cpp",
+			"*.ipp": "cpp",
+			"*.inc": "cpp",
+			"bitset": "cpp",
+			"complex": "cpp",
+			"limits": "cpp",
+			"type_traits": "cpp"
+		},
+		"explorer.sortOrder": "filesFirst"
+	}
+}
