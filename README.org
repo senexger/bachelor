@@ -28,7 +28,7 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
   + [X] bitrate - selber messen? keine Doku! ~1 Mbps
     - erreichte rountrip rate: 0.6 ms, gut?
 * DONE Unicast reparieren
-* TODO Code verschönern
+* TODO Code verschönern [33%]
 ** TODO ESP IDE Optimierunge:n
 - [ ] SDK macht wohl doch einen Unterschied!
 - [ ] Optimierung:
@@ -45,7 +45,7 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
 ** DONE Airtime 100 times Broadcast
 ** TODO MAC in HEX printen
 ** TODO DEBUG und VERBOSE sinnvoll trennen
-** TODO Feherlmeldung: TXQ_BLOCK=2000 bekämpfen
+** DONE Feherlmeldung: TXQ_BLOCK=2000 bekämpfen
 * DONE Präsentation vorbereiten [2020-12-14]
 * DONE Tolja schreiben
 * DONE GPIO communication packet ackn (UART)
@@ -71,3 +71,4 @@ https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/periph
 * TODO Unicast reparieren
 * TODO Package loss fixen
 * TODO Telefonkonferenz [2021-11-01 14:00]
+* TODO variablen.h anlegen

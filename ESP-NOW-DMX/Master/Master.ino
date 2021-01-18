@@ -40,16 +40,6 @@ esp_now_peer_info_t slaves[MAX_SLAVES] = {};
 uint8_t slaveArray[MAX_SLAVES][6]; // magic 6 - MAC has 6 byte
 int slaveCount = 1;
 
-// depricated
-// esp_now_peer_info_t slave;
-
-// peerlist information
-esp_now_peer_info_t peer_info;
-
-// timestamps
-unsigned long timestamp;
-unsigned long timediff;
-
 // TODO remove
 String success;
 
@@ -81,26 +71,6 @@ typedef struct struct_dmx_unicast {
   uint8_t dmxFrame[UNICAST_FRAME_SIZE];
 } struct_dmx_unicast;
 
-// Setup dmx broadcast messages
-struct_dmx_message broadcastData1;
-struct_dmx_message broadcastData2;
-struct_dmx_message broadcastData3;
-struct_dmx_message broadcastData4;
-struct_dmx_message broadcastData5;
-struct_dmx_message broadcastArray[5];
-
-// Setup dmx unicast messages
-struct_dmx_unicast unicastData1;
-struct_dmx_unicast unicastData2;
-struct_dmx_unicast unicastData3;
-struct_dmx_unicast unicastData4;
-struct_dmx_unicast unicastData5;
-struct_dmx_unicast unicastData6;
-struct_dmx_unicast unicastData7;
-struct_dmx_unicast unicastData8;
-struct_dmx_unicast unicastData9;
-struct_dmx_unicast unicastDataArray[9];
-
 // Init metadata
 struct_dmx_meta dmx_meta;
 struct_slave_information slave_information;
@@ -119,13 +89,6 @@ void onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
 }
 
 void setup() {
-  // Setup test data
-  // createData();
-  if (DMX_BROADCASTING)
-    setupBroadcast();
-  else 
-    setupUnicast();
-
   // Setup Serial
   Serial.begin(115200);
   hSerial.begin(115200);
@@ -133,13 +96,11 @@ void setup() {
   Serial.println("Master");
   // TODO also print Constants like ISBROADCAST, CHANNEL_TOTAL...
 
-  // TODO SetupSlave
-  // Set device in STA mode to begin with
-  // WiFi.mode(WIFI_STA);
-  // Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
+  if (DMX_BROADCASTING)
+    setupBroadcast();
+  else 
+    setupUnicast();
 
-  // Init ESPNow with a fallback logic
-  // InitESPNow();
 
   // Init ESPTimer with a fallback logic
   InitESPTimer();

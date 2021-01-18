@@ -1,5 +1,13 @@
 /* all broadcast spesific functions */
 
+// Setup dmx broadcast messages
+struct_dmx_message broadcastData1;
+struct_dmx_message broadcastData2;
+struct_dmx_message broadcastData3;
+struct_dmx_message broadcastData4;
+struct_dmx_message broadcastData5;
+struct_dmx_message broadcastArray[5];
+
 void setupBroadcast() {
   // BROADCAST:
   for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData1.dmxFrame[i] = i; }
@@ -42,21 +50,22 @@ void sendUnicastBackToSlave(const uint8_t *peer_addr, struct_dmx_meta metaData) 
   if(DEBUG) espNowStatus(unicastResult);
 }
 
-void selectNodeForUnicast(const uint8_t *mac_addr) {
-  // add peer to send the slave information
-  bool exists = esp_now_is_peer_exist(mac_addr);
-  if (!exists) {
-    memcpy(peer_info.peer_addr, mac_addr, 6);
-    esp_err_t status = esp_now_add_peer(&peer_info);
-    if (ESP_OK != status && DEBUG) {
-      Serial.println("[ERROR] Could not add peer"); }
-    else { 
-      if(DEBUG) Serial.println("[OK] Slave-peer added"); }
-  }
-  else {
-    if(DEBUG) Serial.println("[Warning] peer still exists");
-  }
-}
+// TODO: depricated - now addNodeToPeer in utils.ino
+// void selectNodeForUnicast(const uint8_t *mac_addr) {
+//   // add peer to send the slave information
+//   bool exists = esp_now_is_peer_exist(mac_addr);
+//   if (!exists) {
+//     memcpy(peer_info.peer_addr, mac_addr, 6);
+//     esp_err_t status = esp_now_add_peer(&peer_info);
+//     if (ESP_OK != status && DEBUG) {
+//       Serial.println("[ERROR] Could not add peer"); }
+//     else { 
+//       if(DEBUG) Serial.println("[OK] Slave-peer added"); }
+//   }
+//   else {
+//     if(DEBUG) Serial.println("[Warning] peer still exists");
+//   }
+// }
 
 void sendDmxBroadcast() {
   if(VERBOSE) Serial.println("[Info] Init DMX Broadcasting");

@@ -1,5 +1,18 @@
 /* All unicast specific functions */
 
+// Setup dmx unicast messages
+struct_dmx_unicast unicastData1;
+struct_dmx_unicast unicastData2;
+struct_dmx_unicast unicastData3;
+struct_dmx_unicast unicastData4;
+struct_dmx_unicast unicastData5;
+struct_dmx_unicast unicastData6;
+struct_dmx_unicast unicastData7;
+struct_dmx_unicast unicastData8;
+struct_dmx_unicast unicastData9;
+struct_dmx_unicast unicastDataArray[9];
+
+
 void setupUnicast() {
   // Create Data
   for (int i=0; i<=MAX_SLAVES; i++) { unicastData1.dmxFrame[i] = i; }

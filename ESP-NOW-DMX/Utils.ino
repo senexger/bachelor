@@ -1,3 +1,40 @@
+#include <esp_now.h>
+#include <WiFi.h>
+
+// depricated
+// esp_now_peer_info_t slave;
+
+// peerlist information
+esp_now_peer_info_t peer_info;
+
+// peerlist information
+void addNodeToPeerlist(const uint8_t *mac_addr) {
+  // add peer to send the slave information
+  bool exists = esp_now_is_peer_exist(mac_addr);
+  if (!exists) {
+    memcpy(peer_info.peer_addr, mac_addr, 6);
+    esp_err_t status = esp_now_add_peer(&peer_info);
+    if (ESP_OK != status && DEBUG) {
+      Serial.println("[ERROR] Could not add peer"); }
+    else { 
+      if(DEBUG) Serial.println("[OK] Slave-peer added"); }
+  }
+  else {
+    if(DEBUG) Serial.println("[Warning] peer still exists");
+  }
+}
+
+// merge with addNodeToPeerlist
+void addPeer (uint8_t mac_address[6]) {
+  esp_now_peer_info_t peer_info;
+  peer_info.channel = SLAVE_CHANNEL;
+  memcpy(peer_info.peer_addr, mac_address, 6);
+  peer_info.ifidx = ESP_IF_WIFI_STA;
+  peer_info.encrypt = false;
+  esp_err_t status = esp_now_add_peer(&peer_info);
+  if (ESP_OK != status) { Serial.println("Could not add peer"); }
+}
+
 // Init ESP Now with fallback
 void InitESPNow() {
   WiFi.disconnect();
@@ -10,18 +47,23 @@ void InitESPNow() {
   }
 
   // add broadcast peer
-  peer_info.channel = MASTER_CHANNEL;
-  memcpy(peer_info.peer_addr, BROADCAST_MAC, 6);
-  peer_info.ifidx = ESP_IF_WIFI_STA;
-  peer_info.encrypt = false;
-  esp_err_t status = esp_now_add_peer(&peer_info);
-  if (ESP_OK != status)
-  {
-    Serial.println("Could not add peer");
-  }
+  // peer_info.channel = MASTER_CHANNEL;
+  // memcpy(peer_info.peer_addr, BROADCAST_MAC, 6);
+  // peer_info.ifidx = ESP_IF_WIFI_STA;
+  // peer_info.encrypt = false;
+  // esp_err_t status = esp_now_add_peer(&peer_info);
+  // if (ESP_OK != status)
+  // {
+  //   Serial.println("Could not add peer");
+  // }
 }
 
-// Timestamping
+// +++ Timestamping +++
+
+// using pointer would be more beautiful
+unsigned long timestamp;
+unsigned long timediff;
+
 void setTimestamp() {
   timestamp = (unsigned long) (esp_timer_get_time() );
   return;
@@ -54,7 +96,7 @@ void espNowStatus(esp_err_t result) {
   // Print status of sended data
   if (result == ESP_OK) {
     Serial.println("[OK] Send");
-    // Serial.print((int) sizeof(dmxData));
+    // Serial.print((int) sizeof(espBroadcastData));
     // Serial.println(" B");
   } else if (result == ESP_ERR_ESPNOW_NOT_INIT) {
     // How did we get so far!!
@@ -69,21 +111,5 @@ void espNowStatus(esp_err_t result) {
     Serial.println("[ERROR] Peer not found.");
   } else {
     Serial.println("[ERROR] Not sure what happened");
-  }
-}
-
-void addNodeToPeerlist(const uint8_t *mac_addr) {
-  // add peer to send the slave information
-  bool exists = esp_now_is_peer_exist(mac_addr);
-  if (!exists) {
-    memcpy(peer_info.peer_addr, mac_addr, 6);
-    esp_err_t status = esp_now_add_peer(&peer_info);
-    if (ESP_OK != status && DEBUG) {
-      Serial.println("[ERROR] Could not add peer"); }
-    else { 
-      if(DEBUG) Serial.println("[OK] Slave-peer added"); }
-  }
-  else {
-    if(DEBUG) Serial.println("[Warning] peer still exists");
   }
 }
