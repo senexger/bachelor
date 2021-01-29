@@ -1,3 +1,4 @@
+/*
 // Broadcast mac 
 // for broadcasts the addr needs to be ff:ff:ff:ff:ff:ff
 // all devices on the same channel
@@ -32,13 +33,6 @@
 
 // General Constants
 // print level
-// #define VERBOSE              1
-// #define DEBUG                1
-// #define TIMESTAMP            1    // taking timestamps
-// #define AIRTIME              0    // measuring airtime
-
-// #define FULL_REPETITIONS     10   // how many times run the test
-
 // TODO SLAVE_CHANNEL
 #define MASTER_CHANNEL       7
 #define SLAVE_CHANNEL        1
@@ -54,3 +48,60 @@
 
 // Global copy of slave
 #define MAX_SLAVES           20
+*/
+
+#include <WiFi.h>
+#include "ArduinoJson.h"
+
+// +++ VARIABLES FOR TESTING +++
+int VERBOSE = 1;              
+int DEBUG = 1;
+int TIMESTAMP = 1;            // taking timestamps
+int AIRTIME = 0;              // measuring airtime
+
+int FULL_REPETITIONS = 100;     // how many times run the test
+
+void pythonBridge () {
+
+  int status = 0;
+
+  int size_ = 0;
+  String payload;	
+
+  while ( !Serial.available()  ){
+	// Serial.println("here");
+  }
+  
+  if ( Serial.available() )
+	payload = Serial.readStringUntil( '\n' );
+  StaticJsonDocument<512> doc;
+
+  DeserializationError error = deserializeJson(doc, payload);
+
+  if (error) {
+	Serial.println(error.c_str()); 
+	return;
+  }
+
+  Serial.println("Set Variables:");
+  
+  // TODO give variables to fakeconstants
+	VERBOSE          = doc["VERBOSE"] ;              
+	DEBUG            = doc["DEBUG"];
+	TIMESTAMP        = doc["TIMESTAMP"];        // taking timestamps
+	AIRTIME          = doc["AIRTIME"];          // measuring airtime
+  
+  Serial.print("AIRTIME: "); Serial.println(AIRTIME);
+	
+	int FULL_REPETITIONS = doc["FULL_REPETITIONS"]; // how many times run the test
+
+  // if (doc["VERBOSE"] == 1) {
+  if (AIRTIME == 0) {
+	 Serial.println("{\"Success\":\"True\"}");
+	 status = 1;
+  }
+  else {
+	  Serial.println("{\"Success\":\"False\"}");
+	  status = -1;
+   }
+}

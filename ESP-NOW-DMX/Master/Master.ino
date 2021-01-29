@@ -1,31 +1,8 @@
-/**
-   ESPNOW - Bachelor Thesis Project
+/*
+   ESPNOW-Master
    Date: 1th March 2020
    Author: Maximilian W. Gotthardt
-   Purpose: DMX implementation via ESP-Now instead of Art-Net
-
-   << This Device Master >>
-
-   Flow: Master Broadcast
-   Step 1 : ESPNow Init on Master and set it in STA mode
-   Step 2 : Waiting for Unicast messages from slaves
-   Step 3 : Adding slave information
-   Step 4 : calculate broadcast information
-   Step 5 : Send Slave Unicast information for broadcasts
-   Step 6 : Send broadcasts
-
-   Flow: Master Unicast answer
-   Step 1 : ESPNow Init on Master and set it in STA mode
-   Step 2 : Waiting for Unicast messages from slaves
-   Step 3 : Adding slave information
-   Step 4 : Send Unicast dmx information to each slave
-
-   Flow: Slave
-   Step 1 : ESPNow Init on Slave
-   Step 2 : Update the SSID of Slave with a prefix of `slave`
-   Step 3 : Set Slave in AP mode
-   Step 4 : Register for receive callback and wait for data
-   Step 5 : Once data arrives, print it in the serial monitor
+   Purpose: DMX implementation via ESP-Now
 */
 
 // TODO: Slave -> Fixture better naming
@@ -35,6 +12,8 @@
 #include <WiFi.h>
 #include <esp_timer.h>
 #include "MacList.h"
+#include "ArduinoJson.h"
+#include "PythonBridge.h"
 
 esp_now_peer_info_t slaves[MAX_SLAVES] = {};
 uint8_t slaveArray[MAX_SLAVES][6]; // magic 6 - MAC has 6 byte
@@ -96,11 +75,14 @@ void setup() {
   Serial.println("Master");
   // TODO also print Constants like ISBROADCAST, CHANNEL_TOTAL...
 
+  Serial.println("Connect with python bridge");
+  pythonBridge();
+  
+
   if (DMX_BROADCASTING)
     setupBroadcast();
   else 
     setupUnicast();
-
 
   // Init ESPTimer with a fallback logic
   InitESPTimer();
@@ -116,28 +98,48 @@ void setup() {
 }
 
 void loop() {
-  if (DMX_BROADCASTING) {
-    if(TIMESTAMP || AIRTIME) setTimestamp();
-    for (int r = 0; r < SEND_REPITITION; r++){
-      // send DMX broadcast to all peers
-      sendDmxBroadcast(); // TODO: give parameter msg
-    }
+  if (Serial.available()) 
+  {
+    // TODO print varaibles from json input
+    // TODO set variables
   }
-  else { 
-    if(TIMESTAMP || AIRTIME) setTimestamp();
-    // Send data to device
-    for (int r = 0; r < SEND_REPITITION; r++){
-      // send DMX broadcast to all peers
-      sendESPUnicast();
+  for (int i = 0; i < FULL_REPETITIONS; i++) 
+  {
+    if (VERBOSE)
+    {
+      Serial.print("Repition "); 
+      Serial.println(i);
     }
-  }
+    if (DMX_BROADCASTING) 
+    {
+      if(TIMESTAMP || AIRTIME) 
+        setTimestamp();
+      for (int r = 0; r < SEND_REPITITION; r++)
+      {
+        // send DMX broadcast to all peers
+        sendDmxBroadcast(); // TODO: give parameter msg
+      }
+    }
+    else 
+    { 
+      if(TIMESTAMP || AIRTIME) setTimestamp();
+      // Send data to device
+      for (int r = 0; r < SEND_REPITITION; r++)
+      {
+        // send DMX broadcast to all peers
+        sendESPUnicast();
+      }
+    }
 
-  // Collecting timestamps
-  if(TIMESTAMP || hSerial.available()) { // aka AIRTIME
-    getTimestamp();
-    Serial.write(hSerial.read());Serial.println("");
+    // Collecting timestamps
+    if(TIMESTAMP || hSerial.available()) 
+    { // aka AIRTIME
+      getTimestamp();
+      Serial.write(hSerial.read());Serial.println("");
+    }
+
+    // wait for shortly to run the sending groups again
+    delay(WAIT_AFTER_REP_SEND);
   }
-    
-  // wait for shortly to run the sending groups again
-  delay(WAIT_AFTER_REP_SEND);
+  // TODO Send variable bag to computer using JSON
 }

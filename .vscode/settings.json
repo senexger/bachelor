@@ -7,5 +7,7 @@
   "[c]": {
     "editor.quickSuggestions": true
   },
-  "C_Cpp.intelliSenseEngineFallback": "Enabled"
+  "C_Cpp.intelliSenseEngineFallback": "Enabled",
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true
 }

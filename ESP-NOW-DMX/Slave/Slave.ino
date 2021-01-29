@@ -1,32 +1,8 @@
-/**
-   ESPNOW - Bachelor Thesis Project
+/*
+   ESPNOW-SLAVE
    Date: 1th March 2020
    Author: Maximilian W. Gotthardt
-   Purpose: DMX implementation via ESP-Now instead of Art-Net
-   Description: ...
-
-   << This Device Slave >>
-
-   Flow: Master Broadcast
-   Step 1 : ESPNow Init on Master and set it in STA mode
-   Step 2 : Waiting for Unicast messages from slaves
-   Step 3 : Adding slave information
-   Step 4 : calculate broadcast information
-   Step 5 : Send Slave Unicast information for broadcasts
-   Step 6 : Send broadcasts
-
-   Flow: Master Unicast answer
-   Step 1 : ESPNow Init on Master and set it in STA mode
-   Step 2 : Waiting for Unicast messages from slaves
-   Step 3 : Adding slave information
-   Step 4 : Send Unicast dmx information to each slave
-
-   Flow: Slave
-   Step 1 : ESPNow Init on Slave
-   Step 2 : Update the SSID of Slave with a prefix of `slave`
-   Step 3 : Set Slave in AP mode
-   Step 4 : Register for receive callback and wait for data
-   Step 5 : Once data arrives, print it in the serial monitor
+   Purpose: DMX implementation via ESP-Now
 */
 
 #include <esp_now.h>
@@ -122,28 +98,11 @@ void setup() {
 }
 
 void loop() {
-  // Chill
-
   // Send message via ESP-NOW if MetaData wasn't received
   if (!isDmxMetaReceived && DMX_BROADCASTING) 
     sendESPCast(MAC_ADDRESS);
   else if (VERBOSE) 
     Serial.println("DMX Meta already received");
-
   // wait for incomming messages
   delay(1000);
 }
-
-// config AP SSID
-// void configDeviceAP() {
-  // String Prefix = "Slave:"
-  // String Mac = WiFi.macAddress();
-  // String SSID = Prefix + Mac;
-  // String Password = "123456789";
-  // bool result = WiFi.softAP(SSID.c_str(), Password.c_str(), SLAVE_CHANNEL, 0);
-  // if (!result) {
-    // Serial.println("AP Config failed.");
-  // } else {
-    // Serial.println("AP Config Success. Broadcasting with AP: " + String(SSID));
-  // }
-// }

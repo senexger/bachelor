@@ -39,7 +39,7 @@ void OnDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, 
     Serial.println("ID IS ZERO!");
   }
 
-  // DMX DATA PACKAGE HANDLING
+  // ESP-BROADCAST DATA PACKAGE HANDLING
   else {
     if (VERBOSE) {
       Serial.print("espBroadcastData.broadcastID=");Serial.println(espBroadcastData.broadcastID);
@@ -80,7 +80,7 @@ void OnDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, 
         // TODO: timestamp here...
       }
     }
-    // TODO: WTF?!
+    // TODO: sure?
     getTimestamp();
     setTimestamp();
   }

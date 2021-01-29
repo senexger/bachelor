@@ -32,10 +32,12 @@
 
 // General Constants
 // print level
-#define VERBOSE              1
-#define DEBUG                1
-#define TIMESTAMP            1    // taking timestamps
-#define AIRTIME              0    // measuring airtime
+// #define VERBOSE              1
+// #define DEBUG                1
+// #define TIMESTAMP            1    // taking timestamps
+// #define AIRTIME              0    // measuring airtime
+
+// #define FULL_REPETITIONS     10   // how many times run the test
 
 // TODO SLAVE_CHANNEL
 #define MASTER_CHANNEL       7

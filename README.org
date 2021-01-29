@@ -68,7 +68,11 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
 The ESP has three UART controllers UART0, UART1 and UART2) use UART1 or 2
 here is how to setup uart on the ESP32
 https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/uart.html
-* TODO Unicast reparieren
+* DONE Unicast reparieren
 * TODO Package loss fixen
-* TODO Telefonkonferenz [2021-11-01 14:00]
+* KILL Telefonkonferenz [2021-11-01 14:00]
 * TODO variablen.h anlegen
+* TODO Mittwochspräsi
+* TODO Python -> ESP via UART
+- JSON?
+* TODO Code testen

@@ -24,7 +24,7 @@ def main():
     print("connected to: " + ser.portstr)
 
     ser.write(b'a')                         # start the program 'a'
-    timestampA = timeit.default_timer()     # star timestamp
+    timestampA = timeit.default_timer()     # start timestamp
 
     # waiting until program is terminated
     while (str(espData) != "b'done\\r\\n'"):
