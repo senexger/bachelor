@@ -71,8 +71,10 @@ https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/periph
 * DONE Unicast reparieren
 * TODO Package loss fixen
 * KILL Telefonkonferenz [2021-11-01 14:00]
-* TODO variablen.h anlegen
+* DONE variablen.h anlegen
 * TODO Mittwochspräsi
-* TODO Python -> ESP via UART
-- JSON?
+* DONE Python -> ESP via UART
 * TODO Code testen
+* TODO Degbug C header chaos
+* TODO send meta info from master to slaves
+* TODO find related work

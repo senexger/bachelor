@@ -1,3 +1,5 @@
+#include "MacList.h"
+
 /* All unicast specific functions */
 
 // Setup dmx unicast messages

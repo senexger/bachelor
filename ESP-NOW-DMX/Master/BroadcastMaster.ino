@@ -1,3 +1,5 @@
+#include "MacList.h"
+
 /* all broadcast spesific functions */
 
 // Setup dmx broadcast messages

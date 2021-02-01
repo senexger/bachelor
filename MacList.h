@@ -28,29 +28,32 @@
     static uint8_t slave_offset         = 30;
     static uint8_t slave_broadcastId    = 1;
 
+    // General Constants
+    // print level
+    static int VERBOSE              = 1;
+    static int DEBUG                = 1;
+    static int TIMESTAMP            = 1;   // taking timestamps
+    static int AIRTIME              = 0;   // measuring airtime
+    static int FULL_REPETITIONS     = 10;   // how many times run the test
+
 #endif
 
-// General Constants
-// print level
-// #define VERBOSE              1
-// #define DEBUG                1
-// #define TIMESTAMP            1    // taking timestamps
-// #define AIRTIME              0    // measuring airtime
-
-// #define FULL_REPETITIONS     10   // how many times run the test
 
 // TODO SLAVE_CHANNEL
-#define MASTER_CHANNEL       7
-#define SLAVE_CHANNEL        1
+#define MASTER_CHANNEL        7
+#define SLAVE_CHANNEL         1
 
 // MASTER CONSTANTS:
-#define DMX_BROADCASTING     0    // 1 = Broadcast, 0 = Unicast
-#define CHANNEL_TOTAL        10   // Broadcast: total count of channels of all fixtures
-#define BROADCAST_FRAME_SIZE 10   // Broadcast: Channel/Broadcast
-#define UNICAST_FRAME_SIZE   20   // Unicast: Channel/Unicast
-#define SEND_REPITITION      1    // Sending-Measuring Interval
-#define WAIT_AFTER_SEND      0    // delay between sendings - prevent errors?
-#define WAIT_AFTER_REP_SEND  1000 // delay between sendings - prevent errors?
+#define DMX_BROADCASTING      0    // 1 = Broadcast, 0 = Unicast
+#define CHANNEL_TOTAL         10   // Broadcast: total count of channels of all fixtures
+#define BROADCAST_FRAME_SIZE  10   // Broadcast: Channel/Broadcast
+#define UNICAST_FRAME_SIZE    20   // Unicast: Channel/Unicast
+#define SEND_REPITITION       1    // Sending-Measuring Interval
+#define WAIT_AFTER_SEND       0    // delay between sendings - prevent errors?
+#define WAIT_AFTER_REP_SEND   1000 // delay between sendings - prevent errors?
 
 // Global copy of slave
 #define MAX_SLAVES           20
+
+
+// ++++++++++ TESTING +++++++++

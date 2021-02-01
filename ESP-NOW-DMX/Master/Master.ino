@@ -11,9 +11,14 @@
 #include <HardwareSerial.h>
 #include <WiFi.h>
 #include <esp_timer.h>
-#include "MacList.h"
 #include "ArduinoJson.h"
-#include "PythonBridge.h"
+
+// #include "PythonBridge.h"
+#include "MacList.h"
+
+
+
+// +++++++++ TESTING ENDE +++++
 
 esp_now_peer_info_t slaves[MAX_SLAVES] = {};
 uint8_t slaveArray[MAX_SLAVES][6]; // magic 6 - MAC has 6 byte

@@ -50,16 +50,18 @@
 #define MAX_SLAVES           20
 */
 
-#include <WiFi.h>
-#include "ArduinoJson.h"
+// #include <WiFi.h>
+#include <ArduinoJson.h>
+#include "MacList.h"
+// #include "PythonBridge.h"
 
 // +++ VARIABLES FOR TESTING +++
-int VERBOSE = 1;              
-int DEBUG = 1;
-int TIMESTAMP = 1;            // taking timestamps
-int AIRTIME = 0;              // measuring airtime
+// int VERBOSE = 1;              
+// int DEBUG = 1;
+// int TIMESTAMP = 1;            // taking timestamps
+// int AIRTIME = 0;              // measuring airtime
 
-int FULL_REPETITIONS = 100;     // how many times run the test
+// int FULL_REPETITIONS = 100;     // how many times run the test
 
 void pythonBridge () {
 
@@ -68,9 +70,7 @@ void pythonBridge () {
   int size_ = 0;
   String payload;	
 
-  while ( !Serial.available()  ){
-	// Serial.println("here");
-  }
+  while ( !Serial.available() ){}
   
   if ( Serial.available() )
 	payload = Serial.readStringUntil( '\n' );
@@ -90,10 +90,7 @@ void pythonBridge () {
 	DEBUG            = doc["DEBUG"];
 	TIMESTAMP        = doc["TIMESTAMP"];        // taking timestamps
 	AIRTIME          = doc["AIRTIME"];          // measuring airtime
-  
-  Serial.print("AIRTIME: "); Serial.println(AIRTIME);
-	
-	int FULL_REPETITIONS = doc["FULL_REPETITIONS"]; // how many times run the test
+	FULL_REPETITIONS = doc["FULL_REPETITIONS"]; // how many times run the test
 
   // if (doc["VERBOSE"] == 1) {
   if (AIRTIME == 0) {
