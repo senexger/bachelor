@@ -48,7 +48,13 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
 ** DONE Feherlmeldung: TXQ_BLOCK=2000 bekämpfen
 * DONE Präsentation vorbereiten [2020-12-14]
 * DONE Tolja schreiben
-* DONE GPIO communication packet ackn (UART)
+* DONE Unicast reparieren
+* TODO Package loss fixen
+* KILL Telefonkonferenz [2021-11-01 14:00]
+* DONE variablen.h anlegen
+* TODO Mittwochspräsi
+* TODO Pythonbridge Modul
+** DONE GPIO communication packet ackn (UART)
 - [X] I2C Bus Protocol
   - just 1m distance
   - 1Mbps!!
@@ -68,13 +74,19 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
 The ESP has three UART controllers UART0, UART1 and UART2) use UART1 or 2
 here is how to setup uart on the ESP32
 https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/uart.html
-* DONE Unicast reparieren
-* TODO Package loss fixen
-* KILL Telefonkonferenz [2021-11-01 14:00]
-* DONE variablen.h anlegen
-* TODO Mittwochspräsi
-* DONE Python -> ESP via UART
-* TODO Code testen
-* TODO Degbug C header chaos
-* TODO send meta info from master to slaves
+** DONE Write python bridge
+** DONE Why does it break with the python bridge?!
+** DONE Fix Problem with broadcasting now
+** DONE [#A] MAC Adressen vom Master/Slave checken!
+** DONE Why broadcast cant find peers?!
+Solution: broadcast peer wasnt added correctly. Just if a messsage was incomming. So there was a problem, because the slave and the master did it the same way. So no message could be received and no peer could be added and so sended correctly
+** TODO matadata -> new constants
+** TODO send meta info from master to slaves
+** TODO Collect data on chip or direct print to serial? Collect Data from Slave?!
+** TODO change esp_now_register_recv_cb in Abhängigkeit von Unicast/broadcast
+Einfach UnicastSetup erneut ausführen?
+** TODO Should I use uint16_t or uint32_t instead of uint8_t ?! - ESP32...
+** TODO Understand addPeer and addToPeerList in utlis.ino
+- vielleicht hilft eine Funktion, die die gesamte Peerlist ausgibt?!
+* DONE Degbug C header chaos
 * TODO find related work

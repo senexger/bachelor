@@ -16,9 +16,9 @@
 // #include "PythonBridge.h"
 #include "MacList.h"
 
-
-
-// +++++++++ TESTING ENDE +++++
+// MASTER CONSTANTS:
+// int MAX_BROADCASAT_FRAME_SIZE = 250;
+// int MAX_SLAVES            = 20;
 
 esp_now_peer_info_t slaves[MAX_SLAVES] = {};
 uint8_t slaveArray[MAX_SLAVES][6]; // magic 6 - MAC has 6 byte
@@ -26,6 +26,7 @@ int slaveCount = 1;
 
 // TODO remove
 String success;
+String puropse = "MASTER";
 
 // init HardwareSerial
 HardwareSerial &hSerial = Serial2; //can be Serial2 as well, just use proper pins
@@ -34,14 +35,15 @@ HardwareSerial &hSerial = Serial2; //can be Serial2 as well, just use proper pin
 // Master-Slave DMX information BROADCAST
 typedef struct struct_dmx_message {
   uint8_t broadcastId; // != 0
-  uint8_t dmxFrame[BROADCAST_FRAME_SIZE];
+  uint8_t dmxFrame[MAX_BROADCAST_FRAME_SIZE];
 } struct_dmx_message;
 
 // Master-Slave Broadcast Meta Information
 typedef struct struct_dmx_meta {
   uint8_t broadcastIdZero;
-  uint8_t broadcastId; // != 0
+  uint8_t broadcastId;      // != 0
   uint8_t broadcastOffset;
+  
   // MAC_Address for the node as check, maybe instead of 0 flag for BroadcastID
 } struct_dmx_meta;
 
@@ -52,11 +54,11 @@ typedef struct struct_slave_information {
 
 typedef struct struct_dmx_unicast {
   uint8_t mac[6]; // != 0
-  uint8_t dmxFrame[UNICAST_FRAME_SIZE];
+  uint8_t dmxFrame[MAX_UNICAST_FRAME_SIZE];
 } struct_dmx_unicast;
 
 // Init metadata
-struct_dmx_meta dmx_meta;
+struct_dmx_meta          dmx_meta;
 struct_slave_information slave_information;
 
 int broadcastID;
@@ -78,12 +80,10 @@ void setup() {
   hSerial.begin(115200);
 
   Serial.println("Master");
-  // TODO also print Constants like ISBROADCAST, CHANNEL_TOTAL...
 
-  Serial.println("Connect with python bridge");
-  pythonBridge();
+  // Serial.println("Connecting with python bridge");
+  // pythonBridge();
   
-
   if (DMX_BROADCASTING)
     setupBroadcast();
   else 
@@ -103,11 +103,8 @@ void setup() {
 }
 
 void loop() {
-  if (Serial.available()) 
-  {
-    // TODO print varaibles from json input
-    // TODO set variables
-  }
+  printSettings();
+  // ++++ RUN TEST! ++++
   for (int i = 0; i < FULL_REPETITIONS; i++) 
   {
     if (VERBOSE)
@@ -115,6 +112,7 @@ void loop() {
       Serial.print("Repition "); 
       Serial.println(i);
     }
+    // DMX BROADCASTGING TEST
     if (DMX_BROADCASTING) 
     {
       if(TIMESTAMP || AIRTIME) 
@@ -125,6 +123,7 @@ void loop() {
         sendDmxBroadcast(); // TODO: give parameter msg
       }
     }
+    // DMX UNICASTING TEST
     else 
     { 
       if(TIMESTAMP || AIRTIME) setTimestamp();
@@ -135,7 +134,8 @@ void loop() {
         sendESPUnicast();
       }
     }
-
+    // TODO DMX ARTNET TEST
+    
     // Collecting timestamps
     if(TIMESTAMP || hSerial.available()) 
     { // aka AIRTIME
@@ -146,5 +146,6 @@ void loop() {
     // wait for shortly to run the sending groups again
     delay(WAIT_AFTER_REP_SEND);
   }
-  // TODO Send variable bag to computer using JSON
+  // TODO Send variable back to computer using JSON
+  // pythonBridge();
 }

@@ -9,10 +9,11 @@
 #include <WiFi.h>
 #include <esp_timer.h>
 #include <HardwareSerial.h>
-#include "Maclist.h"
+#include "MacList.h"
 
 #define CHANNELS_NEEDED 6
 
+// TODO: Seems to bee wrong. Should also be spreaded via python bridge
 #if DMX_BROADCASTING
   static uint8_t MAC_ADDRESS[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 #else 
@@ -21,6 +22,7 @@
 
 // Variable to store if sending data was successful
 String success;
+String puropse = "SLAVE";
 
 // Variables for sending and receiving
 bool isDmxMetaReceived = 0;
@@ -35,12 +37,12 @@ HardwareSerial &hSerial = Serial2; //can be Serial2 as well, just use proper pin
 // Package including a ID to tell the package contaings meta or data and if data
 typedef struct struct_esp_data_broadcast {
   uint8_t broadcastID;
-  uint8_t payload[BROADCAST_FRAME_SIZE];
+  uint8_t payload[MAX_BROADCAST_FRAME_SIZE];
 } struct_esp_data_broadcast;
 
 // Package including just the ESP-Unicast information
 typedef struct struct_esp_data_unicast {
-  uint8_t payload[BROADCAST_FRAME_SIZE];
+  uint8_t payload[MAX_BROADCAST_FRAME_SIZE];
 } struct_esp_data_unicast;
 
 // gives the slave the information where to find his channel
@@ -98,11 +100,17 @@ void setup() {
 }
 
 void loop() {
-  // Send message via ESP-NOW if MetaData wasn't received
-  if (!isDmxMetaReceived && DMX_BROADCASTING) 
-    sendESPCast(MAC_ADDRESS);
-  else if (VERBOSE) 
-    Serial.println("DMX Meta already received");
+  // Serial2.println("A");
+
+  printSettings();
+
+  // // Send message via ESP-NOW if MetaData wasn't received
+  // // Wäre gut, wenn man das hier gar nicht benötigen würde...
+  // if (!isDmxMetaReceived && DMX_BROADCASTING) 
+  //   sendESPCast(MAC_ADDRESS);
+  // else if (VERBOSE) 
+  //   Serial.println("DMX Meta already received");
+
   // wait for incomming messages
-  delay(1000);
+  delay(10000);
 }

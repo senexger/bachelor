@@ -17,6 +17,8 @@ void setupSlaveBroadcasting() {
 // callback when data is recv from Master just printing incomming data
 // TODO devide in Broadcast & Unicast
 void OnDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
+  if(VERBOSE) Serial.println("OnDataRecvBroadcast()");
+  // TODO ist das sinnvoll?!
   if (AIRTIME) {
     Serial2.print("!");
   }
@@ -77,7 +79,7 @@ void OnDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, 
         Serial.print(data_len);
         Serial.println(" B");
 
-        // TODO: timestamp here...
+       // TODO: timestamp here...
       }
     }
     // TODO: sure?
@@ -86,31 +88,17 @@ void OnDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, 
   }
 }
 
-// copied from master
+// TODO: Can this be removed?!
 void sendESPCast(uint8_t mac_address[6]) {
+  // TODO why should I not unicast?
+  // * unicast: einfacher, aber wenn der Master geändert wird, müssen alle Slave benachrichtigt werden
+  // * broadcast: wie können die Slaves erkennen der Broadcast keine wichtigen Daten enthält?!
   if(VERBOSE && DMX_BROADCASTING)  Serial.println("[Info] Begin BROADCAST");
   if(VERBOSE && !DMX_BROADCASTING) Serial.println("[Info] Begin UNICAST");
   esp_err_t broadcastResult = esp_now_send(mac_address,
                                           (uint8_t *) &slaveRequirements,
                                           sizeof(slaveRequirements));
-  if (broadcastResult == ESP_OK) {
-    Serial.print("[OK] Send: ");
-    Serial.print((int) sizeof(slaveRequirements));
-    Serial.println(" B");
-  } else if (broadcastResult == ESP_ERR_ESPNOW_NOT_INIT) {
-    // How did we get so far!!
-    Serial.println("[ERROR] ESPNOW not Init.");
-  } else if (broadcastResult == ESP_ERR_ESPNOW_ARG) {
-    Serial.println("[ERROR] Invalid Argument");
-  } else if (broadcastResult == ESP_ERR_ESPNOW_INTERNAL) {
-    Serial.println("[ERROR] Internal Error");
-  } else if (broadcastResult == ESP_ERR_ESPNOW_NO_MEM) {
-    Serial.println("[ERROR] ESP_ERR_ESPNOW_NO_MEM");
-  } else if (broadcastResult == ESP_ERR_ESPNOW_NOT_FOUND) {
-    Serial.println("[ERROR] Peer not found.");
-  } else {
-    Serial.println("[ERROR] Not sure what happened");
-  }
+  espNowStatus(broadcastResult);
 }
 
 // Callback when data is sent - Slave

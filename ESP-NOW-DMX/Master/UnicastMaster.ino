@@ -34,8 +34,6 @@ void setupUnicast() {
 
   InitESPNow();
 
-  InitESPTimer();
-
   esp_now_register_recv_cb(onDataRecvUnicast);
 }
 
@@ -70,7 +68,6 @@ void sendESPUnicast() {
       if(DEBUG) espNowStatus(unicastResult);
     }
 
-    // sendUnicastStupid(unicastDataArray[i].mac, unicastDataArray[i].dmxFrame);
     delay(WAIT_AFTER_SEND); // No delay crashs the system
   }
 }

@@ -12,16 +12,16 @@ struct_dmx_message broadcastArray[5];
 
 void setupBroadcast() {
   // BROADCAST:
-  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData1.dmxFrame[i] = i; }
+  for (int i=1; i < MAX_BROADCAST_FRAME_SIZE +1; i++) { broadcastData1.dmxFrame[i] = i; }
   broadcastData1.broadcastId = 1;
   broadcastArray[0] = broadcastData1;
-  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData2.dmxFrame[i] = i; }
+  for (int i=1; i < MAX_BROADCAST_FRAME_SIZE +1; i++) { broadcastData2.dmxFrame[i] = i; }
   broadcastData2.broadcastId = 2;
   broadcastArray[1] = broadcastData2;
-  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData3.dmxFrame[i] = i; }
+  for (int i=1; i < MAX_BROADCAST_FRAME_SIZE +1; i++) { broadcastData3.dmxFrame[i] = i; }
   broadcastData3.broadcastId = 3;
   broadcastArray[2] = broadcastData3;
-  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData4.dmxFrame[i] = i; }
+  for (int i=1; i < MAX_BROADCAST_FRAME_SIZE +1; i++) { broadcastData4.dmxFrame[i] = i; }
   broadcastData4.broadcastId = 4;
   broadcastArray[3] = broadcastData4;
 
@@ -30,14 +30,11 @@ void setupBroadcast() {
 
   InitESPNow();
 
-  InitESPTimer();
+  // adding broadcast "node" to the peerlist
+  addNodeToPeerlist(BROADCAST_MAC);
 
   esp_now_register_recv_cb(onDataRecvBroadcast);
 }
-
-// void loopBroadcast() {
-//   return;
-// }
 
 // send meta Data to Slave with BroadcastID and Offset
 void sendUnicastBackToSlave(const uint8_t *peer_addr, struct_dmx_meta metaData) {
@@ -76,17 +73,18 @@ void sendDmxBroadcast() {
     int i = j/BROADCAST_FRAME_SIZE;
     if(DEBUG) { 
       Serial.print("[OK] DMX Broadcast "); 
-      Serial.println(broadcastArray[i].broadcastId); }
+      Serial.println(broadcastArray[i].broadcastId); 
+    }
     // Measure airtime with timestamp
     esp_err_t broadcastResult = esp_now_send(BROADCAST_MAC,
-                                            (uint8_t *) &broadcastArray[i],
-                                            sizeof(broadcastArray[i]));
+                                            (uint8_t *) &broadcastArray[i].dmxFrame,
+                                            sizeof(broadcastArray[i].dmxFrame)); // == MAX_BROADCAST_FRAME_SIZE
     if(DEBUG) espNowStatus(broadcastResult);
-    delay(WAIT_AFTER_SEND); // No delay crashs the system
+    delay(WAIT_AFTER_SEND); // TODO: No delay crashs the system
   }
 }
 
-// Split function to BroadcastMAster and UnicastMaster
+// TODO: Instead of retransmitting messages I have to send directly
 // callback when data is recv from Slave
 void onDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
   memcpy(&slave_information, incommingData, sizeof(slave_information));

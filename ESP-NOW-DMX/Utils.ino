@@ -5,6 +5,8 @@
 // depricated
 // esp_now_peer_info_t slave;
 
+// TODO: Understand how addNodeToPeerlist and addPeer are working
+
 // peerlist information
 esp_now_peer_info_t peer_info;
 
@@ -113,4 +115,32 @@ void espNowStatus(esp_err_t result) {
   } else {
     Serial.println("[ERROR] Not sure what happened");
   }
+}
+
+void printSettings(){
+  Serial.print("+++++++++++++");
+  Serial.print(puropse);
+  Serial.println("+++++++++++++");
+  
+  // Variables
+  Serial.print("VERBOSE:                  ");Serial.println(VERBOSE);
+  Serial.print("DEBUG:                    ");Serial.println(DEBUG);
+  Serial.print("TIMESTAMP:                ");Serial.println(TIMESTAMP);
+  Serial.print("AIRTIME:                  ");Serial.println(AIRTIME);
+  Serial.print("FULL_REPETITIONS:         ");Serial.println(FULL_REPETITIONS);
+  Serial.print("MASTER_CHANNEL:           ");Serial.println(MASTER_CHANNEL);
+  Serial.print("SLAVE_CHANNEL:            ");Serial.println(SLAVE_CHANNEL);
+  Serial.print("DMX_BROADCASTING:         ");Serial.println(DMX_BROADCASTING);
+  Serial.print("CHANNEL_TOTAL:            ");Serial.println(CHANNEL_TOTAL);
+  Serial.print("BROADCAST_FRAME_SIZE:     ");Serial.println(BROADCAST_FRAME_SIZE);
+  Serial.print("UNICAST_FRAME_SIZE:       ");Serial.println(UNICAST_FRAME_SIZE);
+  Serial.print("SEND_REPITITION:          ");Serial.println(SEND_REPITITION);
+  Serial.print("WAIT_AFTER_SEND:          ");Serial.println(WAIT_AFTER_SEND);
+  Serial.print("WAIT_AFTER_REP_SEND:      ");Serial.println(WAIT_AFTER_REP_SEND);
+
+  // Constants
+  Serial.print("MAX_BROADCAST_FRAME_SIZE: ");Serial.println(MAX_BROADCAST_FRAME_SIZE);
+  Serial.print("MAX_UNICAST_FRAME_SIZE:   ");Serial.println(MAX_UNICAST_FRAME_SIZE);
+  Serial.print("MAX_SLAVES:               ");Serial.println(WAIT_AFTER_REP_SEND);
+  return;
 }

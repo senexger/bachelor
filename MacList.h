@@ -5,7 +5,7 @@
 #ifndef MACLIST_H
 #define MACLIST_H
 
-    static uint8_t BROADCAST_MAC[]      = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; // M
+    static uint8_t BROADCAST_MAC[6]     = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; // M
     static uint8_t SLAVE_MAC_1[6]       = { 0xFC, 0xF5, 0xC4, 0x31, 0x69, 0x0C }; // I
     // static uint8_t SLAVE_MAC_2[6]       = { 0x24, 0x0A, 0xC4, 0x61, 0x19, 0x08 }; // II
     static uint8_t SLAVE_MAC_2[6]       = { 0x24, 0x62, 0xAB, 0xF9, 0x50, 0x5C }; // III
@@ -30,30 +30,30 @@
 
     // General Constants
     // print level
-    static int VERBOSE              = 1;
-    static int DEBUG                = 1;
-    static int TIMESTAMP            = 1;   // taking timestamps
-    static int AIRTIME              = 0;   // measuring airtime
-    static int FULL_REPETITIONS     = 10;   // how many times run the test
+    static uint8_t VERBOSE              = 1   ;
+    static uint8_t DEBUG                = 1   ;
+    static uint8_t TIMESTAMP            = 0   ; // taking timestamps
+    static uint8_t AIRTIME              = 0   ; // measuring airtime
+    static uint8_t FULL_REPETITIONS     = 10  ; // how many times run the test
+
+    // TODO SLAVE_CHANNEL
+    static uint8_t MASTER_CHANNEL       = 7;
+    static uint8_t SLAVE_CHANNEL        = 1;
+
+    static uint8_t DMX_BROADCASTING     = 1   ; // 1 = Broadcast, 0 = Unicast
+    static uint8_t CHANNEL_TOTAL        = 10  ; // Broadcast: total count of channels of all fixtures
+    static uint8_t BROADCAST_FRAME_SIZE = 100 ; // Broadcast: Channel/Broadcast
+    static uint8_t UNICAST_FRAME_SIZE   = 20  ; // Unicast: Channel/Unicast
+    static uint8_t SEND_REPITITION      = 1   ; // Sending-Measuring Interval (how many casts)
+    static uint8_t WAIT_AFTER_SEND      = 50  ; // delay between broadcast sendings - prevent errors?
+    // * uint8_t can just up to 255
+    static uint16_t WAIT_AFTER_REP_SEND = 1000; // delay between sendings - prevent errors?
 
 #endif
 
-
-// TODO SLAVE_CHANNEL
-#define MASTER_CHANNEL        7
-#define SLAVE_CHANNEL         1
-
 // MASTER CONSTANTS:
-#define DMX_BROADCASTING      0    // 1 = Broadcast, 0 = Unicast
-#define CHANNEL_TOTAL         10   // Broadcast: total count of channels of all fixtures
-#define BROADCAST_FRAME_SIZE  10   // Broadcast: Channel/Broadcast
-#define UNICAST_FRAME_SIZE    20   // Unicast: Channel/Unicast
-#define SEND_REPITITION       1    // Sending-Measuring Interval
-#define WAIT_AFTER_SEND       0    // delay between sendings - prevent errors?
-#define WAIT_AFTER_REP_SEND   1000 // delay between sendings - prevent errors?
-
+#define MAX_BROADCAST_FRAME_SIZE          250
+#define MAX_UNICAST_FRAME_SIZE            50     // could also be 250
 // Global copy of slave
-#define MAX_SLAVES           20
-
-
+#define MAX_SLAVES                        20
 // ++++++++++ TESTING +++++++++
