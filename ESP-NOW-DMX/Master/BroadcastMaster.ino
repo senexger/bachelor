@@ -11,6 +11,7 @@ struct_dmx_message broadcastData5;
 struct_dmx_message broadcastArray[5];
 
 void setupBroadcast() {
+  if(DEBUG) Serial.println("Setup Broadcast");
   // BROADCAST:
   for (int i=1; i < MAX_BROADCAST_FRAME_SIZE +1; i++) { broadcastData1.dmxFrame[i] = i; }
   broadcastData1.broadcastId = 1;
@@ -31,13 +32,24 @@ void setupBroadcast() {
   InitESPNow();
 
   // adding broadcast "node" to the peerlist
+  Serial.println("Adding Broadcast to peerlist:");
   addNodeToPeerlist(BROADCAST_MAC);
+  // addPeersForESP();
+  Serial.println("Adding Slave 1 to peerlist:");
+  addNodeToPeerlist(SLAVE_MAC_1);
 
-  esp_now_register_recv_cb(onDataRecvBroadcast);
+  // pointer übergeben auf ein struct?! 
+  createMetaPackage();
+
+  // send unicast with meta information to each slave
+  // for(int i=0; i<1; i++){ // For loop is for iterating through MAC_addresses
+    metaInformationUnicastToSlave(SLAVE_MAC_1, advanced_meta);
+  // }
+  // // esp_now_register_recv_cb(onDataRecvBroadcast);
 }
 
 // send meta Data to Slave with BroadcastID and Offset
-void sendUnicastBackToSlave(const uint8_t *peer_addr, struct_dmx_meta metaData) {
+void metaInformationUnicastToSlave(const uint8_t *peer_addr, struct_advanced_meta metaData) {
   if(VERBOSE) {
     Serial.print("[Info] Send DMX Information ");
     Serial.print((int) sizeof(metaData));
@@ -47,6 +59,25 @@ void sendUnicastBackToSlave(const uint8_t *peer_addr, struct_dmx_meta metaData) 
                                         (uint8_t *) &metaData,
                                         sizeof(metaData));
   if(DEBUG) espNowStatus(unicastResult);
+}
+
+void createMetaPackage(){
+    advanced_meta.slave_offset         = 20;
+    advanced_meta.slave_broadcastId    = 30;
+    advanced_meta.verbose              = VERBOSE;
+    advanced_meta.debug                = DEBUG;
+    advanced_meta.timestamp            = TIMESTAMP;
+    advanced_meta.airtime              = AIRTIME;
+    advanced_meta.full_repetitions     = FULL_REPETITIONS;
+    advanced_meta.master_channel       = MASTER_CHANNEL;
+    advanced_meta.slave_channel        = SLAVE_CHANNEL;
+    advanced_meta.dmx_broadcasting     = DMX_BROADCASTING;
+    advanced_meta.channel_total        = CHANNEL_TOTAL;
+    advanced_meta.broadcast_frame_size = BROADCAST_FRAME_SIZE;
+    advanced_meta.unicast_frame_size   = UNICAST_FRAME_SIZE;
+    advanced_meta.send_repitition      = SEND_REPITITION;
+    advanced_meta.wait_after_send      = WAIT_AFTER_SEND;
+    advanced_meta.wait_after_rep_send  = WAIT_AFTER_REP_SEND;
 }
 
 // TODO: depricated - now addNodeToPeer in utils.ino
@@ -84,8 +115,10 @@ void sendDmxBroadcast() {
   }
 }
 
-// TODO: Instead of retransmitting messages I have to send directly
+// TODO: Instead of retransmitting messages I have to send directly unicasts to the slave,
+// TODO: so no request from the slave anymore
 // callback when data is recv from Slave
+/*
 void onDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
   memcpy(&slave_information, incommingData, sizeof(slave_information));
   // Print information of the incomming package
@@ -119,10 +152,11 @@ void onDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, 
   }
 
   // send message
-  sendUnicastBackToSlave(mac_addr, dmx_meta);
+  metaInformationUnicastToSlave(mac_addr, dmx_meta);
 
   // remove slave (needed?!) - not for DMX-Unicast!
   // esp_err_t status2 = esp_now_del_peer(&peer_info);
   // if (ESP_OK != status2) { Serial.println("Could not remove peer"); }
   // else { Serial.println("Slave-peer removed successfully"); }
 }
+*/

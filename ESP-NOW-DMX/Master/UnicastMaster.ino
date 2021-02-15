@@ -28,7 +28,6 @@ void setupUnicast() {
   copyArray(unicastData3.mac, SLAVE_MAC_3);
   unicastDataArray[2] = unicastData3;
 
-  // Prepare ESP-NOW
   WiFi.mode(WIFI_STA);
   Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
 

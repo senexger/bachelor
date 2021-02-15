@@ -43,9 +43,32 @@ typedef struct struct_dmx_meta {
   uint8_t broadcastIdZero;
   uint8_t broadcastId;      // != 0
   uint8_t broadcastOffset;
-  
   // MAC_Address for the node as check, maybe instead of 0 flag for BroadcastID
 } struct_dmx_meta;
+
+typedef struct struct_advanced_meta {
+  // information about broadcast
+  String metaCode = "ThisIsMeta!";
+  uint8_t broadcastId;
+  uint8_t broadcastOffset;
+  // general information about the next test
+  uint8_t slave_offset;
+  uint8_t slave_broadcastId;
+  uint8_t verbose;
+  uint8_t debug;
+  uint8_t timestamp;
+  uint8_t airtime;
+  uint8_t full_repetitions;
+  uint8_t master_channel;
+  uint8_t slave_channel;
+  uint8_t dmx_broadcasting;
+  uint8_t channel_total;
+  uint8_t broadcast_frame_size;
+  uint8_t unicast_frame_size;
+  uint8_t send_repitition;
+  uint8_t wait_after_send;
+  uint16_t wait_after_rep_send;
+} struct_advanced_meta;
 
 // ++ RECEIVED MESSAGES ++
 typedef struct struct_slave_information {
@@ -59,6 +82,7 @@ typedef struct struct_dmx_unicast {
 
 // Init metadata
 struct_dmx_meta          dmx_meta;
+struct_advanced_meta     advanced_meta;
 struct_slave_information slave_information;
 
 int broadcastID;
@@ -80,7 +104,6 @@ void setup() {
   hSerial.begin(115200);
 
   Serial.println("Master");
-
   // Serial.println("Connecting with python bridge");
   // pythonBridge();
   

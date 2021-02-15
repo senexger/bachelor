@@ -10,6 +10,12 @@
 // peerlist information
 esp_now_peer_info_t peer_info;
 
+void addPeersForESP() {
+  addNodeToPeerlist(SLAVE_MAC_1);
+  addNodeToPeerlist(SLAVE_MAC_2);
+  addNodeToPeerlist(SLAVE_MAC_3);
+}
+
 // peerlist information
 void addNodeToPeerlist(const uint8_t *mac_addr) {
   // add peer to send the slave information
@@ -99,7 +105,7 @@ void espNowStatus(esp_err_t result) {
   // Print status of sended data
   if (result == ESP_OK) {
     Serial.println("[OK] Send");
-    // Serial.print((int) sizeof(espBroadcastData));
+    // Serial.print((int) sizeof(advanced_Meta));
     // Serial.println(" B");
   } else if (result == ESP_ERR_ESPNOW_NOT_INIT) {
     // How did we get so far!!

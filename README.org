@@ -88,5 +88,6 @@ Einfach UnicastSetup erneut ausführen?
 ** TODO Should I use uint16_t or uint32_t instead of uint8_t ?! - ESP32...
 ** TODO Understand addPeer and addToPeerList in utlis.ino
 - vielleicht hilft eine Funktion, die die gesamte Peerlist ausgibt?!
+** TODO Wie unterscheidet der Slave elegant zwischen ~meta~ und ~dmx~ paketen?
 * DONE Degbug C header chaos
 * TODO find related work
