@@ -25,6 +25,8 @@
     // static uint8_t SLAVE_MAC_8[6]       = { 0xFC, 0xF5, 0xC4, 0x34, 0x6a, 0x0C };
     // static uint8_t SLAVE_MAC_9[6]       = { 0xFC, 0xF5, 0xC4, 0x33, 0x6f, 0x0C };
 
+    //TODO: Array of SLAVE_MACs
+
     static uint8_t slave_offset         = 30;
     static uint8_t slave_broadcastId    = 1;
 

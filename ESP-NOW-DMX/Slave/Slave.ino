@@ -36,6 +36,7 @@ HardwareSerial &hSerial = Serial2; //can be Serial2 as well, just use proper pin
 
 // Package including a ID to tell the package contaings meta or data and if data
 typedef struct struct_esp_data_broadcast {
+  uint8_t metaCode;
   uint8_t broadcastID;
   uint8_t payload[MAX_BROADCAST_FRAME_SIZE];
 } struct_esp_data_broadcast;
@@ -45,12 +46,38 @@ typedef struct struct_esp_data_unicast {
   uint8_t payload[MAX_BROADCAST_FRAME_SIZE];
 } struct_esp_data_unicast;
 
-// gives the slave the information where to find his channel
-typedef struct struct_dmx_meta {
-  uint8_t isMetaData; // should set to -1
-  uint8_t broadcastID; // must be positive
+// // // gives the slave the information where to find his channel
+// // typedef struct struct_dmx_meta {
+// //   uint8_t isMetaData; // should set to -1
+// //   uint8_t broadcastID; // must be positive
+// //   uint8_t broadcastOffset;
+// // } struct_dmx_meta;
+
+// new architecture 
+typedef struct struct_advanced_meta {
+  // TODO: sure about this?! No!
+  uint8_t metaCode;
+  // information about broadcast
+  uint8_t broadcastId;      // != 0
   uint8_t broadcastOffset;
-} struct_dmx_meta;
+  // general information about the next test
+  uint8_t slave_offset;
+  uint8_t slave_broadcastId;
+  uint8_t verbose;
+  uint8_t debug;
+  uint8_t timestamp;
+  uint8_t airtime;
+  uint8_t full_repetitions;
+  uint8_t master_channel;
+  uint8_t slave_channel;
+  uint8_t dmx_broadcasting;
+  uint8_t channel_total;
+  uint8_t broadcast_frame_size;
+  uint8_t unicast_frame_size;
+  uint8_t send_repitition;
+  uint8_t wait_after_send;
+  uint16_t wait_after_rep_send;
+} struct_advanced_meta;
 
 // ++++ STUFF FOR SENDING ++++
 typedef struct struct_slave_requirements {
@@ -62,7 +89,8 @@ typedef struct struct_slave_requirements {
 } struct_slave_requirements;
 
 // Create a struct_message called espBroadcastData
-struct_esp_data_broadcast espBroadcastData;
+// // struct_esp_data_broadcast espBroadcastData;
+struct_advanced_meta      advanced_Meta;
 struct_esp_data_unicast   espUnicastData;
 
 int thisBroadcastID;
@@ -70,7 +98,8 @@ int thisBroadcastOffset;
 // Create a struct_slavePackage called slavePackage to send required channels
 struct_slave_requirements slaveRequirements;
 // create struct for the broadcast offsets and IDs
-struct_dmx_meta dmx_meta;
+// // struct_dmx_meta dmx_meta;
+struct_advanced_meta dmx_meta;
 
 void setup() {
   // Setup test data
@@ -80,6 +109,9 @@ void setup() {
   Serial.begin(115200);
   hSerial.begin(115200); // open Serial Port to the Master RX2 TX2 GND
   Serial.println("Slave Node here");
+
+  Serial.println("init success!");
+  // addPeer(MAC_ADDRESS);
 
   if (DMX_BROADCASTING)
     setupSlaveBroadcasting();
@@ -91,12 +123,8 @@ void setup() {
   // WiFi.mode(WIFI_STA);
   // Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
 
-  // // Init ESPNow with a fallback logic
-  // InitESPNow();
-  // addPeer(MAC_ADDRESS);
-
-  // get recv packer info.
-  esp_now_register_send_cb(OnDataSent);
+  // // get recv packer info.
+  // esp_now_register_send_cb(OnDataSent);
 }
 
 void loop() {

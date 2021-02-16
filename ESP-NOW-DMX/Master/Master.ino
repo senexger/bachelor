@@ -32,23 +32,9 @@ String puropse = "MASTER";
 HardwareSerial &hSerial = Serial2; //can be Serial2 as well, just use proper pins
 
 // ++ SENDING MESSAGES
-// Master-Slave DMX information BROADCAST
-typedef struct struct_dmx_message {
-  uint8_t broadcastId; // != 0
-  uint8_t dmxFrame[MAX_BROADCAST_FRAME_SIZE];
-} struct_dmx_message;
-
-// Master-Slave Broadcast Meta Information
-typedef struct struct_dmx_meta {
-  uint8_t broadcastIdZero;
-  uint8_t broadcastId;      // != 0
-  uint8_t broadcastOffset;
-  // MAC_Address for the node as check, maybe instead of 0 flag for BroadcastID
-} struct_dmx_meta;
-
 typedef struct struct_advanced_meta {
+  uint8_t metaCode = 1;
   // information about broadcast
-  String metaCode = "ThisIsMeta!";
   uint8_t broadcastId;
   uint8_t broadcastOffset;
   // general information about the next test
@@ -70,6 +56,21 @@ typedef struct struct_advanced_meta {
   uint16_t wait_after_rep_send;
 } struct_advanced_meta;
 
+// Master-Slave DMX information BROADCAST
+typedef struct struct_dmx_message {
+  uint8_t metaCode = 33;
+  uint8_t broadcastId; // != 0
+  uint8_t dmxFrame[MAX_BROADCAST_FRAME_SIZE];
+} struct_dmx_message;
+
+//// Master-Slave Broadcast Meta Information
+// // typedef struct struct_dmx_meta {
+// //   uint8_t broadcastIdZero;
+// //   uint8_t broadcastId;      // != 0
+// //   uint8_t broadcastOffset;
+// //   // MAC_Address for the node as check, maybe instead of 0 flag for BroadcastID
+// // } struct_dmx_meta;
+
 // ++ RECEIVED MESSAGES ++
 typedef struct struct_slave_information {
   uint8_t channelCount;
@@ -81,7 +82,7 @@ typedef struct struct_dmx_unicast {
 } struct_dmx_unicast;
 
 // Init metadata
-struct_dmx_meta          dmx_meta;
+// // struct_dmx_meta          dmx_meta;
 struct_advanced_meta     advanced_meta;
 struct_slave_information slave_information;
 
@@ -170,5 +171,5 @@ void loop() {
     delay(WAIT_AFTER_REP_SEND);
   }
   // TODO Send variable back to computer using JSON
-  // pythonBridge();
+  pythonBridge();
 }

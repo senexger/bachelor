@@ -22,46 +22,68 @@ void OnDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, 
   if (AIRTIME) {
     Serial2.print("!");
   }
-  // memcpy(&dmx_meta, incommingData, sizeof(dmx_meta));
-  memcpy(&espBroadcastData, incommingData, sizeof(espBroadcastData));
-  
-  // DMX META PACKAGE HANDLING
-  if (espBroadcastData.broadcastID == 0) {
-    // memcpy(&dmx_meta, incommingData, sizeof(dmx_meta));
-    if(DEBUG) {
-      Serial.print("DmxBit: "); Serial.println(espBroadcastData.broadcastID);
-      Serial.print("ID    : "); Serial.println(espBroadcastData.payload[0]);
-      Serial.print("Offset: "); Serial.println(espBroadcastData.payload[1]);
-    }
-    // set broadcastId and payload offset
-    broadcastId = espBroadcastData.payload[0];
-    offset = espBroadcastData.payload[1];
-    // meta data received, so dont aks for them anymore in the loop
-    isDmxMetaReceived = 1;
-    Serial.println("ID IS ZERO!");
-  }
 
+  // memcpy(&dmx_meta, incommingData, sizeof(dmx_meta));
+  memcpy(&advanced_Meta, incommingData, sizeof(advanced_Meta));
+
+  // TODO repair meta code
+  Serial.println(advanced_Meta.metaCode);
+
+  // DMX META PACKAGE HANDLING
+  if (advanced_Meta.metaCode) {
+    Serial.println("THIS IS META!!!");
+    Serial.println(advanced_Meta.broadcastId);
+    Serial.println(advanced_Meta.broadcastOffset);
+    Serial.println(advanced_Meta.slave_offset);
+    Serial.println(advanced_Meta.slave_broadcastId);
+    Serial.println(advanced_Meta.verbose);
+    Serial.println(advanced_Meta.debug);
+    Serial.println(advanced_Meta.timestamp);
+    Serial.println(advanced_Meta.airtime);
+    Serial.println(advanced_Meta.full_repetitions);
+    Serial.println(advanced_Meta.master_channel);
+    Serial.println(advanced_Meta.slave_channel);
+    Serial.println(advanced_Meta.dmx_broadcasting);
+    Serial.println(advanced_Meta.channel_total);
+    Serial.println(advanced_Meta.broadcast_frame_size);
+    Serial.println(advanced_Meta.unicast_frame_size);
+    Serial.println(advanced_Meta.send_repitition);
+    Serial.println(advanced_Meta.wait_after_send);
+    Serial.println(advanced_Meta.wait_after_rep_send);
+    // // set broadcastId and payload offset
+    // broadcastId = advanced_Meta.payload[0];
+    // offset = advanced_Meta.payload[1];
+
+     // // NO MORE ASKING IN THE LOOP!!!
+    // // meta data received, so dont aks for them anymore in the loop
+    // isDmxMetaReceived = 1;
+    // Serial.println("ID IS ZERO!");
+}
+
+  // CHECK HERE VALIDITY OF THE PACKAGE!
+
+  /*
   // ESP-BROADCAST DATA PACKAGE HANDLING
   else {
     if (VERBOSE) {
-      Serial.print("espBroadcastData.broadcastID=");Serial.println(espBroadcastData.broadcastID);
-      Serial.print("espBroadcastData.payload[0] =");Serial.println(espBroadcastData.payload[0]);
-      Serial.print("espBroadcastData.payload[1] =");Serial.println(espBroadcastData.payload[1]);
+      Serial.print("advanced_Meta.broadcastID=");Serial.println(advanced_Meta.broadcastID);
+      Serial.print("advanced_Meta.payload[0] =");Serial.println(advanced_Meta.payload[0]);
+      Serial.print("advanced_Meta.payload[1] =");Serial.println(advanced_Meta.payload[1]);
     }
 
     // check broadcast integrity
     // sub 1 becaus there is no broadcastID in payload
     // iterating through the payload
     bool signalBroken = false;
-    if (VERBOSE && espBroadcastData.broadcastID == broadcastId) {
+    if (VERBOSE && advanced_Meta.broadcastID == broadcastId) {
       for (int i=1; i < data_len -1; i++) { 
         // just select needed channel
         if ((i >= offset) && (i < offset + CHANNELS_NEEDED)) {
           Serial.print(i); 
           Serial.print(" = "); 
-          Serial.println(espBroadcastData.payload[i]); 
+          Serial.println(advanced_Meta.payload[i]); 
         }
-        if (espBroadcastData.payload[i] != i) {
+        if (advanced_Meta.payload[i] != i) {
           signalBroken = true;
         }
       }
@@ -86,28 +108,29 @@ void OnDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, 
     getTimestamp();
     setTimestamp();
   }
+  */
 }
 
 // TODO: Can this be removed?!
-void sendESPCast(uint8_t mac_address[6]) {
-  // TODO why should I not unicast?
-  // * unicast: einfacher, aber wenn der Master geändert wird, müssen alle Slave benachrichtigt werden
-  // * broadcast: wie können die Slaves erkennen der Broadcast keine wichtigen Daten enthält?!
-  if(VERBOSE && DMX_BROADCASTING)  Serial.println("[Info] Begin BROADCAST");
-  if(VERBOSE && !DMX_BROADCASTING) Serial.println("[Info] Begin UNICAST");
-  esp_err_t broadcastResult = esp_now_send(mac_address,
-                                          (uint8_t *) &slaveRequirements,
-                                          sizeof(slaveRequirements));
-  espNowStatus(broadcastResult);
-}
+// void sendESPCast(uint8_t mac_address[6]) {
+//   // TODO why should I not unicast?
+//   // * unicast: einfacher, aber wenn der Master geändert wird, müssen alle Slave benachrichtigt werden
+//   // * broadcast: wie können die Slaves erkennen der Broadcast keine wichtigen Daten enthält?!
+//   if(VERBOSE && DMX_BROADCASTING)  Serial.println("[Info] Begin BROADCAST");
+//   if(VERBOSE && !DMX_BROADCASTING) Serial.println("[Info] Begin UNICAST");
+//   esp_err_t broadcastResult = esp_now_send(mac_address,
+//                                           (uint8_t *) &slaveRequirements,
+//                                           sizeof(slaveRequirements));
+//   espNowStatus(broadcastResult);
+// }
 
 // Callback when data is sent - Slave
-void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
-  // Serial.println("Last Packet Send Status");
-  if (status != ESP_NOW_SEND_SUCCESS) {
-    Serial.println("[ERROR] Delivery Fail");
-  }
-  else {
-    Serial.println("[OK] Send Ack");
-  }
-}
+// void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+//   // Serial.println("Last Packet Send Status");
+//   if (status != ESP_NOW_SEND_SUCCESS) {
+//     Serial.println("[ERROR] Delivery Fail");
+//   }
+//   else {
+//     Serial.println("[OK] Send Ack");
+//   }
+// }

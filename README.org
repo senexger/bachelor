@@ -80,8 +80,10 @@ https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/periph
 ** DONE [#A] MAC Adressen vom Master/Slave checken!
 ** DONE Why broadcast cant find peers?!
 Solution: broadcast peer wasnt added correctly. Just if a messsage was incomming. So there was a problem, because the slave and the master did it the same way. So no message could be received and no peer could be added and so sended correctly
-** TODO matadata -> new constants
-** TODO send meta info from master to slaves
+** DONE Master stürzt beim Neustart ab. Warum?!
+Weil der Chip nicht ausreichend Strom beim Neustart bekommt. wtf.
+** DONE matadata -> new constants
+** DONE send meta info from master to slaves
 ** TODO Collect data on chip or direct print to serial? Collect Data from Slave?!
 ** TODO change esp_now_register_recv_cb in Abhängigkeit von Unicast/broadcast
 Einfach UnicastSetup erneut ausführen?
@@ -89,5 +91,6 @@ Einfach UnicastSetup erneut ausführen?
 ** TODO Understand addPeer and addToPeerList in utlis.ino
 - vielleicht hilft eine Funktion, die die gesamte Peerlist ausgibt?!
 ** TODO Wie unterscheidet der Slave elegant zwischen ~meta~ und ~dmx~ paketen?
+- Idee: Durch Paketlänge. Wenn die maximale Paketlänge auf 250 begrenzt ist, meta aber immer 251 nimmt. Dann kann gleich anhand der Paketgröße das Paket eingeordnet werden.
 * DONE Degbug C header chaos
 * TODO find related work
