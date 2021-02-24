@@ -55,10 +55,9 @@ typedef struct struct_esp_data_unicast {
 
 // new architecture 
 typedef struct struct_advanced_meta {
-  // TODO: sure about this?! No!
   uint8_t metaCode;
   // information about broadcast
-  uint8_t broadcastId;      // != 0
+  uint8_t broadcastId;
   uint8_t broadcastOffset;
   // general information about the next test
   uint8_t slave_offset;
@@ -76,6 +75,7 @@ typedef struct struct_advanced_meta {
   uint8_t unicast_frame_size;
   uint8_t send_repitition;
   uint8_t wait_after_send;
+  uint8_t troll = 10;
   uint16_t wait_after_rep_send;
 } struct_advanced_meta;
 

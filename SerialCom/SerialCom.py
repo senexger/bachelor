@@ -17,15 +17,15 @@ if __name__ == "__main__":
     data = {}
     # data["operation"] = "channel"
     data = {
-        "VERBOSE"               : 1,
-        "DEBUG"                 : 1,
+        "VERBOSE"               : 15,
+        "DEBUG"                 : 4,
         "TIMESTAMP"             : 0,
         "AIRTIME"               : 0,
-        "FULL_REPETITIONS"      : 10,
+        "FULL_REPETITIONS"      : 5,
         "DMX_BROADCASTING"      : 1,
 
         "CHANNEL_TOTAL"         : 10,
-        "BROADCAST_FRAME_SIZE"  : 10,
+        "BROADCAST_FRAME_SIZE"  : 20,
         "UNICAST_FRAME_SIZE"    : 20,
         "SEND_REPITITION"       : 1,
         "WAIT_AFTER_SEND"       : 0,

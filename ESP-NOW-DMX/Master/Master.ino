@@ -53,6 +53,7 @@ typedef struct struct_advanced_meta {
   uint8_t unicast_frame_size;
   uint8_t send_repitition;
   uint8_t wait_after_send;
+  uint8_t troll = 10;
   uint16_t wait_after_rep_send;
 } struct_advanced_meta;
 
@@ -95,7 +96,7 @@ void onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
     Serial.println("[ERROR] Delivery Fail");
   }
   else {
-    // Serial.println("[OK] Rcvd: Ack");
+    Serial.println("[OK] Ack");
   }
 }
 
@@ -108,10 +109,11 @@ void setup() {
   // Serial.println("Connecting with python bridge");
   // pythonBridge();
   
-  if (DMX_BROADCASTING)
-    setupBroadcast();
-  else 
-    setupUnicast();
+  // This should be done in the loop, depending on the selected protocol
+  // // if (DMX_BROADCASTING)
+  // //   setupBroadcast();
+  // // else 
+  // //   setupUnicast();
 
   // Init ESPTimer with a fallback logic
   InitESPTimer();
@@ -120,56 +122,54 @@ void setup() {
   // bool newSlave = 0; // is changed after a new peer appears
   // esp_now_register_recv_cb(onDataRecv);
 
-  // Once ESPNow is successfully Init, we will register for Send CB to
-  // get the status of Trasnmitted packet
-  if(DEBUG) esp_now_register_send_cb(onDataSent);
   delay(1000);
+  printSettings();
 }
 
 void loop() {
-  printSettings();
+  // TODO Send variable back to computer using JSON
+  // get values from python skript serialComunication (SerialControl)
+  pythonBridge();
+  // TODO pointer übergeben auf ein struct?! 
+  // parse values from Master into meta package
+  createMetaPackage();
+  // ESP-NOW-Broadcast (WiFi.mode, InitESP, adding BroadcastPeer, sending meta Information)
+  setupBroadcast();
+
   // ++++ RUN TEST! ++++
-  for (int i = 0; i < FULL_REPETITIONS; i++) 
-  {
-    if (VERBOSE)
-    {
+  for (int i = 0; i < FULL_REPETITIONS; i++) {
+    if (VERBOSE) {
       Serial.print("Repition "); 
       Serial.println(i);
     }
     // DMX BROADCASTGING TEST
-    if (DMX_BROADCASTING) 
-    {
+    if (DMX_BROADCASTING) {
+      if(DEBUG) esp_now_register_send_cb(onDataSent);
+
       if(TIMESTAMP || AIRTIME) 
         setTimestamp();
-      for (int r = 0; r < SEND_REPITITION; r++)
-      {
+      for (int r = 0; r < SEND_REPITITION; r++) {
         // send DMX broadcast to all peers
-        sendDmxBroadcast(); // TODO: give parameter msg
+        sendDmxBroadcast();
       }
     }
     // DMX UNICASTING TEST
-    else 
-    { 
-      if(TIMESTAMP || AIRTIME) setTimestamp();
-      // Send data to device
-      for (int r = 0; r < SEND_REPITITION; r++)
-      {
-        // send DMX broadcast to all peers
-        sendESPUnicast();
-      }
-    }
+    // else { 
+    //   if(TIMESTAMP || AIRTIME) setTimestamp();
+    //   // Send data to device
+    //   for (int r = 0; r < SEND_REPITITION; r++) {
+    //     // send DMX broadcast to all peers
+    //     sendESPUnicast();
+    //   }
+    // }
     // TODO DMX ARTNET TEST
     
     // Collecting timestamps
-    if(TIMESTAMP || hSerial.available()) 
-    { // aka AIRTIME
+    if(TIMESTAMP || hSerial.available()) { // aka AIRTIME
       getTimestamp();
       Serial.write(hSerial.read());Serial.println("");
     }
-
     // wait for shortly to run the sending groups again
     delay(WAIT_AFTER_REP_SEND);
   }
-  // TODO Send variable back to computer using JSON
-  pythonBridge();
 }

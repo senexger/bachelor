@@ -13,16 +13,16 @@ struct_dmx_message broadcastArray[5];
 void setupBroadcast() {
   if(DEBUG) Serial.println("Setup Broadcast");
   // BROADCAST:
-  for (int i=1; i < MAX_BROADCAST_FRAME_SIZE +1; i++) { broadcastData1.dmxFrame[i] = i; }
+  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData1.dmxFrame[i] = i; }
   broadcastData1.broadcastId = 1;
   broadcastArray[0] = broadcastData1;
-  for (int i=1; i < MAX_BROADCAST_FRAME_SIZE +1; i++) { broadcastData2.dmxFrame[i] = i; }
+  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData2.dmxFrame[i] = i; }
   broadcastData2.broadcastId = 2;
   broadcastArray[1] = broadcastData2;
-  for (int i=1; i < MAX_BROADCAST_FRAME_SIZE +1; i++) { broadcastData3.dmxFrame[i] = i; }
+  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData3.dmxFrame[i] = i; }
   broadcastData3.broadcastId = 3;
   broadcastArray[2] = broadcastData3;
-  for (int i=1; i < MAX_BROADCAST_FRAME_SIZE +1; i++) { broadcastData4.dmxFrame[i] = i; }
+  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData4.dmxFrame[i] = i; }
   broadcastData4.broadcastId = 4;
   broadcastArray[3] = broadcastData4;
 
@@ -38,17 +38,25 @@ void setupBroadcast() {
   Serial.println("Adding Slave 1 to peerlist:");
   addNodeToPeerlist(SLAVE_MAC_1);
 
-  // pointer übergeben auf ein struct?! 
-  createMetaPackage();
-
   // send unicast with meta information to each slave
   // for(int i=0; i<1; i++){ // For loop is for iterating through MAC_addresses
     metaInformationToSlaves(BROADCAST_MAC, advanced_meta);
   // }
+
+  // Once ESPNow is successfully Init, we will register for Send CB to
+  // get the status of Trasnmitted packet
+  if(DEBUG) esp_now_register_send_cb(onDataSent);
+
   // // esp_now_register_recv_cb(onDataRecvBroadcast);
 }
 
 // send meta Data to Slave with BroadcastID and Offset
+// TODO
+// TODO
+// TODO
+// TODO THIS DOES NOT SEEM TO WORK!
+// TODO
+// TODO
 void metaInformationToSlaves(const uint8_t *peer_addr, struct_advanced_meta metaData) {
   if(VERBOSE) {
     Serial.print("[Info] Send DMX Information ");
@@ -58,27 +66,29 @@ void metaInformationToSlaves(const uint8_t *peer_addr, struct_advanced_meta meta
   esp_err_t unicastResult = esp_now_send(peer_addr, 
                                         (uint8_t *) &metaData,
                                         sizeof(metaData));
+                                        
   if(DEBUG) espNowStatus(unicastResult);
 }
 
 void createMetaPackage(){
-    advanced_meta.metaCode             = 1;
-    advanced_meta.slave_offset         = 20;
-    advanced_meta.slave_broadcastId    = 30;
-    advanced_meta.verbose              = VERBOSE;
-    advanced_meta.debug                = DEBUG;
-    advanced_meta.timestamp            = TIMESTAMP;
-    advanced_meta.airtime              = AIRTIME;
-    advanced_meta.full_repetitions     = FULL_REPETITIONS;
-    advanced_meta.master_channel       = MASTER_CHANNEL;
-    advanced_meta.slave_channel        = SLAVE_CHANNEL;
-    advanced_meta.dmx_broadcasting     = DMX_BROADCASTING;
-    advanced_meta.channel_total        = CHANNEL_TOTAL;
-    advanced_meta.broadcast_frame_size = BROADCAST_FRAME_SIZE;
-    advanced_meta.unicast_frame_size   = UNICAST_FRAME_SIZE;
-    advanced_meta.send_repitition      = SEND_REPITITION;
-    advanced_meta.wait_after_send      = WAIT_AFTER_SEND;
-    advanced_meta.wait_after_rep_send  = WAIT_AFTER_REP_SEND;
+  if (VERBOSE) Serial.println("createMetaPackage");
+  advanced_meta.metaCode             = 1;
+  advanced_meta.slave_offset         = 20;
+  advanced_meta.slave_broadcastId    = 30;
+  advanced_meta.verbose              = VERBOSE;
+  advanced_meta.debug                = DEBUG;
+  advanced_meta.timestamp            = TIMESTAMP;
+  advanced_meta.airtime              = AIRTIME;
+  advanced_meta.full_repetitions     = FULL_REPETITIONS;
+  advanced_meta.master_channel       = MASTER_CHANNEL;
+  advanced_meta.slave_channel        = SLAVE_CHANNEL;
+  advanced_meta.dmx_broadcasting     = DMX_BROADCASTING;
+  advanced_meta.channel_total        = CHANNEL_TOTAL;
+  advanced_meta.broadcast_frame_size = BROADCAST_FRAME_SIZE;
+  advanced_meta.unicast_frame_size   = UNICAST_FRAME_SIZE;
+  advanced_meta.send_repitition      = SEND_REPITITION;
+  advanced_meta.wait_after_send      = WAIT_AFTER_SEND;
+  advanced_meta.wait_after_rep_send  = WAIT_AFTER_REP_SEND;
 }
 
 // TODO: depricated - now addNodeToPeer in utils.ino
@@ -97,6 +107,20 @@ void createMetaPackage(){
 //     if(DEBUG) Serial.println("[Warning] peer still exists");
 //   }
 // }
+
+void sendMetaAsBroadcast() {
+  if(VERBOSE) Serial.println("[Info] Meta Broadcast");
+
+  esp_err_t metaResult = esp_now_send(BROADCAST_MAC, 
+                                        (uint8_t *) &advanced_meta,
+                                        sizeof(advanced_meta));
+  if(DEBUG) espNowStatus(metaResult);
+
+  // esp_err_t broadcastResult = esp_now_send(BROADCAST_MAC,
+                                          // (uint8_t *) &broadcastArray[i].dmxFrame,
+                                          // sizeof(broadcastArray[i].dmxFrame)); // == MAX_BROADCAST_FRAME_SIZE
+  // if(DEBUG) espNowStatus(broadcastResult);
+}
 
 void sendDmxBroadcast() {
   if(VERBOSE) Serial.println("[Info] Init DMX Broadcasting");

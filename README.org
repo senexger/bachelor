@@ -9,6 +9,13 @@ Ablauf:
 - master-broad  : send broadcast
 - slave         : write extracted input to serial
 
+* LOL Problems
+** Verify und Upload verwechselt
+** Strom von meinem Hub liefert nicht genug Strom, wenn Tastaturbeleutung eingeschaltet ist
+** USB Kabel ist kein Datenkabel
+** Chip ist kaputt gegangen
+** Power HUB external
+works like a charme :)
 * DONE Broadcast
 Broadcasting just works fine. But I need a good solution, if I will transmit more than one universer at once.
 Now I will try to send Messages as Slave and receive as Master. So the Slave tells the Master how many bytes he needs (via unicast) and the Master talks back his position.
@@ -55,22 +62,22 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
 * TODO Mittwochspräsi
 * TODO Pythonbridge Modul
 ** DONE GPIO communication packet ackn (UART)
-- [X] I2C Bus Protocol
-  - just 1m distance
-  - 1Mbps!!
-  - Bus protocol...
-- [X] SPI
-  - Duplex?!
-  - 25Mbps!!!
-  - 4 wires.....
-  - 20cm distance...
-- [ ] UART
-  - 1 to 1
-  - asynchronous
-  - 2 wires
-  - just 20Kbps
-  - acknoledge!
-  - 15m distance!!!
+1) UART
+   - 1 to 1
+   - asynchronous
+   - 2 wires
+   - just 20Kbps
+   - acknoledge!
+   - 15m distance!!!
+2) I2C Bus Protocol
+   - just 1m distance
+   - 1Mbps!!
+   - Bus protocol...
+3) SPI
+   - Duplex?!
+   - 25Mbps!!!
+   - 4 wires.....
+   - 20cm distance...
 The ESP has three UART controllers UART0, UART1 and UART2) use UART1 or 2
 here is how to setup uart on the ESP32
 https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/uart.html
@@ -91,6 +98,11 @@ Einfach UnicastSetup erneut ausführen?
 ** TODO Understand addPeer and addToPeerList in utlis.ino
 - vielleicht hilft eine Funktion, die die gesamte Peerlist ausgibt?!
 ** TODO Wie unterscheidet der Slave elegant zwischen ~meta~ und ~dmx~ paketen?
+- Idee: Durch ein meta flag. verbraucht zwar ein byte, ist beim testen allerdings auch wieder fast egal...
 - Idee: Durch Paketlänge. Wenn die maximale Paketlänge auf 250 begrenzt ist, meta aber immer 251 nimmt. Dann kann gleich anhand der Paketgröße das Paket eingeordnet werden.
+** TODO Sendet Master richtig? Empfängt Slave vollständig?
+** TODO Is uint16_t a problem?
+there is a cast in the sendMetaAsBroadcast function to uint8_t, this could cause problems
+Idee: es könnte eine Lösung sein, werte nur bis 255 zu übergeben, weil die Zahl der Millisekunden eh groß genug sein wird.
 * DONE Degbug C header chaos
 * TODO find related work

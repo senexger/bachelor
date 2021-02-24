@@ -17,42 +17,61 @@ void setupSlaveBroadcasting() {
 // callback when data is recv from Master just printing incomming data
 // TODO devide in Broadcast & Unicast
 void OnDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
-  if(VERBOSE) Serial.println("OnDataRecvBroadcast()");
+  if(VERBOSE) Serial.println("VERBOSE: OnDataRecvBroadcast()");
   // TODO ist das sinnvoll?!
   if (AIRTIME) {
     Serial2.print("!");
   }
-
-  // memcpy(&dmx_meta, incommingData, sizeof(dmx_meta));
+  Serial.print("Data len: "); Serial.println(data_len);
   memcpy(&advanced_Meta, incommingData, sizeof(advanced_Meta));
-
-  // TODO repair meta code
-  Serial.println(advanced_Meta.metaCode);
 
   // DMX META PACKAGE HANDLING
   if (advanced_Meta.metaCode) {
+    // PRINTING
     Serial.println("THIS IS META!!!");
-    Serial.println(advanced_Meta.broadcastId);
-    Serial.println(advanced_Meta.broadcastOffset);
-    Serial.println(advanced_Meta.slave_offset);
-    Serial.println(advanced_Meta.slave_broadcastId);
-    Serial.println(advanced_Meta.verbose);
-    Serial.println(advanced_Meta.debug);
-    Serial.println(advanced_Meta.timestamp);
-    Serial.println(advanced_Meta.airtime);
-    Serial.println(advanced_Meta.full_repetitions);
-    Serial.println(advanced_Meta.master_channel);
-    Serial.println(advanced_Meta.slave_channel);
-    Serial.println(advanced_Meta.dmx_broadcasting);
-    Serial.println(advanced_Meta.channel_total);
-    Serial.println(advanced_Meta.broadcast_frame_size);
-    Serial.println(advanced_Meta.unicast_frame_size);
-    Serial.println(advanced_Meta.send_repitition);
-    Serial.println(advanced_Meta.wait_after_send);
-    Serial.println(advanced_Meta.wait_after_rep_send);
-    // // set broadcastId and payload offset
-    // broadcastId = advanced_Meta.payload[0];
-    // offset = advanced_Meta.payload[1];
+    // broadcast specific information
+    Serial.print("BId: "); Serial.println(advanced_Meta.broadcastId);
+    Serial.print("BOf: "); Serial.println(advanced_Meta.broadcastOffset);
+    // generell information
+    Serial.print("SOf: "); Serial.println(advanced_Meta.slave_offset);
+    Serial.print("SBr: "); Serial.println(advanced_Meta.slave_broadcastId);
+    // Setting
+    Serial.print("Vrb: "); Serial.println(advanced_Meta.verbose);
+    Serial.print("Dbg: "); Serial.println(advanced_Meta.debug);
+    Serial.print("Tsp: "); Serial.println(advanced_Meta.timestamp);
+    Serial.print("Air: "); Serial.println(advanced_Meta.airtime);
+    Serial.print("Rep: "); Serial.println(advanced_Meta.full_repetitions);
+    Serial.print("Mch: "); Serial.println(advanced_Meta.master_channel);
+    Serial.print("sCh: "); Serial.println(advanced_Meta.slave_channel);
+    Serial.print("IsB: "); Serial.println(advanced_Meta.dmx_broadcasting);
+    Serial.print("ChT: "); Serial.println(advanced_Meta.channel_total);
+    Serial.print("BFS: "); Serial.println(advanced_Meta.broadcast_frame_size);
+    Serial.print("UFS: "); Serial.println(advanced_Meta.unicast_frame_size);
+    Serial.print("SRp: "); Serial.println(advanced_Meta.send_repitition);
+    Serial.print("WAS: "); Serial.println(advanced_Meta.wait_after_send);
+    Serial.print("WAR: "); Serial.println(advanced_Meta.wait_after_rep_send);
+
+    // SET VARIABLES
+    // broadcast settings
+    broadcastId          = advanced_Meta.broadcastId;
+    offset               = advanced_Meta.broadcastOffset;
+    slave_offset         = advanced_Meta.slave_offset;
+    slave_broadcastId    = advanced_Meta.slave_broadcastId;
+    // Testing parameter
+    VERBOSE              = advanced_Meta.verbose;
+    DEBUG                = advanced_Meta.debug;
+    TIMESTAMP            = advanced_Meta.timestamp;
+    AIRTIME              = advanced_Meta.airtime;
+    FULL_REPETITIONS     = advanced_Meta.full_repetitions;
+    MASTER_CHANNEL       = advanced_Meta.master_channel;
+    SLAVE_CHANNEL        = advanced_Meta.slave_channel;
+    DMX_BROADCASTING     = advanced_Meta.dmx_broadcasting;
+    CHANNEL_TOTAL        = advanced_Meta.channel_total;
+    BROADCAST_FRAME_SIZE = advanced_Meta.broadcast_frame_size;
+    UNICAST_FRAME_SIZE   = advanced_Meta.unicast_frame_size;
+    SEND_REPITITION      = advanced_Meta.send_repitition;
+    WAIT_AFTER_SEND      = advanced_Meta.wait_after_send;
+    WAIT_AFTER_REP_SEND  = advanced_Meta.wait_after_rep_send;
 
      // // NO MORE ASKING IN THE LOOP!!!
     // // meta data received, so dont aks for them anymore in the loop
