@@ -25,7 +25,7 @@ if __name__ == "__main__":
         "DMX_BROADCASTING"      : 1,
 
         "CHANNEL_TOTAL"         : 10,
-        "BROADCAST_FRAME_SIZE"  : 20,
+        "BROADCAST_FRAME_SIZE"  : 40,
         "UNICAST_FRAME_SIZE"    : 20,
         "SEND_REPITITION"       : 1,
         "WAIT_AFTER_SEND"       : 0,

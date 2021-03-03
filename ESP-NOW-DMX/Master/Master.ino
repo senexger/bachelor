@@ -33,7 +33,7 @@ HardwareSerial &hSerial = Serial2; //can be Serial2 as well, just use proper pin
 
 // ++ SENDING MESSAGES
 typedef struct struct_advanced_meta {
-  uint8_t metaCode = 1;
+  uint8_t metaCode;
   // information about broadcast
   uint8_t broadcastId;
   uint8_t broadcastOffset;
@@ -134,7 +134,11 @@ void loop() {
   // parse values from Master into meta package
   createMetaPackage();
   // ESP-NOW-Broadcast (WiFi.mode, InitESP, adding BroadcastPeer, sending meta Information)
-  setupBroadcast();
+
+  if (DMX_BROADCASTING)
+    setupBroadcast();
+  else
+    setupUnicast();
 
   // ++++ RUN TEST! ++++
   for (int i = 0; i < FULL_REPETITIONS; i++) {
@@ -144,8 +148,6 @@ void loop() {
     }
     // DMX BROADCASTGING TEST
     if (DMX_BROADCASTING) {
-      if(DEBUG) esp_now_register_send_cb(onDataSent);
-
       if(TIMESTAMP || AIRTIME) 
         setTimestamp();
       for (int r = 0; r < SEND_REPITITION; r++) {
@@ -154,14 +156,15 @@ void loop() {
       }
     }
     // DMX UNICASTING TEST
-    // else { 
-    //   if(TIMESTAMP || AIRTIME) setTimestamp();
-    //   // Send data to device
-    //   for (int r = 0; r < SEND_REPITITION; r++) {
-    //     // send DMX broadcast to all peers
-    //     sendESPUnicast();
-    //   }
-    // }
+    else { 
+      if(TIMESTAMP || AIRTIME) 
+        setTimestamp();
+      // Send data to device
+      for (int r = 0; r < SEND_REPITITION; r++) {
+        // send DMX broadcast to all peers
+        sendESPUnicast();
+      }
+    }
     // TODO DMX ARTNET TEST
     
     // Collecting timestamps

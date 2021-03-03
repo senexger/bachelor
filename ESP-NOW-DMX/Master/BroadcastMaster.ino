@@ -13,7 +13,7 @@ struct_dmx_message broadcastArray[5];
 void setupBroadcast() {
   if(DEBUG) Serial.println("Setup Broadcast");
   // BROADCAST:
-  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData1.dmxFrame[i] = i; }
+  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData1.dmxFrame[i] = i+10; }
   broadcastData1.broadcastId = 1;
   broadcastArray[0] = broadcastData1;
   for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData2.dmxFrame[i] = i; }
@@ -34,9 +34,6 @@ void setupBroadcast() {
   // adding broadcast "node" to the peerlist
   Serial.println("Adding Broadcast to peerlist:");
   addNodeToPeerlist(BROADCAST_MAC);
-  // addPeersForESP();
-  Serial.println("Adding Slave 1 to peerlist:");
-  addNodeToPeerlist(SLAVE_MAC_1);
 
   // send unicast with meta information to each slave
   // for(int i=0; i<1; i++){ // For loop is for iterating through MAC_addresses
@@ -51,13 +48,8 @@ void setupBroadcast() {
 }
 
 // send meta Data to Slave with BroadcastID and Offset
-// TODO
-// TODO
-// TODO
-// TODO THIS DOES NOT SEEM TO WORK!
-// TODO
-// TODO
 void metaInformationToSlaves(const uint8_t *peer_addr, struct_advanced_meta metaData) {
+  metaData.metaCode = 33;
   if(VERBOSE) {
     Serial.print("[Info] Send DMX Information ");
     Serial.print((int) sizeof(metaData));
@@ -91,6 +83,36 @@ void createMetaPackage(){
   advanced_meta.wait_after_rep_send  = WAIT_AFTER_REP_SEND;
 }
 
+// TODO FIX, that not only 250 bytes are transmittable!
+void sendMetaAsBroadcast() {
+  if(VERBOSE) Serial.println("[Info] Meta Broadcast");
+
+  esp_err_t metaResult = esp_now_send(BROADCAST_MAC, 
+                                        (uint8_t *) &advanced_meta,
+                                        sizeof(advanced_meta));
+                                        // sizeof(broadcastArray[i].dmxFrame)); // == MAX_BROADCAST_FRAME_SIZE
+  if(DEBUG) espNowStatus(metaResult);
+}
+
+void sendDmxBroadcast() {
+  if(VERBOSE) Serial.println("[Info] Init DMX Broadcasting");
+
+  for (int j = 0; j < CHANNEL_TOTAL; j+=BROADCAST_FRAME_SIZE) {
+    int i = j/BROADCAST_FRAME_SIZE;
+    if(DEBUG) { 
+      Serial.print("[OK] DMX Broadcast "); 
+      Serial.println(broadcastArray[i].broadcastId); 
+    }
+    // Measure airtime with timestamp
+    esp_err_t broadcastResult = esp_now_send(BROADCAST_MAC,
+                                            (uint8_t *) &broadcastArray[i].dmxFrame,
+                                            BROADCAST_FRAME_SIZE);
+                                            // // sizeof(broadcastArray[i].dmxFrame)); // == MAX_BROADCAST_FRAME_SIZE
+    if(DEBUG) espNowStatus(broadcastResult);
+    delay(WAIT_AFTER_SEND); // TODO: No delay crashs the system
+  }
+}
+
 // TODO: depricated - now addNodeToPeer in utils.ino
 // void selectNodeForUnicast(const uint8_t *mac_addr) {
 //   // add peer to send the slave information
@@ -107,38 +129,6 @@ void createMetaPackage(){
 //     if(DEBUG) Serial.println("[Warning] peer still exists");
 //   }
 // }
-
-void sendMetaAsBroadcast() {
-  if(VERBOSE) Serial.println("[Info] Meta Broadcast");
-
-  esp_err_t metaResult = esp_now_send(BROADCAST_MAC, 
-                                        (uint8_t *) &advanced_meta,
-                                        sizeof(advanced_meta));
-  if(DEBUG) espNowStatus(metaResult);
-
-  // esp_err_t broadcastResult = esp_now_send(BROADCAST_MAC,
-                                          // (uint8_t *) &broadcastArray[i].dmxFrame,
-                                          // sizeof(broadcastArray[i].dmxFrame)); // == MAX_BROADCAST_FRAME_SIZE
-  // if(DEBUG) espNowStatus(broadcastResult);
-}
-
-void sendDmxBroadcast() {
-  if(VERBOSE) Serial.println("[Info] Init DMX Broadcasting");
-
-  for (int j = 0; j < CHANNEL_TOTAL; j+=BROADCAST_FRAME_SIZE) {
-    int i = j/BROADCAST_FRAME_SIZE;
-    if(DEBUG) { 
-      Serial.print("[OK] DMX Broadcast "); 
-      Serial.println(broadcastArray[i].broadcastId); 
-    }
-    // Measure airtime with timestamp
-    esp_err_t broadcastResult = esp_now_send(BROADCAST_MAC,
-                                            (uint8_t *) &broadcastArray[i].dmxFrame,
-                                            sizeof(broadcastArray[i].dmxFrame)); // == MAX_BROADCAST_FRAME_SIZE
-    if(DEBUG) espNowStatus(broadcastResult);
-    delay(WAIT_AFTER_SEND); // TODO: No delay crashs the system
-  }
-}
 
 // TODO: Instead of retransmitting messages I have to send directly unicasts to the slave,
 // TODO: so no request from the slave anymore

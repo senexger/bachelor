@@ -89,7 +89,7 @@ typedef struct struct_slave_requirements {
 } struct_slave_requirements;
 
 // Create a struct_message called espBroadcastData
-// // struct_esp_data_broadcast espBroadcastData;
+struct_esp_data_broadcast espBroadcastData;
 struct_advanced_meta      advanced_Meta;
 struct_esp_data_unicast   espUnicastData;
 

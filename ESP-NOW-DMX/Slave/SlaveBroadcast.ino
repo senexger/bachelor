@@ -23,91 +23,14 @@ void OnDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, 
     Serial2.print("!");
   }
   Serial.print("Data len: "); Serial.println(data_len);
-  memcpy(&advanced_Meta, incommingData, sizeof(advanced_Meta));
 
-  // DMX META PACKAGE HANDLING
-  if (advanced_Meta.metaCode) {
-    // PRINTING
-    Serial.println("THIS IS META!!!");
-    // broadcast specific information
-    Serial.print("BId: "); Serial.println(advanced_Meta.broadcastId);
-    Serial.print("BOf: "); Serial.println(advanced_Meta.broadcastOffset);
-    // generell information
-    Serial.print("SOf: "); Serial.println(advanced_Meta.slave_offset);
-    Serial.print("SBr: "); Serial.println(advanced_Meta.slave_broadcastId);
-    // Setting
-    Serial.print("Vrb: "); Serial.println(advanced_Meta.verbose);
-    Serial.print("Dbg: "); Serial.println(advanced_Meta.debug);
-    Serial.print("Tsp: "); Serial.println(advanced_Meta.timestamp);
-    Serial.print("Air: "); Serial.println(advanced_Meta.airtime);
-    Serial.print("Rep: "); Serial.println(advanced_Meta.full_repetitions);
-    Serial.print("Mch: "); Serial.println(advanced_Meta.master_channel);
-    Serial.print("sCh: "); Serial.println(advanced_Meta.slave_channel);
-    Serial.print("IsB: "); Serial.println(advanced_Meta.dmx_broadcasting);
-    Serial.print("ChT: "); Serial.println(advanced_Meta.channel_total);
-    Serial.print("BFS: "); Serial.println(advanced_Meta.broadcast_frame_size);
-    Serial.print("UFS: "); Serial.println(advanced_Meta.unicast_frame_size);
-    Serial.print("SRp: "); Serial.println(advanced_Meta.send_repitition);
-    Serial.print("WAS: "); Serial.println(advanced_Meta.wait_after_send);
-    Serial.print("WAR: "); Serial.println(advanced_Meta.wait_after_rep_send);
-
-    // SET VARIABLES
-    // broadcast settings
-    broadcastId          = advanced_Meta.broadcastId;
-    offset               = advanced_Meta.broadcastOffset;
-    slave_offset         = advanced_Meta.slave_offset;
-    slave_broadcastId    = advanced_Meta.slave_broadcastId;
-    // Testing parameter
-    VERBOSE              = advanced_Meta.verbose;
-    DEBUG                = advanced_Meta.debug;
-    TIMESTAMP            = advanced_Meta.timestamp;
-    AIRTIME              = advanced_Meta.airtime;
-    FULL_REPETITIONS     = advanced_Meta.full_repetitions;
-    MASTER_CHANNEL       = advanced_Meta.master_channel;
-    SLAVE_CHANNEL        = advanced_Meta.slave_channel;
-    DMX_BROADCASTING     = advanced_Meta.dmx_broadcasting;
-    CHANNEL_TOTAL        = advanced_Meta.channel_total;
-    BROADCAST_FRAME_SIZE = advanced_Meta.broadcast_frame_size;
-    UNICAST_FRAME_SIZE   = advanced_Meta.unicast_frame_size;
-    SEND_REPITITION      = advanced_Meta.send_repitition;
-    WAIT_AFTER_SEND      = advanced_Meta.wait_after_send;
-    WAIT_AFTER_REP_SEND  = advanced_Meta.wait_after_rep_send;
-
-     // // NO MORE ASKING IN THE LOOP!!!
-    // // meta data received, so dont aks for them anymore in the loop
-    // isDmxMetaReceived = 1;
-    // Serial.println("ID IS ZERO!");
-}
-
-  // CHECK HERE VALIDITY OF THE PACKAGE!
-
-  /*
-  // ESP-BROADCAST DATA PACKAGE HANDLING
+  // META PACKAGE HANDLING
+  if (incommingData[0]) { // == advanced_Meta.metaCode from master struct
+    applyMetaInformation(incommingData, data_len);
+  }
+  // DATA PACKAGE HANDLING
   else {
-    if (VERBOSE) {
-      Serial.print("advanced_Meta.broadcastID=");Serial.println(advanced_Meta.broadcastID);
-      Serial.print("advanced_Meta.payload[0] =");Serial.println(advanced_Meta.payload[0]);
-      Serial.print("advanced_Meta.payload[1] =");Serial.println(advanced_Meta.payload[1]);
-    }
-
-    // check broadcast integrity
-    // sub 1 becaus there is no broadcastID in payload
-    // iterating through the payload
-    bool signalBroken = false;
-    if (VERBOSE && advanced_Meta.broadcastID == broadcastId) {
-      for (int i=1; i < data_len -1; i++) { 
-        // just select needed channel
-        if ((i >= offset) && (i < offset + CHANNELS_NEEDED)) {
-          Serial.print(i); 
-          Serial.print(" = "); 
-          Serial.println(advanced_Meta.payload[i]); 
-        }
-        if (advanced_Meta.payload[i] != i) {
-          signalBroken = true;
-        }
-      }
-    }
-    if (signalBroken) {
+    if (checkPayload(incommingData, data_len)) {
       if(DEBUG) {
         Serial.print("[ERROR] Incomming Data broken: "); 
         Serial.print(data_len);
@@ -119,7 +42,6 @@ void OnDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, 
         Serial.print("[OK] Rcvd: "); 
         Serial.print(data_len);
         Serial.println(" B");
-
        // TODO: timestamp here...
       }
     }
@@ -127,7 +49,6 @@ void OnDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, 
     getTimestamp();
     setTimestamp();
   }
-  */
 }
 
 // TODO: Can this be removed?!
@@ -153,3 +74,70 @@ void OnDataRecvBroadcast(const uint8_t *mac_addr, const uint8_t *incommingData, 
 //     Serial.println("[OK] Send Ack");
 //   }
 // }
+
+void applyMetaInformation(const uint8_t *incommingData, int data_len) {
+  Serial.println("THIS IS META!!!");
+  memcpy(&advanced_Meta, incommingData, sizeof(advanced_Meta));
+
+  // APPLY SETTINGS
+  VERBOSE              = advanced_Meta.verbose;
+  DEBUG                = advanced_Meta.debug;
+  TIMESTAMP            = advanced_Meta.timestamp;
+  AIRTIME              = advanced_Meta.airtime;
+  FULL_REPETITIONS     = advanced_Meta.full_repetitions;
+  MASTER_CHANNEL       = advanced_Meta.master_channel;
+  SLAVE_CHANNEL        = advanced_Meta.slave_channel;
+  DMX_BROADCASTING     = advanced_Meta.dmx_broadcasting;
+  CHANNEL_TOTAL        = advanced_Meta.channel_total;
+  BROADCAST_FRAME_SIZE = advanced_Meta.broadcast_frame_size;
+  UNICAST_FRAME_SIZE   = advanced_Meta.unicast_frame_size;
+  SEND_REPITITION      = advanced_Meta.send_repitition;
+  WAIT_AFTER_SEND      = advanced_Meta.wait_after_send;
+  WAIT_AFTER_REP_SEND  = advanced_Meta.wait_after_rep_send;
+  // broadcast settings
+  broadcastId          = advanced_Meta.broadcastId;
+  offset               = advanced_Meta.broadcastOffset;
+  slave_offset         = advanced_Meta.slave_offset;
+  slave_broadcastId    = advanced_Meta.slave_broadcastId;
+
+  // PRINT SETTINGS
+  printSettings();
+  // broadcast specific information
+  Serial.print("BroadcastID      : "); Serial.println(advanced_Meta.broadcastId);
+  Serial.print("BroadcastOffset  : "); Serial.println(advanced_Meta.broadcastOffset);
+  // generell information
+  Serial.print("SlaveOffset      : "); Serial.println(advanced_Meta.slave_offset);
+  Serial.print("SlaveBroadcastID : "); Serial.println(advanced_Meta.slave_broadcastId);
+}
+
+int checkPayload(const uint8_t *incommingData, int data_len ) {
+  memcpy(&espBroadcastData, incommingData, sizeof(data_len));
+  if (VERBOSE) {
+    Serial.print("espBroadcastData.broadcastID=");Serial.println(espBroadcastData.broadcastID);
+    Serial.print("espBroadcastData.payload[0] =");Serial.println(espBroadcastData.payload[0]);
+    Serial.print("espBroadcastData.payload[1] =");Serial.println(espBroadcastData.payload[1]);
+    Serial.print("espBroadcastData.payload[2] =");Serial.println(espBroadcastData.payload[2]);
+    Serial.print("espBroadcastData.payload[3] =");Serial.println(espBroadcastData.payload[3]);
+    Serial.print("espBroadcastData.payload[4] =");Serial.println(espBroadcastData.payload[4]);
+    Serial.print("espBroadcastData.payload[5] =");Serial.println(espBroadcastData.payload[5]);
+  }
+
+  // check broadcast integrity
+  // sub 1 becaus there is no broadcastID in payload
+  // iterating through the payload
+  bool signalHealthy = true;
+  if (VERBOSE && espBroadcastData.broadcastID == broadcastId) {
+    for (int i=1; i < data_len -1; i++) { 
+      // just select needed channel
+      // if ((i >= offset) && (i < offset + CHANNELS_NEEDED)) {
+        Serial.print(i); 
+        Serial.print(" = "); 
+        Serial.println(espBroadcastData.payload[i]); 
+      // }
+      if (espBroadcastData.payload[i] != i) {
+        signalHealthy = false;
+      }
+    }
+  }
+  return signalHealthy;
+}

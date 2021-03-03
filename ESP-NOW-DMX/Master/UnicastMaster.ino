@@ -16,6 +16,7 @@ struct_dmx_unicast unicastDataArray[9];
 
 
 void setupUnicast() {
+  Serial.println("Setup Unicast");
   // Create Data
   for (int i=0; i<=MAX_SLAVES; i++) { unicastData1.dmxFrame[i] = i; }
   copyArray(unicastData1.mac, SLAVE_MAC_1);
@@ -33,9 +34,19 @@ void setupUnicast() {
 
   InitESPNow();
 
-  esp_now_register_recv_cb(onDataRecvUnicast);
+  // addPeersForESP();
+  Serial.println("Adding Slaves to peerlist:");
+  addNodeToPeerlist(SLAVE_MAC_1);
+  addNodeToPeerlist(SLAVE_MAC_2);
+  addNodeToPeerlist(SLAVE_MAC_3);
+  addNodeToPeerlist(SLAVE_MAC_4);
+  addNodeToPeerlist(SLAVE_MAC_5);
+
+  if(DEBUG) esp_now_register_send_cb(onDataSent);
+  // // esp_now_register_recv_cb(onDataRecvUnicast);
 }
 
+// TODO what are you doing?! Cloning MAC for the setup function?
 void copyArray(uint8_t array[6], uint8_t copy[6]) {
   for (int i=0; i <= 6; i++) {
     array[i] = copy[i];
@@ -71,23 +82,24 @@ void sendESPUnicast() {
   }
 }
 
-// Split function to BroadcastMAster and UnicastMaster
-// callback when data is recv from Slave
-// /* NEEDED FOR SLAVE?!
-void onDataRecvUnicast(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
-  memcpy(&slave_information, incommingData, sizeof(slave_information));
-  if(DEBUG) { 
-    Serial.print("[OK] received from "); 
-    // print mac
-    for (int i = 0; i < 6; i++) {
-      Serial.printf("%02X", mac_addr[i]);
-      if (i < 5)Serial.print(":");
-    }
-    Serial.print(" ("); 
-    Serial.print(slave_information.channelCount); 
-    Serial.println(" Channel)");
-  }
+// TODO Remove this function?
+// // Split function to BroadcastMAster and UnicastMaster
+// // callback when data is recv from Slave
+// // /* NEEDED FOR SLAVE?!
+// void onDataRecvUnicast(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
+//   memcpy(&slave_information, incommingData, sizeof(slave_information));
+//   if(DEBUG) { 
+//     Serial.print("[OK] received from "); 
+//     // print mac
+//     for (int i = 0; i < 6; i++) {
+//       Serial.printf("%02X", mac_addr[i]);
+//       if (i < 5)Serial.print(":");
+//     }
+//     Serial.print(" ("); 
+//     Serial.print(slave_information.channelCount); 
+//     Serial.println(" Channel)");
+//   }
 
-  // add peer to send the slave information
-  addNodeToPeerlist(mac_addr);
-}
+//   // add peer to send the slave information
+//   addNodeToPeerlist(mac_addr);
+// }
