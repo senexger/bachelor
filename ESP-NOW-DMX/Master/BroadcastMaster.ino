@@ -13,7 +13,7 @@ struct_dmx_message broadcastArray[5];
 void setupBroadcast() {
   if(DEBUG) Serial.println("Setup Broadcast");
   // BROADCAST:
-  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData1.dmxFrame[i] = i+10; }
+  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData1.dmxFrame[i] = i; }
   broadcastData1.broadcastId = 1;
   broadcastArray[0] = broadcastData1;
   for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { broadcastData2.dmxFrame[i] = i; }
@@ -34,11 +34,6 @@ void setupBroadcast() {
   // adding broadcast "node" to the peerlist
   Serial.println("Adding Broadcast to peerlist:");
   addNodeToPeerlist(BROADCAST_MAC);
-
-  // send unicast with meta information to each slave
-  // for(int i=0; i<1; i++){ // For loop is for iterating through MAC_addresses
-    metaInformationToSlaves(BROADCAST_MAC, advanced_meta);
-  // }
 
   // Once ESPNow is successfully Init, we will register for Send CB to
   // get the status of Trasnmitted packet

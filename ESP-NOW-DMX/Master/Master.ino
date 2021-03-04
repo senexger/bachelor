@@ -106,14 +106,6 @@ void setup() {
   hSerial.begin(115200);
 
   Serial.println("Master");
-  // Serial.println("Connecting with python bridge");
-  // pythonBridge();
-  
-  // This should be done in the loop, depending on the selected protocol
-  // // if (DMX_BROADCASTING)
-  // //   setupBroadcast();
-  // // else 
-  // //   setupUnicast();
 
   // Init ESPTimer with a fallback logic
   InitESPTimer();
@@ -130,7 +122,6 @@ void loop() {
   // TODO Send variable back to computer using JSON
   // get values from python skript serialComunication (SerialControl)
   pythonBridge();
-  // TODO pointer übergeben auf ein struct?! 
   // parse values from Master into meta package
   createMetaPackage();
   // ESP-NOW-Broadcast (WiFi.mode, InitESP, adding BroadcastPeer, sending meta Information)
@@ -139,6 +130,12 @@ void loop() {
     setupBroadcast();
   else
     setupUnicast();
+    
+  // TODO send unicast with meta information to each slave
+  // for(int i=0; i<1; i++){ // For loop is for iterating through MAC_addresses
+    metaInformationToSlaves(BROADCAST_MAC, advanced_meta);
+  // }
+
 
   // ++++ RUN TEST! ++++
   for (int i = 0; i < FULL_REPETITIONS; i++) {
