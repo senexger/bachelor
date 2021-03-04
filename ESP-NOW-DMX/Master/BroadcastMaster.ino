@@ -78,18 +78,7 @@ void createMetaPackage(){
   advanced_meta.wait_after_rep_send  = WAIT_AFTER_REP_SEND;
 }
 
-// TODO FIX, that not only 250 bytes are transmittable!
-void sendMetaAsBroadcast() {
-  if(VERBOSE) Serial.println("[Info] Meta Broadcast");
-
-  esp_err_t metaResult = esp_now_send(BROADCAST_MAC, 
-                                        (uint8_t *) &advanced_meta,
-                                        sizeof(advanced_meta));
-                                        // sizeof(broadcastArray[i].dmxFrame)); // == MAX_BROADCAST_FRAME_SIZE
-  if(DEBUG) espNowStatus(metaResult);
-}
-
-void sendDmxBroadcast() {
+void sendDataEspBroadcast() {
   if(VERBOSE) Serial.println("[Info] Init DMX Broadcasting");
 
   for (int j = 0; j < CHANNEL_TOTAL; j+=BROADCAST_FRAME_SIZE) {

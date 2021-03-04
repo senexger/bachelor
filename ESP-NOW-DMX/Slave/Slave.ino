@@ -113,18 +113,8 @@ void setup() {
   Serial.println("init success!");
   // addPeer(MAC_ADDRESS);
 
-  if (DMX_BROADCASTING)
-    setupSlaveBroadcasting();
-  else
-    setupSlaveUnicast();
-
-  // TODO move to SlaveBroadcast too 
-  // //Set device in AP mode to begin with
-  // WiFi.mode(WIFI_STA);
-  // Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
-
-  // // get recv packer info.
-  // esp_now_register_send_cb(OnDataSent);
+  // Just setup a default ESP mode
+  setupEspNow();
 }
 
 void loop() {
@@ -141,4 +131,52 @@ void loop() {
 
   // wait for incomming messages
   delay(10000);
+}
+
+// callback when data is recv from Master just printing incomming data
+void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
+  if(VERBOSE) Serial.println("VERBOSE: OnDataRecv()");
+  // TODO ist das sinnvoll?!
+  if (AIRTIME) {
+    Serial2.print("!");
+  }
+  Serial.print("Data len: "); Serial.println(data_len);
+
+  // META PACKAGE HANDLING
+  if (incommingData[0]) { // == advanced_Meta.metaCode from master struct
+    applyMetaInformation(incommingData, data_len);
+  }
+  // DATA PACKAGE HANDLING
+  else {
+    if (checkPayload(incommingData, data_len)) {
+      if(DEBUG) { 
+        Serial.print("[OK] Rcvd: "); 
+        Serial.print(data_len);
+        Serial.println(" B (not broken)");
+       // TODO: timestamp here...
+      }
+    }
+    else {
+      if(DEBUG) {
+        Serial.print("[ERROR] Incomming Data broken: "); 
+        Serial.print(data_len);
+        Serial.println(" B");
+      }
+    }
+    // TODO: sure?
+    getTimestamp();
+    setTimestamp();
+  }
+}
+
+void setupEspNow() {
+  //Set device in AP mode to begin with
+  WiFi.mode(WIFI_STA);
+  Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
+
+  // Init ESPNow with a fallback logic
+  InitESPNow();
+
+  // Register for a callback function that will be called when data is received
+  esp_now_register_recv_cb(OnDataRecv);
 }

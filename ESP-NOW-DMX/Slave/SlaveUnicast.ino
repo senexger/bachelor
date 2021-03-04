@@ -2,18 +2,6 @@
 #include <esp_timer.h>
 #include <HardwareSerial.h>
 
-void setupSlaveUnicast() {
-  //Set device in AP mode to begin with
-  WiFi.mode(WIFI_STA);
-  Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
-
-  // Init ESPNow with a fallback logic
-  InitESPNow();
-
-  // Register for a callback function that will be called when data is received
-  esp_now_register_recv_cb(OnDataRecvUnicast);
-}
-
 // callback when data is recv from Master just printing incomming data
 // TODO devide in Broadcast & Unicast
 void OnDataRecvUnicast(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {

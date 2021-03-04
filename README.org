@@ -139,3 +139,14 @@ vielleicht einfach mal alles vereinfachen?
 2. Timestamp
 * TODO SendMetaInformation AS unicast
 Dann kann für broadcast gleich die gefragte id übermittelt werden, aber ich sehe gerade, dass ich das auch schon so machen wollte...
+
+* TODO Split stupid unicast struct
+ein Array in dem die Macaddressen gespeichert sind, durch über das iteriert werden kann und eins in dem die Fakedaten gespeichert sind - kann doch nicht so schwer sein!
+- in der Funktion master unicast
+* TODO Rework Slave Broadcast&Unicast all in one
+* DONE !!!BUG!!! isbroadcasting state problem
+Wenn isbroadcasting auf 0 gestetzt ist funktioniert es nicht
+Wenn isbroadcasting auf 1 gestetz ist funktioniert es
+danach funktioniert auch is broadcasting auf 0.
+Warum?
+*Lösung*: Das Problem war, dass als sendeaddresse die broadcast addresse genommen wurde, die ist erst bekannt, wenn ein setup broadcast ausgeführt wurde...

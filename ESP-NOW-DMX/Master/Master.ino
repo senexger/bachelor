@@ -149,7 +149,7 @@ void loop() {
         setTimestamp();
       for (int r = 0; r < SEND_REPITITION; r++) {
         // send DMX broadcast to all peers
-        sendDmxBroadcast();
+        sendDataEspBroadcast();
       }
     }
     // DMX UNICASTING TEST
@@ -159,7 +159,7 @@ void loop() {
       // Send data to device
       for (int r = 0; r < SEND_REPITITION; r++) {
         // send DMX broadcast to all peers
-        sendESPUnicast();
+        sendDataEspUnicast();
       }
     }
     // TODO DMX ARTNET TEST

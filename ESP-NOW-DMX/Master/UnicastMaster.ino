@@ -14,6 +14,7 @@ struct_dmx_unicast unicastData8;
 struct_dmx_unicast unicastData9;
 struct_dmx_unicast unicastDataArray[9];
 
+uint8_t unicastData[MAX_UNICAST_FRAME_SIZE];
 
 void setupUnicast() {
   Serial.println("Setup Unicast");
@@ -29,12 +30,16 @@ void setupUnicast() {
   copyArray(unicastData3.mac, SLAVE_MAC_3);
   unicastDataArray[2] = unicastData3;
 
+  for (int i=0; i <= MAX_UNICAST_FRAME_SIZE; i++) {
+    unicastData[i] = i;
+  }
+
   WiFi.mode(WIFI_STA);
   Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
 
   InitESPNow();
 
-  // addPeersForESP();
+  // adding peers to the peerlist - allowing to send esp-now
   Serial.println("Adding Slaves to peerlist:");
   addNodeToPeerlist(SLAVE_MAC_1);
   addNodeToPeerlist(SLAVE_MAC_2);
@@ -43,7 +48,8 @@ void setupUnicast() {
   addNodeToPeerlist(SLAVE_MAC_5);
 
   if(DEBUG) esp_now_register_send_cb(onDataSent);
-  // // esp_now_register_recv_cb(onDataRecvUnicast);
+  // TODO usage for acknoledgements?
+  // esp_now_register_recv_cb(onDataRecvUnicast);
 }
 
 // TODO what are you doing?! Cloning MAC for the setup function?
@@ -54,21 +60,32 @@ void copyArray(uint8_t array[6], uint8_t copy[6]) {
 }
 
 // send data
-void sendESPUnicast() {
+void sendDataEspUnicast() {
   // TODO: iterate over all MAC addresses und use sendUnicastToMac (sendUnicastBackToMac)
   if(VERBOSE) Serial.println("[Info] Init DMX Unicasting");
+
   for (int i = 0; i < slaveCount; i++) {
     if(VERBOSE) { 
       Serial.print("Unicast: "); Serial.println(i);
       for (int j=0; j < 6; j++) {
         Serial.print(unicastDataArray[i].mac[j]);Serial.print(":");
       }
+      Serial.println("");
     }
-    // if statement is JUST FOR TESTING! Faking to send to X nodes
+    // ! if statement is JUST FOR TESTING! Faking to send to X nodes
     if (i == 0) {
-      esp_err_t unicastResult = esp_now_send(unicastDataArray[i].mac, 
+      /*
+      esp_err_t unicastResult = esp_now_send(BROADCAST_MAC,//unicastDataArray[i].mac, 
+                                            // TODO place unicastData[] here
+                                            // (uint8_t) &unicastData, //  ??!?
                                             (uint8_t *) &unicastDataArray[i].dmxFrame,
                                             sizeof(unicastDataArray[i].dmxFrame));
+                                            */
+
+    // ! This is just testing from the broadcast sendData function...
+    esp_err_t unicastResult = esp_now_send(BROADCAST_MAC,
+                                            (uint8_t *) &broadcastArray[i].dmxFrame,
+                                            UNICAST_FRAME_SIZE);
       if(DEBUG) espNowStatus(unicastResult);
     }
     else {
