@@ -21,12 +21,13 @@ if __name__ == "__main__":
         "DEBUG"                 : 4,
         "TIMESTAMP"             : 0,
         "AIRTIME"               : 0,
-        "FULL_REPETITIONS"      : 2,
+        "FULL_REPETITIONS"      : 1,
         "DMX_BROADCASTING"      : 0,
 
         "CHANNEL_TOTAL"         : 10,
-        "BROADCAST_FRAME_SIZE"  : 40,
+        "BROADCAST_FRAME_SIZE"  : 45,
         "UNICAST_FRAME_SIZE"    : 30,
+        "UNICAST_SLAVE_COUNT"   : 3,
         "SEND_REPITITION"       : 1,
         "WAIT_AFTER_SEND"       : 0,
         "WAIT_AFTER_REP_SEND"   : 1000

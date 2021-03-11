@@ -18,6 +18,23 @@ Ablauf:
 works like a charme :)
 ** Variable wurde nur bei Neustart zurückgesetzt
 Weil ich den chip so häufig neu geflasht habe, ist der Fehler nur selten auf getaucht
+* FLOW
+** Master
+- SerialBegin
+- InitESPTimer
+- pythonBridge
+- createMetaPackage
+- setup
+  a. setupBroadcast
+  b. setupUnicast
+- sending
+  a. sendBroadcast
+  b. sendUnicast
+** Slave (onDataReceive)
+1. memcpy
+   a. applyMetaInformation
+   b. checkDataPayload
+2. Timestamp
 * DONE Broadcast
 Broadcasting just works fine. But I need a good solution, if I will transmit more than one universer at once.
 Now I will try to send Messages as Slave and receive as Master. So the Slave tells the Master how many bytes he needs (via unicast) and the Master talks back his position.
@@ -59,7 +76,7 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
 * DONE Tolja schreiben
 * DONE Unicast reparieren
 * TODO Package loss fixen
-Wenn Pakete zu schnell hintereinander versendet werden, dann führt das zu Paketverlusten
+Wenn Pakete zu schnell hintereinander versendet werden, dann führt das zu Paketverlusten. Genaueres habe ich gefinden in der Doku von Espressif
 * KILL Telefonkonferenz [2021-11-01 14:00]
 * DONE variablen.h anlegen
 * DONE GPIO communication packet ackn (UART)
@@ -82,7 +99,7 @@ Wenn Pakete zu schnell hintereinander versendet werden, dann führt das zu Paket
 The ESP has three UART controllers UART0, UART1 and UART2) use UART1 or 2
 here is how to setup uart on the ESP32
 https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/uart.html
-* TODO Pythonbridge Modul [85%]
+* TODO Pythonbridge Modul [92%]
 ** DONE Write python bridge
 ** DONE Why does it break with the python bridge?!
 ** DONE Fix Problem with broadcasting now
@@ -107,40 +124,21 @@ Idee: es könnte eine Lösung sein, werte nur bis 255 zu übergeben, weil die Za
 Lösung: Nein, es ist kein Problem!
 * TODO Understand addPeer and addToPeerList in utlis.ino
 - vielleicht hilft eine Funktion, die die gesamte Peerlist ausgibt?!
-* TODO change esp_now_register_recv_cb in Abhängigkeit von Unicast/broadcast
+* DONE change esp_now_register_recv_cb in Abhängigkeit von Unicast/broadcast
 Einfach UnicastSetup erneut ausführen?
 * DONE Degbug C header chaos
 * TODO find related work
-* TODO Mittwochspräsi
-* TODO [#B] Tolja Mail schreiben
-* TODO ESP Mail schicken, dass ich meine BA darüber schreibe?!
+* DONE Tolja Mail schreiben
+* TODO Espressif Mail schicken?
 * DONE dynamic struct
 Wenn ich daten verschicke, dann sollen die Pakete natürlich nicht immer MAX_LENGTH haben, deswgen darf das struct nicht direkt so groß angelegt werden.
 Lösung: Einfach die Länge des zu übertragenden Signals beschneiden und +1 rechnen
-* TODO Extend unicast to work with pythonbridge
-* TODO unicast repair sending length
+* DONE Extend unicast to work with pythonbridge
+* DONE unicast repair sending length
 vielleicht einfach mal alles vereinfachen?
-* TODO create somethink like a UML/Flow diagram, with all functions inside
-** Master
-1. SerialBegin
-2. InitESPTimer
-3. pythonBridge
-4. createMetaPackage
-5. setup
-   a. setupBroadcast
-   b. setupUnicast
-6. sending
-   a. sendBroadcast
-   b. sendUnicast
-** Slave (onDataReceive)
-1. memcpy
-   a. applyMetaInformation
-   b. checkDataPayload
-2. Timestamp
-* TODO SendMetaInformation AS unicast
+* DONE SendMetaInformation AS unicast
 Dann kann für broadcast gleich die gefragte id übermittelt werden, aber ich sehe gerade, dass ich das auch schon so machen wollte...
-
-* TODO Split stupid unicast struct
+* DONE Split stupid unicast struct
 ein Array in dem die Macaddressen gespeichert sind, durch über das iteriert werden kann und eins in dem die Fakedaten gespeichert sind - kann doch nicht so schwer sein!
 - in der Funktion master unicast
 * TODO Rework Slave Broadcast&Unicast all in one
@@ -150,3 +148,13 @@ Wenn isbroadcasting auf 1 gestetz ist funktioniert es
 danach funktioniert auch is broadcasting auf 0.
 Warum?
 *Lösung*: Das Problem war, dass als sendeaddresse die broadcast addresse genommen wurde, die ist erst bekannt, wenn ein setup broadcast ausgeführt wurde...
+* DONE !BUG! unicast wont work
+* DONE Master ISBRADCAST 0 first BUG
+wennn der Master nicht ISBROADCAST 1 zu beginn ausführt, dann kommt es zum fehler,
+die pakete werden zwar gesendet, sind aber noch alle mit 0 initialisiert
+Idee: der unicast benutzt gerade das broadcast frame, das existiert zu diesem zeitpunkt allerdings noch nicht
+* TODO Parameterize slaveCount for the pythonbridge modul
+in der unicastmaster:74 läuft etwas falsch
+- was bedeutet die variable slaveCount und warum wird sie nicht vom pythonmodul verteilt
+- wie sollen die Daten generell verteilt werden?
+  z.B.: ein unicastroundtrip mit jeweils 20 Byts

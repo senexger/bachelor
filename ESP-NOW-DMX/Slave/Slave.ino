@@ -73,6 +73,7 @@ typedef struct struct_advanced_meta {
   uint8_t channel_total;
   uint8_t broadcast_frame_size;
   uint8_t unicast_frame_size;
+  uint8_t unicast_slave_count;
   uint8_t send_repitition;
   uint8_t wait_after_send;
   uint8_t troll = 10;
@@ -120,7 +121,7 @@ void setup() {
 void loop() {
   // Serial2.println("A");
 
-  printSettings();
+  // printSettings();
 
   // // Send message via ESP-NOW if MetaData wasn't received
   // // Wäre gut, wenn man das hier gar nicht benötigen würde...

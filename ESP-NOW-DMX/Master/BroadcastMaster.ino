@@ -33,7 +33,7 @@ void setupBroadcast() {
 
   // adding broadcast "node" to the peerlist
   Serial.println("Adding Broadcast to peerlist:");
-  addNodeToPeerlist(BROADCAST_MAC);
+  addNodeToPeerlist(SLAVE_MAC_ARRAY[0]);
 
   // Once ESPNow is successfully Init, we will register for Send CB to
   // get the status of Trasnmitted packet
@@ -73,6 +73,7 @@ void createMetaPackage(){
   advanced_meta.channel_total        = CHANNEL_TOTAL;
   advanced_meta.broadcast_frame_size = BROADCAST_FRAME_SIZE;
   advanced_meta.unicast_frame_size   = UNICAST_FRAME_SIZE;
+  advanced_meta.unicast_slave_count  = UNICAST_SLAVE_COUNT;
   advanced_meta.send_repitition      = SEND_REPITITION;
   advanced_meta.wait_after_send      = WAIT_AFTER_SEND;
   advanced_meta.wait_after_rep_send  = WAIT_AFTER_REP_SEND;
@@ -88,7 +89,7 @@ void sendDataEspBroadcast() {
       Serial.println(broadcastArray[i].broadcastId); 
     }
     // Measure airtime with timestamp
-    esp_err_t broadcastResult = esp_now_send(BROADCAST_MAC,
+    esp_err_t broadcastResult = esp_now_send(SLAVE_MAC_ARRAY[0],
                                             (uint8_t *) &broadcastArray[i].dmxFrame,
                                             BROADCAST_FRAME_SIZE);
                                             // // sizeof(broadcastArray[i].dmxFrame)); // == MAX_BROADCAST_FRAME_SIZE
