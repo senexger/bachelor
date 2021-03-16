@@ -17,10 +17,7 @@
 
 esp_now_peer_info_t slaves[MAX_SLAVES] = {};
 uint8_t slaveArray[MAX_SLAVES][6]; // magic 6 - MAC has 6 byte
-int slaveCount = 4;
 
-// TODO remove
-String success;
 String puropse = "MASTER";
 
 HardwareSerial &hSerial = Serial2; //can be Serial2 as well, just use proper pins
@@ -38,45 +35,28 @@ typedef struct struct_advanced_meta {
   uint8_t debug;
   uint8_t timestamp;
   uint8_t airtime;
-  uint8_t full_repetitions;
+  uint16_t full_repetitions;
   uint8_t master_channel;
   uint8_t slave_channel;
   uint8_t dmx_broadcasting;
-  uint8_t channel_total;
+  uint16_t channel_total;
   uint8_t broadcast_frame_size;
   uint8_t unicast_frame_size;
   uint8_t unicast_slave_count;
-  uint8_t send_repitition;
-  uint8_t wait_after_send;
-  uint8_t troll = 10;
+  uint16_t send_repitition;
+  uint16_t wait_after_send;
   uint16_t wait_after_rep_send;
 } struct_advanced_meta;
 
 // Master-Slave DMX information BROADCAST
-typedef struct struct_dmx_message {
+typedef struct struct_broadcast_message {
   uint8_t metaCode = 33;
-  uint8_t broadcastId; // != 0
+  uint8_t broadcastId;
   uint8_t dmxFrame[MAX_BROADCAST_FRAME_SIZE];
-} struct_dmx_message;
-
-// ++ RECEIVED MESSAGES ++
-typedef struct struct_slave_information {
-  uint8_t channelCount;
-} struct_slave_information;
-
-// TODO split stupid cast into an array of MACs and unicast extra payload without struct
-// typedef struct struct_dmx_unicast {
-//   uint8_t mac[6]; // != 0
-//   uint8_t dmxFrame[MAX_UNICAST_FRAME_SIZE];
-// } struct_dmx_unicast;
+} struct_broadcast_message;
 
 // Init metadata
-// // struct_dmx_meta          dmx_meta;
-struct_advanced_meta     advanced_meta;
-struct_slave_information slave_information;
-
-int broadcastID;
-int slaveoffsets[20];
+struct_advanced_meta advanced_meta;
 
 // Callback when data is sent
 void onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
@@ -103,19 +83,27 @@ void setup() {
 }
 
 void loop() {
+  // ++ PREPARE ++
   // TODO Send variable back to computer using JSON
   pythonBridge();
   createMetaPackage();
 
+  // ++ SETUP ++
   if (DMX_BROADCASTING)
     setupBroadcast();
   else
     setupUnicast();
     
+  // ++ DISTRIBUTE ++
+  // Distribution with unicast, because its fast and reliable. Using WLAN would be also an option
+  // but its rather cumbersome
   // TODO send unicast with meta information to each slave
-  // for(int i=0; i<1; i++){ // For loop is for iterating through MAC_addresses
+  // for(int i=1; i < UNICAST_SLAVE_COUNT; i++){ // For loop is for iterating through MAC_addresses
+    // metaInformationToSlaves(SLAVE_MAC_ARRAY[i], advanced_meta);
     metaInformationToSlaves(BROADCAST_MAC, advanced_meta);
   // }
+
+  // ++ TEST ++
   for (int i = 0; i < FULL_REPETITIONS; i++) {
     if (VERBOSE) {
       Serial.print("Repition "); 
@@ -131,7 +119,6 @@ void runTest() {
     if(TIMESTAMP || AIRTIME) 
       setTimestamp();
     for (int r = 0; r < SEND_REPITITION; r++) {
-      // send DMX broadcast to all peers
       sendDataEspBroadcast();
     }
   }
@@ -139,9 +126,7 @@ void runTest() {
   else { 
     if(TIMESTAMP || AIRTIME) 
       setTimestamp();
-    // Send data to device
     for (int r = 0; r < SEND_REPITITION; r++) {
-      // send DMX broadcast to all peers
       sendDataEspUnicast();
     }
   }

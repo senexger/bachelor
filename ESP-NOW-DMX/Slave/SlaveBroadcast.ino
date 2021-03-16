@@ -44,10 +44,11 @@ int checkPayload(const uint8_t *incommingData, int data_len ) {
   // iterating through the payload
   bool signalHealthy = true;
 
-  if (espBroadcastData.broadcastID == broadcastId) {
+  // if (espBroadcastData.broadcastID == broadcastId) {
     for (int i=1; i<data_len ; i++) { 
       // Print all data
-      if (VERBOSE) Serial.print(i); Serial.print(" -> ");Serial.println(incommingData[i]);
+      // if (VERBOSE) 
+          // Serial.print(i); Serial.print(" -> ");Serial.println(incommingData[i]);
       // just select needed channel
       // if ((i >= offset) && (i < offset + CHANNELS_NEEDED)) {
       // }
@@ -56,6 +57,6 @@ int checkPayload(const uint8_t *incommingData, int data_len ) {
         signalHealthy = false;
       }
     }
-  }
+  // }
   return signalHealthy;
 }

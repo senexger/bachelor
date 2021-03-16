@@ -71,6 +71,8 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
 ** DONE Airtime 100 times Broadcast
 ** TODO MAC in HEX printen
 ** TODO DEBUG und VERBOSE sinnvoll trennen
++ DEBUG: Schritte die im Flow vorkommen oder explizit davon abweichen
++ VERBOSE: Informationen über den aktuellen zustand
 ** DONE Feherlmeldung: TXQ_BLOCK=2000 bekämpfen
 * DONE Präsentation vorbereiten [2020-12-14]
 * DONE Tolja schreiben
@@ -99,7 +101,7 @@ Wenn Pakete zu schnell hintereinander versendet werden, dann führt das zu Paket
 The ESP has three UART controllers UART0, UART1 and UART2) use UART1 or 2
 here is how to setup uart on the ESP32
 https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/uart.html
-* TODO Pythonbridge Modul [92%]
+* TODO Pythonbridge Modul [100%]
 ** DONE Write python bridge
 ** DONE Why does it break with the python bridge?!
 ** DONE Fix Problem with broadcasting now
@@ -110,7 +112,8 @@ Solution: broadcast peer wasnt added correctly. Just if a messsage was incomming
 Weil der Chip nicht ausreichend Strom beim Neustart bekommt. wtf.
 ** DONE matadata -> new constants
 ** DONE send meta info from master to slaves
-** TODO Collect data on chip or direct print to serial? Collect Data from Slave?!
+** DONE Collect data on chip or direct print to serial? Collect Data from Slave?!
+No Collect Data over Serial from Master
 ** DONE Should I use uint16_t or uint32_t instead of uint8_t ?!
 ESP32...
 Aber ich denke das ist schon okay so.
@@ -122,7 +125,9 @@ Aber ich denke das ist schon okay so.
 there is a cast in the sendMetaAsBroadcast function to uint8_t, this could cause problems
 Idee: es könnte eine Lösung sein, werte nur bis 255 zu übergeben, weil die Zahl der Millisekunden eh groß genug sein wird.
 Lösung: Nein, es ist kein Problem!
-* TODO Understand addPeer and addToPeerList in utlis.ino
+** DONE stupid newline bug
+immer eine leere Zeile nach jedem Print...
+* DONE Understand addPeer and addToPeerList in utlis.ino
 - vielleicht hilft eine Funktion, die die gesamte Peerlist ausgibt?!
 * DONE change esp_now_register_recv_cb in Abhängigkeit von Unicast/broadcast
 Einfach UnicastSetup erneut ausführen?
@@ -153,8 +158,16 @@ Warum?
 wennn der Master nicht ISBROADCAST 1 zu beginn ausführt, dann kommt es zum fehler,
 die pakete werden zwar gesendet, sind aber noch alle mit 0 initialisiert
 Idee: der unicast benutzt gerade das broadcast frame, das existiert zu diesem zeitpunkt allerdings noch nicht
-* TODO Parameterize slaveCount for the pythonbridge modul
+* DONE Parameterize slaveCount for the pythonbridge modul
 in der unicastmaster:74 läuft etwas falsch
 - was bedeutet die variable slaveCount und warum wird sie nicht vom pythonmodul verteilt
 - wie sollen die Daten generell verteilt werden?
   z.B.: ein unicastroundtrip mit jeweils 20 Byts
+* DONE WAIT_AFTER_SEND uint16_t?
+Ich glaube ich muss den Wert vergrößern, es sei denn es ists beim Testen nicht notwendig
+* TODO advanced_Meta_struct instead of MACLIST constansts
+das struct in dem alle Werte drin stehen könnte auch genommen werden um diese Werte zu benutzen.
+Dann wäre ein Aufruf zb: meta.broadcastId anstelle von BROADCASTID, dann muss es nicht zweimal gemacht werden
+* TODO der slave scheint immer korrekte pakete zu empfangen
+* TODO Serial to Python Plot
+https://makersportal.com/blog/2018/2/25/python-datalogger-reading-the-serial-output-from-arduino-to-analyze-data-using-pyserial

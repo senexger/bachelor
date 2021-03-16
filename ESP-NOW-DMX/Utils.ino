@@ -22,26 +22,17 @@ void addNodeToPeerlist(const uint8_t *mac_addr) {
   bool exists = esp_now_is_peer_exist(mac_addr);
   if (!exists) {
     memcpy(peer_info.peer_addr, mac_addr, 6);
+    // peer_info.ifidx = ESP_IF_WIFI_STA;
+    // peer_info.encrypt = false;
     esp_err_t status = esp_now_add_peer(&peer_info);
-    if (ESP_OK != status && DEBUG) {
-      Serial.println("[ERROR] Could not add peer"); }
-    else { 
-      if(DEBUG) Serial.println("[OK] Slave-peer added"); }
+    if (ESP_OK != status && DEBUG)
+      Serial.println("[ERROR] Could not add peer");
+    else if (DEBUG)  
+      Serial.println("[OK] Slave-peer added");
   }
   else {
     if(DEBUG) Serial.println("[Warning] peer still exists");
   }
-}
-
-// merge with addNodeToPeerlist
-void addPeer (uint8_t mac_address[6]) {
-  esp_now_peer_info_t peer_info;
-  peer_info.channel = SLAVE_CHANNEL;
-  memcpy(peer_info.peer_addr, mac_address, 6);
-  peer_info.ifidx = ESP_IF_WIFI_STA;
-  peer_info.encrypt = false;
-  esp_err_t status = esp_now_add_peer(&peer_info);
-  if (ESP_OK != status) { Serial.println("Could not add peer"); }
 }
 
 // Init ESP Now with fallback
@@ -74,12 +65,14 @@ unsigned long timestamp;
 unsigned long timediff;
 
 void setTimestamp() {
+  if (VERBOSE) Serial.println("Start Timestamp");
   timestamp = (unsigned long) (esp_timer_get_time() );
   return;
 }
 unsigned long getTimestamp() {
   timediff = (unsigned long) (esp_timer_get_time() ) - timestamp;
-  Serial.print("[T] "); Serial.println(timediff);
+  if (VERBOSE) Serial.print("[T] "); // sic!
+  Serial.println(timediff);
   return timediff;
 }
 
@@ -143,10 +136,12 @@ void printSettings(){
   Serial.print("SEND_REPITITION:          ");Serial.println(SEND_REPITITION);
   Serial.print("WAIT_AFTER_SEND:          ");Serial.println(WAIT_AFTER_SEND);
   Serial.print("WAIT_AFTER_REP_SEND:      ");Serial.println(WAIT_AFTER_REP_SEND);
+  Serial.println("    +           +          +");
 
   // Constants
   Serial.print("MAX_BROADCAST_FRAME_SIZE: ");Serial.println(MAX_BROADCAST_FRAME_SIZE);
   Serial.print("MAX_UNICAST_FRAME_SIZE:   ");Serial.println(MAX_UNICAST_FRAME_SIZE);
   Serial.print("MAX_SLAVES:               ");Serial.println(WAIT_AFTER_REP_SEND);
+  Serial.println("+++++++++++++++++++++++++++++++");
   return;
 }

@@ -14,26 +14,26 @@ if __name__ == "__main__":
         bytesize=serial.EIGHTBITS,\
         timeout=2.5
     )
-    data = {}
+    # data = {}
     # data["operation"] = "channel"
-    data = {
-        "VERBOSE"               : 17,
-        "DEBUG"                 : 4,
-        "TIMESTAMP"             : 0,
+    test1 = {
+        "VERBOSE"               : 0,
+        "DEBUG"                 : 0,
+        "TIMESTAMP"             : 1,
         "AIRTIME"               : 0,
         "FULL_REPETITIONS"      : 1,
-        "DMX_BROADCASTING"      : 0,
+        "DMX_BROADCASTING"      : 1,
 
-        "CHANNEL_TOTAL"         : 10,
-        "BROADCAST_FRAME_SIZE"  : 45,
-        "UNICAST_FRAME_SIZE"    : 30,
-        "UNICAST_SLAVE_COUNT"   : 3,
-        "SEND_REPITITION"       : 1,
-        "WAIT_AFTER_SEND"       : 0,
-        "WAIT_AFTER_REP_SEND"   : 1000
+        "CHANNEL_TOTAL"         : 600,
+        "BROADCAST_FRAME_SIZE"  : 200,
+        "UNICAST_FRAME_SIZE"    : 2,
+        "UNICAST_SLAVE_COUNT"   : 1,
+        "SEND_REPITITION"       : 1000,  
+        "WAIT_AFTER_SEND"       : 3,
+        "WAIT_AFTER_REP_SEND"   : 0
     }
-
-    data=json.dumps(data)
+ 
+    data=json.dumps(test1)
     print (data)
 
     if ser.isOpen():
@@ -42,15 +42,10 @@ if __name__ == "__main__":
         while (True):
             try:
                 incoming = ser.readline().decode("utf-8")
-                print (incoming)
+                print (incoming, end="")
             except Exception as e:
                 print (e)
                 pass
         ser.close()
     else:
         print ("opening error")
-
-# TODO print every input to the terminal
-    # while (str(espData) != "b'done\\r\\n'"):
-    #     espData = ser.readline()
-    #     print(espData)

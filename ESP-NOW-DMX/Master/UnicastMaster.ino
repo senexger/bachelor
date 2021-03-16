@@ -35,12 +35,8 @@ void copyArray(uint8_t array[6], uint8_t copy[6]) {
   }
 }
 
-// TODO
-// TODO START HERE
-// TODO
 // send data
 void sendDataEspUnicast() {
-  // TODO: iterate over all MAC addresses und use sendUnicastToMac (sendUnicastBackToMac)
   if(VERBOSE) Serial.println("[Info] Init DMX Unicasting");
 
   // Starting with 1 because zero is the BROADCAST ADDRESS
@@ -53,7 +49,7 @@ void sendDataEspUnicast() {
       Serial.println("");
     }
 
-    esp_err_t unicastResult = esp_now_send(SLAVE_MAC_ARRAY[1],
+    esp_err_t unicastResult = esp_now_send(SLAVE_MAC_ARRAY[1], // ! HOTFIX
                                           (uint8_t *) &unicastData, // ??
                                           UNICAST_FRAME_SIZE);
     if(DEBUG) espNowStatus(unicastResult);

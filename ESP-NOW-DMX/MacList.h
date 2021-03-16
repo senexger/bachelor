@@ -33,25 +33,25 @@
 
     // General Constants
     // print level
-    static uint8_t VERBOSE              = 1   ;
-    static uint8_t DEBUG                = 1   ;
+    static uint8_t VERBOSE              = 0   ;
+    static uint8_t DEBUG                = 0   ;
     static uint8_t TIMESTAMP            = 0   ; // taking timestamps
     static uint8_t AIRTIME              = 0   ; // measuring airtime
-    static uint8_t FULL_REPETITIONS     = 10  ; // how many times run the test
+    static uint16_t FULL_REPETITIONS    = 10  ; // how many times run the test
 
     // TODO SLAVE_CHANNEL
     static uint8_t MASTER_CHANNEL       = 7;
     static uint8_t SLAVE_CHANNEL        = 1;
 
-    static uint8_t DMX_BROADCASTING     = 1   ; // 1 = Broadcast, 0 = Unicast
-    static uint8_t CHANNEL_TOTAL        = 10  ; // Broadcast: total count of channels of all fixtures
-    static uint8_t BROADCAST_FRAME_SIZE = 100 ; // Broadcast: Channel/Broadcast
-    static uint8_t UNICAST_FRAME_SIZE   = 20  ; // Unicast: Channel/Unicast
-    static uint8_t UNICAST_SLAVE_COUNT  = 4   ; // Unicast: Number of different Slaves
-    static uint8_t SEND_REPITITION      = 1   ; // Sending-Measuring Interval (how many casts)
-    static uint8_t WAIT_AFTER_SEND      = 50  ; // delay between broadcast sendings - prevent errors?
+    static uint8_t  DMX_BROADCASTING     = 1   ; // 1 = Broadcast, 0 = Unicast
+    static uint16_t CHANNEL_TOTAL        = 10  ; // Broadcast: total count of channels of all fixtures
+    static uint8_t  BROADCAST_FRAME_SIZE = 100 ; // Broadcast: Channel/Broadcast
+    static uint8_t  UNICAST_FRAME_SIZE   = 20  ; // Unicast: Channel/Unicast
+    static uint8_t  UNICAST_SLAVE_COUNT  = 4   ; // Unicast: Number of different Slaves
+    static uint32_t SEND_REPITITION      = 1   ; // Sending-Measuring Interval (how many casts)
+    static uint16_t WAIT_AFTER_SEND      = 1000; // delay between broadcast sendings - prevent errors?
     // * uint8_t can just up to 255
-    static uint16_t WAIT_AFTER_REP_SEND = 1000; // delay between sendings - prevent errors?
+    static uint16_t WAIT_AFTER_REP_SEND  = 1000; // delay between sendings - prevent errors?
 
 #endif
 

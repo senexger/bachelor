@@ -66,46 +66,29 @@ typedef struct struct_advanced_meta {
   uint8_t debug;
   uint8_t timestamp;
   uint8_t airtime;
-  uint8_t full_repetitions;
+  uint16_t full_repetitions;
   uint8_t master_channel;
   uint8_t slave_channel;
   uint8_t dmx_broadcasting;
-  uint8_t channel_total;
+  uint16_t channel_total;
   uint8_t broadcast_frame_size;
   uint8_t unicast_frame_size;
   uint8_t unicast_slave_count;
   uint8_t send_repitition;
-  uint8_t wait_after_send;
-  uint8_t troll = 10;
+  uint16_t wait_after_send;
   uint16_t wait_after_rep_send;
 } struct_advanced_meta;
-
-// ++++ STUFF FOR SENDING ++++
-typedef struct struct_slave_requirements {
-  // TODO: macaddresse uint8_t ?
-  // TODO: semi informations
-  // uint8_t packageID;
-  // uint8_t slaveID;
-  uint8_t channelCount;
-} struct_slave_requirements;
 
 // Create a struct_message called espBroadcastData
 struct_esp_data_broadcast espBroadcastData;
 struct_advanced_meta      advanced_Meta;
 struct_esp_data_unicast   espUnicastData;
+struct_advanced_meta      dmx_meta;
 
 int thisBroadcastID;
 int thisBroadcastOffset;
-// Create a struct_slavePackage called slavePackage to send required channels
-struct_slave_requirements slaveRequirements;
-// create struct for the broadcast offsets and IDs
-// // struct_dmx_meta dmx_meta;
-struct_advanced_meta dmx_meta;
 
 void setup() {
-  // Setup test data
-  slaveRequirements.channelCount = CHANNELS_NEEDED;
-  
   // Setup Serial
   Serial.begin(115200);
   hSerial.begin(115200); // open Serial Port to the Master RX2 TX2 GND
@@ -141,7 +124,7 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
   if (AIRTIME) {
     Serial2.print("!");
   }
-  Serial.print("Data len: "); Serial.println(data_len);
+  // Serial.print("Data len: "); Serial.println(data_len);
 
   // META PACKAGE HANDLING
   if (incommingData[0]) { // == advanced_Meta.metaCode from master struct
@@ -149,22 +132,21 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
   }
   // DATA PACKAGE HANDLING
   else {
+    // TODO only if the package is addressed to this node
     if (checkPayload(incommingData, data_len)) {
-      if(DEBUG) { 
+      // if(DEBUG) { 
         Serial.print("[OK] Rcvd: "); 
         Serial.print(data_len);
         Serial.println(" B (not broken)");
-       // TODO: timestamp here...
-      }
+      // }
     }
     else {
-      if(DEBUG) {
+      // if(DEBUG) {
         Serial.print("[ERROR] Incomming Data broken: "); 
         Serial.print(data_len);
         Serial.println(" B");
-      }
+      // }
     }
-    // TODO: sure?
     getTimestamp();
     setTimestamp();
   }
