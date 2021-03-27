@@ -57,7 +57,7 @@
 
 // MASTER CONSTANTS:
 #define MAX_BROADCAST_FRAME_SIZE          250
-#define MAX_UNICAST_FRAME_SIZE            50     // could also be 250
+#define MAX_UNICAST_FRAME_SIZE            250     // could also be 250
 // Global copy of slave
 #define MAX_SLAVES                        20
 // ++++++++++ TESTING +++++++++

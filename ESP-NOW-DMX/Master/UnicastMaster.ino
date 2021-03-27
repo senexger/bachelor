@@ -49,6 +49,7 @@ void sendDataEspUnicast() {
       Serial.println("");
     }
 
+    setTimestamp();
     esp_err_t unicastResult = esp_now_send(SLAVE_MAC_ARRAY[1], // ! HOTFIX
                                           (uint8_t *) &unicastData, // ??
                                           UNICAST_FRAME_SIZE);

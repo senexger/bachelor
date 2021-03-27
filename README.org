@@ -171,3 +171,10 @@ Dann wäre ein Aufruf zb: meta.broadcastId anstelle von BROADCASTID, dann muss e
 * TODO der slave scheint immer korrekte pakete zu empfangen
 * TODO Serial to Python Plot
 https://makersportal.com/blog/2018/2/25/python-datalogger-reading-the-serial-output-from-arduino-to-analyze-data-using-pyserial
+* TODO usefull bitrate vs peak bitrate
+* TODO Wireshark Messung vornehmen
+Kanalzeit berechnen und zwar nicht mit send vs onDataSend.
+Vielleicht eher mit UART?
+* TODO RapidRepition
+Mache ich das überhaupt? Ist das nicht eher RapidDiscarding?
+* TODO SuccessRatio for multiple Slaves

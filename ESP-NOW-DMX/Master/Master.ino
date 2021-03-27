@@ -134,7 +134,7 @@ void runTest() {
   
   // Collecting timestamps
   if(TIMESTAMP || hSerial.available()) { // aka AIRTIME
-    getTimestamp();
+    // ! getTimestamp();
     Serial.write(hSerial.read());Serial.println("");
   }
   // wait for shortly to run the sending groups again

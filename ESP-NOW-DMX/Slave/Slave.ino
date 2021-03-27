@@ -74,7 +74,7 @@ typedef struct struct_advanced_meta {
   uint8_t broadcast_frame_size;
   uint8_t unicast_frame_size;
   uint8_t unicast_slave_count;
-  uint8_t send_repitition;
+  uint16_t send_repitition;
   uint16_t wait_after_send;
   uint16_t wait_after_rep_send;
 } struct_advanced_meta;
@@ -87,6 +87,7 @@ struct_advanced_meta      dmx_meta;
 
 int thisBroadcastID;
 int thisBroadcastOffset;
+int correctCastCount = 0;
 
 void setup() {
   // Setup Serial
@@ -100,7 +101,6 @@ void setup() {
   // Just setup a default ESP mode
   setupEspNow();
 }
-
 void loop() {
   // Serial2.println("A");
 
@@ -119,6 +119,7 @@ void loop() {
 
 // callback when data is recv from Master just printing incomming data
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
+
   if(VERBOSE) Serial.println("VERBOSE: OnDataRecv()");
   // TODO ist das sinnvoll?!
   if (AIRTIME) {
@@ -138,6 +139,7 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
         Serial.print("[OK] Rcvd: "); 
         Serial.print(data_len);
         Serial.println(" B (not broken)");
+        correctCastCounter();
       // }
     }
     else {
@@ -150,6 +152,14 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_
     getTimestamp();
     setTimestamp();
   }
+}
+
+void correctCastCounter() {
+  correctCastCount -= 1;
+  if (correctCastCount == 0) {
+    Serial.println("Cast Correct");
+  }
+  Serial.println(correctCastCount);
 }
 
 void setupEspNow() {

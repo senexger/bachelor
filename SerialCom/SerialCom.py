@@ -17,19 +17,19 @@ if __name__ == "__main__":
     # data = {}
     # data["operation"] = "channel"
     test1 = {
-        "VERBOSE"               : 0,
-        "DEBUG"                 : 0,
+        "VERBOSE"               : 1,
+        "DEBUG"                 : 1,
         "TIMESTAMP"             : 1,
         "AIRTIME"               : 0,
         "FULL_REPETITIONS"      : 1,
-        "DMX_BROADCASTING"      : 1,
+        "DMX_BROADCASTING"      : 0,
 
-        "CHANNEL_TOTAL"         : 600,
-        "BROADCAST_FRAME_SIZE"  : 200,
-        "UNICAST_FRAME_SIZE"    : 2,
+        "CHANNEL_TOTAL"         : 100,
+        "BROADCAST_FRAME_SIZE"  : 100,
+        "UNICAST_FRAME_SIZE"    : 10,
         "UNICAST_SLAVE_COUNT"   : 1,
-        "SEND_REPITITION"       : 1000,  
-        "WAIT_AFTER_SEND"       : 3,
+        "SEND_REPITITION"       : 100,  
+        "WAIT_AFTER_SEND"       : 1000,
         "WAIT_AFTER_REP_SEND"   : 0
     }
  

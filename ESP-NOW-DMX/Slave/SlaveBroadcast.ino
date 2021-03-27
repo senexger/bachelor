@@ -26,6 +26,9 @@ void applyMetaInformation(const uint8_t *incommingData, int data_len) {
   slave_offset         = advanced_Meta.slave_offset;
   slave_broadcastId    = advanced_Meta.slave_broadcastId;
 
+  correctCastCount = SEND_REPITITION;
+  Serial.print("correctCastCount"); Serial.println(correctCastCount);
+
   // PRINT SETTINGS
   printSettings();
   // broadcast specific information

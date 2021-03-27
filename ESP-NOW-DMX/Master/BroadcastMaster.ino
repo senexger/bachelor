@@ -92,7 +92,8 @@ void sendDataEspBroadcast() {
       Serial.print(i*BROADCAST_FRAME_SIZE);Serial.print("/");Serial.print(CHANNEL_TOTAL);
       Serial.println(")");
     }
-    // Measure airtime with timestamp
+
+    setTimestamp();
     esp_err_t broadcastResult = esp_now_send(SLAVE_MAC_ARRAY[0], // == BROADCAST_MAC
                                             (uint8_t *) &broadcastArray[i].dmxFrame,
                                             BROADCAST_FRAME_SIZE);
