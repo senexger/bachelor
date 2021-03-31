@@ -3,9 +3,11 @@
 uint8_t unicastData[MAX_UNICAST_FRAME_SIZE];
 
 void setupUnicast() {
+
   Serial.println("Setup Unicast");
 
-  for (int i=0; i <= MAX_UNICAST_FRAME_SIZE; i++) {
+  // TODO is this better working with uint8 ?!
+  for (uint8_t i=0; i <= MAX_UNICAST_FRAME_SIZE; i++) {
     unicastData[i] = i;
   }
 
@@ -36,7 +38,9 @@ void copyArray(uint8_t array[6], uint8_t copy[6]) {
 }
 
 // send data
-void sendDataEspUnicast() {
+void sendDataEspUnicast(uint8_t repetition) {
+  unicastData[1] = repetition;
+
   if(VERBOSE) Serial.println("[Info] Init DMX Unicasting");
 
   // Starting with 1 because zero is the BROADCAST ADDRESS
@@ -50,8 +54,29 @@ void sendDataEspUnicast() {
     }
 
     setTimestamp();
-    esp_err_t unicastResult = esp_now_send(SLAVE_MAC_ARRAY[1], // ! HOTFIX
+    esp_err_t unicastResult = esp_now_send(SLAVE_MAC_ARRAY[i],
                                           (uint8_t *) &unicastData, // ??
+                                          UNICAST_FRAME_SIZE);
+    if(DEBUG) espNowStatus(unicastResult);
+    delay(WAIT_AFTER_SEND); // No delay crashs the system
+  }
+}
+
+/* select each node and send an request unicast */
+void collectData() {
+  for (int i = 0; i < UNICAST_SLAVE_COUNT; i++) {
+    if(VERBOSE) { 
+      Serial.print("Collect Data from fixture "); Serial.println(i);
+      for (int j=0; j < 6; j++) {
+        Serial.print(SLAVE_MAC_ARRAY[i][j]);Serial.print(":");
+      }
+      Serial.println("");
+    }
+
+    unicastData[1] = 34;
+
+    esp_err_t unicastResult = esp_now_send(SLAVE_MAC_ARRAY[i],
+                                          (uint8_t *) &unicastData,
                                           UNICAST_FRAME_SIZE);
     if(DEBUG) espNowStatus(unicastResult);
     delay(WAIT_AFTER_SEND); // No delay crashs the system

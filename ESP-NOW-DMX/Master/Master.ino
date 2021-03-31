@@ -103,6 +103,8 @@ void loop() {
     metaInformationToSlaves(BROADCAST_MAC, advanced_meta);
   // }
 
+  esp_now_register_recv_cb(OnDataRecv);
+
   // ++ TEST ++
   for (int i = 0; i < FULL_REPETITIONS; i++) {
     if (VERBOSE) {
@@ -118,16 +120,16 @@ void runTest() {
   if (DMX_BROADCASTING) {
     if(TIMESTAMP || AIRTIME) 
       setTimestamp();
-    for (int r = 0; r < SEND_REPITITION; r++) {
-      sendDataEspBroadcast();
+    for (uint8_t r = 0; r < SEND_REPITITION; r++) {
+      sendDataEspBroadcast(r);
     }
   }
   // DMX UNICASTING TEST
   else { 
     if(TIMESTAMP || AIRTIME) 
       setTimestamp();
-    for (int r = 0; r < SEND_REPITITION; r++) {
-      sendDataEspUnicast();
+    for (uint8_t r = 0; r < SEND_REPITITION; r++) {
+      sendDataEspUnicast(r);
     }
   }
   // TODO DMX ARTNET TEST
@@ -138,5 +140,16 @@ void runTest() {
     Serial.write(hSerial.read());Serial.println("");
   }
   // wait for shortly to run the sending groups again
+  collectData();
+
   delay(WAIT_AFTER_REP_SEND);
+}
+
+void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
+  Serial.println("Data from Slave incomming");
+  Serial.print("dataLen: "); Serial.println(data_len); 
+  
+  for (int i=0; i< data_len; i++) {
+    Serial.println(incommingData[i]);
+  }
 }

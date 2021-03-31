@@ -81,7 +81,9 @@ void createMetaPackage(){
   advanced_meta.wait_after_rep_send  = WAIT_AFTER_REP_SEND;
 }
 
-void sendDataEspBroadcast() {
+void sendDataEspBroadcast(uint8_t repition) {
+  broadcastArray[0].dmxFrame[0] = repition;
+
   if(VERBOSE) Serial.println("[Info] ESP DATA Broadcasting");
 
   for (int i = 0; i*BROADCAST_FRAME_SIZE < CHANNEL_TOTAL ; i++) {
@@ -89,7 +91,7 @@ void sendDataEspBroadcast() {
       Serial.print("[Info] DATA Broadcast "); 
       Serial.print(broadcastArray[i].broadcastId); 
       Serial.print(" (");
-      Serial.print(i*BROADCAST_FRAME_SIZE);Serial.print("/");Serial.print(CHANNEL_TOTAL);
+      Serial.print((i+1)*BROADCAST_FRAME_SIZE);Serial.print("/");Serial.print(CHANNEL_TOTAL);
       Serial.println(")");
     }
 

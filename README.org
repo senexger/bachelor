@@ -18,6 +18,8 @@ Ablauf:
 works like a charme :)
 ** Variable wurde nur bei Neustart zurückgesetzt
 Weil ich den chip so häufig neu geflasht habe, ist der Fehler nur selten auf getaucht
+** Nach Standby sind dev0 und dev1 verstauscht
+deswegen wird dann gelegentlich der Master mit Slave code geflasht und andersherum
 * FLOW
 ** Master
 - SerialBegin
@@ -178,3 +180,7 @@ Vielleicht eher mit UART?
 * TODO RapidRepition
 Mache ich das überhaupt? Ist das nicht eher RapidDiscarding?
 * TODO SuccessRatio for multiple Slaves
+** Master
+- OnDataRecv Callback
+** Slave
+- Erstellt ein Array, in das die richtig angekommenden Nachrichten ausgewertet werden

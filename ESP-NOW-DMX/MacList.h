@@ -17,6 +17,8 @@
     static uint8_t SLAVE_MAC_8[6]       = { 0x24, 0x62, 0xAB, 0xF9, 0x50, 0x5C };
     static uint8_t SLAVE_MAC_9[6]       = { 0x24, 0x62, 0xAB, 0xF9, 0x50, 0x5C };
 
+    static uint8_t MASTER_MAC[6]        = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; // TODO MACADDRESS FROM MASTER
+    
     static uint8_t * SLAVE_MAC_ARRAY[10] = {BROADCAST_MAC,
                                            SLAVE_MAC_1,
                                            SLAVE_MAC_2,

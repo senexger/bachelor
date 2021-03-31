@@ -46,9 +46,12 @@ int checkPayload(const uint8_t *incommingData, int data_len ) {
   // sub 1 becaus there is no broadcastID in payload
   // iterating through the payload
   bool signalHealthy = true;
+  Serial.print("incommingData[1] aka repititionNr: ");
+  Serial.println(incommingData[1]);
+  successRatioArray[incommingData[1]] = signalHealthy;
 
   // if (espBroadcastData.broadcastID == broadcastId) {
-    for (int i=1; i<data_len ; i++) { 
+    for (int i=2; i<data_len ; i++) { 
       // Print all data
       // if (VERBOSE) 
           // Serial.print(i); Serial.print(" -> ");Serial.println(incommingData[i]);

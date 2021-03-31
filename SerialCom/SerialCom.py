@@ -22,14 +22,14 @@ if __name__ == "__main__":
         "TIMESTAMP"             : 1,
         "AIRTIME"               : 0,
         "FULL_REPETITIONS"      : 1,
-        "DMX_BROADCASTING"      : 0,
+        "DMX_BROADCASTING"      : 1,
 
         "CHANNEL_TOTAL"         : 100,
         "BROADCAST_FRAME_SIZE"  : 100,
         "UNICAST_FRAME_SIZE"    : 10,
         "UNICAST_SLAVE_COUNT"   : 1,
-        "SEND_REPITITION"       : 100,  
-        "WAIT_AFTER_SEND"       : 1000,
+        "SEND_REPITITION"       : 20,  
+        "WAIT_AFTER_SEND"       : 100,
         "WAIT_AFTER_REP_SEND"   : 0
     }
  
