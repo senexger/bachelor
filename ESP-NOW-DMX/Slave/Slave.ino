@@ -102,6 +102,12 @@ void setup() {
 
   // Just setup a default ESP mode
   setupEspNow();
+
+
+
+  for (uint8_t i=0; i< 100; i++) {
+    successRatioArray[i] = 42;
+  }
 }
 void loop() {
   // Serial2.println("A");
@@ -119,52 +125,7 @@ void loop() {
   delay(10000);
 }
 
-// callback when data is recv from Master just printing incomming data
-void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
-  getTimestamp();
-  if(VERBOSE) Serial.println("VERBOSE: OnDataRecv()");
-  // TODO ist das sinnvoll?!
-  if (AIRTIME) {
-    Serial2.print("!");
-  }
-  // Serial.print("Data len: "); Serial.println(data_len);
-  Serial.print("incommingData[0]: "); Serial.println(incommingData[0]);
-  Serial.print("incommingData[1]: "); Serial.println(incommingData[1]);
-  Serial.print("incommingData[2]: "); Serial.println(incommingData[2]);
-
-  // META PACKAGE HANDLING
-  if (incommingData[0] == 33) { // == advanced_Meta.metaCode from master struct
-    applyMetaInformation(incommingData, data_len);
-  }
-  else if (incommingData[1] == 34) {
-    sendResults();
-    return;
-  }
-  // DATA PACKAGE HANDLING
-  else {
-    // TODO only if the package is addressed to this node
-    if (checkPayload(incommingData, data_len)) {
-      // if(DEBUG) { 
-        Serial.print("[OK] Rcvd: "); 
-        Serial.print(data_len);
-        Serial.println(" B (not broken)");
-        successRatioArray[incommingData[0]] = 3;
-        correctCastCounter();
-      // }
-    }
-    else {
-      // if(DEBUG) {
-        Serial.print("[ERROR] Incomming Data broken: "); 
-        Serial.print(data_len);
-        Serial.println(" B");
-      // }
-        successRatioArray[incommingData[0]] = 2;
-    }
-    setTimestamp();
-  }
-}
-
-void sendResults() {
+void sendResultsToMaster() {
   if(VERBOSE) Serial.println("sending successRatioArray");
   
   addNodeToPeerlist(MASTER_MAC);
@@ -173,11 +134,11 @@ void sendResults() {
                                         (uint8_t *) &successRatioArray,
                                         SEND_REPITITION);
   if(DEBUG) espNowStatus(unicastResult);
-}
 
-void correctCastCounter() {
-  correctCastCount -= 1;
-  Serial.print("Wrong Casts: "); Serial.println(correctCastCount);
+  for (uint8_t i=0; i< 100; i++) {
+    successRatioArray[i] = 0;
+  }
+  printSettings();
 }
 
 void setupEspNow() {

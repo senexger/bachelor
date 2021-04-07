@@ -50,7 +50,7 @@ typedef struct struct_advanced_meta {
 
 // Master-Slave DMX information BROADCAST
 typedef struct struct_broadcast_message {
-  uint8_t metaCode = 33;
+  uint8_t metaCode = 253;
   uint8_t broadcastId;
   uint8_t dmxFrame[MAX_BROADCAST_FRAME_SIZE];
 } struct_broadcast_message;
@@ -140,7 +140,7 @@ void runTest() {
     Serial.write(hSerial.read());Serial.println("");
   }
   // wait for shortly to run the sending groups again
-  collectData();
+  collectData(advanced_meta);
 
   delay(WAIT_AFTER_REP_SEND);
 }

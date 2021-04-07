@@ -170,17 +170,18 @@ Ich glaube ich muss den Wert vergrößern, es sei denn es ists beim Testen nicht
 * TODO advanced_Meta_struct instead of MACLIST constansts
 das struct in dem alle Werte drin stehen könnte auch genommen werden um diese Werte zu benutzen.
 Dann wäre ein Aufruf zb: meta.broadcastId anstelle von BROADCASTID, dann muss es nicht zweimal gemacht werden
-* TODO der slave scheint immer korrekte pakete zu empfangen
+* DONE der slave scheint immer korrekte pakete zu empfangen
 * TODO Serial to Python Plot
 https://makersportal.com/blog/2018/2/25/python-datalogger-reading-the-serial-output-from-arduino-to-analyze-data-using-pyserial
-* TODO usefull bitrate vs peak bitrate
+* DONE usefull bitrate vs peak bitrate
 * TODO Wireshark Messung vornehmen
 Kanalzeit berechnen und zwar nicht mit send vs onDataSend.
 Vielleicht eher mit UART?
-* TODO RapidRepition
+* DONE RapidRepition
 Mache ich das überhaupt? Ist das nicht eher RapidDiscarding?
-* TODO SuccessRatio for multiple Slaves
+* DONE SuccessRatio for multiple Slaves
 ** Master
 - OnDataRecv Callback
 ** Slave
 - Erstellt ein Array, in das die richtig angekommenden Nachrichten ausgewertet werden
+* DONE Fix Wired SuccessRatioArray Flag on SuccessRatio[1]

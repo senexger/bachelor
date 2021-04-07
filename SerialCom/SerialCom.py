@@ -19,17 +19,17 @@ if __name__ == "__main__":
     test1 = {
         "VERBOSE"               : 1,
         "DEBUG"                 : 1,
-        "TIMESTAMP"             : 1,
+        "TIMESTAMP"             : 0,
         "AIRTIME"               : 0,
         "FULL_REPETITIONS"      : 1,
         "DMX_BROADCASTING"      : 1,
 
-        "CHANNEL_TOTAL"         : 100,
-        "BROADCAST_FRAME_SIZE"  : 100,
+        "CHANNEL_TOTAL"         : 30,
+        "BROADCAST_FRAME_SIZE"  : 30,
         "UNICAST_FRAME_SIZE"    : 10,
         "UNICAST_SLAVE_COUNT"   : 1,
-        "SEND_REPITITION"       : 20,  
-        "WAIT_AFTER_SEND"       : 100,
+        "SEND_REPITITION"       : 40,  
+        "WAIT_AFTER_SEND"       : 300,
         "WAIT_AFTER_REP_SEND"   : 0
     }
  

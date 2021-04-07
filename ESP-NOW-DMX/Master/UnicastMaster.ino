@@ -63,7 +63,7 @@ void sendDataEspUnicast(uint8_t repetition) {
 }
 
 /* select each node and send an request unicast */
-void collectData() {
+void collectData(struct_advanced_meta metaData) {
   for (int i = 0; i < UNICAST_SLAVE_COUNT; i++) {
     if(VERBOSE) { 
       Serial.print("Collect Data from fixture "); Serial.println(i);
@@ -73,11 +73,10 @@ void collectData() {
       Serial.println("");
     }
 
-    unicastData[1] = 34;
-
+    metaData.metaCode = 254;
     esp_err_t unicastResult = esp_now_send(SLAVE_MAC_ARRAY[i],
-                                          (uint8_t *) &unicastData,
-                                          UNICAST_FRAME_SIZE);
+                                          (uint8_t *) &metaData,
+                                          sizeof(metaData));
     if(DEBUG) espNowStatus(unicastResult);
     delay(WAIT_AFTER_SEND); // No delay crashs the system
   }

@@ -46,7 +46,7 @@ void setupBroadcast() {
 
 // send meta Data to Slave with BroadcastID and Offset
 void metaInformationToSlaves(const uint8_t *peer_addr, struct_advanced_meta metaData) {
-  metaData.metaCode = 33;
+  metaData.metaCode = 253;
   if(VERBOSE) {
     Serial.print("[Info] Send DMX Information ");
     Serial.print((int) sizeof(metaData));
