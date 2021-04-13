@@ -49,9 +49,9 @@ if __name__ == "__main__":
         "BROADCAST_FRAME_SIZE"  : 100,
         "UNICAST_FRAME_SIZE"    : 10,
         "UNICAST_SLAVE_COUNT"   : 4,
-        "SEND_REPITITION"       : 3,  
-        "WAIT_AFTER_SEND"       : 5000,
-        "WAIT_AFTER_REP_SEND"   : 5000
+        "SEND_REPITITION"       : 100,  
+        "WAIT_AFTER_SEND"       : 100,
+        "WAIT_AFTER_REP_SEND"   : 100
     }
 
     current_time = datetime.datetime.now().strftime("_%m-%d-%H:%M:%S")

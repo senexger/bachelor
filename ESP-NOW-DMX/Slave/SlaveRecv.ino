@@ -33,7 +33,7 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_l
 
 void readPayload(const uint8_t * incomingData, int data_len) {
   if (isPayloadCorrect(incomingData, data_len)) {
-    successRatioArray[incomingData[0]] = 1;
+    successRatioArray[incomingData[1]] = 1; // hier steht hardcodet die rep number
 
     if(VERBOSE) { 
       Serial.print("[OK] Rcvd: "); 

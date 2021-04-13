@@ -82,7 +82,7 @@ void createMetaPackage(){
 }
 
 void sendDataEspBroadcast(uint8_t repition) {
-  broadcastArray[0].dmxFrame[0] = 255;
+  broadcastArray[0].dmxFrame[0] = 255; // geht das?
   broadcastArray[0].dmxFrame[1] = repition;
 
   if(VERBOSE) Serial.println("[Info] ESP DATA Broadcasting");
