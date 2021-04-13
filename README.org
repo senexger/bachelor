@@ -79,7 +79,7 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
 * DONE Präsentation vorbereiten [2020-12-14]
 * DONE Tolja schreiben
 * DONE Unicast reparieren
-* TODO Package loss fixen
+* DONE Package loss fixen
 Wenn Pakete zu schnell hintereinander versendet werden, dann führt das zu Paketverlusten. Genaueres habe ich gefinden in der Doku von Espressif
 * KILL Telefonkonferenz [2021-11-01 14:00]
 * DONE variablen.h anlegen
@@ -103,7 +103,7 @@ Wenn Pakete zu schnell hintereinander versendet werden, dann führt das zu Paket
 The ESP has three UART controllers UART0, UART1 and UART2) use UART1 or 2
 here is how to setup uart on the ESP32
 https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/uart.html
-* TODO Pythonbridge Modul [100%]
+* DONE Pythonbridge Modul [0%]
 ** DONE Write python bridge
 ** DONE Why does it break with the python bridge?!
 ** DONE Fix Problem with broadcasting now
@@ -171,8 +171,6 @@ Ich glaube ich muss den Wert vergrößern, es sei denn es ists beim Testen nicht
 das struct in dem alle Werte drin stehen könnte auch genommen werden um diese Werte zu benutzen.
 Dann wäre ein Aufruf zb: meta.broadcastId anstelle von BROADCASTID, dann muss es nicht zweimal gemacht werden
 * DONE der slave scheint immer korrekte pakete zu empfangen
-* TODO Serial to Python Plot
-https://makersportal.com/blog/2018/2/25/python-datalogger-reading-the-serial-output-from-arduino-to-analyze-data-using-pyserial
 * DONE usefull bitrate vs peak bitrate
 * TODO Wireshark Messung vornehmen
 Kanalzeit berechnen und zwar nicht mit send vs onDataSend.
@@ -185,3 +183,12 @@ Mache ich das überhaupt? Ist das nicht eher RapidDiscarding?
 ** Slave
 - Erstellt ein Array, in das die richtig angekommenden Nachrichten ausgewertet werden
 * DONE Fix Wired SuccessRatioArray Flag on SuccessRatio[1]
+* DONE Fix incomming data [0,1] verwirrung
+incomming data hat nun ein Flag was so gut versteckt ist, dass es hoffentlich nicht auffliegen wird. Da nicht mehr als 250 byte übertragen werden können, ich aber werte bis 255 vergeben kann, nutze ich die Bytes 253 und 254 für besondere Flags. Theoretisch wäre jetzt noch Raum für andere Flags.
+* DONE Serial to Python Plot
+https://makersportal.com/blog/2018/2/25/python-datalogger-reading-the-serial-output-from-arduino-to-analyze-data-using-pyserial
+- [X] Fix " " bug
+- [X] Understand example code
+- [X] Maybe Clear all output from Master for clearer results
+* TODO Daten für Plots sammeln
+* TODO Plots erstellen

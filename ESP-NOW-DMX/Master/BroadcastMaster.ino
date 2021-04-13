@@ -30,7 +30,7 @@ void setupBroadcast() {
   broadcastArray[4] = broadcastData5;
 
   WiFi.mode(WIFI_STA);
-  Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
+  if (VERBOSE) Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
 
   InitESPNow();
 
@@ -82,7 +82,8 @@ void createMetaPackage(){
 }
 
 void sendDataEspBroadcast(uint8_t repition) {
-  broadcastArray[0].dmxFrame[0] = repition;
+  broadcastArray[0].dmxFrame[0] = 255;
+  broadcastArray[0].dmxFrame[1] = repition;
 
   if(VERBOSE) Serial.println("[Info] ESP DATA Broadcasting");
 

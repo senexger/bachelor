@@ -46,13 +46,6 @@ typedef struct struct_esp_data_unicast {
   uint8_t payload[MAX_BROADCAST_FRAME_SIZE];
 } struct_esp_data_unicast;
 
-// // // gives the slave the information where to find his channel
-// // typedef struct struct_dmx_meta {
-// //   uint8_t isMetaData; // should set to -1
-// //   uint8_t broadcastID; // must be positive
-// //   uint8_t broadcastOffset;
-// // } struct_dmx_meta;
-
 // new architecture 
 typedef struct struct_advanced_meta {
   uint8_t metaCode;
@@ -92,41 +85,26 @@ int correctCastCount = 0;
 uint8_t successRatioArray[250];
 
 void setup() {
-  // Setup Serial
   Serial.begin(115200);
   hSerial.begin(115200); // open Serial Port to the Master RX2 TX2 GND
   Serial.println("Slave Node here");
 
   Serial.println("init success!");
-  // addPeer(MAC_ADDRESS);
 
-  // Just setup a default ESP mode
   setupEspNow();
-
-
 
   for (uint8_t i=0; i< 100; i++) {
     successRatioArray[i] = 42;
   }
 }
+
 void loop() {
-  // Serial2.println("A");
-
-  // printSettings();
-
-  // // Send message via ESP-NOW if MetaData wasn't received
-  // // Wäre gut, wenn man das hier gar nicht benötigen würde...
-  // if (!isDmxMetaReceived && DMX_BROADCASTING) 
-  //   sendESPCast(MAC_ADDRESS);
-  // else if (VERBOSE) 
-  //   Serial.println("DMX Meta already received");
-
-  // wait for incomming messages
+  // wait for incoming messages
   delay(10000);
 }
 
 void sendResultsToMaster() {
-  if(VERBOSE) Serial.println("sending successRatioArray");
+  if(VERBOSE) Serial.println("Sending successRatioArray");
   
   addNodeToPeerlist(MASTER_MAC);
 
@@ -144,7 +122,7 @@ void sendResultsToMaster() {
 void setupEspNow() {
   //Set device in AP mode to begin with
   WiFi.mode(WIFI_STA);
-  Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
+  if (VERBOSE) Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
 
   // Init ESPNow with a fallback logic
   InitESPNow();

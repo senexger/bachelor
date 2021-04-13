@@ -12,7 +12,7 @@ void setupUnicast() {
   }
 
   WiFi.mode(WIFI_STA);
-  Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
+  if (VERBOSE) Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
 
   InitESPNow();
 
@@ -64,11 +64,11 @@ void sendDataEspUnicast(uint8_t repetition) {
 
 /* select each node and send an request unicast */
 void collectData(struct_advanced_meta metaData) {
-  for (int i = 0; i < UNICAST_SLAVE_COUNT; i++) {
+  for (int i = 1; i < UNICAST_SLAVE_COUNT+1; i++) {
     if(VERBOSE) { 
       Serial.print("Collect Data from fixture "); Serial.println(i);
       for (int j=0; j < 6; j++) {
-        Serial.print(SLAVE_MAC_ARRAY[i][j]);Serial.print(":");
+        Serial.print(SLAVE_MAC_ARRAY[i][j], HEX);Serial.print(":");
       }
       Serial.println("");
     }
@@ -78,6 +78,6 @@ void collectData(struct_advanced_meta metaData) {
                                           (uint8_t *) &metaData,
                                           sizeof(metaData));
     if(DEBUG) espNowStatus(unicastResult);
-    delay(WAIT_AFTER_SEND); // No delay crashs the system
+    delay(WAIT_AFTER_REP_SEND); // No delay crashs the system
   }
 }

@@ -39,10 +39,10 @@ void addNodeToPeerlist(const uint8_t *mac_addr) {
 void InitESPNow() {
   WiFi.disconnect();
   if (esp_now_init() == ESP_OK) {
-    Serial.println("ESPNow success");
+    if (DEBUG) Serial.println("[OK] ESPNow success");
   }
   else {
-    Serial.println("ESPNow init failed");
+    if (DEBUG) Serial.println("[ERR] ESPNow init failed");
     ESP.restart();
   }
 

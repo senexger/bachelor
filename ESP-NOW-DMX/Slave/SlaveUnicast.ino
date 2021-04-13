@@ -2,14 +2,14 @@
 #include <esp_timer.h>
 #include <HardwareSerial.h>
 
-// callback when data is recv from Master just printing incomming data
+// callback when data is recv from Master just printing incoming data
 // TODO devide in Broadcast & Unicast
-void OnDataRecvUnicast(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
+void OnDataRecvUnicast(const uint8_t *mac_addr, const uint8_t *incomingData, int data_len) {
   if (AIRTIME) {
     Serial2.print("!");
   }
-  // memcpy(&dmx_meta, incommingData, sizeof(dmx_meta));
-  memcpy(&espUnicastData, incommingData, sizeof(espUnicastData));
+  // memcpy(&dmx_meta, incomingData, sizeof(dmx_meta));
+  memcpy(&espUnicastData, incomingData, sizeof(espUnicastData));
   
   // DMX DATA PACKAGE HANDLING
   if (VERBOSE) {
@@ -33,7 +33,7 @@ void OnDataRecvUnicast(const uint8_t *mac_addr, const uint8_t *incommingData, in
   }
   if (signalBroken) {
     if(DEBUG) {
-      Serial.print("[ERROR] Incomming Data broken: "); 
+      Serial.print("[ERROR] Incoming Data broken: "); 
       Serial.print(data_len);
       Serial.println(" B");
     }

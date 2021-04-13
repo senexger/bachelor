@@ -2,38 +2,38 @@
 #include <esp_timer.h>
 #include <HardwareSerial.h>
 
-// callback when data is recv from Master just printing incomming data
-void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
+// callback when data is recv from Master just printing incoming data
+void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_len) {
   getTimestamp();
   if(VERBOSE) {
     Serial.println("VERBOSE: OnDataRecv()");
-    Serial.print("incommingData[0]: "); Serial.println(incommingData[0]);
-    Serial.print("incommingData[1]: "); Serial.println(incommingData[1]);
-    Serial.print("incommingData[2]: "); Serial.println(incommingData[2]);
+    Serial.print("incomingData[0]: "); Serial.println(incomingData[0]);
+    Serial.print("incomingData[1]: "); Serial.println(incomingData[1]);
+    Serial.print("incomingData[2]: "); Serial.println(incomingData[2]);
   }
   // TODO ist das sinnvoll?!
   if (AIRTIME) {
     Serial2.print("!");
   }
-  if (incommingData[0] == 253) { // == advanced_Meta.metaCode
-    applyMetaInformation(incommingData, data_len);
+  if (incomingData[0] == 253) { // == advanced_Meta.metaCode
+    applyMetaInformation(incomingData, data_len);
     return;
   }
-  if (incommingData[0] == 254) { // == advanced_Meta.
+  if (incomingData[0] == 254) { // == advanced_Meta.
     sendResultsToMaster();
     return;
   }
-  else {
-    readPayload(incommingData, data_len);
-    Serial.println("SUCCESSRATIOARRAY!!!");
+  if (incomingData[0] == 255) { // == advanced_Meta.
+    readPayload(incomingData, data_len);
+    if (VERBOSE) Serial.println("Read Payload");
     for (int i = 0; i<SEND_REPITITION; i++)
       Serial.println(successRatioArray[i]);
   }
 }
 
-void readPayload(const uint8_t * incommingData, int data_len) {
-  if (isPayloadCorrect(incommingData, data_len)) {
-    successRatioArray[incommingData[0]] = 3;
+void readPayload(const uint8_t * incomingData, int data_len) {
+  if (isPayloadCorrect(incomingData, data_len)) {
+    successRatioArray[incomingData[0]] = 1;
 
     if(VERBOSE) { 
       Serial.print("[OK] Rcvd: "); 
@@ -43,8 +43,8 @@ void readPayload(const uint8_t * incommingData, int data_len) {
       correctCastCounter();
   }
   else {
-    successRatioArray[incommingData[0]] = 2;
-    if(DEBUG) Serial.print("[ERROR] Incomming Data broken: "); 
+    successRatioArray[incomingData[0]] = 2;
+    if(DEBUG) Serial.print("[ERROR] Incoming Data broken: "); 
   }
   Serial.print("correctCastCount: "); Serial.println(correctCastCount);
   setTimestamp();
@@ -54,26 +54,24 @@ void correctCastCounter() {
   correctCastCount -= 1;
 }
 
-bool isPayloadCorrect(const uint8_t *incommingData, int data_len ) {
-  memcpy(&espBroadcastData, incommingData, sizeof(data_len));
+bool isPayloadCorrect(const uint8_t *incomingData, int data_len ) {
+  memcpy(&espBroadcastData, incomingData, sizeof(data_len));
 
   // check broadcast integrity
   // sub 1 becaus there is no broadcastID in payload
   // iterating through the payload
   bool signalHealthy = true;
-  Serial.print("incommingData[1] aka repititionNr: ");
-  Serial.println(incommingData[1]);
 
   // if (espBroadcastData.broadcastID == broadcastId) {
     for (int i=2; i<data_len ; i++) { 
       // Print all data
       // if (VERBOSE) 
-          // Serial.print(i); Serial.print(" -> ");Serial.println(incommingData[i]);
+          // Serial.print(i); Serial.print(" -> ");Serial.println(incomingData[i]);
       // just select needed channel
       // if ((i >= offset) && (i < offset + CHANNELS_NEEDED)) {
       // }
-      if (incommingData[i] != i) {
-        Serial.print("[ERROR] "); Serial.print(incommingData[i]); Serial.print(" != "); Serial.println(i);
+      if (incomingData[i] != i) {
+        Serial.print("[ERROR] "); Serial.print(incomingData[i]); Serial.print(" != "); Serial.println(i);
         signalHealthy = false;
       }
     }
@@ -81,9 +79,9 @@ bool isPayloadCorrect(const uint8_t *incommingData, int data_len ) {
   return signalHealthy;
 }
 
-void applyMetaInformation(const uint8_t *incommingData, int data_len) {
+void applyMetaInformation(const uint8_t *incomingData, int data_len) {
   Serial.println("THIS IS META!!!");
-  memcpy(&advanced_Meta, incommingData, sizeof(advanced_Meta));
+  memcpy(&advanced_Meta, incomingData, sizeof(advanced_Meta));
   // APPLY SETTINGS
   VERBOSE              = advanced_Meta.verbose;
   DEBUG                = advanced_Meta.debug;

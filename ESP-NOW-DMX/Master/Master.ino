@@ -94,6 +94,12 @@ void loop() {
   else
     setupUnicast();
     
+  addNodeToPeerlist(SLAVE_MAC_1);
+  addNodeToPeerlist(SLAVE_MAC_2);
+  addNodeToPeerlist(SLAVE_MAC_3);
+  addNodeToPeerlist(SLAVE_MAC_4);
+  addNodeToPeerlist(SLAVE_MAC_5);
+  
   // ++ DISTRIBUTE ++
   // Distribution with unicast, because its fast and reliable. Using WLAN would be also an option
   // but its rather cumbersome
@@ -145,11 +151,11 @@ void runTest() {
   delay(WAIT_AFTER_REP_SEND);
 }
 
-void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
-  Serial.println("Data from Slave incomming");
-  Serial.print("dataLen: "); Serial.println(data_len); 
+void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_len) {
+  Serial.println("SLAVEDATA INCOMING!");
   
   for (int i=0; i< data_len; i++) {
-    Serial.println(incommingData[i]);
+    Serial.println(incomingData[i]);
   }
+  Serial.println("DONE");
 }
