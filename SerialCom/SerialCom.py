@@ -51,43 +51,48 @@ if __name__ == "__main__":
         "UNICAST_SLAVE_COUNT"   : 4,
         "SEND_REPITITION"       : 100,  
         "WAIT_AFTER_SEND"       : 100,
-        "WAIT_AFTER_REP_SEND"   : 100
+        "WAIT_AFTER_REP_SEND"   : 1000
     }
 
     current_time = datetime.datetime.now().strftime("_%m-%d-%H:%M:%S")
-
     data=json.dumps(test1)
     print (data)
 
-    if ser.isOpen():
-        ser.write(data.encode('ascii'))
-        ser.flush()
+    for i in range (0,2000):
 
-        currentSlave = 0
+        if ser.isOpen():
+            ser.write(data.encode('ascii'))
+            ser.flush()
 
-        while (True):
-           
-            try:
-                incoming = ser.readline().decode("utf-8")
-                print (incoming, end=" ")
-                if ('DONE' in incoming):
-                    currentSlave += 1
-                    if (currentSlave == 4):
-                        break
-                if ('Entering Python Bridge' in incoming):
-                    break
+            currentSlave = 0
+
+            while (True):
                 
-        
-                # with open(f'/home/walther/Documents/bachelor/Data/broad_successratio/{exp_name}{current_time}.csv', 'a', newline='') as file:
-                #     writer = csv.writer(file, delimiter=',')
-                #     writer.writerow([int(incoming)])
-                    # writer.writerow([time.time(),int(incoming)])
-            except Exception as e:
-                print (e)
-                pass
+                try:
+                    incoming = ser.readline().decode("utf-8")
+                    print (incoming, end=" ")
+                    if ('DONE' in incoming):
+                        currentSlave += 1
+                        if (currentSlave == 4):
+                            with open(f'/home/walther/Documents/bachelor/Data/broad_successratio/{exp_name}{current_time}.csv', 'a', newline='') as file:
+                                writer = csv.writer(file, delimiter=',')
+                                writer.writerow([int(9999)])
+                            break
+                    # if ('Entering Python Bridge' in incoming):
+                    #     break
 
-        ser.close()
-    else:
-        print ("opening error")
+                    with open(f'/home/walther/Documents/bachelor/Data/broad_successratio/{exp_name}{current_time}.csv', 'a', newline='') as file:
+                        writer = csv.writer(file, delimiter=',')
+                        writer.writerow([int(incoming)])
+                        # writer.writerow([time.time(),int(incoming)])
+                except Exception as e:
+                    print (e)
+                    pass
+
+
+        else:
+            print ("opening error")
+    
+    ser.close()
 
     
