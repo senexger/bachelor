@@ -7,14 +7,35 @@ from matplotlib import pyplot as plt
 
 SEND_REPETITION = 160
 
-def successPercentage(counter):
-    return 100/(SEND_REPETITION/(counter))
-
 array = np.genfromtxt("/home/walther/Documents/bachelor/Data/broad_successratio/successratio_broadcast_F100_04-14-00:18:29.csv", delimiter=",", dtype="int")
 array.shape = (2, 3, 160)
 
+
+
+# %%
+def successPercentage(counter):
+    return 100/(SEND_REPETITION/(counter))
+
+successPercentageArray = [0,0,0,0,0]
+
+for i in range(0,3):
+    successPercentageArray[i] = successPercentage(np.sum(array[0,i,:]))
+    print(successPercentageArray[i])
+
+successPercentageArray[3] = successPercentageArray[2]
+successPercentageArray[4] = successPercentageArray[2]
+
+x = ["#1","#2","#3","#4","#5"]
+plt.minorticks_on()
+plt.bar(x, successPercentageArray, label='success ratio for each node')  # Plot some data on the (implicit) axes.
+plt.xlabel('Current node')
+plt.ylabel('Sucess ratio in %')
+plt.title("Success ratio for each node")
+plt.legend()
+
 # %%
 counter = [0,0,0,0,0]
+successPercentageArray = [0,0,0,0,0]
 
 for i in range(0,SEND_REPETITION):
     if (array[0,0,i]):
@@ -31,28 +52,13 @@ for i in range(0,SEND_REPETITION):
 counter[3] = counter[2]
 counter[4] = counter[2]
 
-successPercentageArray = [0,0,0,0,0]
-
 for i in range(0,5):
     print("counter" + str(i) + " = " + str(counter[i]))
     print("success ratio 1: " + str(successPercentage(counter[i])))
     successPercentageArray[i] = successPercentage(counter[i])
 
-print(successPercentageArray)
-
-# %%
-
-
-
-x = ["#1","#2","#3","#4","#5"]
-plt.bar(x, counter, label='success ratio for each node')  # Plot some data on the (implicit) axes.
-plt.xlabel('Current node')
-plt.ylabel('Sucess ratio in %')
-plt.title("Success ratio for each node")
-plt.legend()
-
-# %%
 x = [0,1,2,3,4]
+plt.minorticks_on()
 plt.bar(x, successPercentageArray, label='success ratio logic and accumulation')  # Plot some data on the (implicit) axes.
 plt.xlabel('Current node')
 plt.ylabel('Sucess ratio in %')
