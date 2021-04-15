@@ -190,5 +190,11 @@ https://makersportal.com/blog/2018/2/25/python-datalogger-reading-the-serial-out
 - [X] Fix " " bug
 - [X] Understand example code
 - [X] Maybe Clear all output from Master for clearer results
-* TODO Daten für Plots sammeln
+* DONE Mysterious 2 Problem
+Beim Sammeln der Daten wird eine zwei in das SucessArray geschrieben. Das passiert irgendwie, wenn der Master versucht die Daten von den Slaves ab zu fragen.
+Lösung: Es gibt nun einen Code, wenn der nicht in einer Nachricht an die Slaves eingetragen ist, dann verwerfen sie die Nachricht.
+* DONE Daten für Plots sammeln
 * TODO Plots erstellen
+- [ ] Diagrammnamen finden
+- [ ] entsprechendes Diagramm erstellen
+- [ ] Großen Datenblock richtig einlesen
