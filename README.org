@@ -195,6 +195,7 @@ Beim Sammeln der Daten wird eine zwei in das SucessArray geschrieben. Das passie
 Lösung: Es gibt nun einen Code, wenn der nicht in einer Nachricht an die Slaves eingetragen ist, dann verwerfen sie die Nachricht.
 * DONE Daten für Plots sammeln
 * TODO Plots erstellen
-- [ ] Diagrammnamen finden
-- [ ] entsprechendes Diagramm erstellen
+- [X] Diagrammnamen finden
+- [X] entsprechendes Diagramm erstellen
 - [ ] Großen Datenblock richtig einlesen
+- [ ] Cofidence Interval
