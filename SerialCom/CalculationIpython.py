@@ -9,10 +9,18 @@ import matplotlib.ticker as tck
 
 SEND_REPETITION = 100
 TEST_REPETITION = 290
-SLAVE_COUNT = 4
+SLAVE_COUNT     = 4
 
 array = np.genfromtxt("/home/walther/Documents/bachelor/Data/without9.csv", delimiter=",", dtype="int")
-array.shape = (SLAVE_COUNT, TEST_REPETITION, SEND_REPETITION)
+array = np.reshape(array, (TEST_REPETITION, SLAVE_COUNT, SEND_REPETITION))
+print(array)
+
+# SLAVE_COUNT     = 2
+# SEND_REPETITION = 10
+# TEST_REPETITION = 3
+
+# array = np.genfromtxt("/home/walther/Documents/bachelor/Data/testFile.csv", delimiter=",", dtype="int")
+# array.shape = (TEST_REPETITION, SLAVE_COUNT, SEND_REPETITION)
 
 
 
@@ -48,9 +56,7 @@ print(mean_successPercentageArray)
 
 x = ["#1","#2","#3","#4"]
 plt.plot(x, mean_successPercentageArray, marker=".", markersize=12, linestyle='none', label='success ratio for each node')
-# plt.bar(x, mean_successPercentageArray, width=0.3, label='success ratio for each node')
 
-# graphic
 plt.minorticks_on()
 plt.tick_params(axis='x', which='minor', bottom=False) # no x ticks
 plt.xlabel('Current node')
@@ -62,23 +68,18 @@ plt.grid()
 
 
 # %% success ratio for each node confidence
-mean = np.mean(array, axis=(1,2))
+mean = np.mean(array, axis=(0,2))
 print(mean)
-std = np.std(array, axis=(1,2))
+std = np.std(array, axis=(0,2))
 print(std)
 
 x = ["#1","#2","#3","#4"]
-
 plt.errorbar(x, mean, yerr=std, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
-
-# general layout
 plt.minorticks_on()
 plt.tick_params(axis='x', which='minor', bottom=False) # no x ticks
 plt.ylabel('Sucess ratio in %')
 plt.xlabel('Node id')
 plt.legend()
-
-# Show graphic
 plt.grid()
 plt.show()
 
@@ -114,6 +115,40 @@ plt.ylabel('Sucess ratio in %')
 plt.title("Success ratio for X nodes")
 plt.legend()
 
+# %%
+# success ratio with confidence interval
+# TEST_REPETITION, SLAVE_COUNT, SEND_REPETITION))
+print(array[0,0,:].size)
+
+accomulation_sum = np.sum(array, axis=1)
+print(accomulation_sum)
+
+accomulation = np.zeros((SLAVE_COUNT, TEST_REPETITION))
+super_mean = np.zeros(4)
+super_std  = np.zeros(4)
+
+for i in range(0,TEST_REPETITION):
+    for s in range(0, SLAVE_COUNT):
+        accomulation[s][i] = np.count_nonzero(accomulation_sum[i,:] >= s)
+
+# mean and std for every missing_node_allowed
+for s in range(0, SLAVE_COUNT):
+    super_mean[s] = np.mean(accomulation[s,:])
+    super_std[s]  = np.std(accomulation[s,:])
+
+print(super_mean)
+
+x = ["4", "3", "2", "1"]
+plt.errorbar(x, super_mean, yerr=super_std, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
+# plt.plot(x, accomulation, marker=".", markersize=20, linestyle="none")
+plt.minorticks_on()
+plt.tick_params(axis='x', which='minor', bottom=False) # no x ticks
+plt.ylabel('Sucess ratio in %')
+plt.xlabel('Number of nodes allowed to miss')
+plt.title("Sucessfull send message to all nodes exept X")
+plt.legend()
+plt.grid()
+plt.show()
 
 
 # %%
