@@ -1,21 +1,18 @@
 # To add a new cell, type '# %%'
 # To add a new markdown cell, type '# %% [markdown]'
 
-
-
-
 # %%
-
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+import matplotlib.ticker as tck
 
-SEND_REPETITION = 100 # 160
+SEND_REPETITION = 100
+TEST_REPETITION = 290
 SLAVE_COUNT = 4
 
 array = np.genfromtxt("/home/walther/Documents/bachelor/Data/without9.csv", delimiter=",", dtype="int")
-array.shape = (SLAVE_COUNT, 290, SEND_REPETITION)
-
+array.shape = (SLAVE_COUNT, TEST_REPETITION, SEND_REPETITION)
 
 
 
@@ -31,9 +28,7 @@ ax.plot(x, array[0,1,:], linestyle='none', c='g',marker=".",label='Node 2')
 ax.plot(x, array[0,2,:], linestyle='none', c='b',marker=".",label='Node 3')
 ax.plot(x, array[0,3,:], linestyle='none', c='y',marker=".",label='Node 4')
 
-plt.legend(loc=2)
 plt.show()
-
 
 
 
@@ -44,7 +39,7 @@ def successPercentage(counter):
 
 sum_successPercentageArray = np.zeros(SLAVE_COUNT)
 
-for i in range(0,SLAVE_COUNT):
+for i in range(0, SLAVE_COUNT):
     for j in range (0, SEND_REPETITION):
         sum_successPercentageArray[i] += successPercentage(np.sum(array[i,j,:]))
 
@@ -52,12 +47,40 @@ mean_successPercentageArray = np.divide(sum_successPercentageArray, SEND_REPETIT
 print(mean_successPercentageArray)
 
 x = ["#1","#2","#3","#4"]
+plt.plot(x, mean_successPercentageArray, marker=".", markersize=12, linestyle='none', label='success ratio for each node')
+# plt.bar(x, mean_successPercentageArray, width=0.3, label='success ratio for each node')
+
+# graphic
 plt.minorticks_on()
-plt.plot(x, mean_successPercentageArray, marker=".", linestyle='none', label='success ratio for each node')
+plt.tick_params(axis='x', which='minor', bottom=False) # no x ticks
 plt.xlabel('Current node')
 plt.ylabel('Sucess ratio in %')
-plt.title("Success ratio for each node")
+plt.title("Success ratio for each node - one example run")
 plt.legend()
+plt.grid()
+
+
+
+# %% success ratio for each node confidence
+mean = np.mean(array, axis=(1,2))
+print(mean)
+std = np.std(array, axis=(1,2))
+print(std)
+
+x = ["#1","#2","#3","#4"]
+
+plt.errorbar(x, mean, yerr=std, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
+
+# general layout
+plt.minorticks_on()
+plt.tick_params(axis='x', which='minor', bottom=False) # no x ticks
+plt.ylabel('Sucess ratio in %')
+plt.xlabel('Node id')
+plt.legend()
+
+# Show graphic
+plt.grid()
+plt.show()
 
 
 
@@ -126,6 +149,3 @@ plt.xlabel('Number of nodes allowed to fail')
 plt.ylabel('Sucess ratio in %')
 plt.title("Success ratio for X nodes")
 plt.legend()
-
-# %%
-# Confidence interval test

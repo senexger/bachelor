@@ -197,5 +197,9 @@ Lösung: Es gibt nun einen Code, wenn der nicht in einer Nachricht an die Slaves
 * TODO Plots erstellen
 - [X] Diagrammnamen finden
 - [X] entsprechendes Diagramm erstellen
-- [ ] Großen Datenblock richtig einlesen
-- [ ] Cofidence Interval
+- [X] Großen Datenblock richtig einlesen
+- [X] Cofidence Interval
+- [ ] Alle plots verschönern
+* TODO Neue Messung machen, mit größeren Abständen und 5 Knoten
+* TODO Plos exportieren
+* TODO Nette Mail schreiben
