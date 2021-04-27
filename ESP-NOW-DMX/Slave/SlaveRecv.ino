@@ -26,8 +26,10 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_l
   if (incomingData[0] == 255) { // == advanced_Meta.
     readPayload(incomingData, data_len);
     if (VERBOSE) Serial.println("Read Payload");
-    for (int i = 0; i<SEND_REPITITION; i++)
-      Serial.println(successRatioArray[i]);
+    for (int i = 0; i<SEND_REPITITION; i++) {
+      Serial.print(successRatioArray[i]);
+    }
+    Serial.println();
   }
 }
 

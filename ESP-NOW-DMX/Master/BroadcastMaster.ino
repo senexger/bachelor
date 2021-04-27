@@ -75,7 +75,7 @@ void createMetaPackage(){
   advanced_meta.channel_total        = CHANNEL_TOTAL;
   advanced_meta.broadcast_frame_size = BROADCAST_FRAME_SIZE;
   advanced_meta.unicast_frame_size   = UNICAST_FRAME_SIZE;
-  advanced_meta.unicast_slave_count  = UNICAST_SLAVE_COUNT;
+  advanced_meta.SLAVE_COUNT  = SLAVE_COUNT;
   advanced_meta.send_repitition      = SEND_REPITITION;
   advanced_meta.wait_after_send      = WAIT_AFTER_SEND;
   advanced_meta.wait_after_rep_send  = WAIT_AFTER_REP_SEND;

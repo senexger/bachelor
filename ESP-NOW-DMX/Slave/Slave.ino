@@ -66,7 +66,7 @@ typedef struct struct_advanced_meta {
   uint16_t channel_total;
   uint8_t broadcast_frame_size;
   uint8_t unicast_frame_size;
-  uint8_t unicast_slave_count;
+  uint8_t SLAVE_COUNT;
   uint16_t send_repitition;
   uint16_t wait_after_send;
   uint16_t wait_after_rep_send;

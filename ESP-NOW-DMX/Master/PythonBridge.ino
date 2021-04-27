@@ -34,7 +34,7 @@ void pythonBridge () {
   CHANNEL_TOTAL        = doc["CHANNEL_TOTAL"];        // 10 // Broadcast: total count of channels of all fixtures
   BROADCAST_FRAME_SIZE = doc["BROADCAST_FRAME_SIZE"]; // 10 // Broadcast: Channel/Broadcast
   UNICAST_FRAME_SIZE   = doc["UNICAST_FRAME_SIZE"];   // 20 // Unicast: Channel/Unicast
-  UNICAST_SLAVE_COUNT  = doc["UNICAST_SLAVE_COUNT"];  // 4  // Unicast: Slave Count
+  SLAVE_COUNT  = doc["SLAVE_COUNT"];  // 4  // Unicast: Slave Count
   SEND_REPITITION      = doc["SEND_REPITITION"];      // 1  // Sending-Measuring Interval
   WAIT_AFTER_SEND      = doc["WAIT_AFTER_SEND"];      // 0  // delay between sendings - prevent errors?
   WAIT_AFTER_REP_SEND  = doc["WAIT_AFTER_REP_SEND"];  // 1000 // delay between sendings - prevent errors?

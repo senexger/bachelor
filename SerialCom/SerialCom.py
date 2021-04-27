@@ -19,27 +19,10 @@ if __name__ == "__main__":
     # data = {}
     # data["operation"] = "channel"
 
-    # exp_name = "successratio_broadcast_F100"
-    # test1 = {
-    #     "VERBOSE"               : 1,
-    #     "DEBUG"                 : 1,
-    #     "TIMESTAMP"             : 0,
-    #     "AIRTIME"               : 0,
-    #     "FULL_REPETITIONS"      : 1,
-    #     "DMX_BROADCASTING"      : 1,
-
-    #     "CHANNEL_TOTAL"         : 100,
-    #     "BROADCAST_FRAME_SIZE"  : 100,
-    #     "UNICAST_FRAME_SIZE"    : 10,
-    #     "UNICAST_SLAVE_COUNT"   : 2,
-    #     "SEND_REPITITION"       : 100,  
-    #     "WAIT_AFTER_SEND"       : 30,
-    #     "WAIT_AFTER_REP_SEND"   : 100
-    # }
     exp_name = "successratio_broadcast_F100"
     test1 = {
-        "VERBOSE"               : 1,
-        "DEBUG"                 : 1,
+        "VERBOSE"               : 0,
+        "DEBUG"                 : 0,
         "TIMESTAMP"             : 0,
         "AIRTIME"               : 0,
         "FULL_REPETITIONS"      : 1,
@@ -48,17 +31,38 @@ if __name__ == "__main__":
         "CHANNEL_TOTAL"         : 100,
         "BROADCAST_FRAME_SIZE"  : 100,
         "UNICAST_FRAME_SIZE"    : 10,
-        "UNICAST_SLAVE_COUNT"   : 4,
+        "SLAVE_COUNT"           : 4,
         "SEND_REPITITION"       : 100,  
         "WAIT_AFTER_SEND"       : 100,
         "WAIT_AFTER_REP_SEND"   : 1000
     }
+    # exp_name = "successratio_broadcast_F200"
+    # test1 = {
+    #     "VERBOSE"               : 1,
+    #     "DEBUG"                 : 1,
+    #     "TIMESTAMP"             : 0,
+    #     "AIRTIME"               : 0,
+    #     "FULL_REPETITIONS"      : 1,
+    #     "DMX_BROADCASTING"      : 1,
+
+    #     "CHANNEL_TOTAL"         : 200,
+    #     "BROADCAST_FRAME_SIZE"  : 200,
+    #     "UNICAST_FRAME_SIZE"    : 10,
+    #     "UNICAST_SLAVE_COUNT"   : 4,
+    #     # "SLAVE_COUNT"           : 4,
+    #     "SEND_REPITITION"       : 100,  
+    #     "WAIT_AFTER_SEND"       : 100,
+    #     "WAIT_AFTER_REP_SEND"   : 1000
+    # }
+
+    PY_DEBUG = True
 
     current_time = datetime.datetime.now().strftime("_%m-%d-%H:%M:%S")
     data=json.dumps(test1)
     print (data)
 
-    for i in range (0,2000):
+    for i in range (0,120):
+        print("Durchgang Nummer: " + str(i))
 
         if ser.isOpen():
             ser.write(data.encode('ascii'))
@@ -73,18 +77,18 @@ if __name__ == "__main__":
                     print (incoming, end=" ")
                     if ('DONE' in incoming):
                         currentSlave += 1
-                        if (currentSlave == 4):
+                        if (currentSlave == test1['SLAVE_COUNT']):
                             with open(f'/home/walther/Documents/bachelor/Data/broad_successratio/{exp_name}{current_time}.csv', 'a', newline='') as file:
                                 writer = csv.writer(file, delimiter=',')
                                 writer.writerow([int(9999)])
                             break
-                    # if ('Entering Python Bridge' in incoming):
-                    #     break
+                    if ('Entering Python Bridge' in incoming):
+                        break
 
                     with open(f'/home/walther/Documents/bachelor/Data/broad_successratio/{exp_name}{current_time}.csv', 'a', newline='') as file:
                         writer = csv.writer(file, delimiter=',')
                         writer.writerow([int(incoming)])
-                        # writer.writerow([time.time(),int(incoming)])
+                        
                 except Exception as e:
                     print (e)
                     pass

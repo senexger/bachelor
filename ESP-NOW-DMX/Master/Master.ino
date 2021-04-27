@@ -42,7 +42,7 @@ typedef struct struct_advanced_meta {
   uint16_t channel_total;
   uint8_t broadcast_frame_size;
   uint8_t unicast_frame_size;
-  uint8_t unicast_slave_count;
+  uint8_t SLAVE_COUNT;
   uint16_t send_repitition;
   uint16_t wait_after_send;
   uint16_t wait_after_rep_send;
@@ -104,7 +104,7 @@ void loop() {
   // Distribution with unicast, because its fast and reliable. Using WLAN would be also an option
   // but its rather cumbersome
   // TODO send unicast with meta information to each slave
-  // for(int i=1; i < UNICAST_SLAVE_COUNT; i++){ // For loop is for iterating through MAC_addresses
+  // for(int i=1; i < SLAVE_COUNT; i++){ // For loop is for iterating through MAC_addresses
     // metaInformationToSlaves(SLAVE_MAC_ARRAY[i], advanced_meta);
     metaInformationToSlaves(BROADCAST_MAC, advanced_meta);
   // }
@@ -139,7 +139,7 @@ void runTest() {
     }
   }
   // TODO DMX ARTNET TEST
-  
+
   // Collecting timestamps
   if(TIMESTAMP || hSerial.available()) { // aka AIRTIME
     // ! getTimestamp();
@@ -157,5 +157,9 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_l
   for (int i=0; i< data_len; i++) {
     Serial.println(incomingData[i]);
   }
+  for (int i=3; i < 6; i++) {
+    Serial.print(mac_addr[i]);
+  }
+  Serial.println("9999");
   Serial.println("DONE");
 }

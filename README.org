@@ -194,13 +194,21 @@ https://makersportal.com/blog/2018/2/25/python-datalogger-reading-the-serial-out
 Beim Sammeln der Daten wird eine zwei in das SucessArray geschrieben. Das passiert irgendwie, wenn der Master versucht die Daten von den Slaves ab zu fragen.
 Lösung: Es gibt nun einen Code, wenn der nicht in einer Nachricht an die Slaves eingetragen ist, dann verwerfen sie die Nachricht.
 * DONE Daten für Plots sammeln
-* TODO Plots erstellen
+* DONE Plots erstellen
 - [X] Diagrammnamen finden
 - [X] entsprechendes Diagramm erstellen
 - [X] Großen Datenblock richtig einlesen
 - [X] Cofidence Interval
 - [ ] Alle plots verschönern
-* TODO repair axis
-* TODO Neue Messung machen, mit größeren Abständen und 5 Knoten
-* TODO Plos exportieren
-* TODO Nette Mail schreiben
+* DONE repair axis
+* TODO Neue Messung machen, mit größeren Abständen und mehr Knoten
+Tatsächlich habe ich dieselben Knoten genommen und einfach ein neues Experiment laufen lassen, diesmal allerdings mit deutlich größeren Abständen
+* TODO Neue Messung plotten, erst vergleichend, dann ergänzend
+** Einmal Messung über alle Datenblöcke erstellen
+** Testmessung verwenden
+* DONE Plos exportieren
+* DONE Nette Mail schreiben
+* TODO Paket größe variieren
+* TODO Testen ob nach SLAVE_COUNT Namensänderung der Code noch funktioniert
+* DONE Eventuel eine rückmeldung geben, wie weit der Fortschritt bei der Messung ist
+* TODO Master soll in das csv schreiben, von welchem Slave die Daten kommen (statt der 9999)

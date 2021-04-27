@@ -44,7 +44,7 @@ void sendDataEspUnicast(uint8_t repetition) {
   if(VERBOSE) Serial.println("[Info] Init DMX Unicasting");
 
   // Starting with 1 because zero is the BROADCAST ADDRESS
-  for (int i = 1; i <= UNICAST_SLAVE_COUNT; i++) {
+  for (int i = 1; i <= SLAVE_COUNT; i++) {
     if(VERBOSE) { 
       Serial.print("Unicast: "); Serial.println(i);
       for (int j=0; j < 6; j++) {
@@ -64,7 +64,10 @@ void sendDataEspUnicast(uint8_t repetition) {
 
 /* select each node and send an request unicast */
 void collectData(struct_advanced_meta metaData) {
-  for (int i = 1; i < UNICAST_SLAVE_COUNT+1; i++) {
+
+  Serial.println(SLAVE_COUNT);
+  
+  for (int i = 1; i < SLAVE_COUNT+1; i++) {
     if(VERBOSE) { 
       Serial.print("Collect Data from fixture "); Serial.println(i);
       for (int j=0; j < 6; j++) {
@@ -79,5 +82,9 @@ void collectData(struct_advanced_meta metaData) {
                                           sizeof(metaData));
     if(DEBUG) espNowStatus(unicastResult);
     delay(WAIT_AFTER_REP_SEND); // No delay crashs the system
+    if (unicastResult != ESP_OK) {
+      i--;
+      Serial.println("Retry Unicast");
+    }
   }
 }
