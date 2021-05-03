@@ -212,3 +212,4 @@ Tatsächlich habe ich dieselben Knoten genommen und einfach ein neues Experiment
 * TODO Testen ob nach SLAVE_COUNT Namensänderung der Code noch funktioniert
 * DONE Eventuel eine rückmeldung geben, wie weit der Fortschritt bei der Messung ist
 * TODO Master soll in das csv schreiben, von welchem Slave die Daten kommen (statt der 9999)
+* TODO Präsentation ausarbeiten

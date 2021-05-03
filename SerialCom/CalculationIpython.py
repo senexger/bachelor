@@ -13,9 +13,20 @@ TEST_REPETITION_2 = 57
 SLAVE_COUNT       = 4
 
 array = np.genfromtxt("/home/walther/Documents/bachelor/Data/without9.csv", delimiter=",", dtype="int")
+array_1 = np.genfromtxt("/home/walther/Documents/bachelor/Data/without9 copy.csv", delimiter=",", dtype="int")
 array_2 = np.genfromtxt("/home/walther/Documents/bachelor/Data/without9_now.csv", delimiter=",", dtype="int")
+
+array_8_nodes = np.concatenate((array_1, array_2), 0)
+
 array = np.reshape(array, (TEST_REPETITION, SLAVE_COUNT, SEND_REPETITION))
+array_1 = np.reshape(array_1, (TEST_REPETITION_2, SLAVE_COUNT, SEND_REPETITION))
 array_2 = np.reshape(array_2, (TEST_REPETITION_2, SLAVE_COUNT, SEND_REPETITION))
+array_8_nodes = np.reshape(array_8_nodes, (TEST_REPETITION_2, SLAVE_COUNT*2, SEND_REPETITION))
+
+
+print(array_1)
+print("==========")
+print(array_8_nodes)
 
 SLAVE_COUNT = 8
 
@@ -41,7 +52,33 @@ plt.savefig('/home/walther/Documents/bachelor/Graphs/100broadcastsOverTime.png',
 plt.show()
 
 
+# %% success ratio for each node confidence
+# double Array
+mean = np.mean(array_8_nodes, axis=(0))
+print(mean)
+std_error = np.zeros(8)
+for i in range(0,8):
+    std_error[i] = np.std(mean[i])
 
+mean = np.mean(array_8_nodes, axis=(0,2))
+print(mean)
+
+# std = np.std(array_8_nodes, axis=(0,2))
+# std_err = np.std(mean)
+# print(std_err)
+
+# x = ["#1","#2","#3","#4"]
+x = ["#1","#2","#3","#4","#5","#6","#7","#8"]
+plt.errorbar(x, mean*100, yerr=std_error*100, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
+plt.minorticks_on()
+plt.tick_params(axis='x', which='minor', bottom=False) # no x ticks
+plt.title('Sucess ratio for each node')
+plt.ylabel('success ratio in %')
+plt.xlabel('node id')
+plt.grid()
+fig.patch.set_facecolor('xkcd:white')
+plt.savefig('/home/walther/Documents/bachelor/Graphs/successRatioPerNode.png', dpi=300)
+plt.show()
 
 # %% success ratio for each node confidence
 mean = np.mean(array, axis=(0,2))
@@ -75,9 +112,14 @@ plt.show()
 # success ratio with confidence interval
 # TEST_REPETITION, SLAVE_COUNT, SEND_REPETITION))
 
-SLAVE_COUNT = 4
+SLAVE_COUNT = 8
+TEST_REPETITION = 57
 
-accomulation_sum = np.sum(array, axis=1)
+
+accomulation_sum = np.sum(array_8_nodes, axis=1)
+
+print(accomulation_sum.shape)
+print(TEST_REPETITION)
 
 accomulation = np.zeros((SLAVE_COUNT, TEST_REPETITION))
 super_mean = np.zeros(SLAVE_COUNT)
@@ -92,9 +134,9 @@ for s in range(0, SLAVE_COUNT):
     super_mean[s] = np.mean(accomulation[s,:])
     super_std[s]  = np.std(accomulation[s,:])
 
-print(super_mean)
+print(accomulation_sum)
 
-x = ["3", "2", "1", "0"]
+x = ["7", "6", "5", "4", "3", "2", "1", "0"]
 plt.errorbar(x, super_mean, yerr=super_std, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
 # plt.plot(x, accomulation, marker=".", markersize=20, linestyle="none")
 plt.minorticks_on()
