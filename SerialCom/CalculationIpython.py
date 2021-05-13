@@ -94,7 +94,8 @@ print(std_total)
 
 # x = ["#1","#2","#3","#4"]
 x = ["#1","#2","#3","#4","#5","#6","#7","#8"]
-plt.errorbar(x, mean_total*100, yerr=std_total*100, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
+plt.errorbar(x, mean_total*100, yerr=std_total*100, fmt='-o', color='r', markersize=8, linestyle='none', capsize=7)
+plt.errorbar(x, mean_total*100, yerr=std_error*100, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
 plt.minorticks_on()
 plt.tick_params(axis='x', which='minor', bottom=False) # no x ticks
 plt.title('Sucess ratio for each node')

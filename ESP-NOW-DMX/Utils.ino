@@ -22,8 +22,10 @@ void addNodeToPeerlist(const uint8_t *mac_addr) {
   bool exists = esp_now_is_peer_exist(mac_addr);
   if (!exists) {
     memcpy(peer_info.peer_addr, mac_addr, 6);
-    // peer_info.ifidx = ESP_IF_WIFI_STA;
-    // peer_info.encrypt = false;
+    // TODO add parameter for channel
+    // peer_info.channel = MASTER_CHANNEL; // 0-14, default 0?
+    // peer_info.ifidx = ESP_IF_WIFI_STA; // ?
+    // peer_info.encrypt = false; // ?
     esp_err_t status = esp_now_add_peer(&peer_info);
     if (ESP_OK != status && DEBUG)
       Serial.println("[ERROR] Could not add peer");

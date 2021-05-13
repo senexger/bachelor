@@ -3,14 +3,10 @@
 uint8_t unicastData[MAX_UNICAST_FRAME_SIZE];
 
 void setupUnicast() {
-
-  Serial.println("Setup Unicast");
-
   // TODO is this better working with uint8 ?!
   for (uint8_t i=0; i <= MAX_UNICAST_FRAME_SIZE; i++) {
     unicastData[i] = i;
   }
-
   WiFi.mode(WIFI_STA);
   if (VERBOSE) Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
 
@@ -26,8 +22,6 @@ void setupUnicast() {
   addNodeToPeerlist(SLAVE_MAC_5);
 
   if(DEBUG) esp_now_register_send_cb(onDataSent);
-  // TODO usage for acknoledgements?
-  // esp_now_register_recv_cb(onDataRecvUnicast);
 }
 
 // TODO what are you doing?! Cloning MAC for the setup function?
@@ -35,6 +29,21 @@ void copyArray(uint8_t array[6], uint8_t copy[6]) {
   for (int i=0; i <= 6; i++) {
     array[i] = copy[i];
   }
+}
+
+// send meta Data to Slave with BroadcastID or Unicast and Offset
+void metaInformationToSlaves(const uint8_t *peer_addr, struct_advanced_meta metaData) {
+  metaData.metaCode = 253;
+  if(VERBOSE) {
+    Serial.print("[Info] Send DMX Information ");
+    Serial.print((int) sizeof(metaData));
+    Serial.println(" (B)");
+  }
+  esp_err_t unicastResult = esp_now_send(peer_addr, 
+                                        (uint8_t *) &metaData,
+                                        sizeof(metaData));
+                                        
+  if(DEBUG) espNowStatus(unicastResult);
 }
 
 // send data

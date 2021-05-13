@@ -44,21 +44,6 @@ void setupBroadcast() {
   // // esp_now_register_recv_cb(onDataRecvBroadcast);
 }
 
-// send meta Data to Slave with BroadcastID and Offset
-void metaInformationToSlaves(const uint8_t *peer_addr, struct_advanced_meta metaData) {
-  metaData.metaCode = 253;
-  if(VERBOSE) {
-    Serial.print("[Info] Send DMX Information ");
-    Serial.print((int) sizeof(metaData));
-    Serial.println(" (B)");
-  }
-  esp_err_t unicastResult = esp_now_send(peer_addr, 
-                                        (uint8_t *) &metaData,
-                                        sizeof(metaData));
-                                        
-  if(DEBUG) espNowStatus(unicastResult);
-}
-
 void createMetaPackage(){
   if (VERBOSE) Serial.println("createMetaPackage");
   advanced_meta.metaCode             = 1;

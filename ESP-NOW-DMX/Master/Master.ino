@@ -104,10 +104,9 @@ void loop() {
   // Distribution with unicast, because its fast and reliable. Using WLAN would be also an option
   // but its rather cumbersome
   // TODO send unicast with meta information to each slave
-  // for(int i=1; i < SLAVE_COUNT; i++){ // For loop is for iterating through MAC_addresses
-    // metaInformationToSlaves(SLAVE_MAC_ARRAY[i], advanced_meta);
-    metaInformationToSlaves(BROADCAST_MAC, advanced_meta);
-  // }
+  for(int i=0; i < SLAVE_COUNT; i++){ // For loop is for iterating through MAC_addresses
+    metaInformationToSlaves(SLAVE_MAC_ARRAY[i+1], advanced_meta);
+  }
 
   esp_now_register_recv_cb(OnDataRecv);
 
