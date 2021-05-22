@@ -6,27 +6,26 @@
 #define MACLIST_H
 
     // TODO check MAC addresses
-    static uint8_t BROADCAST_MAC[6]     = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; // Broadcast
     static uint8_t SLAVE_MAC_1[6]       = { 0xFC, 0xF5, 0xC4, 0x31, 0x69, 0x0C }; // I
     static uint8_t SLAVE_MAC_2[6]       = { 0x24, 0x0A, 0xC4, 0x61, 0x19, 0x08 }; // II
     static uint8_t SLAVE_MAC_4[6]       = { 0x24, 0x0A, 0xC4, 0x60, 0xA2, 0x04 }; // IV
     static uint8_t SLAVE_MAC_5[6]       = { 0x24, 0x0A, 0xC4, 0x61, 0x19, 0x80 }; // V
     static uint8_t SLAVE_MAC_6[6]       = { 0x24, 0x62, 0xab, 0xf8, 0xf8, 0xc0 }; // VI
     static uint8_t SLAVE_MAC_8[6]       = { 0x24, 0x62, 0xAB, 0xF9, 0x50, 0x70 }; // VIII
-    static uint8_t SLAVE_MAC_9[6]       = { 0x24, 0x62, 0xAB, 0xF9, 0x50, 0x70 }; // VIII
-    static uint8_t SLAVE_MAC_3[6]       = { 0x24, 0x62, 0xAB, 0xF9, 0x50, 0x70 }; // VIII
-    static uint8_t SLAVE_MAC_7[6]       = { 0x24, 0x62, 0xAB, 0xF9, 0x50, 0x70 }; // VIII
+    static uint8_t SLAVE_MAC_9[6]       = { 0x24, 0x62, 0xAB, 0xF9, 0x50, 0x70 }; // IX
+    static uint8_t SLAVE_MAC_3[6]       = { 0x24, 0x62, 0xAB, 0xF9, 0x50, 0x70 }; // III DEAD
+    static uint8_t SLAVE_MAC_7[6]       = { 0x24, 0x62, 0xAB, 0xF9, 0x50, 0x70 }; // VIII DEAD
 
-    // static uint8_t MASTER_MAC[6]        = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; // TODO MACADDRESS FROM MASTER
-    static uint8_t MASTER_MAC[6]       = { 0x24, 0x0A, 0xC4, 0x61, 0x19, 0x08 }; // II
+    static uint8_t BROADCAST_MAC[6]     = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; // Broadcast
+    static uint8_t MASTER_MAC[6]        = { 0xFC ,0xF5 ,0xC4 ,0x31 ,0x9A ,0x44 };
 
-    static uint8_t * SLAVE_MAC_ARRAY[10] = {BROADCAST_MAC, // TODO BROADCAST_MAC isn't really a SLAVE_MAC Address
+    static uint8_t * SLAVE_MAC_ARRAY[9] = {BROADCAST_MAC, // TODO BROADCAST_MAC isn't really a SLAVE_MAC Address
                                            SLAVE_MAC_8,
+                                           SLAVE_MAC_1,
                                            SLAVE_MAC_2,
                                            SLAVE_MAC_4,
                                            SLAVE_MAC_5,
                                            SLAVE_MAC_6,
-                                           SLAVE_MAC_8,
                                            SLAVE_MAC_3,
                                            SLAVE_MAC_7};
 

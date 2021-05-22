@@ -4,9 +4,10 @@
 
 // callback when data is recv from Master just printing incoming data
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_len) {
+
   getTimestamp();
   if(VERBOSE) {
-    Serial.println("VERBOSE: OnDataRecv()");
+    Serial.print("VERBOSE: OnDataRecl(): "); Serial.print(data_len); Serial.println("");
     Serial.print("incomingData[0]: "); Serial.println(incomingData[0]);
     Serial.print("incomingData[1]: "); Serial.println(incomingData[1]);
     Serial.print("incomingData[2]: "); Serial.println(incomingData[2]);
@@ -17,13 +18,14 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_l
   }
   if (incomingData[0] == 253) { // == advanced_Meta.metaCode
     applyMetaInformation(incomingData, data_len);
+    sendAck();
     return;
   }
-  if (incomingData[0] == 254) { // == advanced_Meta.
+  if (incomingData[0] == 254) { // == advanced_Meta
     sendResultsToMaster();
     return;
   }
-  if (incomingData[0] == 255) { // == advanced_Meta.
+  if (incomingData[0] == 255) { // == advanced_Meta
     readPayload(incomingData, data_len);
     if (VERBOSE) Serial.println("Read Payload");
     for (int i = 0; i<SEND_REPITITION; i++) {
@@ -116,4 +118,11 @@ void applyMetaInformation(const uint8_t *incomingData, int data_len) {
   // generell information
   Serial.print("SlaveOffset      : "); Serial.println(advanced_Meta.slave_offset);
   Serial.print("SlaveBroadcastID : "); Serial.println(advanced_Meta.slave_broadcastId);
+}
+
+void sendAck() {
+  Serial.println("Send Ack!");
+  uint8_t ack = 1;
+  esp_err_t ackResult = esp_now_send(MASTER_MAC, (uint8_t *) &ack, 1); //TODO MASTER_MAC
+  espNowStatus(ackResult);
 }

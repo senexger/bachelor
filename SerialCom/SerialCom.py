@@ -61,7 +61,7 @@ if __name__ == "__main__":
     data=json.dumps(test1)
     print (data)
 
-    for i in range (0,10):
+    for i in range (0,5):
         print("Durchgang Nummer: " + str(i))
 
         if ser.isOpen():

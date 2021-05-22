@@ -214,4 +214,5 @@ Tatsächlich habe ich dieselben Knoten genommen und einfach ein neues Experiment
 * DONE Präsentation ausarbeiten
 * TODO Rework Slave Broadcast&Unicast all in one
 * TODO Ensure that meta-packets really arrive the nodes
-ich glaube das geht auf application layer tatsächlich nur, indem ich mir in einer Variable merke, dass eine ein Paket nicht abgeschickt wurde und ich darauf hin einer Variable abspeichere, ob das Paket erfolgreich ankam. Ich bleibe so lange in eienr While schleife gefangen und sende so oft wieder das paket, bis der Knoten mir erfolgreich zurück schreibt, dass das Paket angekommen ist.
+- ich glaube das geht auf application layer tatsächlich nur, indem ich mir in einer Variable merke, dass eine ein Paket nicht abgeschickt wurde und ich darauf hin einer Variable abspeichere, ob das Paket erfolgreich ankam. Ich bleibe so lange in eienr While schleife gefangen und sende so oft wieder das paket, bis der Knoten mir erfolgreich zurück schreibt, dass das Paket angekommen ist.
+- Ich werde jetzt eine eigene Funktion schreiben, die sicherstellt, dass ein Paket sicher angekommen ist.

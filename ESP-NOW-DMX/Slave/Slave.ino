@@ -92,6 +92,7 @@ void setup() {
   Serial.println("init success!");
 
   setupEspNow();
+  addNodeToPeerlist(MASTER_MAC);
 
   for (uint8_t i=0; i< 100; i++) {
     successRatioArray[i] = 42;
@@ -105,9 +106,9 @@ void loop() {
 
 void sendResultsToMaster() {
   if(VERBOSE) Serial.println("Sending successRatioArray");
-  
-  addNodeToPeerlist(MASTER_MAC);
 
+  // TODO addNodeToPeerlist(MASTER_MAC);
+  
   esp_err_t unicastResult = esp_now_send(MASTER_MAC,
                                         (uint8_t *) &successRatioArray,
                                         SEND_REPITITION);

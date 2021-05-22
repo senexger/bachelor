@@ -1,3 +1,4 @@
+
 /*
    ESPNOW-Master
    Date: 1th March 2020
@@ -17,6 +18,7 @@
 
 esp_now_peer_info_t slaves[MAX_SLAVES] = {};
 uint8_t slaveArray[MAX_SLAVES][6]; // magic 6 - MAC has 6 byte
+uint8_t success = 0; // for the 100% reliable unicast
 
 String puropse = "MASTER";
 
@@ -98,8 +100,13 @@ void loop() {
   addNodeToPeerlist(SLAVE_MAC_2);
   addNodeToPeerlist(SLAVE_MAC_3);
   addNodeToPeerlist(SLAVE_MAC_4);
-  addNodeToPeerlist(SLAVE_MAC_5);
+  addNodeToPeerlist(SLAVE_MAC_6);
+  addNodeToPeerlist(SLAVE_MAC_7);
+  addNodeToPeerlist(SLAVE_MAC_8);
+  addNodeToPeerlist(SLAVE_MAC_9);
   
+  esp_now_register_recv_cb(OnDataRecv);
+
   // ++ DISTRIBUTE ++
   // Distribution with unicast, because its fast and reliable. Using WLAN would be also an option
   // but its rather cumbersome
@@ -107,8 +114,6 @@ void loop() {
   for(int i=0; i < SLAVE_COUNT; i++){ // For loop is for iterating through MAC_addresses
     metaInformationToSlaves(SLAVE_MAC_ARRAY[i+1], advanced_meta);
   }
-
-  esp_now_register_recv_cb(OnDataRecv);
 
   // ++ TEST ++
   for (int i = 0; i < FULL_REPETITIONS; i++) {
@@ -151,6 +156,13 @@ void runTest() {
 }
 
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_len) {
+  Serial.print("Data received!!! ("); Serial.print(data_len); Serial.println("B)");
+  success = 1;
+  if (data_len == 1) {
+    Serial.println("Ack received!");
+    return; // do not print a ack
+  }
+
   Serial.println("SLAVEDATA INCOMING!");
   
   for (int i=0; i< data_len; i++) {

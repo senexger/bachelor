@@ -39,11 +39,22 @@ void metaInformationToSlaves(const uint8_t *peer_addr, struct_advanced_meta meta
     Serial.print((int) sizeof(metaData));
     Serial.println(" (B)");
   }
-  esp_err_t unicastResult = esp_now_send(peer_addr, 
-                                        (uint8_t *) &metaData,
-                                        sizeof(metaData));
+  esp_err_t unicastResult = sendUnicastReliable(peer_addr, metaData);
                                         
   if(DEBUG) espNowStatus(unicastResult);
+}
+
+esp_err_t sendUnicastReliable(const uint8_t *peer_addr, struct_advanced_meta data) {
+  esp_err_t unicastResult;
+  while(!success) {
+    Serial.println("reliable sending...");
+    unicastResult = esp_now_send(peer_addr, 
+                                          (uint8_t *) &data,
+                                          sizeof(data));
+    delay(WAIT_AFTER_SEND + WAIT_AFTER_REP_SEND + 5000);
+  }
+  success = 0;
+  return unicastResult;
 }
 
 // send data
