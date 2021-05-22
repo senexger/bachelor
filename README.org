@@ -200,11 +200,11 @@ Lösung: Es gibt nun einen Code, wenn der nicht in einer Nachricht an die Slaves
 - [X] Cofidence Interval
 - [ ] Alle plots verschönern
 * DONE repair axis
-* TODO Neue Messung machen, mit größeren Abständen und mehr Knoten
+* DONE Neue Messung machen, mit größeren Abständen und mehr Knoten
 Tatsächlich habe ich dieselben Knoten genommen und einfach ein neues Experiment laufen lassen, diesmal allerdings mit deutlich größeren Abständen
-* TODO Neue Messung plotten, erst vergleichend, dann ergänzend
-** Einmal Messung über alle Datenblöcke erstellen
-** Testmessung verwenden
+* DONE Neue Messung plotten, erst vergleichend, dann ergänzend
+- Einmal Messung über alle Datenblöcke erstellen
+- Testmessung verwenden
 * DONE Plos exportieren
 * DONE Nette Mail schreiben
 * TODO Paket größe variieren?
@@ -213,6 +213,6 @@ Tatsächlich habe ich dieselben Knoten genommen und einfach ein neues Experiment
 * DONE Master soll in das csv schreiben, von welchem Slave die Daten kommen (statt der 9999)
 * DONE Präsentation ausarbeiten
 * TODO Rework Slave Broadcast&Unicast all in one
-* TODO Ensure that meta-packets really arrive the nodes
+* DONE Ensure that meta-packets really arrive the nodes
 - ich glaube das geht auf application layer tatsächlich nur, indem ich mir in einer Variable merke, dass eine ein Paket nicht abgeschickt wurde und ich darauf hin einer Variable abspeichere, ob das Paket erfolgreich ankam. Ich bleibe so lange in eienr While schleife gefangen und sende so oft wieder das paket, bis der Knoten mir erfolgreich zurück schreibt, dass das Paket angekommen ist.
 - Ich werde jetzt eine eigene Funktion schreiben, die sicherstellt, dass ein Paket sicher angekommen ist.
