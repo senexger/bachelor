@@ -21,7 +21,6 @@
 #endif
 
 // Variable to store if sending data was successful
-String success;
 String puropse = "SLAVE";
 
 // Variables for sending and receiving
@@ -87,6 +86,8 @@ uint8_t successRatioArray[250];
 void setup() {
   Serial.begin(115200);
   hSerial.begin(115200); // open Serial Port to the Master RX2 TX2 GND
+
+  Serial.println("Version 0.1");
   Serial.println("Slave Node here");
 
   Serial.println("init success!");
@@ -107,17 +108,14 @@ void loop() {
 void sendResultsToMaster() {
   if(VERBOSE) Serial.println("Sending successRatioArray");
 
-  // TODO addNodeToPeerlist(MASTER_MAC);
-  
   esp_err_t unicastResult = esp_now_send(MASTER_MAC,
-                                        (uint8_t *) &successRatioArray,
-                                        SEND_REPITITION);
+                                          (uint8_t *) &successRatioArray,
+                                          SEND_REPITITION);
   if(DEBUG) espNowStatus(unicastResult);
-
+  
   for (uint8_t i=0; i< 100; i++) {
     successRatioArray[i] = 0;
   }
-  printSettings();
 }
 
 void setupEspNow() {

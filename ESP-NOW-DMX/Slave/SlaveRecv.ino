@@ -7,10 +7,12 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_l
 
   getTimestamp();
   if(VERBOSE) {
-    Serial.print("VERBOSE: OnDataRecl(): "); Serial.print(data_len); Serial.println("");
-    Serial.print("incomingData[0]: "); Serial.println(incomingData[0]);
-    Serial.print("incomingData[1]: "); Serial.println(incomingData[1]);
-    Serial.print("incomingData[2]: "); Serial.println(incomingData[2]);
+    Serial.print("Receive: "); Serial.print(data_len); Serial.println(" (B)");
+    Serial.print("incomingData: [");
+    for (int i=0; i<data_len; i++) {
+      Serial.print(incomingData[i]); if (i!=data_len-1) Serial.print(", ");
+    }
+    Serial.print("] ("); Serial.print(data_len); Serial.println("B)");
   }
   // TODO ist das sinnvoll?!
   if (AIRTIME) {
@@ -61,19 +63,10 @@ void correctCastCounter() {
 bool isPayloadCorrect(const uint8_t *incomingData, int data_len ) {
   memcpy(&espBroadcastData, incomingData, sizeof(data_len));
 
-  // check broadcast integrity
-  // sub 1 becaus there is no broadcastID in payload
-  // iterating through the payload
   bool signalHealthy = true;
 
   // if (espBroadcastData.broadcastID == broadcastId) {
     for (int i=2; i<data_len ; i++) { 
-      // Print all data
-      // if (VERBOSE) 
-          // Serial.print(i); Serial.print(" -> ");Serial.println(incomingData[i]);
-      // just select needed channel
-      // if ((i >= offset) && (i < offset + CHANNELS_NEEDED)) {
-      // }
       if (incomingData[i] != i) {
         Serial.print("[ERROR] "); Serial.print(incomingData[i]); Serial.print(" != "); Serial.println(i);
         signalHealthy = false;

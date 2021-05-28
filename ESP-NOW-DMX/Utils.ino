@@ -147,3 +147,10 @@ void printSettings(){
   Serial.println("+++++++++++++++++++++++++++++++");
   return;
 }
+
+void printMac(const uint8_t* mac_addr) {
+  for (int i=0; i < 6; i++) {
+    Serial.print(mac_addr[i], HEX);Serial.print(":");
+  }
+  Serial.println();
+}

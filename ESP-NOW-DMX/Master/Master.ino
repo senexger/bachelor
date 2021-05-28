@@ -19,6 +19,7 @@
 esp_now_peer_info_t slaves[MAX_SLAVES] = {};
 uint8_t slaveArray[MAX_SLAVES][6]; // magic 6 - MAC has 6 byte
 uint8_t success = 0; // for the 100% reliable unicast
+const uint8_t *toCollectFromMac = BROADCAST_MAC; // for the 100% reliable unicast
 
 String puropse = "MASTER";
 
@@ -110,7 +111,7 @@ void loop() {
   // ++ DISTRIBUTE ++
   // Distribution with unicast, because its fast and reliable. Using WLAN would be also an option
   // but its rather cumbersome
-  // TODO send unicast with meta information to each slave
+  Serial.println("===SEND META INFORMATION===");
   for(int i=0; i < SLAVE_COUNT; i++){ // For loop is for iterating through MAC_addresses
     metaInformationToSlaves(SLAVE_MAC_ARRAY[i+1], advanced_meta);
   }
@@ -121,6 +122,7 @@ void loop() {
       Serial.print("Repition "); 
       Serial.println(i);
     }
+    Serial.println("===RUN TEST===");
     runTest();
   }
 }
@@ -150,21 +152,31 @@ void runTest() {
     Serial.write(hSerial.read());Serial.println("");
   }
   // wait for shortly to run the sending groups again
-  collectData(advanced_meta);
-
+  Serial.println("===COLLECT DATA===");
+  for(int i=0; i < SLAVE_COUNT; i++){ // For loop is for iterating through MAC_addresses
+    toCollectFromMac = SLAVE_MAC_ARRAY[i+1];
+    collectData(SLAVE_MAC_ARRAY[i+1], advanced_meta);
+  }
   delay(WAIT_AFTER_REP_SEND);
 }
 
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_len) {
-  Serial.print("Data received!!! ("); Serial.print(data_len); Serial.println("B)");
-  success = 1;
+  Serial.print("DATA RECEIVED ("); Serial.print(data_len); Serial.print("B) from: "); printMac(mac_addr);
+
   if (data_len == 1) {
     Serial.println("Ack received!");
-    return; // do not print a ack
+    success = 1;
+    return;
   }
 
-  Serial.println("SLAVEDATA INCOMING!");
-  
+  Serial.print("To collect from Mac: "); printMac(toCollectFromMac);
+
+  if (*toCollectFromMac != *mac_addr) { 
+    Serial.println("Abort Collection"); 
+    return;
+  }
+  toCollectFromMac = BROADCAST_MAC;
+
   for (int i=0; i< data_len; i++) {
     Serial.println(incomingData[i]);
   }

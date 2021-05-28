@@ -34,27 +34,15 @@ void copyArray(uint8_t array[6], uint8_t copy[6]) {
 // send meta Data to Slave with BroadcastID or Unicast and Offset
 void metaInformationToSlaves(const uint8_t *peer_addr, struct_advanced_meta metaData) {
   metaData.metaCode = 253;
+
   if(VERBOSE) {
-    Serial.print("[Info] Send DMX Information ");
+    Serial.print("[Info] Send DMX Information to "); printMac(peer_addr);
     Serial.print((int) sizeof(metaData));
     Serial.println(" (B)");
   }
-  esp_err_t unicastResult = sendUnicastReliable(peer_addr, metaData);
-                                        
-  if(DEBUG) espNowStatus(unicastResult);
-}
 
-esp_err_t sendUnicastReliable(const uint8_t *peer_addr, struct_advanced_meta data) {
-  esp_err_t unicastResult;
-  while(!success) {
-    Serial.println("reliable sending...");
-    unicastResult = esp_now_send(peer_addr, 
-                                          (uint8_t *) &data,
-                                          sizeof(data));
-    delay(WAIT_AFTER_SEND + WAIT_AFTER_REP_SEND + 5000);
-  }
-  success = 0;
-  return unicastResult;
+  esp_err_t unicastResult = sendUnicastReliable(peer_addr, metaData);
+  if(DEBUG) espNowStatus(unicastResult);
 }
 
 // send data
@@ -83,28 +71,29 @@ void sendDataEspUnicast(uint8_t repetition) {
 }
 
 /* select each node and send an request unicast */
-void collectData(struct_advanced_meta metaData) {
+void collectData(const uint8_t *peer_addr, struct_advanced_meta metaData) {
 
-  Serial.println(SLAVE_COUNT);
-  
-  for (int i = 1; i < SLAVE_COUNT+1; i++) {
-    if(VERBOSE) { 
-      Serial.print("Collect Data from fixture "); Serial.println(i);
-      for (int j=0; j < 6; j++) {
-        Serial.print(SLAVE_MAC_ARRAY[i][j], HEX);Serial.print(":");
-      }
-      Serial.println("");
-    }
+  metaData.metaCode = 254;
 
-    metaData.metaCode = 254;
-    esp_err_t unicastResult = esp_now_send(SLAVE_MAC_ARRAY[i],
+  while (toCollectFromMac != BROADCAST_MAC) {
+    if(VERBOSE) { Serial.print("Collect Data from "); printMac(peer_addr); }
+    esp_err_t unicastResult = esp_now_send(peer_addr,
                                           (uint8_t *) &metaData,
                                           sizeof(metaData));
-    if(DEBUG) espNowStatus(unicastResult);
-    delay(WAIT_AFTER_REP_SEND); // No delay crashs the system
-    if (unicastResult != ESP_OK) {
-      i--;
-      Serial.println("Retry Unicast");
-    }
+    // if(DEBUG) espNowStatus(unicastResult);
+    delay(WAIT_AFTER_REP_SEND + WAIT_AFTER_REP_SEND );
   }
+}
+
+esp_err_t sendUnicastReliable(const uint8_t *peer_addr, struct_advanced_meta data) {
+  esp_err_t reliableResult;
+  while(!success) {
+    Serial.println("reliable sending...");
+    reliableResult = esp_now_send(peer_addr, 
+                                          (uint8_t *) &data,
+                                          sizeof(data));
+    delay(WAIT_AFTER_SEND + WAIT_AFTER_REP_SEND + 1000);
+  }
+  success = 0;
+  return reliableResult;
 }

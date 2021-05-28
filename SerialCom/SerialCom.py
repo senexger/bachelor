@@ -19,7 +19,7 @@ if __name__ == "__main__":
     # data = {}
     # data["operation"] = "channel"
 
-    exp_name = "successratio_broadcast_F100"
+    exp_name = "successratio_broadcast_F100_Node6"
     test1 = {
         "VERBOSE"               : 1,
         "DEBUG"                 : 1,
@@ -30,13 +30,13 @@ if __name__ == "__main__":
 
         "CHANNEL_TOTAL"         : 100,
         "BROADCAST_FRAME_SIZE"  : 100,
-        "UNICAST_FRAME_SIZE"    : 10,
-        "SLAVE_COUNT"           : 1,
+        "UNICAST_FRAME_SIZE"    : 100,
+        "SLAVE_COUNT"           : 6,
         "SEND_REPITITION"       : 100,  
         "WAIT_AFTER_SEND"       : 100,
-        "WAIT_AFTER_REP_SEND"   : 1000
+        "WAIT_AFTER_REP_SEND"   : 100
     }
-    # exp_name = "successratio_broadcast_F200"
+    # exp_name = "successratio_broadcast_F201"
     # test1 = {
     #     "VERBOSE"               : 1,
     #     "DEBUG"                 : 1,
@@ -61,7 +61,7 @@ if __name__ == "__main__":
     data=json.dumps(test1)
     print (data)
 
-    for i in range (0,5):
+    for i in range (0,200):
         print("Durchgang Nummer: " + str(i))
 
         if ser.isOpen():
@@ -85,9 +85,9 @@ if __name__ == "__main__":
                     if ('Entering Python Bridge' in incoming):
                         break
 
-                    # with open(f'/home/walther/Documents/bachelor/Data/broad_successratio/{exp_name}{current_time}.csv', 'a', newline='') as file:
-                    #     writer = csv.writer(file, delimiter=',')
-                    #     writer.writerow([int(incoming)])
+                    with open(f'/home/walther/Documents/bachelor/Data/broad_successratio/{exp_name}{current_time}.csv', 'a', newline='') as file:
+                        writer = csv.writer(file, delimiter=',')
+                        writer.writerow([int(incoming)])
                         
                 except Exception as e:
                     print (e)
