@@ -21,8 +21,8 @@
     static uint8_t MASTER_MAC[6]        = { 0xFC ,0xF5 ,0xC4 ,0x31 ,0x9A ,0x44 };
 
     static uint8_t * SLAVE_MAC_ARRAY[9] = {BROADCAST_MAC, // TODO BROADCAST_MAC isn't really a SLAVE_MAC Address
-                                           SLAVE_MAC_1,
                                            SLAVE_MAC_2,
+                                           SLAVE_MAC_1,
                                            SLAVE_MAC_4,
                                            SLAVE_MAC_6,
                                            SLAVE_MAC_7,
@@ -50,7 +50,8 @@
     static uint16_t CHANNEL_TOTAL        = 10  ; // Broadcast: total count of channels of all fixtures
     static uint8_t  BROADCAST_FRAME_SIZE = 100 ; // Broadcast: Channel/Broadcast
     static uint8_t  UNICAST_FRAME_SIZE   = 20  ; // Unicast: Channel/Unicast
-    static uint8_t  SLAVE_COUNT  = 4   ; // Unicast: Number of different Slaves
+    static uint8_t  SLAVE_COUNT          = 4   ; // Unicast: Number of different Slaves
+    static uint8_t  RAPID_REPITITION     = 1   ; // How often is the broadcast repeated
     static uint32_t SEND_REPITITION      = 1   ; // Sending-Measuring Interval (how many casts)
     static uint16_t WAIT_AFTER_SEND      = 1000; // delay between broadcast sendings - prevent errors?
     // * uint8_t can just up to 255

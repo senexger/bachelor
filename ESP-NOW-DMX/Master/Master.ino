@@ -46,6 +46,7 @@ typedef struct struct_advanced_meta {
   uint8_t broadcast_frame_size;
   uint8_t unicast_frame_size;
   uint8_t SLAVE_COUNT;
+  uint8_t rapid_repitition;
   uint16_t send_repitition;
   uint16_t wait_after_send;
   uint16_t wait_after_rep_send;
@@ -125,6 +126,7 @@ void loop() {
     Serial.println("===RUN TEST===");
     runTest();
   }
+  Serial.println("===FINITO===");
 }
 
 void runTest() {
@@ -133,7 +135,9 @@ void runTest() {
     if(TIMESTAMP || AIRTIME) 
       setTimestamp();
     for (uint8_t r = 0; r < SEND_REPITITION; r++) {
-      sendDataEspBroadcast(r);
+      for (uint8_t rr = 0; rr <= RAPID_REPITITION; rr++) {
+        sendDataEspBroadcast(r, rr);
+      }
     }
   }
   // DMX UNICASTING TEST
@@ -148,7 +152,7 @@ void runTest() {
 
   // Collecting timestamps
   if(TIMESTAMP || hSerial.available()) { // aka AIRTIME
-    // ! getTimestamp();
+    getTimestamp();
     Serial.write(hSerial.read());Serial.println("");
   }
   // wait for shortly to run the sending groups again

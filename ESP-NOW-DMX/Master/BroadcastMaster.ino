@@ -57,18 +57,21 @@ void createMetaPackage(){
   advanced_meta.master_channel       = MASTER_CHANNEL;
   advanced_meta.slave_channel        = SLAVE_CHANNEL;
   advanced_meta.dmx_broadcasting     = DMX_BROADCASTING;
+
   advanced_meta.channel_total        = CHANNEL_TOTAL;
   advanced_meta.broadcast_frame_size = BROADCAST_FRAME_SIZE;
   advanced_meta.unicast_frame_size   = UNICAST_FRAME_SIZE;
-  advanced_meta.SLAVE_COUNT  = SLAVE_COUNT;
+  advanced_meta.SLAVE_COUNT          = SLAVE_COUNT;
+  advanced_meta.rapid_repitition     = RAPID_REPITITION;
   advanced_meta.send_repitition      = SEND_REPITITION;
   advanced_meta.wait_after_send      = WAIT_AFTER_SEND;
   advanced_meta.wait_after_rep_send  = WAIT_AFTER_REP_SEND;
 }
 
-void sendDataEspBroadcast(uint8_t repition) {
+void sendDataEspBroadcast(uint8_t repition, uint8_t rapidRepitition) {
   broadcastArray[0].dmxFrame[0] = 255; // geht das?
   broadcastArray[0].dmxFrame[1] = repition;
+  broadcastArray[0].dmxFrame[2] = rapidRepitition;
 
   if(VERBOSE) Serial.println("[Info] ESP DATA Broadcasting");
 
@@ -81,11 +84,11 @@ void sendDataEspBroadcast(uint8_t repition) {
       Serial.println(")");
     }
 
-    setTimestamp();
+    // setTimestamp();
     esp_err_t broadcastResult = esp_now_send(SLAVE_MAC_ARRAY[0], // == BROADCAST_MAC
                                             (uint8_t *) &broadcastArray[i].dmxFrame,
                                             BROADCAST_FRAME_SIZE);
     if(DEBUG) espNowStatus(broadcastResult);
-    delay(WAIT_AFTER_SEND); // No delay crashs the system
+    delay(WAIT_AFTER_SEND);
   }
 }

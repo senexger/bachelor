@@ -47,6 +47,8 @@ void metaInformationToSlaves(const uint8_t *peer_addr, struct_advanced_meta meta
 
 // send data
 void sendDataEspUnicast(uint8_t repetition) {
+
+  unicastData[0] = 255;
   unicastData[1] = repetition;
 
   if(VERBOSE) Serial.println("[Info] Init DMX Unicasting");
@@ -61,9 +63,9 @@ void sendDataEspUnicast(uint8_t repetition) {
       Serial.println("");
     }
 
-    setTimestamp();
+    // setTimestamp();
     esp_err_t unicastResult = esp_now_send(SLAVE_MAC_ARRAY[i],
-                                          (uint8_t *) &unicastData, // ??
+                                          (uint8_t *) &unicastData,
                                           UNICAST_FRAME_SIZE);
     if(DEBUG) espNowStatus(unicastResult);
     delay(WAIT_AFTER_SEND); // No delay crashs the system
@@ -81,7 +83,7 @@ void collectData(const uint8_t *peer_addr, struct_advanced_meta metaData) {
                                           (uint8_t *) &metaData,
                                           sizeof(metaData));
     // if(DEBUG) espNowStatus(unicastResult);
-    delay(WAIT_AFTER_REP_SEND + WAIT_AFTER_REP_SEND );
+    delay(WAIT_AFTER_SEND + WAIT_AFTER_REP_SEND);
   }
 }
 

@@ -135,6 +135,8 @@ void printSettings(){
   Serial.print("CHANNEL_TOTAL:            ");Serial.println(CHANNEL_TOTAL);
   Serial.print("BROADCAST_FRAME_SIZE:     ");Serial.println(BROADCAST_FRAME_SIZE);
   Serial.print("UNICAST_FRAME_SIZE:       ");Serial.println(UNICAST_FRAME_SIZE);
+  Serial.print("SLAVE_COUNT:              ");Serial.println(SLAVE_COUNT);
+  Serial.print("RAPID_REPITITION:         ");Serial.println(RAPID_REPITITION);
   Serial.print("SEND_REPITITION:          ");Serial.println(SEND_REPITITION);
   Serial.print("WAIT_AFTER_SEND:          ");Serial.println(WAIT_AFTER_SEND);
   Serial.print("WAIT_AFTER_REP_SEND:      ");Serial.println(WAIT_AFTER_REP_SEND);
@@ -143,7 +145,7 @@ void printSettings(){
   // Constants
   Serial.print("MAX_BROADCAST_FRAME_SIZE: ");Serial.println(MAX_BROADCAST_FRAME_SIZE);
   Serial.print("MAX_UNICAST_FRAME_SIZE:   ");Serial.println(MAX_UNICAST_FRAME_SIZE);
-  Serial.print("MAX_SLAVES:               ");Serial.println(WAIT_AFTER_REP_SEND);
+  Serial.print("MAX_SLAVES:               ");Serial.println(MAX_SLAVES);
   Serial.println("+++++++++++++++++++++++++++++++");
   return;
 }
@@ -153,4 +155,12 @@ void printMac(const uint8_t* mac_addr) {
     Serial.print(mac_addr[i], HEX);Serial.print(":");
   }
   Serial.println();
+}
+
+void printArray(const uint8_t* incomingData, int data_len) {
+  Serial.print("incomingData: [");
+  for (int i=0; i<data_len; i++) {
+    Serial.print(incomingData[i]); if (i!=data_len-1) Serial.print(", ");
+  }
+  Serial.print("] ("); Serial.print(data_len); Serial.println("B)");
 }

@@ -66,6 +66,7 @@ typedef struct struct_advanced_meta {
   uint8_t broadcast_frame_size;
   uint8_t unicast_frame_size;
   uint8_t SLAVE_COUNT;
+  uint8_t rapid_repitition;
   uint16_t send_repitition;
   uint16_t wait_after_send;
   uint16_t wait_after_rep_send;
@@ -81,7 +82,7 @@ int thisBroadcastID;
 int thisBroadcastOffset;
 int correctCastCount = 0;
 
-uint8_t successRatioArray[250];
+uint8_t successRatioArray[MAX_UNICAST_FRAME_SIZE];
 
 void setup() {
   Serial.begin(115200);
@@ -96,7 +97,7 @@ void setup() {
   addNodeToPeerlist(MASTER_MAC);
 
   for (uint8_t i=0; i< 100; i++) {
-    successRatioArray[i] = 42;
+    successRatioArray[i] = 0;
   }
 }
 
