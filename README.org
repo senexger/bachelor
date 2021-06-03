@@ -172,9 +172,6 @@ das struct in dem alle Werte drin stehen könnte auch genommen werden um diese W
 Dann wäre ein Aufruf zb: meta.broadcastId anstelle von BROADCASTID, dann muss es nicht zweimal gemacht werden
 * DONE der slave scheint immer korrekte pakete zu empfangen
 * DONE usefull bitrate vs peak bitrate
-* TODO Wireshark Messung vornehmen
-Kanalzeit berechnen und zwar nicht mit send vs onDataSend.
-Vielleicht eher mit UART?
 * DONE RapidRepition
 Mache ich das überhaupt? Ist das nicht eher RapidDiscarding?
 * DONE SuccessRatio for multiple Slaves
@@ -222,3 +219,27 @@ CLOSED: [2021-05-28 Fr 04:59]
 * DONE Ist reliable unicast auch in Slave->Master Richtung notwendig??
 CLOSED: [2021-05-28 Fr 04:59]
 ist auf jeden Fall sauberer. Und sollte gemacht werden.
+
+* TODO Wireshark Messung vornehmen
+** TODO Kanalzeit berechnen und zwar nicht mit send vs onDataSend.
+Vielleicht eher mit UART?
+** TODO Reliability von Unicast untersuchen
+zu erwarten ist, dass jedes Paket 8 mal versucht wird zu senden und danach dann
+abgebrochen wird.
+* DONE Standardfehler -> Standarderror
+CLOSED: [2021-05-28 Fr 14:59]
+* TODO Accomulation mit Kombinatorik/Gruppengröße
+* TODO Broadcast Rapid Rapitition Zeitmessung
+- [X] Rapid sending kommt an, muss aber noch gesondert behandelt werden.
+- [X] Der Slave soll auslesen, welcher rr wert gesetzt ist und dann in das success
+- [X] array mit dem Multiplikator [1,2,4] eintragen.
+- [ ] In der Auswertung kann man dann wieder herauslesen, ob der Broadcast bei
+  einem, zweien oder allen drei angekommen ist.
+* DONE unicast testen
+CLOSED: [2021-06-03 Do 04:21]
+* TODO Dauer bei Unicast vs Broadcast bei 50 Wiederholungen ausgeben lassen
+* TODO Code aufräumen:
+253, 254, 255 durch Konstanzen ersetzen wie IS_METADATA, IS_DMX_DATA, IS_SEND_RESULTS
+* TODO Alle Kommentare in VERBOSE/DEBUG Klammern setzen
+* TODO Fix Error: after successfull test, Master needs to be restarted
+After successfull test Master needs restart.
