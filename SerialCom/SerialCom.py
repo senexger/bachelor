@@ -16,87 +16,84 @@ if __name__ == "__main__":
         bytesize=serial.EIGHTBITS,\
         timeout=2.5
     )
-    # data = {}
-    # data["operation"] = "channel"
 
-    exp_name = "successratio_broadcast_F100_Node6"
     test1 = {
-        "VERBOSE"               : 1,
-        "DEBUG"                 : 1,
-        "TIMESTAMP"             : 0,
+        "VERBOSE"               : 0,
+        "DEBUG"                 : 0,
+        "TIMESTAMP"             : 1,
         "AIRTIME"               : 0,
         "FULL_REPETITIONS"      : 1,
-        "DMX_BROADCASTING"      : 1,
+        "DMX_BROADCASTING"      : 0,
 
-        "CHANNEL_TOTAL"         : 100,
-        "BROADCAST_FRAME_SIZE"  : 100,
-        "UNICAST_FRAME_SIZE"    : 100,
-        "SLAVE_COUNT"           : 6,
-        "SEND_REPITITION"       : 100,  
-        "WAIT_AFTER_SEND"       : 100,
-        "WAIT_AFTER_REP_SEND"   : 100
+        "CHANNEL_TOTAL"         : 50,
+        "BROADCAST_FRAME_SIZE"  : 50,
+        "UNICAST_FRAME_SIZE"    : 50,
+        "SLAVE_COUNT"           : 1,
+        "RAPID_REPITITION"      : 1,
+        "SEND_REPITITION"       : 40,
+        "WAIT_AFTER_SEND"       : 1,
+        "WAIT_AFTER_REP_SEND"   : 1000
     }
-    # exp_name = "successratio_broadcast_F201"
-    # test1 = {
-    #     "VERBOSE"               : 1,
-    #     "DEBUG"                 : 1,
-    #     "TIMESTAMP"             : 0,
-    #     "AIRTIME"               : 0,
-    #     "FULL_REPETITIONS"      : 1,
-    #     "DMX_BROADCASTING"      : 1,
 
-    #     "CHANNEL_TOTAL"         : 200,
-    #     "BROADCAST_FRAME_SIZE"  : 200,
-    #     "UNICAST_FRAME_SIZE"    : 10,
-    #     "UNICAST_SLAVE_COUNT"   : 4,
-    #     # "SLAVE_COUNT"           : 4,
-    #     "SEND_REPITITION"       : 100,  
-    #     "WAIT_AFTER_SEND"       : 100,
-    #     "WAIT_AFTER_REP_SEND"   : 1000
-    # }
 
     PY_DEBUG = True
 
-    current_time = datetime.datetime.now().strftime("_%m-%d-%H:%M:%S")
-    data=json.dumps(test1)
-    print (data)
+    for size in [10,50,200]:
+        test1['BROADCAST_FRAME_SIZE'] = size
+        test1['CHANNEL_TOTAL'] = size
+        # for rapid in range (1,4):
+        #     test1['RAPID_REPITITION'] = rapid
+        for wait in range (0,5):
+            test1['WAIT_AFTER_SEND'] = wait
 
-    for i in range (0,200):
-        print("Durchgang Nummer: " + str(i))
+            current_time = datetime.datetime.now().strftime("_%m-%d-%H:%M:%S")
+            data=json.dumps(test1)
+            print (data)
 
-        if ser.isOpen():
-            ser.write(data.encode('ascii'))
-            ser.flush()
+            bc = test1['DMX_BROADCASTING'    ]
+            sz = test1['BROADCAST_FRAME_SIZE']
+            # sz = test1['UNICAST_FRAME_SIZE'  ]
+            sc = test1['SLAVE_COUNT'         ]
+            rr = test1['RAPID_REPITITION'    ]
+            rp = test1['SEND_REPITITION'     ]
+            w8 = test1['WAIT_AFTER_SEND'     ]
 
-            currentSlave = 0
+            exp_name = f'far_uc{bc}_size{sz}_r{rp}_rr{rr}_wait{w8}'
+            print(f'--->{exp_name}')
+            # RUN EXPERIMENT
+            if ser.isOpen():
+                ser.write(data.encode('ascii'))
+                ser.flush()
 
-            while (True):
-                
-                try:
-                    incoming = ser.readline().decode("utf-8")
-                    print (incoming, end=" ")
-                    if ('DONE' in incoming):
-                        currentSlave += 1
-                        if (currentSlave == test1['SLAVE_COUNT']):
-                            with open(f'/home/walther/Documents/bachelor/Data/broad_successratio/{exp_name}{current_time}.csv', 'a', newline='') as file:
-                                writer = csv.writer(file, delimiter=',')
-                                writer.writerow([int(9999)])
-                            break
-                    if ('Entering Python Bridge' in incoming):
+                currentSlave = 0
+
+                while (True):
+
+                    try:
+                        incoming = ser.readline().decode("utf-8")
+                        print (incoming, end=" ")
+                        if ('DONE' in incoming):
+                            currentSlave += 1
+                            if (currentSlave == test1['SLAVE_COUNT']):
+                                with open(f'/home/walther/Documents/bachelor/Data/broad_successratio/{exp_name}{current_time}.csv', 'a', newline='') as file:
+                                    writer = csv.writer(file, delimiter=',')
+                                    writer.writerow([int(9999)])
+                                # break
+
+                        with open(f'/home/walther/Documents/bachelor/Data/broad_successratio/{exp_name}{current_time}.csv', 'a', newline='') as file:
+                            writer = csv.writer(file, delimiter=',')
+                            writer.writerow([int(incoming)])
+
+                    except Exception as e:
+                        print (e)
+                        pass
+
+                    if ('===FINITO===' in incoming):
                         break
 
-                    with open(f'/home/walther/Documents/bachelor/Data/broad_successratio/{exp_name}{current_time}.csv', 'a', newline='') as file:
-                        writer = csv.writer(file, delimiter=',')
-                        writer.writerow([int(incoming)])
-                        
-                except Exception as e:
-                    print (e)
-                    pass
+            else:
+                print ("opening error")
 
+            time.sleep(1)
 
-        else:
-            print ("opening error")
-    
     ser.close()
-
-    
