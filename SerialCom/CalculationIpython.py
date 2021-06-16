@@ -70,10 +70,10 @@ mean = np.mean(array1, axis=(0,2))
 print(mean)
 
 
-# plt.subplots(figsize=(10, 8))
+plt.subplots(figsize=(10, 7))
 x = ["#1","#2","#3","#4","#5","#6"]
 plt.errorbar(x, mean*100, yerr=std_error*100, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
-plt.axis((0,SLAVE_COUNT, 0, 100))
+plt.axis((0,SLAVE_COUNT, 0, 105))
 # axes.set_ylim([ymin,ymax])
 plt.minorticks_on()
 plt.tick_params(axis='x', which='minor', bottom=False) # no x ticks
@@ -111,7 +111,7 @@ for s in range(0, SLAVE_COUNT):
 
 print(accomulation_sum)
 
-plt.subplots(figsize=(10, 8))
+plt.subplots(figsize=(10, 7))
 x = ["5", "4", "3", "2", "1", "0"]
 plt.errorbar(x, super_mean, yerr=super_std, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
 plt.axis((0,SLAVE_COUNT, 0, 105))

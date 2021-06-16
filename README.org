@@ -233,13 +233,22 @@ CLOSED: [2021-05-28 Fr 14:59]
 - [X] Rapid sending kommt an, muss aber noch gesondert behandelt werden.
 - [X] Der Slave soll auslesen, welcher rr wert gesetzt ist und dann in das success
 - [X] array mit dem Multiplikator [1,2,4] eintragen.
-- [ ] In der Auswertung kann man dann wieder herauslesen, ob der Broadcast bei
+- [X] In der Auswertung kann man dann wieder herauslesen, ob der Broadcast bei
   einem, zweien oder allen drei angekommen ist.
 * DONE unicast testen
 CLOSED: [2021-06-03 Do 04:21]
-* TODO Dauer bei Unicast vs Broadcast bei 50 Wiederholungen ausgeben lassen
+* DONE Dauer bei Unicast vs Broadcast bei 50 Wiederholungen ausgeben lassen
+CLOSED: [2021-06-03 Do 23:41]
 * TODO Code aufräumen:
 253, 254, 255 durch Konstanzen ersetzen wie IS_METADATA, IS_DMX_DATA, IS_SEND_RESULTS
-* TODO Alle Kommentare in VERBOSE/DEBUG Klammern setzen
-* TODO Fix Error: after successfull test, Master needs to be restarted
+* IDEA Alle Kommentare in VERBOSE/DEBUG Klammern setzen
+* DONE Fix Error: after successfull test, Master needs to be restarted
+CLOSED: [2021-06-03 Do 23:41]
 After successfull test Master needs restart.
+* DONE Python plots erstellen
+CLOSED: [2021-06-11 Fr 16:47]
+n = np.zeros 1000
+for i in range 3
+n += number % 2
+number = number // 2
+* TODO Python plots schöner machen
