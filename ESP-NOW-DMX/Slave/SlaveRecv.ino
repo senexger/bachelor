@@ -5,16 +5,14 @@
 // callback when data is recv from Master just printing incoming data
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_len) {
 
+  Serial2.print("!");
+
   getTimestamp();
   if(VERBOSE) {
     Serial.print("Receive: "); Serial.print(data_len); Serial.println(" (B)");
     printArray(incomingData, data_len);
   }
 
-  // TODO ist das sinnvoll?!
-  if (AIRTIME) {
-    Serial2.print("!");
-  }
   if (incomingData[0] == 253) { // meta Daten
     applyMetaInformation(incomingData, data_len);
     sendAck();
@@ -28,7 +26,7 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_l
     readPayload(incomingData, data_len);
     if (VERBOSE) {
       Serial.println("Read Payload");
-      for (int i = 0; i<SEND_REPITITION; i++) {
+      for (int i = 0; i < SEND_REPITITION; i++) {
         Serial.print(successRatioArray[i]);
       }
     }
@@ -50,6 +48,7 @@ void readPayload(const uint8_t * incomingData, int data_len) {
     }
       correctCastCounter();
   }
+  // TODO REMOVE
   else {
     successRatioArray[incomingData[0]] = 9;
     if(DEBUG) Serial.print("[ERROR] Incoming Data broken: "); 
@@ -62,6 +61,7 @@ void correctCastCounter() {
   correctCastCount -= 1;
 }
 
+// TODO REMOVE, not needed!
 bool isPayloadCorrect(const uint8_t *incomingData, int data_len ) {
   memcpy(&espBroadcastData, incomingData, sizeof(data_len));
 
@@ -89,8 +89,7 @@ void applyMetaInformation(const uint8_t *incomingData, int data_len) {
   SLAVE_CHANNEL        = advanced_Meta.slave_channel;
   DMX_BROADCASTING     = advanced_Meta.dmx_broadcasting;
   CHANNEL_TOTAL        = advanced_Meta.channel_total;
-  BROADCAST_FRAME_SIZE = advanced_Meta.broadcf
- ast_frame_size;
+  BROADCAST_FRAME_SIZE = advanced_Meta.broadcast_frame_size;
   UNICAST_FRAME_SIZE   = advanced_Meta.unicast_frame_size;
   RAPID_REPITITION     = advanced_Meta.rapid_repitition;
   SEND_REPITITION      = advanced_Meta.send_repitition;

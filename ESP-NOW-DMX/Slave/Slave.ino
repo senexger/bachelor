@@ -28,6 +28,13 @@ bool isDmxMetaReceived = 0;
 uint8_t broadcastId;
 uint8_t offset;
 
+// Timestamping
+// using pointer would be more beautiful
+unsigned long timestamp;
+unsigned long timediff;
+unsigned long timestampS[200];
+unsigned long timediffS[200];
+
 // UART checking
 HardwareSerial &hSerial = Serial2; //can be Serial2 as well, just use proper pins
 

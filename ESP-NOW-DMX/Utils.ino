@@ -61,11 +61,6 @@ void InitESPNow() {
 }
 
 // +++ Timestamping +++
-
-// using pointer would be more beautiful
-unsigned long timestamp;
-unsigned long timediff;
-
 void setTimestamp() {
   if (VERBOSE) Serial.println("Start Timestamp");
   timestamp = (unsigned long) (esp_timer_get_time() );
@@ -76,6 +71,19 @@ unsigned long getTimestamp() {
   if (VERBOSE) Serial.print("[T] "); // sic!
   Serial.println(timediff);
   return timediff;
+}
+
+// Timestampings for transmission time measurments
+void setTimestampS(int r) {
+  if (VERBOSE) Serial.println("Start Timestamp");
+  timestampS[r] = (unsigned long) (esp_timer_get_time() );
+  return;
+}
+unsigned long getTimestampS(int r) {
+  timediffS[r] = (unsigned long) (esp_timer_get_time() ) - timestampS[r];
+  if (VERBOSE) Serial.print("[T] "); // sic!
+  // Serial.println(timediffS[r]);
+  return timediffS[r];
 }
 
 // Init ESP Timer with fallback

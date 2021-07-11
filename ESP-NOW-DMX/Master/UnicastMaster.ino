@@ -21,7 +21,7 @@ void setupUnicast() {
   addNodeToPeerlist(SLAVE_MAC_4);
   addNodeToPeerlist(SLAVE_MAC_5);
 
-  if(DEBUG) esp_now_register_send_cb(onDataSent);
+  if(VERBOSE) esp_now_register_send_cb(onDataSent);
 }
 
 // TODO what are you doing?! Cloning MAC for the setup function?
@@ -63,7 +63,9 @@ void sendDataEspUnicast(uint8_t repetition) {
       Serial.println("");
     }
 
-    // setTimestamp();
+    if (i == 1 && repetition != 0) waitForSerial(repetition-1);
+    if (i == 1) setTimestampS(repetition);
+
     esp_err_t unicastResult = esp_now_send(SLAVE_MAC_ARRAY[i],
                                           (uint8_t *) &unicastData,
                                           UNICAST_FRAME_SIZE);
@@ -98,4 +100,14 @@ esp_err_t sendUnicastReliable(const uint8_t *peer_addr, struct_advanced_meta dat
   }
   success = 0;
   return reliableResult;
+}
+
+void waitForSerial(int r) {
+  while(true) {
+    if(hSerial.available()) {
+      Serial.write(hSerial.read());Serial.println("");
+      timestampS[r] = getTimestampS(r);
+      break;
+    }
+  }
 }

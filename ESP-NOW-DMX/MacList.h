@@ -21,15 +21,15 @@
     static uint8_t MASTER_MAC[6]        = { 0xFC ,0xF5 ,0xC4 ,0x31 ,0x9A ,0x44 };
 
     static uint8_t * SLAVE_MAC_ARRAY[9] = {BROADCAST_MAC, // TODO BROADCAST_MAC isn't really a SLAVE_MAC Address
-                                           SLAVE_MAC_2,
                                            SLAVE_MAC_1,
+                                           SLAVE_MAC_2,
                                            SLAVE_MAC_4,
                                            SLAVE_MAC_6,
                                            SLAVE_MAC_7,
                                            SLAVE_MAC_8,
-                                           SLAVE_MAC_5, // PROBLEMATIC
-                                           SLAVE_MAC_3 // DEAD
-                                           };
+                                           SLAVE_MAC_5,  // PROBLEMATIC
+                                           SLAVE_MAC_3}; // DEAD
+
 
     static uint8_t slave_offset         = 30;
     static uint8_t slave_broadcastId    = 1;

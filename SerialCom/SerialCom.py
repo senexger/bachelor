@@ -23,27 +23,27 @@ if __name__ == "__main__":
         "TIMESTAMP"             : 1,
         "AIRTIME"               : 0,
         "FULL_REPETITIONS"      : 1,
-        "DMX_BROADCASTING"      : 0,
+        "DMX_BROADCASTING"      : 1,
 
-        "CHANNEL_TOTAL"         : 50,
-        "BROADCAST_FRAME_SIZE"  : 50,
-        "UNICAST_FRAME_SIZE"    : 50,
+        "CHANNEL_TOTAL"         : 160,
+        "BROADCAST_FRAME_SIZE"  : 160,
+        "UNICAST_FRAME_SIZE"    : 20,
         "SLAVE_COUNT"           : 1,
-        "RAPID_REPITITION"      : 1,
-        "SEND_REPITITION"       : 40,
-        "WAIT_AFTER_SEND"       : 1,
+        "RAPID_REPITITION"      : 3,
+        "SEND_REPITITION"       : 201,
+        "WAIT_AFTER_SEND"       : 4,
         "WAIT_AFTER_REP_SEND"   : 1000
     }
 
 
     PY_DEBUG = True
 
-    for size in [10,50,200]:
+    for size in [160]:
         test1['BROADCAST_FRAME_SIZE'] = size
         test1['CHANNEL_TOTAL'] = size
         # for rapid in range (1,4):
         #     test1['RAPID_REPITITION'] = rapid
-        for wait in range (0,5):
+        for wait in [3]:
             test1['WAIT_AFTER_SEND'] = wait
 
             current_time = datetime.datetime.now().strftime("_%m-%d-%H:%M:%S")
@@ -58,7 +58,7 @@ if __name__ == "__main__":
             rp = test1['SEND_REPITITION'     ]
             w8 = test1['WAIT_AFTER_SEND'     ]
 
-            exp_name = f'far_uc{bc}_size{sz}_r{rp}_rr{rr}_wait{w8}'
+            exp_name = f'uc{bc}_size{sz}_r{rp}_rr{rr}_wait{w8}'
             print(f'--->{exp_name}')
             # RUN EXPERIMENT
             if ser.isOpen():
@@ -75,14 +75,14 @@ if __name__ == "__main__":
                         if ('DONE' in incoming):
                             currentSlave += 1
                             if (currentSlave == test1['SLAVE_COUNT']):
-                                with open(f'/home/walther/Documents/bachelor/Data/broad_successratio/{exp_name}{current_time}.csv', 'a', newline='') as file:
+                                with open(f'/home/walther/Documents/bachelor/Data/SRvsLatency/{exp_name}.csv', 'a', newline='') as file:
                                     writer = csv.writer(file, delimiter=',')
                                     writer.writerow([int(9999)])
                                 # break
 
-                        with open(f'/home/walther/Documents/bachelor/Data/broad_successratio/{exp_name}{current_time}.csv', 'a', newline='') as file:
-                            writer = csv.writer(file, delimiter=',')
-                            writer.writerow([int(incoming)])
+                        # with open(f'/home/walther/Documents/bachelor/Data/broad_successratio/{exp_name}{current_time}.csv', 'a', newline='') as file:
+                        #     writer = csv.writer(file, delimiter=',')
+                        #     writer.writerow([int(incoming)])
 
                     except Exception as e:
                         print (e)
@@ -94,6 +94,6 @@ if __name__ == "__main__":
             else:
                 print ("opening error")
 
-            time.sleep(1)
+            # time.sleep(1)
 
     ser.close()

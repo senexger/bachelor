@@ -219,7 +219,6 @@ CLOSED: [2021-05-28 Fr 04:59]
 * DONE Ist reliable unicast auch in Slave->Master Richtung notwendig??
 CLOSED: [2021-05-28 Fr 04:59]
 ist auf jeden Fall sauberer. Und sollte gemacht werden.
-
 * TODO Wireshark Messung vornehmen
 ** TODO Kanalzeit berechnen und zwar nicht mit send vs onDataSend.
 Vielleicht eher mit UART?
@@ -229,7 +228,7 @@ abgebrochen wird.
 * DONE Standardfehler -> Standarderror
 CLOSED: [2021-05-28 Fr 14:59]
 * TODO Accomulation mit Kombinatorik/Gruppengröße
-* TODO Broadcast Rapid Rapitition Zeitmessung
+* DONE Broadcast Rapid Rapitition Zeitmessung
 - [X] Rapid sending kommt an, muss aber noch gesondert behandelt werden.
 - [X] Der Slave soll auslesen, welcher rr wert gesetzt ist und dann in das success
 - [X] array mit dem Multiplikator [1,2,4] eintragen.
@@ -241,7 +240,12 @@ CLOSED: [2021-06-03 Do 04:21]
 CLOSED: [2021-06-03 Do 23:41]
 * TODO Code aufräumen:
 253, 254, 255 durch Konstanzen ersetzen wie IS_METADATA, IS_DMX_DATA, IS_SEND_RESULTS
-* IDEA Alle Kommentare in VERBOSE/DEBUG Klammern setzen
+* TODO VERBOSE/DEBUG Klammern setzen, sinnvoll
+- DEBUG: Alle Nachrichten, die nur minimal den effizienten Ablauf stören und im
+  Fehlerfall auftreten.
+- VERBOSE: Informationen über jeden einzelnen Prozess
+- Sonst: keine Kommentare oder nur an stellen, an denen sie KEINE Auswirkung auf
+  die Performance haben.
 * DONE Fix Error: after successfull test, Master needs to be restarted
 CLOSED: [2021-06-03 Do 23:41]
 After successfull test Master needs restart.
@@ -251,4 +255,82 @@ n = np.zeros 1000
 for i in range 3
 n += number % 2
 number = number // 2
-* TODO Python plots schöner machen
+* DONE Python plots schöner machen
+CLOSED: [2021-06-24 Do 03:48]
+* DONE Measurment: Transmission Time Unicast
+CLOSED: [2021-06-24 Do 03:57]
+* DONE Plot: Alle transmission times (zumindest vergleichbare)
+CLOSED: [2021-06-24 Do 10:32]
+* DONE Meeting with Tolja [2021-06-24 11:00]
+CLOSED: [2021-06-25 Fr 11:25]
+* DONE Redo UART round-trip-time
+CLOSED: [2021-07-10 Sa 11:24]
+Alter Wert: 433 us
+Versuch 1000 Mal wiederholen und darüber die Zeit messen.
+1. Nimm Zeistempel
+2. ? wird verschickt
+3. bei Ankunft von ? wird ! zurück geschrieben
+4. Nimm zweiten Zeitstempel
+* DONE Nachdenken über Änderungen
+CLOSED: [2021-07-10 Sa 11:23]
+Die Änderungen sind für spätere Test vermutlich nicht brauchbar. Allerdings wäre
+es auch schade sie weg zu werfen. Es muss eine Möglichkeit gefunden werden sie
+zu integrieren. Vielleicht in eine andere Datei?
+* DONE Messung: 8 Nodes
+CLOSED: [2021-07-08 Do 08:16]
+Messung durchführen bei der alle 8 Knoten ihre success Ratio senden. Das
+Experiment mit 200 Repititions 5 Mal wiederholen, damit ich auf 1000 Versuche
+komme. Mit den RR sind es dann teilweise sogar deutlich mehr Sendungen
+** DONE UART serial testen
+CLOSED: [2021-06-30 Mi 01:37]
+hatte schon funktioniert muss aber wieder getestet werden.
+Der Master soll Messen, sobald der Slave zu einem Knoten das erste Paket
+erfolgreich erhalten hat. Das kommt dann oben in den Header rein
+*** DONE UART reparieren
+CLOSED: [2021-06-29 Di 15:53]
+*** DONE UART round-trip-time
+CLOSED: [2021-06-29 Di 23:32]
+433 us
+** DONE Unicast anpassen
+CLOSED: [2021-07-06 Di 02:28]
+- [X] Gesendet werden 160B große Pakete im Broadcast, im Unicast 8 x 20B große Pakete.
+- [X] Problem: Zeitmessung scheint nicht korrekt. Beispielprogramm spackt ebenfalls
+    Ist okay, aber nicht geil. Ein 2000 us Delay wird als 1980 us gemessen. Sollte genau genug sein?!
+** DONE Unicast Messung
+CLOSED: [2021-07-06 Di 02:29]
+Ich habe zwei Messungen durch geführt, einmal mit 3ms und einmal mit 4ms delay
+- [X] Messe die Transmission time für das Senden an den ersten Knoten
+- [X] Speichere die Messung in einem Array
+- [X] Übergib das Array am Ende der Messung
+        in dem Array steht die Transmissin time jedes Packtets.
+- [X] 200 Messungen durchführen
+  + rr =1
+  + sr = 200
+  + sc = 1
+  + bc = 0
+  + w8 = 4
+  + sz = 20
+** KILL Broadcast Messung
+CLOSED: [2021-07-08 Do 07:03]
+- Messe die Transmission time für das Senden
+- Vergleiche mit den Messungen an die anderen Knoten
+* KILL Papier Berechnung durchführen
+** TODO Unicast
+Auf alle uc-Messungen 4ms drauf addieren
+** TODO Broadcast
+* DONE Broadcast Success Ratio eintragen
+CLOSED: [2021-07-08 Do 08:10]
+Wenn alle Knoten das Paket empfangen haben, dann werte als 1, wenn nur ein Knoten
+das Paket nicht erhalten hat, dann ist die Success Ratio bei 0
+* DONE Meeting with Tolja [2021-07-08]
+CLOSED: [2021-07-10 Sa 11:23]
+- Versuchsaufbau!
+- Latenz eines Packets angeben und nicht über die gesamt Sequence
+- [-] Diagram zeigen bei dem die Resends des Unicasts zur Geltung kommen
+
+* TODO Slides in drive teilen
+* TODO Namen für BA finden
+* TODO Broadcast Messung erneut durchführen [0/1]
+** TODO success ratio korrekt erfassen
+* TODO Wireshark Messung durchführen
+* TODO Meeting with Tolja [2021-07-13]

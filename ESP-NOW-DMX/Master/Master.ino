@@ -23,6 +23,12 @@ const uint8_t *toCollectFromMac = BROADCAST_MAC; // for the 100% reliable unicas
 
 String puropse = "MASTER";
 
+// using pointer would be more beautiful
+unsigned long timestamp;
+unsigned long timediff;
+unsigned long timestampS[200];
+unsigned long timediffS[200];
+
 HardwareSerial &hSerial = Serial2; //can be Serial2 as well, just use proper pins
 
 // ++ SENDING MESSAGES ++
@@ -120,7 +126,7 @@ void loop() {
   // ++ TEST ++
   for (int i = 0; i < FULL_REPETITIONS; i++) {
     if (VERBOSE) {
-      Serial.print("Repition "); 
+      Serial.print("Full Repition "); 
       Serial.println(i);
     }
     Serial.println("===RUN TEST===");
@@ -132,18 +138,18 @@ void loop() {
 void runTest() {
   // DMX BROADCASTGING TEST
   if (DMX_BROADCASTING) {
-    if(TIMESTAMP || AIRTIME) 
-      setTimestamp();
+    // if(TIMESTAMP || AIRTIME) 
+    //   setTimestamp();
     for (uint8_t r = 0; r < SEND_REPITITION; r++) {
-      for (uint8_t rr = 0; rr <= RAPID_REPITITION; rr++) {
+      for (uint8_t rr = 1; rr <= RAPID_REPITITION; rr++) {
         sendDataEspBroadcast(r, rr);
       }
     }
   }
   // DMX UNICASTING TEST
   else { 
-    if(TIMESTAMP || AIRTIME) 
-      setTimestamp();
+    // if(TIMESTAMP || AIRTIME) 
+    //   setTimestamp();
     for (uint8_t r = 0; r < SEND_REPITITION; r++) {
       sendDataEspUnicast(r);
     }
@@ -151,10 +157,10 @@ void runTest() {
   // TODO DMX ARTNET TEST
 
   // Collecting timestamps
-  if(TIMESTAMP || hSerial.available()) { // aka AIRTIME
-    getTimestamp();
-    Serial.write(hSerial.read());Serial.println("");
-  }
+  // if(TIMESTAMP || hSerial.available()) { // aka AIRTIME
+  //   getTimestamp();
+  //   Serial.write(hSerial.read());Serial.println("");
+  // }
   // wait for shortly to run the sending groups again
   Serial.println("===COLLECT DATA===");
   for(int i=0; i < SLAVE_COUNT; i++){ // For loop is for iterating through MAC_addresses
@@ -184,6 +190,12 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_l
   for (int i=0; i< data_len; i++) {
     Serial.println(incomingData[i]);
   }
+
+  Serial.println("Timestamps");
+  for (int i = 0; i<SEND_REPITITION; i++) {
+    Serial.println(timestampS[i]);
+  }
+
   for (int i=3; i < 6; i++) {
     Serial.print(mac_addr[i]);
   }

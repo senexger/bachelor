@@ -69,7 +69,6 @@ print(std_error)
 mean = np.mean(array1, axis=(0,2))
 print(mean)
 
-
 plt.subplots(figsize=(10, 7))
 x = ["#1","#2","#3","#4","#5","#6"]
 plt.errorbar(x, mean*100, yerr=std_error*100, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
@@ -86,6 +85,7 @@ fig.patch.set_facecolor('xkcd:white')
 plt.savefig('/home/walther/Documents/bachelor/Graphs/successRatioPerNode.png', dpi=300)
 plt.show()
 
+# %%
 
 # %%
 # success ratio with confidence interval
