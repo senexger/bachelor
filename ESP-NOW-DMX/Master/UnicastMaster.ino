@@ -1,10 +1,10 @@
 #include "MacList.h"
 
-uint8_t unicastData[MAX_UNICAST_FRAME_SIZE];
+uint8_t unicastData[MAX_FRAME_SIZE];
 
 void setupUnicast() {
   // TODO is this better working with uint8 ?!
-  for (uint8_t i=0; i <= MAX_UNICAST_FRAME_SIZE; i++) {
+  for (uint8_t i=0; i <= MAX_FRAME_SIZE; i++) {
     unicastData[i] = i;
   }
   WiFi.mode(WIFI_STA);
@@ -63,8 +63,8 @@ void sendDataEspUnicast(uint8_t repetition) {
       Serial.println("");
     }
 
-    if (i == 1 && repetition != 0) waitForSerial(repetition-1);
-    if (i == 1) setTimestampS(repetition);
+    if (i == 1 && repetition != 0 && TIMESTAMP) waitForSerial(repetition-1);
+    if (i == 1 && TIMESTAMP) setTimestampS(repetition);
 
     esp_err_t unicastResult = esp_now_send(SLAVE_MAC_ARRAY[i],
                                           (uint8_t *) &unicastData,

@@ -136,10 +136,7 @@ void loop() {
 }
 
 void runTest() {
-  // DMX BROADCASTGING TEST
   if (DMX_BROADCASTING) {
-    // if(TIMESTAMP || AIRTIME) 
-    //   setTimestamp();
     for (uint8_t r = 0; r < SEND_REPITITION; r++) {
       for (uint8_t rr = 1; rr <= RAPID_REPITITION; rr++) {
         sendDataEspBroadcast(r, rr);
@@ -148,20 +145,12 @@ void runTest() {
   }
   // DMX UNICASTING TEST
   else { 
-    // if(TIMESTAMP || AIRTIME) 
-    //   setTimestamp();
     for (uint8_t r = 0; r < SEND_REPITITION; r++) {
       sendDataEspUnicast(r);
     }
   }
   // TODO DMX ARTNET TEST
 
-  // Collecting timestamps
-  // if(TIMESTAMP || hSerial.available()) { // aka AIRTIME
-  //   getTimestamp();
-  //   Serial.write(hSerial.read());Serial.println("");
-  // }
-  // wait for shortly to run the sending groups again
   Serial.println("===COLLECT DATA===");
   for(int i=0; i < SLAVE_COUNT; i++){ // For loop is for iterating through MAC_addresses
     toCollectFromMac = SLAVE_MAC_ARRAY[i+1];
@@ -191,9 +180,11 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_l
     Serial.println(incomingData[i]);
   }
 
-  Serial.println("Timestamps");
-  for (int i = 0; i<SEND_REPITITION; i++) {
-    Serial.println(timestampS[i]);
+  if (TIMESTAMP) {
+    Serial.println("Timestamps");
+    for (int i = 0; i<SEND_REPITITION; i++) {
+      Serial.println(timestampS[i]);
+    }
   }
 
   for (int i=3; i < 6; i++) {

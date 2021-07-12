@@ -330,7 +330,11 @@ CLOSED: [2021-07-10 Sa 11:23]
 
 * TODO Slides in drive teilen
 * TODO Namen für BA finden
-* TODO Broadcast Messung erneut durchführen [0/1]
-** TODO success ratio korrekt erfassen
+* TODO Broadcast Messung [1/2]
+** DONE success ratio korrekt erfassen
+CLOSED: [2021-07-12 Mo 01:20]
+** TODO Berechnung korrekt ausführen!
+* TODO Unicast Messung erneut durchführen [0/1]
+** TODO transmission time korrekt erfassen
 * TODO Wireshark Messung durchführen
 * TODO Meeting with Tolja [2021-07-13]

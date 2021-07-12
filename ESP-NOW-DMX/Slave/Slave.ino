@@ -89,7 +89,7 @@ int thisBroadcastID;
 int thisBroadcastOffset;
 int correctCastCount = 0;
 
-uint8_t successRatioArray[MAX_UNICAST_FRAME_SIZE];
+uint8_t successRatioArray[MAX_FRAME_SIZE];
 
 void setup() {
   Serial.begin(115200);
@@ -103,7 +103,7 @@ void setup() {
   setupEspNow();
   addNodeToPeerlist(MASTER_MAC);
 
-  for (uint8_t i=0; i< 100; i++) {
+  for (uint8_t i=0; i< MAX_FRAME_SIZE; i++) {
     successRatioArray[i] = 0;
   }
 }
@@ -121,7 +121,7 @@ void sendResultsToMaster() {
                                           SEND_REPITITION);
   if(DEBUG) espNowStatus(unicastResult);
   
-  for (uint8_t i=0; i< 100; i++) {
+  for (uint8_t i=0; i< MAX_FRAME_SIZE; i++) {
     successRatioArray[i] = 0;
   }
 }

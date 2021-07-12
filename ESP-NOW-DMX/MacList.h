@@ -13,8 +13,8 @@
     static uint8_t SLAVE_MAC_6[6]       = { 0x24, 0x62, 0xAB, 0xF8, 0xF8, 0xC0 }; // VI
     static uint8_t SLAVE_MAC_7[6]       = { 0xfc, 0xf5, 0xc4, 0x2f, 0x79, 0xc4 }; // VII
     static uint8_t SLAVE_MAC_8[6]       = { 0x24, 0x62, 0xAB, 0xF9, 0x50, 0x70 }; // VIII
+    static uint8_t SLAVE_MAC_9[6]       = { 0xfc, 0xf5, 0xc4, 0x2f, 0x8f, 0xec }; // IX
 
-    static uint8_t SLAVE_MAC_9[6]       = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }; // IX
     static uint8_t SLAVE_MAC_3[6]       = { 0x24, 0x62, 0xAB, 0xF9, 0x50, 0x70 }; // III DEAD
 
     static uint8_t BROADCAST_MAC[6]     = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; // Broadcast
@@ -23,12 +23,15 @@
     static uint8_t * SLAVE_MAC_ARRAY[9] = {BROADCAST_MAC, // TODO BROADCAST_MAC isn't really a SLAVE_MAC Address
                                            SLAVE_MAC_1,
                                            SLAVE_MAC_2,
+                                        // SLAVE_MAC_3, HE IS DEAD JIM
                                            SLAVE_MAC_4,
                                            SLAVE_MAC_6,
                                            SLAVE_MAC_7,
                                            SLAVE_MAC_8,
-                                           SLAVE_MAC_5,  // PROBLEMATIC
-                                           SLAVE_MAC_3}; // DEAD
+                                           SLAVE_MAC_9,
+
+                                           SLAVE_MAC_5 // probelamtic...
+};
 
 
     static uint8_t slave_offset         = 30;
@@ -61,7 +64,7 @@
 
 // MASTER CONSTANTS:
 #define MAX_BROADCAST_FRAME_SIZE          250
-#define MAX_UNICAST_FRAME_SIZE            250     // could also be 250
+#define MAX_FRAME_SIZE                    250
 // Global copy of slave
 #define MAX_SLAVES                        20
 // ++++++++++ TESTING +++++++++

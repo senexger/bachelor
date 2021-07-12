@@ -152,7 +152,7 @@ void printSettings(){
 
   // Constants
   Serial.print("MAX_BROADCAST_FRAME_SIZE: ");Serial.println(MAX_BROADCAST_FRAME_SIZE);
-  Serial.print("MAX_UNICAST_FRAME_SIZE:   ");Serial.println(MAX_UNICAST_FRAME_SIZE);
+  Serial.print("MAX_FRAME_SIZE:   ");Serial.println(MAX_FRAME_SIZE);
   Serial.print("MAX_SLAVES:               ");Serial.println(MAX_SLAVES);
   Serial.println("+++++++++++++++++++++++++++++++");
   return;

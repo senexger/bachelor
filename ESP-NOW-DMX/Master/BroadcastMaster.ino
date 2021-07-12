@@ -84,10 +84,10 @@ void sendDataEspBroadcast(uint8_t repetition, uint8_t rapidRepetition) {
       Serial.println(")");
     }
 
-    // if (repetition != 0 && rapidRepetition == 1) waitForSerial(repetition-1);
-    if (rapidRepetition == 1)                    setTimestampS(repetition);
+    // TODO user millis instead of delay!
+    if (rapidRepetition == 1 && TIMESTAMP) setTimestampS(repetition);
     delay(WAIT_AFTER_SEND);
-    if (rapidRepetition == 1)                    getTimestampS(repetition);
+    if (rapidRepetition == 1 && TIMESTAMP) getTimestampS(repetition);
 
     // setTimestamp();
     esp_err_t broadcastResult = esp_now_send(SLAVE_MAC_ARRAY[0], // == BROADCAST_MAC

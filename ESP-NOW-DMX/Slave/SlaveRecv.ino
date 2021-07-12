@@ -5,7 +5,7 @@
 // callback when data is recv from Master just printing incoming data
 void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_len) {
 
-  Serial2.print("!");
+  if (TIMESTAMP) Serial2.print("!");
 
   getTimestamp();
   if(VERBOSE) {
@@ -20,6 +20,7 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_l
   }
   if (incomingData[0] == 254) { // Results zurück senden bitte
     sendResultsToMaster();
+    correctCastCount = SEND_REPITITION * RAPID_REPITITION;
     return;
   }
   if (incomingData[0] == 255) { // DMX Daten!
@@ -35,45 +36,13 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_l
 }
 
 void readPayload(const uint8_t * incomingData, int data_len) {
-  if (isPayloadCorrect(incomingData, data_len)) {
-    // hier steht in der ersten Zeile hardcodet die rep number
-    if(incomingData[2] == 1) successRatioArray[incomingData[1]] += 1; 
-    if(incomingData[2] == 2) successRatioArray[incomingData[1]] += 2; 
-    if(incomingData[2] == 3) successRatioArray[incomingData[1]] += 4; 
+  if(incomingData[2] == 1) successRatioArray[incomingData[1]] += 1; 
+  if(incomingData[2] == 2) successRatioArray[incomingData[1]] += 2; 
+  if(incomingData[2] == 3) successRatioArray[incomingData[1]] += 4; 
 
-    if(VERBOSE) { 
-      Serial.print("[OK] Rcvd: "); 
-      Serial.print(data_len);
-      Serial.println(" B (not broken)");
-    }
-      correctCastCounter();
-  }
-  // TODO REMOVE
-  else {
-    successRatioArray[incomingData[0]] = 9;
-    if(DEBUG) Serial.print("[ERROR] Incoming Data broken: "); 
-  }
+  correctCastCount -= 1;
   Serial.print("correctCastCount: "); Serial.println(correctCastCount);
   setTimestamp();
-}
-
-void correctCastCounter() {
-  correctCastCount -= 1;
-}
-
-// TODO REMOVE, not needed!
-bool isPayloadCorrect(const uint8_t *incomingData, int data_len ) {
-  memcpy(&espBroadcastData, incomingData, sizeof(data_len));
-
-  bool signalHealthy = true;
-
-  for (int i=3; i<data_len ; i++) { 
-    if (incomingData[i] != i) {
-      Serial.print("[ERROR] "); Serial.print(incomingData[i]); Serial.print(" != "); Serial.println(i);
-      signalHealthy = false;
-    }
-  }
-  return signalHealthy;
 }
 
 void applyMetaInformation(const uint8_t *incomingData, int data_len) {
@@ -101,7 +70,7 @@ void applyMetaInformation(const uint8_t *incomingData, int data_len) {
   slave_offset         = advanced_Meta.slave_offset;
   slave_broadcastId    = advanced_Meta.slave_broadcastId;
 
-  correctCastCount = SEND_REPITITION;
+  correctCastCount = SEND_REPITITION * RAPID_REPITITION;
   Serial.print("correctCastCount"); Serial.println(correctCastCount);
 
   // PRINT SETTINGS
