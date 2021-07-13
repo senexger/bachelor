@@ -27,6 +27,7 @@ print(array3[1:])
 def decodeBinary(array, rr):
     decodeArray = np.zeros(SEND_REPETITION)
     arr = array[1:]
+    print(array)
     for i in range (0, SEND_REPETITION):
         n = 0
         for j in range (0,rr):
@@ -65,12 +66,11 @@ def plotting(array):
     # plt.close()
     
 fig, ax1 = plt.subplots()
-
 plotting(array1)
-fig, ax1 = plt.subplots()
-plotting(array2)
-fig, ax1 = plt.subplots()
-plotting(array3)
+# fig, ax1 = plt.subplots()
+# plotting(array2)
+# fig, ax1 = plt.subplots()
+# plotting(array3)
 
 #%% Unicast vs Broadcast
 

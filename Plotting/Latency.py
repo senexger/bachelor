@@ -24,17 +24,6 @@ print(array3[:])
 
 # %%
 
-def decodeBinary(array, rr):
-    decodeArray = np.zeros(SEND_REPETITION)
-    arr = array[1:]
-    for i in range (0, SEND_REPETITION):
-        n = 0
-        for j in range (0,rr):
-            n += arr[i] % 2
-            arr[i] = arr[i] // 2
-        decodeArray[i] = n
-    return(decodeArray)
-
 def plotting(array):
     x=np.arange(SEND_REPETITION)
 
