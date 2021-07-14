@@ -328,13 +328,15 @@ CLOSED: [2021-07-10 Sa 11:23]
 - Latenz eines Packets angeben und nicht über die gesamt Sequence
 - [-] Diagram zeigen bei dem die Resends des Unicasts zur Geltung kommen
 
-* TODO Slides in drive teilen
 * TODO Namen für BA finden
-* TODO Broadcast Messung [1/2]
+* TODO [#B] Wireshark Messung durchführen!
+* DONE Broadcast Messung [0/0]
+CLOSED: [2021-07-13 Di 06:20]
 ** DONE success ratio korrekt erfassen
 CLOSED: [2021-07-12 Mo 01:20]
-** TODO Berechnung korrekt ausführen!
-* TODO Unicast Messung erneut durchführen [0/1]
-** TODO transmission time korrekt erfassen
-* TODO Wireshark Messung durchführen
+** DONE Berechnung korrekt ausführen!
+CLOSED: [2021-07-13 Di 06:20]
+* TODO Slides in drive teilen [2021-07-15]
+* TODO Kontrolliere Grouping um vierten Knoten
+* TODO Grouping über alle Kombinationen
 * TODO Meeting with Tolja [2021-07-13]
