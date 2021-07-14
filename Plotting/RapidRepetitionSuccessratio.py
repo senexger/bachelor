@@ -78,7 +78,7 @@ def grouping_plot(array):
     # plt.autoscale(False)
 
     ax1.plot(array_time[0], marker='.', markersize=10, color='b')
-    ax1.plot([1,2,3], array_time[:3], marker='.', markersize=10, color='b')
+    ax1.plot([1,2,3], array_time[1:], marker='.', markersize=10, color='b')
     ax1.text(1, array_time[1], "1-7", style='italic')
     for i in range(1,8):
         ax1.text(0,i*4, str(i), style='italic')
@@ -111,6 +111,7 @@ def grouping_plot(array):
     plt.savefig('/home/walther/Documents/bachelor/Graphs/SRvsRR_FINAL.png', dpi=2000)
     plt.show()
 
+fig, ax1 = plt.subplots()
 grouping_plot(arraySR)
 #%%
 
@@ -132,10 +133,9 @@ def successRatio_plot(array):
     std_errors = np.zeros(SLAVE_COUNT)
     means = np.zeros(SLAVE_COUNT)
 
-    rr = 2
     for node in range(0,SLAVE_COUNT):
-        std_errors[node] = np.std((decodeRaw(array[:,node,:], rr)), ddof=1) / np.sqrt(np.size(np.std(decodeRaw(array[:,node,:], rr))) / 100)
-        means[node] = np.mean(decodeRaw(array[:,node,:], rr))
+        std_errors[node] = np.std(array[node,:], ddof=1) / np.sqrt(np.size(np.std(array[node,:])) / 100)
+        means[node] = np.mean(array[node,:])
     print(std_errors)
     print(means*100)
 
@@ -154,4 +154,4 @@ def successRatio_plot(array):
     plt.savefig('/home/walther/Documents/bachelor/Graphs/successRatioPerNode_RR2.png', dpi=1000)
     plt.show()
 
-successRatio_plot(arraySR)
+successRatio_plot(decodeEverything(arraySR, 2))
