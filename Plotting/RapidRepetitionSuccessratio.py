@@ -113,41 +113,29 @@ def grouping_plot(array):
 
 grouping_plot(arraySR)
 #%%
-def decodeRawArray(arr, rr):
-    decodeArray = np.zeros((TEST_REPETITION*SEND_REPETITION, SLAVE_COUNT), dtype=int)
-    pos = 0
-    for node in range(0, SLAVE_COUNT):
-        if (rr == 1):
-            for w in range (0, TEST_REPETITION):
-                for i in range (0, SEND_REPETITION):
-                    if (arr[w][i] == 1 or arr[w][i] == 3 or arr[w][i] == 5 or arr[w][i] == 7):
-                        decodeArray[pos][node] = 1
-                    pos = pos + 1
-        if (rr == 2):
-            for w in range (0, TEST_REPETITION):
-                for i in range (0, SEND_REPETITION):
-                    if (arr[w][i] == 2 or arr[w][i] == 3 or arr[w][i] == 5 or arr[w][i] == 6 or arr[w][i] == 7):
-                        decodeArray[pos][node] = 1
-                    pos = pos + 1
-        if (rr == 3):
-            for w in range (0, TEST_REPETITION):
-                for i in range (0, SEND_REPETITION):
-                    if (arr[w][i]):
-                        decodeArray[pos][node] = 1
-                    pos = pos + 1
-    return(decodeArray)
+
+def decodeEverything(array, rr):
+    decodeEverything = np.zeros((SLAVE_COUNT, TEST_REPETITION*SEND_REPETITION), dtype=int)
+
+    for node in range(0,SLAVE_COUNT):
+        decodeEverything[:][node] = decodeRaw(array[:,node,:], rr)
+    return decodeEverything
+
+node = 3
+print(arraySR[1,node,0:200])
+print(decodeEverything(arraySR, 3)[node, 200:400])
+
+#%%
 
 def successRatio_plot(array):
 
     std_errors = np.zeros(SLAVE_COUNT)
     means = np.zeros(SLAVE_COUNT)
 
-    decodeRawArray
-
     rr = 2
     for node in range(0,SLAVE_COUNT):
-        std_errors[node] = np.std((decodeRawArray(array[:,], rr)), ddof=1) / np.sqrt(np.size(np.std(decodeRaw(array[:,node,:], rr))) / 100)
-        means[node] = np.mean(decodeRaw(array[:,:,:], rr))
+        std_errors[node] = np.std((decodeRaw(array[:,node,:], rr)), ddof=1) / np.sqrt(np.size(np.std(decodeRaw(array[:,node,:], rr))) / 100)
+        means[node] = np.mean(decodeRaw(array[:,node,:], rr))
     print(std_errors)
     print(means*100)
 
