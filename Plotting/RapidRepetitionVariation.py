@@ -17,46 +17,6 @@ arraySR = np.genfromtxt("/home/walther/Documents/bachelor/Data/latency/broadcast
 arraySR = np.reshape(arraySR, (TEST_REPETITION, SLAVE_COUNT, SEND_REPETITION))
 
 #%%
-def decodeRaw(arr, rr):
-    decodeArray = np.zeros(TEST_REPETITION*SEND_REPETITION, dtype=int)
-    pos = 0
-    if (rr == 0):
-        for w in range (0, TEST_REPETITION):
-            for i in range (0, SEND_REPETITION):
-                if (arr[w][i] == 1 or arr[w][i] == 3 or arr[w][i] == 5 or arr[w][i] == 7):
-                    decodeArray[pos] = 1
-                pos = pos + 1
-    if (rr == 1):
-        for w in range (0, TEST_REPETITION):
-            for i in range (0, SEND_REPETITION):
-                if (arr[w][i] == 2 or arr[w][i] == 3 or arr[w][i] == 6 or arr[w][i] == 7):
-                    decodeArray[pos] = 1
-                pos = pos + 1
-    if (rr == 2):
-        for w in range (0, TEST_REPETITION):
-            for i in range (0, SEND_REPETITION):
-                if (arr[w][i] == 4 or arr[w][i] == 5 or arr[w][i] == 6 or arr[w][i] == 7):
-                    decodeArray[pos] = 1
-                pos = pos + 1
-    return(decodeArray)
-
-def decodeNode(array, node):
-    decodeEverything = np.zeros((3, TEST_REPETITION*SEND_REPETITION), dtype=int)
-
-    # real distribution 123, 456, 789 M=1
-    for rr in [0,1,2]:
-        decodeEverything[rr][:] = decodeRaw(array[:,node,:], rr)
-
-    return decodeEverything
-
-node = 3
-print("bin = ", arraySR[1,node,0:20])
-arrayByRepetition = decodeNode(arraySR, node)
-print("rr1 = ", arrayByRepetition[0, 200:220])
-print("rr2 = ", arrayByRepetition[1, 200:220])
-print("rr3 = ", arrayByRepetition[2, 200:220])
-
-#%%
 # 3 dim array to vector per node
 def array_To_Vector(array, node):
     arrayToVector = np.zeros(SEND_REPETITION*TEST_REPETITION, dtype=int)
@@ -175,7 +135,7 @@ def plot_success_bar_for_node(array, node):
     plt.grid()
     # fig.patch.set_facecolor('xkcd:white')
 
-    plt.savefig('/home/walther/Documents/bachelor/Graphs/successRatioPerNode_RR2.png', dpi=1000)
+    plt.savefig('/home/walther/Documents/bachelor/Graphs/SuccessRatioM.png', dpi=1000)
     plt.show()
 
     return
