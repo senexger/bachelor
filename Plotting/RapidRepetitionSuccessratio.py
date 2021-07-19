@@ -122,7 +122,7 @@ def decodeEverything(array, rr):
         decodeEverything[:][node] = decodeRaw(array[:,node,:], rr)
     return decodeEverything
 
-node = 3
+node = 6
 print(arraySR[1,node,0:200])
 print(decodeEverything(arraySR, 3)[node, 200:400])
 
@@ -154,4 +154,5 @@ def successRatio_plot(array):
     plt.savefig('/home/walther/Documents/bachelor/Graphs/successRatioPerNode_RR2.png', dpi=1000)
     plt.show()
 
-successRatio_plot(decodeEverything(arraySR, 2))
+arrayByNodes = decodeEverything(arraySR, 3)
+successRatio_plot(arrayByNodes)
