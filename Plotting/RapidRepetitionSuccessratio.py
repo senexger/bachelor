@@ -154,5 +154,5 @@ def successRatio_plot(array):
     plt.savefig('/home/walther/Documents/bachelor/Graphs/successRatioPerNode_RR2.png', dpi=1000)
     plt.show()
 
-arrayByNodes = decodeEverything(arraySR, 3)
+arrayByNodes = decodeEverything(arraySR, 1)
 successRatio_plot(arrayByNodes)
