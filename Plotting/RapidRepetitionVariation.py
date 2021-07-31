@@ -215,7 +215,7 @@ grouping_plot(mean_group, std_error_group)
 
 #%%
 def diff_vector(array, node, modulation):
-    LEN = (SEND_REPETITION*TEST_REPETITION*3)-200*3
+    LEN = (SEND_REPETITION*TEST_REPETITION)-200
 
     array1D = array_To_Vector(array, node)
     print('rx =', array1D[200:220])
@@ -229,6 +229,8 @@ def diff_vector(array, node, modulation):
 
     delayVector = np.zeros(LEN, dtype=int)
     diff_vector = np.zeros(LEN, dtype=int)
+
+    print(len(vectorModulation[1,:]))
 
     for i in range(0,len(vectorModulation[1,:])):
         isSuccess = 1
@@ -254,8 +256,9 @@ def diff_vector(array, node, modulation):
     return(diff_vector)
 
 diff_vector = diff_vector(arraySR, 3, 4)
-print(diff_vector[:20])
-print(diff_vector[-20:])
+print(len(diff_vector))
+print(diff_vector[:200])
+
 #%%
 # node = 3
 # delayVector1 = delayVector(arraySR, node, 1)
