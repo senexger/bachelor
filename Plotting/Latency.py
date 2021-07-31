@@ -12,11 +12,11 @@ SEND_REPETITION = 200
 
 # array_2 = np.genfromtxt("", delimiter=",", dtype="int")
 array1 = np.genfromtxt("/home/walther/Documents/bachelor/Data/latency/unicast/latency_bc0_r200_wait2.csv", delimiter=",", dtype="int")
-print(array1[:])
+# print(array1[:])
 array2 = np.genfromtxt("/home/walther/Documents/bachelor/Data/latency/unicast/latency_bc0_r200_wait3.csv", delimiter=",", dtype="int")
-print(array2[:])
+# print(array2[:])
 array3 = np.genfromtxt("/home/walther/Documents/bachelor/Data/latency/unicast/latency_bc0_r200_wait4.csv", delimiter=",", dtype="int")
-print(array3[:])
+# print(array3[:])
 # array3= np.genfromtxt("/home/walther/Documents/bachelor/Data/broad_successratio/broadcast/far_bc1_size200_r40_rr1_wait0.csv", delimiter=",", dtype="int")
 # array3 = np.delete(array3, -1)
 # array3 = np.delete(array3, -1)
@@ -55,7 +55,6 @@ plotting(array1)
 
 def box_plotting(array1, array2, array3):
     array = [array1/1000, array2/1000, array3/1000]
-    x=np.arange(SEND_REPETITION)
 
     ax1.set_xlabel('Delay in ms')
     ax1.set_ylabel('Latency in ms')

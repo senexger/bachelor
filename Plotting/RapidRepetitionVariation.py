@@ -73,9 +73,9 @@ def vector_modulation(vector, M):
         y      = (i % M)
     
         modulation[x][y+offset] = vector[i]
-    # print('rr1=',modulation[0,:])
-    # print('rr2=',modulation[1,:])
-    # print('rr3=',modulation[2,:])
+    # print('rr1=',modulation[0,:20])
+    # print('rr2=',modulation[1,:20])
+    # print('rr3=',modulation[2,:20])
     return modulation
 
 def vector_success_ratio(vector):
@@ -89,14 +89,14 @@ def vector_success_ratio(vector):
         
 def array_to_success_vector(array, node, modulation):
     array1D = array_To_Vector(array, node)
-    # print('array_To_Vector\n', array1D[401:422])
+    # print('rx =', array1D[200:220])
 
     # skip first 200, because measurement was broken
     arrayDecoded = decode_array_to_vector(array1D[200:])
     # print('decode_array_to_vecor\n',arrayDecoded[401:422])
 
     vectorModulation = vector_modulation(arrayDecoded, modulation)
-    # print('vector_modulation\n',vectorModulation)
+    # print('vector_modulation\n',vectorModulation[:,:20])
 
     return vector_success_ratio(vectorModulation)
 
@@ -133,7 +133,7 @@ def plot_success_bar_for_node(array, node):
     plt.axis((0,SLAVE_COUNT, 95, 105))
     plt.minorticks_on()
     plt.tick_params(axis='x', which='minor', bottom=False) # no x ticks
-    plt.title('Success Ratio with increasing M')
+    plt.title('Success Ratio with increasing M\nUsing node #4')
     plt.ylabel('Success Ratio in %')
     plt.xlabel('M')
     plt.grid()
@@ -144,7 +144,7 @@ def plot_success_bar_for_node(array, node):
 
     return
 
-plot_success_bar_for_node(arraySR, 4)
+plot_success_bar_for_node(arraySR, 3)
 
 #%%
 # input: arraySR
@@ -197,7 +197,7 @@ for groupsize in range(1,8):
 
 def grouping_plot(mean, std_error): 
     fig.tight_layout()  # otherwise the right y-label is slightly clipped
-    fig.set_size_inches(9, 8)
+    fig.set_size_inches(7, 4)
 
     plt.errorbar(range(1,8), mean*100, yerr=std_error*100, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
     plt.xticks(np.arange(0, 7, step=1))
@@ -212,3 +212,75 @@ print(std_error_group)
 print(mean_group)
 fig, ax1 = plt.subplots()
 grouping_plot(mean_group, std_error_group)
+
+#%%
+def diff_vector(array, node, modulation):
+    LEN = (SEND_REPETITION*TEST_REPETITION*3)-200*3
+
+    array1D = array_To_Vector(array, node)
+    print('rx =', array1D[200:220])
+
+    # skip first 200, because measurement was broken
+    arrayDecoded = decode_array_to_vector(array1D[200:])
+    # print('decode_array_to_vecor\n',arrayDecoded[401:422])
+
+    vectorModulation = vector_modulation(arrayDecoded, modulation)
+    print('vector_modulation\n',vectorModulation[:,:6])
+
+    delayVector = np.zeros(LEN, dtype=int)
+    diff_vector = np.zeros(LEN, dtype=int)
+
+    for i in range(0,len(vectorModulation[1,:])):
+        isSuccess = 1
+        offset = (i // modulation) * 3 * modulation
+        modWidth = (i % 3) + 1
+
+        if (vectorModulation[0][i]):
+            repetition = 0
+        elif (vectorModulation[1][i]):
+            repetition = 1
+        elif (vectorModulation[2][i]):
+            repetition = 2
+        else:
+            isSuccess = 0
+
+        delayVector[i] = (modWidth + 3*repetition + offset) * isSuccess
+
+        if (i == 0):
+            diff_vector[i] = delayVector[i]
+        else:
+            diff_vector[i] = delayVector[i] - delayVector[i-1]
+
+    return(diff_vector)
+
+diff_vector = diff_vector(arraySR, 3, 4)
+print(diff_vector[:20])
+print(diff_vector[-20:])
+#%%
+# node = 3
+# delayVector1 = delayVector(arraySR, node, 1)
+# delayVector2 = delayVector(arraySR, node, 2)
+# delayVector3 = delayVector(arraySR, node, 3)
+# delayVector4 = delayVector(arraySR, node, 4)
+
+print(delayVector1[-20:])
+
+#%%
+def delay_plot(array1, array2, array3, arrayAllSeq): 
+    fig.set_size_inches(7, 4)
+
+    array = [array1]#, array2/1000, array3/1000, arrayAllSeq/1000]
+    print(array1[:20])
+    # x= [0,1,2,3]
+    # plt.boxplot(array)
+
+    plt.title('Success ratio for grouping\n RR = 3, M = 1\n')
+
+    plt.minorticks_on()
+    plt.grid()
+    plt.xticks([0,1,2,3], ['1','2','3','#Seq'])
+    plt.savefig('/home/walther/Documents/bachelor/Graphs/delay.png', dpi=2000)
+    plt.show()
+
+fig, ax1 = plt.subplots()
+delay_plot(delayVector1, delayVector2, delayVector3, delayVector4)
