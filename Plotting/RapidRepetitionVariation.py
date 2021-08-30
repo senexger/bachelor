@@ -65,6 +65,7 @@ def decode_array_to_vector(vector):
     return vectorDecoded
 
 def vector_modulation(vector, M):
+    # print(vector[:30])
     modulation = np.zeros((3,len(vector)//3), dtype=int)
 
     for i in range(0,len(vector)):
@@ -73,9 +74,9 @@ def vector_modulation(vector, M):
         y      = (i % M)
     
         modulation[x][y+offset] = vector[i]
-    # print('rr1=',modulation[0,:20])
-    # print('rr2=',modulation[1,:20])
-    # print('rr3=',modulation[2,:20])
+    # print('rr1=',modulation[0,:10])
+    # print('rr2=',modulation[1,:10])
+    # print('rr3=',modulation[2,:10])
     return modulation
 
 def vector_success_ratio(vector):
@@ -91,7 +92,7 @@ def array_to_success_vector(array, node, modulation):
     array1D = array_To_Vector(array, node)
     # print('rx =', array1D[200:220])
 
-    # skip first 200, because measurement was broken
+    # skip first 200 for each node, because measurement was broken
     arrayDecoded = decode_array_to_vector(array1D[200:])
     # print('decode_array_to_vecor\n',arrayDecoded[401:422])
 
@@ -100,15 +101,16 @@ def array_to_success_vector(array, node, modulation):
 
     return vector_success_ratio(vectorModulation)
 
-################################
-for node in [3]:
-    # array, node, M
-    successVector = array_to_success_vector(arraySR[:,:,:], node, 1)#SEND_REPETITION*3)
-    # print(successVector)
-    total = (np.size(successVector))
-    nonzero = (np.count_nonzero(successVector))
+######TESTING##################
+node = 3
+modulation = 3
+# array, node, M
+successVector = array_to_success_vector(arraySR[:,:,:], node, 4)#SEND_REPETITION*3)
+# print(successVector)
+total = (np.size(successVector))
+nonzero = (np.count_nonzero(successVector))
 
-    print (1/(total/nonzero))
+print (1/(total/nonzero))
 
 #%%
 # SUCCESS BAR FOR NODE
