@@ -230,8 +230,6 @@ def diff_vector(array, node, modulation):
     delayVector = np.zeros(LEN, dtype=int)
     diff_vector = np.zeros(LEN, dtype=int)
 
-    print(len(vectorModulation[1,:]))
-
     for i in range(0,len(vectorModulation[1,:])):
         isSuccess = 1
         offset = (i // modulation) * 3 * modulation
@@ -248,42 +246,47 @@ def diff_vector(array, node, modulation):
 
         delayVector[i] = (modWidth + 3*repetition + offset) * isSuccess
 
-        if (i == 0):
-            diff_vector[i] = delayVector[i]
+        if (delayVector[i] == 0):
+            diff_vector[i] = 0
         else:
             diff_vector[i] = delayVector[i] - delayVector[i-1]
 
+    # sanitize vector
+    for i in range(0,len(diff_vector)):
+        if (diff_vector[i] > 300):
+            diff_vector[i] = 0
+
+    # print(vectorModulation[1,200:600])
+    # print(delayVector[:200])
+    # print(diff_vector[:200])
     return(diff_vector)
 
-diff_vector = diff_vector(arraySR, 3, 4)
-print(len(diff_vector))
-print(diff_vector[:200])
+node = 3
+# diff_vector = diff_vector(arraySR, 4, 3)
+
+diff_vector1 = diff_vector(arraySR, node, 1)
+diff_vector2 = diff_vector(arraySR, node, 3)
+diff_vector3 = diff_vector(arraySR, node, 5)
+diff_vector4 = diff_vector(arraySR, node, 6)
+diff_vector_max = diff_vector(arraySR, node, SEND_REPETITION)
+
+diff_array = [diff_vector1, diff_vector2, diff_vector3, diff_vector4, diff_vector_max]
 
 #%%
-# node = 3
-# delayVector1 = delayVector(arraySR, node, 1)
-# delayVector2 = delayVector(arraySR, node, 2)
-# delayVector3 = delayVector(arraySR, node, 3)
-# delayVector4 = delayVector(arraySR, node, 4)
-
-print(delayVector1[-20:])
-
-#%%
-def delay_plot(array1, array2, array3, arrayAllSeq): 
+def diff_plot(diff_array):
     fig.set_size_inches(7, 4)
 
-    array = [array1]#, array2/1000, array3/1000, arrayAllSeq/1000]
-    print(array1[:20])
-    # x= [0,1,2,3]
-    # plt.boxplot(array)
+    plt.boxplot(diff_array)
 
     plt.title('Success ratio for grouping\n RR = 3, M = 1\n')
 
     plt.minorticks_on()
     plt.grid()
-    plt.xticks([0,1,2,3], ['1','2','3','#Seq'])
+    # plt.xticks([1,2,3,4,5], ['1','2','3','4''#Seq'])
+    plt.ylabel('Delay between nodes')
+    plt.xlabel('Modulation M')
     plt.savefig('/home/walther/Documents/bachelor/Graphs/delay.png', dpi=2000)
     plt.show()
 
 fig, ax1 = plt.subplots()
-delay_plot(delayVector1, delayVector2, delayVector3, delayVector4)
+diff_plot(diff_array)

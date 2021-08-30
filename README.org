@@ -336,9 +336,12 @@ CLOSED: [2021-07-13 Di 06:20]
 CLOSED: [2021-07-12 Mo 01:20]
 ** DONE Berechnung korrekt ausführen!
 CLOSED: [2021-07-13 Di 06:20]
-* TODO Slides in drive teilen [2021-07-15]
+* DONE Slides in drive teilen [2021-07-15]
+CLOSED: [2021-08-30 Mo 12:05]
 * DONE Success Ratio over M
 CLOSED: [2021-07-19 Mo 10:38]
 * TODO Kontrolliere Grouping um vierten Knoten
 * TODO Grouping über alle Kombinationen
-* TODO Meeting with Tolja [2021-07-13]
+* TODO Slides in Drive checken
+* TODO Delay berechnen
+* TODO Warten auf Mail von Tolja
