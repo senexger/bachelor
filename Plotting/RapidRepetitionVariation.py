@@ -108,7 +108,8 @@ node = 3
 modulation = 3
 # array, node, M
 successVector = array_to_success_vector(arraySR[:,:,:], node, 4)#SEND_REPETITION*3)
-# print(successVector)
+print(successVector[:20])
+print(successVector.size)
 total = (np.size(successVector))
 nonzero = (np.count_nonzero(successVector))
 
@@ -155,7 +156,8 @@ plot_success_bar_for_node(arraySR, 3)
 
 # input: arraySR
 # output: success vector for each node
-def success_vector_per_node(array):
+# TODO: Grouping plot does not use RR? This should be fixed!
+def success_vector_for_all_nodes(array):
     decoded_vecors_by_node = np.zeros((SLAVE_COUNT, SEND_REPETITION*TEST_REPETITION*3-200*3), dtype=int)
     for node in range(0,7):
         array1d = array_To_Vector(array, node)
@@ -167,20 +169,23 @@ def success_vector_per_node(array):
 
 from itertools import combinations
 
+# array_to_success_vector(array, node, modulation):
+
 def grouping_success(array):
-    success_vectors = success_vector_per_node(array)
+    success_vectors = success_vector_for_all_nodes(array)
+    print('succes_vector[#3] =' , success_vectors[3,:20])
+    print('shape             =', success_vectors.shape)
     
     std_error_group = np.zeros(SLAVE_COUNT)
     mean_group = np.zeros(SLAVE_COUNT)
     
     for groupsize in range(1,8):
-        # groupsize = 3
         combination = (list(combinations(np.arange(0,7,1), groupsize)))
     
-        # print(combination)
+        # print('combination =', combination)
     
         possible_combinations = len(combination)
-        # print('possible combinations:', possible_combinations)
+        # print('possible combinations =', possible_combinations)
     
         success_ratios_for_all_combinations = np.zeros(possible_combinations)
     
@@ -193,27 +198,29 @@ def grouping_success(array):
     
             success_ratios_for_all_combinations[i] = np.count_nonzero(tmpArray == groupsize)/ LEN
             
-        print("")
+        # print("")
         mean_group[groupsize - 1]      = np.mean(success_ratios_for_all_combinations)
         std_error_group[groupsize - 1] = np.std(success_ratios_for_all_combinations)
-        print(mean_group[groupsize - 1])
-        print(std_error_group[groupsize - 1])
+        # print(mean_group[groupsize - 1])
+        # print(std_error_group[groupsize - 1])
 
-    print('mean_group     \n', mean_group)
-    print('std_error_group\n', std_error_group)
+    print('mean_group:     \n', mean_group)
+    print('std_error_group:\n', std_error_group)
     return mean_group, std_error_group
 
 def grouping_plot(mean, std_error):
     fig.tight_layout()  # otherwise the right y-label is slightly clipped
     fig.set_size_inches(7, 4)
 
-    plt.errorbar(range(1,8), mean*100, yerr=std_error*100, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
+    plt.errorbar(range(1,8), mean*100, yerr=std_error*50, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
     plt.xticks(np.arange(1, 8, step=1))
     plt.yticks(np.arange(50, 110, 10.0))
     plt.minorticks_on()
-    plt.title('Success ratio for grouping\n RR = 3, M = 1\n')
+    plt.title('Success ratio for grouping\n Without using RR\n')
+    plt.ylabel('Success Ratio in %')
+    plt.xlabel('Groupsize')
     plt.grid()
-    plt.savefig('/home/walther/Documents/bachelor/Graphs/grouping.png', dpi=2000)
+    plt.savefig('/home/walther/Documents/bachelor/Graphs/grouping.jpg', dpi=2000)
     plt.show()
 
 fig, ax1 = plt.subplots()
