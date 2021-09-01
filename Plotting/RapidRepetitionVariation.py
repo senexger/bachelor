@@ -156,25 +156,28 @@ plot_success_bar_for_node(arraySR, 3)
 
 # input: arraySR
 # output: success vector for each node
-# TODO: Grouping plot does not use RR? This should be fixed!
-def success_vector_for_all_nodes(array):
-    decoded_vecors_by_node = np.zeros((SLAVE_COUNT, SEND_REPETITION*TEST_REPETITION*3-200*3), dtype=int)
-    for node in range(0,7):
-        array1d = array_To_Vector(array, node)
-        decoded_vecors_by_node[node] = decode_array_to_vector(array1d[200:])
-        total = (np.size(decoded_vecors_by_node[node]))
-        nonzero = (np.count_nonzero(decoded_vecors_by_node[node]))
-        print(nonzero/total)
-    return decoded_vecors_by_node
+# TODO: Remove?!
+# def success_vector_for_all_nodes(array):
+#     decoded_vecors_by_node = np.zeros((SLAVE_COUNT, SEND_REPETITION*TEST_REPETITION*3-200*3), dtype=int)
+#     for node in range(0,7):
+#         array1d = array_To_Vector(array, node)
+#         decoded_vecors_by_node[node] = decode_array_to_vector(array1d[200:])
+#         total = (np.size(decoded_vecors_by_node[node]))
+#         nonzero = (np.count_nonzero(decoded_vecors_by_node[node]))
+#         print(nonzero/total)
+#     return decoded_vecors_by_node
 
 from itertools import combinations
 
-# array_to_success_vector(array, node, modulation):
+def grouping_success(array, modulation):
+    LEN = SEND_REPETITION*TEST_REPETITION-200
+    print(LEN)
+    success_vectors = np.zeros((SLAVE_COUNT, LEN), dtype=int)
 
-def grouping_success(array):
-    success_vectors = success_vector_for_all_nodes(array)
-    print('succes_vector[#3] =' , success_vectors[3,:20])
-    print('shape             =', success_vectors.shape)
+    for node in range (0,SLAVE_COUNT):
+        success_vectors[node] = array_to_success_vector(array, node, modulation)
+    print('succes_vector[#x] =\n', success_vectors[3,200:400])
+    print('shape             ='  , success_vectors.shape)
     
     std_error_group = np.zeros(SLAVE_COUNT)
     mean_group = np.zeros(SLAVE_COUNT)
@@ -189,7 +192,6 @@ def grouping_success(array):
     
         success_ratios_for_all_combinations = np.zeros(possible_combinations)
     
-        LEN = SEND_REPETITION*TEST_REPETITION*3-200*3
         for i in range(0,possible_combinations):
             tmpArray = np.zeros(LEN, dtype=int)
     
@@ -208,24 +210,30 @@ def grouping_success(array):
     print('std_error_group:\n', std_error_group)
     return mean_group, std_error_group
 
-def grouping_plot(mean, std_error):
-    fig.tight_layout()  # otherwise the right y-label is slightly clipped
-    fig.set_size_inches(7, 4)
+def grouping_plot(array):
+    # mean_group, std_error_group = grouping_success(arraySR, 1)
+    # plt.errorbar(range(1,8), mean_group*100, yerr=std_error_group*100, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
+    # mean_group, std_error_group = grouping_success(arraySR, 2)
+    # plt.errorbar(range(1,8), mean_group*100, yerr=std_error_group*100, fmt='-o', color='r', markersize=8, linestyle='none', capsize=7)
+    # mean_group, std_error_group = grouping_success(arraySR, 5)
+    # plt.errorbar(range(1,8), mean_group*100, yerr=std_error_group*100, fmt='-o', color='g', markersize=8, linestyle='none', capsize=7)
+    # mean_group, std_error_group = grouping_success(arraySR, 10)
+    # plt.errorbar(range(1,8), mean_group*100, yerr=std_error_group*100, fmt='-o', color='y', markersize=8, linestyle='none', capsize=7)
 
-    plt.errorbar(range(1,8), mean*100, yerr=std_error*50, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
+    fig.tight_layout()  # otherwise the right y-label is slightly clipped
+    fig.set_size_inches(7, 5)
     plt.xticks(np.arange(1, 8, step=1))
-    plt.yticks(np.arange(50, 110, 10.0))
+    plt.yticks(np.arange(90, 110, 10.0))
     plt.minorticks_on()
-    plt.title('Success ratio for grouping\n Without using RR\n')
+    plt.title('Success ratio for grouping\n Using RR=3 over M')
     plt.ylabel('Success Ratio in %')
     plt.xlabel('Groupsize')
     plt.grid()
-    plt.savefig('/home/walther/Documents/bachelor/Graphs/grouping.jpg', dpi=2000)
+    plt.savefig('/home/walther/Documents/bachelor/Graphs/groupingOverM.jpg', dpi=2000)
     plt.show()
 
 fig, ax1 = plt.subplots()
-mean_group, std_error_group = grouping_success(arraySR)
-grouping_plot(mean_group, std_error_group)
+grouping_plot(arraySR)
 
 #%%
 def diff_vector(array, node, modulation):
