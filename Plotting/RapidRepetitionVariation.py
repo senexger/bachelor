@@ -7,7 +7,9 @@ import matplotlib.ticker as tck
 from matplotlib import pyplot as plt
 from scipy import stats
 
-np.set_printoptions(threshold=sys.maxsize)
+# np.set_printoptions(threshold=sys.maxsize)
+np.set_printoptions(formatter={'float': lambda x: "{0:0.4f}".format(x)})
+
 #%%
 TEST_REPETITION = 1000
 SEND_REPETITION = 200
@@ -119,7 +121,7 @@ def plot_success_bar_for_node(array, node):
     means = np.zeros(SLAVE_COUNT)
 
     # 1-6
-    for M in range(1,7):
+    for M in range(1,7):1
         std_errors[M-1] = np.std(array_to_success_vector(array, node, M), ddof=1) / np.sqrt(np.size(np.std(array_to_success_vector(array, node, M))) / 100)
         means[M-1]      = np.mean(array_to_success_vector(array, node, M))
     # Maximum Delay
@@ -149,8 +151,10 @@ def plot_success_bar_for_node(array, node):
 plot_success_bar_for_node(arraySR, 3)
 
 #%%
+# SUCCESS BAR FOR GOUPING
+
 # input: arraySR
-# output: success vector 
+# output: success vector for each node
 def success_vector_per_node(array):
     decoded_vecors_by_node = np.zeros((SLAVE_COUNT, SEND_REPETITION*TEST_REPETITION*3-200*3), dtype=int)
     for node in range(0,7):
@@ -163,46 +167,48 @@ def success_vector_per_node(array):
 
 from itertools import combinations
 
-success_vectors = success_vector_per_node(arraySR)
-
-std_error_group = np.zeros(SLAVE_COUNT)
-mean_group = np.zeros(SLAVE_COUNT)
-
-for groupsize in range(1,8):
-    # groupsize = 3
-    combination = (list(combinations(np.arange(0,7,1), groupsize)))
-
-    # print(combination)
-
-    possible_combinations = len(combination)
-    # print('possible combinations:', possible_combinations)
-
-    success_ratios_for_all_combinations = np.zeros(possible_combinations)
-
-    for i in range(0,possible_combinations):
+def grouping_success(array):
+    success_vectors = success_vector_per_node(array)
+    
+    std_error_group = np.zeros(SLAVE_COUNT)
+    mean_group = np.zeros(SLAVE_COUNT)
+    
+    for groupsize in range(1,8):
+        # groupsize = 3
+        combination = (list(combinations(np.arange(0,7,1), groupsize)))
+    
+        # print(combination)
+    
+        possible_combinations = len(combination)
+        # print('possible combinations:', possible_combinations)
+    
+        success_ratios_for_all_combinations = np.zeros(possible_combinations)
+    
         LEN = SEND_REPETITION*TEST_REPETITION*3-200*3
-        tmpArray = np.zeros(LEN, dtype=int)
+        for i in range(0,possible_combinations):
+            tmpArray = np.zeros(LEN, dtype=int)
+    
+            for j in combination[i]:
+                tmpArray = tmpArray + success_vectors[j]
+    
+            success_ratios_for_all_combinations[i] = np.count_nonzero(tmpArray == groupsize)/ LEN
+            
+        print("")
+        mean_group[groupsize - 1]      = np.mean(success_ratios_for_all_combinations)
+        std_error_group[groupsize - 1] = np.std(success_ratios_for_all_combinations)
+        print(mean_group[groupsize - 1])
+        print(std_error_group[groupsize - 1])
 
-        for j in combination[i]:
-            tmpArray = tmpArray + success_vectors[j]
+    print('mean_group     \n', mean_group)
+    print('std_error_group\n', std_error_group)
+    return mean_group, std_error_group
 
-        success_ratios_for_all_combinations[i] = np.count_nonzero(tmpArray == groupsize)/ LEN
-        
-    print("")
-    mean_group[groupsize - 1]      = np.mean(success_ratios_for_all_combinations)
-    std_error_group[groupsize - 1] = np.std(success_ratios_for_all_combinations)
-    print(mean_group[groupsize - 1])
-    print(std_error_group[groupsize - 1])
-
-#%%
-# SUCCESS BAR FOR GOUPING
-
-def grouping_plot(mean, std_error): 
+def grouping_plot(mean, std_error):
     fig.tight_layout()  # otherwise the right y-label is slightly clipped
     fig.set_size_inches(7, 4)
 
     plt.errorbar(range(1,8), mean*100, yerr=std_error*100, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
-    plt.xticks(np.arange(0, 7, step=1))
+    plt.xticks(np.arange(1, 8, step=1))
     plt.yticks(np.arange(50, 110, 10.0))
     plt.minorticks_on()
     plt.title('Success ratio for grouping\n RR = 3, M = 1\n')
@@ -210,25 +216,24 @@ def grouping_plot(mean, std_error):
     plt.savefig('/home/walther/Documents/bachelor/Graphs/grouping.png', dpi=2000)
     plt.show()
 
-print(std_error_group)
-print(mean_group)
 fig, ax1 = plt.subplots()
+mean_group, std_error_group = grouping_success(arraySR)
 grouping_plot(mean_group, std_error_group)
 
 #%%
 def diff_vector(array, node, modulation):
-    LEN = (SEND_REPETITION*TEST_REPETITION)-200
-
     array1D = array_To_Vector(array, node)
-    print('rx =', array1D[200:220])
+    print('rx            =', array1D[200:218])
 
     # skip first 200, because measurement was broken
     arrayDecoded = decode_array_to_vector(array1D[200:])
-    # print('decode_array_to_vecor\n',arrayDecoded[401:422])
+    print('decoded_array =',arrayDecoded[:18])
 
     vectorModulation = vector_modulation(arrayDecoded, modulation)
-    print('vector_modulation\n',vectorModulation[:,:6])
+    print('modulation =',modulation)
+    print('vector_modulation\n',vectorModulation[:,:10])
 
+    LEN = (SEND_REPETITION*TEST_REPETITION)-200
     delayVector = np.zeros(LEN, dtype=int)
     diff_vector = np.zeros(LEN, dtype=int)
 
