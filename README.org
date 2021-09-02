@@ -340,15 +340,18 @@ CLOSED: [2021-07-13 Di 06:20]
 CLOSED: [2021-08-30 Mo 12:05]
 * DONE Success Ratio over M
 CLOSED: [2021-07-19 Mo 10:38]
-* TODO Kontrolliere Grouping um vierten Knoten
+* DONE Kontrolliere Grouping um vierten Knoten
+CLOSED: [2021-09-02 Do 00:41]
 * TODO Slides in Drive checken
 * DONE Python Funktionskette prüfen
 CLOSED: [2021-08-30 Mo 14:24]
 * DONE Grouping über alle Kombinationen
 CLOSED: [2021-09-01 Mi 10:59]
-* TODO Gouping should use RR
+* DONE Gouping should use RR
+CLOSED: [2021-09-02 Do 00:41]
 * TODO Check Diff Vector
 * TODO Delay berechnen
 * TODO Paper lesen/markieren
+* TODO wireshark messung
 * DONE Warten auf Mail von Tolja
 CLOSED: [2021-09-01 Mi 10:26]

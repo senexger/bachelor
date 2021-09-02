@@ -171,7 +171,6 @@ from itertools import combinations
 
 def grouping_success(array, modulation):
     LEN = SEND_REPETITION*TEST_REPETITION-200
-    print(LEN)
     success_vectors = np.zeros((SLAVE_COUNT, LEN), dtype=int)
 
     for node in range (0,SLAVE_COUNT):
@@ -211,19 +210,28 @@ def grouping_success(array, modulation):
     return mean_group, std_error_group
 
 def grouping_plot(array):
+    # ERRORPLOT OR PLOT
     # mean_group, std_error_group = grouping_success(arraySR, 1)
     # plt.errorbar(range(1,8), mean_group*100, yerr=std_error_group*100, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
     # mean_group, std_error_group = grouping_success(arraySR, 2)
     # plt.errorbar(range(1,8), mean_group*100, yerr=std_error_group*100, fmt='-o', color='r', markersize=8, linestyle='none', capsize=7)
     # mean_group, std_error_group = grouping_success(arraySR, 5)
     # plt.errorbar(range(1,8), mean_group*100, yerr=std_error_group*100, fmt='-o', color='g', markersize=8, linestyle='none', capsize=7)
-    # mean_group, std_error_group = grouping_success(arraySR, 10)
-    # plt.errorbar(range(1,8), mean_group*100, yerr=std_error_group*100, fmt='-o', color='y', markersize=8, linestyle='none', capsize=7)
+
+    mean_group, std_error_group = grouping_success(arraySR, 1)
+    plt.plot(range(1,8), mean_group*100, color='b', markersize=8, marker='.')
+    mean_group, std_error_group = grouping_success(arraySR, 2)
+    plt.plot(range(1,8), mean_group*100, color='r', markersize=8, marker='.')
+    mean_group, std_error_group = grouping_success(arraySR, 5)
+    plt.plot(range(1,8), mean_group*100, color='g', markersize=8, marker='.')
+    mean_group, std_error_group = grouping_success(arraySR, 10)
+    plt.plot(range(1,8), mean_group*100, color='y', markersize=8, marker='.')
 
     fig.tight_layout()  # otherwise the right y-label is slightly clipped
     fig.set_size_inches(7, 5)
+    ax1.legend(['M=1', 'M=2', 'M=5', 'M=10'])
     plt.xticks(np.arange(1, 8, step=1))
-    plt.yticks(np.arange(90, 110, 10.0))
+    plt.yticks(np.arange(95, 101, 5.0))
     plt.minorticks_on()
     plt.title('Success ratio for grouping\n Using RR=3 over M')
     plt.ylabel('Success Ratio in %')
@@ -245,17 +253,17 @@ def diff_vector(array, node, modulation):
     print('decoded_array =',arrayDecoded[:18])
 
     vectorModulation = vector_modulation(arrayDecoded, modulation)
-    print('modulation =',modulation)
-    print('vector_modulation\n',vectorModulation[:,:10])
+    print('vector_modulation (%i)\n' % modulation,vectorModulation[:,:10])
 
     LEN = (SEND_REPETITION*TEST_REPETITION)-200
     delayVector = np.zeros(LEN, dtype=int)
     diff_vector = np.zeros(LEN, dtype=int)
 
-    for i in range(0,len(vectorModulation[1,:])):
+    for i in range(0,len(vectorModulation[1,:8])):
         isSuccess = 1
-        offset = (i // modulation) * 3 * modulation
-        modWidth = (i % 3) + 1
+        offset = (i // modulation) * modulation
+        modWidth = (i % modulation) + 1
+        print('modWid=', modWidth)
 
         if (vectorModulation[0][i]):
             repetition = 0
@@ -266,7 +274,8 @@ def diff_vector(array, node, modulation):
         else:
             isSuccess = 0
 
-        delayVector[i] = (modWidth + 3*repetition + offset) * isSuccess
+        # layVector[i] = (modWidth +      3    *repetition + offset) * isSuccess
+        delayVector[i] = (modWidth + modulation*repetition + offset) * isSuccess
 
         if (delayVector[i] == 0):
             diff_vector[i] = 0
@@ -278,21 +287,28 @@ def diff_vector(array, node, modulation):
         if (diff_vector[i] > 300):
             diff_vector[i] = 0
 
-    # print(vectorModulation[1,200:600])
-    # print(delayVector[:200])
-    # print(diff_vector[:200])
+    print('rr1   =',vectorModulation[0,:8])
+    print('rr2   =',vectorModulation[1,:8])
+    print('rr3   =',vectorModulation[2,:8])
+    print('diff  =', delayVector[:8])
+    print('delay =', diff_vector[:8])
     return(diff_vector)
 
 node = 3
 # diff_vector = diff_vector(arraySR, 4, 3)
 
-diff_vector1 = diff_vector(arraySR, node, 1)
-diff_vector2 = diff_vector(arraySR, node, 3)
-diff_vector3 = diff_vector(arraySR, node, 5)
-diff_vector4 = diff_vector(arraySR, node, 6)
-diff_vector_max = diff_vector(arraySR, node, SEND_REPETITION)
-
-diff_array = [diff_vector1, diff_vector2, diff_vector3, diff_vector4, diff_vector_max]
+diff_vector1 = diff_vector(arraySR, node, 2)
+print('delay_vector  =', diff_vector1[:18])
+# diff_vector2 = diff_vector(arraySR, node, 3)
+# print('delay_vector  =', diff_vector2[:18])
+# diff_vector3 = diff_vector(arraySR, node, 5)
+# print('delay_vector  =', diff_vector3[:18])
+# diff_vector4 = diff_vector(arraySR, node, 6)
+# print('delay_vector  =', diff_vector4[:18])
+# diff_vector_max = diff_vector(arraySR, node, SEND_REPETITION)
+# print('delay_vector  =', diff_vector_max[:18])
+# 
+# diff_array = [diff_vector1, diff_vector2, diff_vector3, diff_vector4, diff_vector_max]
 
 #%%
 def diff_plot(diff_array):
