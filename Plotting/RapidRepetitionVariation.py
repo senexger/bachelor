@@ -122,7 +122,7 @@ def plot_success_bar_for_node(array, node):
     means = np.zeros(SLAVE_COUNT)
 
     # 1-6
-    for M in range(1,7):1
+    for M in range(1,7):
         std_errors[M-1] = np.std(array_to_success_vector(array, node, M), ddof=1) / np.sqrt(np.size(np.std(array_to_success_vector(array, node, M))) / 100)
         means[M-1]      = np.mean(array_to_success_vector(array, node, M))
     # Maximum Delay
