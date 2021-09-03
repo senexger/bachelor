@@ -154,19 +154,6 @@ plot_success_bar_for_node(arraySR, 3)
 #%%
 # SUCCESS BAR FOR GOUPING
 
-# input: arraySR
-# output: success vector for each node
-# TODO: Remove?!
-# def success_vector_for_all_nodes(array):
-#     decoded_vecors_by_node = np.zeros((SLAVE_COUNT, SEND_REPETITION*TEST_REPETITION*3-200*3), dtype=int)
-#     for node in range(0,7):
-#         array1d = array_To_Vector(array, node)
-#         decoded_vecors_by_node[node] = decode_array_to_vector(array1d[200:])
-#         total = (np.size(decoded_vecors_by_node[node]))
-#         nonzero = (np.count_nonzero(decoded_vecors_by_node[node]))
-#         print(nonzero/total)
-#     return decoded_vecors_by_node
-
 from itertools import combinations
 
 def grouping_success(array, modulation):
@@ -246,14 +233,14 @@ grouping_plot(arraySR)
 #%%
 def diff_vector(array, node, modulation):
     array1D = array_To_Vector(array, node)
-    print('rx            =', array1D[200:218])
+    # print('rx            =', array1D[200:218])
 
     # skip first 200, because measurement was broken
     arrayDecoded = decode_array_to_vector(array1D[200:])
-    print('decoded_array =',arrayDecoded[:18])
+    # print('decoded_array =',arrayDecoded[:18])
 
     vectorModulation = vector_modulation(arrayDecoded, modulation)
-    print('vector_modulation (%i)\n' % modulation,vectorModulation[:,:10])
+    # print('vector_modulation (%i)\n' % modulation,vectorModulation[:,:10])
 
     LEN = (SEND_REPETITION*TEST_REPETITION)-200
     delayVector = np.zeros(LEN, dtype=int)
@@ -261,9 +248,9 @@ def diff_vector(array, node, modulation):
 
     for i in range(0,len(vectorModulation[1,:8])):
         isSuccess = 1
-        offset = (i // modulation) * modulation
+        offset = (i // modulation) * modulation * 3
         modWidth = (i % modulation) + 1
-        print('modWid=', modWidth)
+        # print('offset=', offset)
 
         if (vectorModulation[0][i]):
             repetition = 0
@@ -274,7 +261,6 @@ def diff_vector(array, node, modulation):
         else:
             isSuccess = 0
 
-        # layVector[i] = (modWidth +      3    *repetition + offset) * isSuccess
         delayVector[i] = (modWidth + modulation*repetition + offset) * isSuccess
 
         if (delayVector[i] == 0):
@@ -287,40 +273,36 @@ def diff_vector(array, node, modulation):
         if (diff_vector[i] > 300):
             diff_vector[i] = 0
 
-    print('rr1   =',vectorModulation[0,:8])
-    print('rr2   =',vectorModulation[1,:8])
-    print('rr3   =',vectorModulation[2,:8])
-    print('diff  =', delayVector[:8])
-    print('delay =', diff_vector[:8])
+    # print('rr1   =',vectorModulation[0,:8])
+    # print('rr2   =',vectorModulation[1,:8])
+    # print('rr3   =',vectorModulation[2,:8])
+    # print('diff  =', delayVector[:8])
+    # print('delay =', diff_vector[:8])
     return(diff_vector)
 
 node = 3
-# diff_vector = diff_vector(arraySR, 4, 3)
 
-diff_vector1 = diff_vector(arraySR, node, 2)
-print('delay_vector  =', diff_vector1[:18])
-# diff_vector2 = diff_vector(arraySR, node, 3)
-# print('delay_vector  =', diff_vector2[:18])
-# diff_vector3 = diff_vector(arraySR, node, 5)
-# print('delay_vector  =', diff_vector3[:18])
-# diff_vector4 = diff_vector(arraySR, node, 6)
-# print('delay_vector  =', diff_vector4[:18])
+diff_vector1 = diff_vector(arraySR, node, 1)
+diff_vector2 = diff_vector(arraySR, node, 2)
+diff_vector3 = diff_vector(arraySR, node, 3)
+diff_vector4 = diff_vector(arraySR, node, 4)
+diff_vector5 = diff_vector(arraySR, node, 5)
 # diff_vector_max = diff_vector(arraySR, node, SEND_REPETITION)
-# print('delay_vector  =', diff_vector_max[:18])
-# 
-# diff_array = [diff_vector1, diff_vector2, diff_vector3, diff_vector4, diff_vector_max]
+
+diff_array = [diff_vector1, diff_vector2, diff_vector3, diff_vector4, diff_vector5]
+print('dly_vctr(M=1)', diff_vector1[:18])
 
 #%%
 def diff_plot(diff_array):
-    fig.set_size_inches(7, 4)
+    fig.set_size_inches(10, 6)
 
     plt.boxplot(diff_array)
 
-    plt.title('Success ratio for grouping\n RR = 3, M = 1\n')
+    plt.title('Delay in Transmissions\n RR = 3, M = 1')
 
     plt.minorticks_on()
     plt.grid()
-    # plt.xticks([1,2,3,4,5], ['1','2','3','4''#Seq'])
+    # plt.xticks([0,1,2,3,4], ['1','2','3','4''#Seq'])
     plt.ylabel('Delay between nodes')
     plt.xlabel('Modulation M')
     plt.savefig('/home/walther/Documents/bachelor/Graphs/delay.png', dpi=2000)

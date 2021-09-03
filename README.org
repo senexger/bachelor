@@ -14,8 +14,6 @@ Ablauf:
 ** Strom von meinem Hub liefert nicht genug Strom, wenn Tastaturbeleutung eingeschaltet ist
 ** USB Kabel ist kein Datenkabel
 ** Chip ist kaputt gegangen
-** Power HUB external
-works like a charme :)
 ** Variable wurde nur bei Neustart zurückgesetzt
 Weil ich den chip so häufig neu geflasht habe, ist der Fehler nur selten auf getaucht
 ** Nach Standby sind dev0 und dev1 verstauscht
@@ -103,7 +101,7 @@ Wenn Pakete zu schnell hintereinander versendet werden, dann führt das zu Paket
 The ESP has three UART controllers UART0, UART1 and UART2) use UART1 or 2
 here is how to setup uart on the ESP32
 https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/uart.html
-* DONE Pythonbridge Modul [0%]
+* DONE Pythonbridge Modul [100%]
 ** DONE Write python bridge
 ** DONE Why does it break with the python bridge?!
 ** DONE Fix Problem with broadcasting now
@@ -219,15 +217,10 @@ CLOSED: [2021-05-28 Fr 04:59]
 * DONE Ist reliable unicast auch in Slave->Master Richtung notwendig??
 CLOSED: [2021-05-28 Fr 04:59]
 ist auf jeden Fall sauberer. Und sollte gemacht werden.
-* TODO Wireshark Messung vornehmen
-** TODO Kanalzeit berechnen und zwar nicht mit send vs onDataSend.
-Vielleicht eher mit UART?
-** TODO Reliability von Unicast untersuchen
-zu erwarten ist, dass jedes Paket 8 mal versucht wird zu senden und danach dann
-abgebrochen wird.
 * DONE Standardfehler -> Standarderror
 CLOSED: [2021-05-28 Fr 14:59]
-* TODO Accomulation mit Kombinatorik/Gruppengröße
+* DONE Accomulation mit Kombinatorik/Gruppengröße
+CLOSED: [2021-09-02 Do 13:19]
 * DONE Broadcast Rapid Rapitition Zeitmessung
 - [X] Rapid sending kommt an, muss aber noch gesondert behandelt werden.
 - [X] Der Slave soll auslesen, welcher rr wert gesetzt ist und dann in das success
@@ -238,7 +231,8 @@ CLOSED: [2021-05-28 Fr 14:59]
 CLOSED: [2021-06-03 Do 04:21]
 * DONE Dauer bei Unicast vs Broadcast bei 50 Wiederholungen ausgeben lassen
 CLOSED: [2021-06-03 Do 23:41]
-* TODO Code aufräumen:
+* DONE Code aufräumen:
+CLOSED: [2021-09-02 Do 13:19]
 253, 254, 255 durch Konstanzen ersetzen wie IS_METADATA, IS_DMX_DATA, IS_SEND_RESULTS
 * TODO VERBOSE/DEBUG Klammern setzen, sinnvoll
 - DEBUG: Alle Nachrichten, die nur minimal den effizienten Ablauf stören und im
@@ -314,10 +308,6 @@ Ich habe zwei Messungen durch geführt, einmal mit 3ms und einmal mit 4ms delay
 CLOSED: [2021-07-08 Do 07:03]
 - Messe die Transmission time für das Senden
 - Vergleiche mit den Messungen an die anderen Knoten
-* KILL Papier Berechnung durchführen
-** TODO Unicast
-Auf alle uc-Messungen 4ms drauf addieren
-** TODO Broadcast
 * DONE Broadcast Success Ratio eintragen
 CLOSED: [2021-07-08 Do 08:10]
 Wenn alle Knoten das Paket empfangen haben, dann werte als 1, wenn nur ein Knoten
@@ -328,8 +318,13 @@ CLOSED: [2021-07-10 Sa 11:23]
 - Latenz eines Packets angeben und nicht über die gesamt Sequence
 - [-] Diagram zeigen bei dem die Resends des Unicasts zur Geltung kommen
 
-* TODO Namen für BA finden
-* TODO [#B] Wireshark Messung durchführen!
+* TODO [#B] Wireshark Messung durchführen! [0/3]
+** TODO Korrekten Channel wählen
+** TODO Kanalzeit berechnen und zwar nicht mit send vs onDataSend.
+Vielleicht eher mit UART?
+** TODO Reliability von Unicast untersuchen
+zu erwarten ist, dass jedes Paket 8 mal versucht wird zu senden und danach dann
+abgebrochen wird.
 * DONE Broadcast Messung [0/0]
 CLOSED: [2021-07-13 Di 06:20]
 ** DONE success ratio korrekt erfassen
@@ -342,16 +337,22 @@ CLOSED: [2021-08-30 Mo 12:05]
 CLOSED: [2021-07-19 Mo 10:38]
 * DONE Kontrolliere Grouping um vierten Knoten
 CLOSED: [2021-09-02 Do 00:41]
-* TODO Slides in Drive checken
+* DONE Slides in Drive checken
+CLOSED: [2021-09-02 Do 13:20]
 * DONE Python Funktionskette prüfen
 CLOSED: [2021-08-30 Mo 14:24]
 * DONE Grouping über alle Kombinationen
 CLOSED: [2021-09-01 Mi 10:59]
 * DONE Gouping should use RR
 CLOSED: [2021-09-02 Do 00:41]
-* TODO Check Diff Vector
-* TODO Delay berechnen
-* TODO Paper lesen/markieren
-* TODO wireshark messung
+* DONE Check Diff Vector
+CLOSED: [2021-09-02 Do 13:20]
+* DONE Delay berechnen
+CLOSED: [2021-09-02 Do 13:20]
+* DONE Paper lesen/markieren
+CLOSED: [2021-09-02 Do 13:20]
 * DONE Warten auf Mail von Tolja
 CLOSED: [2021-09-01 Mi 10:26]
+* TODO Namen für BA finden
+* TODO Slides aufräumen
+* TODO Meeting 14:00 Uhr
