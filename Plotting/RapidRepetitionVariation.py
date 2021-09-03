@@ -88,7 +88,7 @@ def vector_success_ratio(vector):
         if (vector[0:3,i].any()):
             success[i] = 1
 
-    return (success)
+    return success
         
 def array_to_success_vector(array, node, modulation):
     array1D = array_To_Vector(array, node)
