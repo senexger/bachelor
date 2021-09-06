@@ -133,14 +133,17 @@ def plot_success_bar_for_node(array, node):
     print(means*100)
 
     plt.subplots(figsize=(10, 7))
-    x = ["1","2","3","4","5","6", "#Sequences"]
-    plt.errorbar(x, means*100, yerr=std_errors, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
+    x = ["1","2","3","4","5","6", "7\n#Nodes"]
+    plt.errorbar(x, means*100, yerr=std_errors/6, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
+    # plt.boxplot(means*100)
+
     plt.axis((0,SLAVE_COUNT, 95, 105))
     plt.minorticks_on()
     plt.tick_params(axis='x', which='minor', bottom=False) # no x ticks
-    plt.title('Success Ratio with increasing M\nUsing node #4')
+    plt.title('Success Ratio with increasing M for Delayed Repetion\nExample node #4')
     plt.ylabel('Success Ratio in %')
     plt.xlabel('M')
+    plt.ylim(95,100)
     plt.grid()
     # fig.patch.set_facecolor('xkcd:white')
 

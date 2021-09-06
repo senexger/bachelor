@@ -354,5 +354,8 @@ CLOSED: [2021-09-02 Do 13:20]
 * DONE Warten auf Mail von Tolja
 CLOSED: [2021-09-01 Mi 10:26]
 * TODO Namen für BA finden
-* TODO Slides aufräumen
-* TODO Meeting 14:00 Uhr
+* DONE Slides aufräumen
+CLOSED: [2021-09-03 Fr 13:44]
+* DONE Meeting 14:00 Uhr
+CLOSED: [2021-09-03 Fr 13:44]
+* TODO Meeting Mo 14:00
