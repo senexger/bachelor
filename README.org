@@ -79,7 +79,6 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
 * DONE Unicast reparieren
 * DONE Package loss fixen
 Wenn Pakete zu schnell hintereinander versendet werden, dann führt das zu Paketverlusten. Genaueres habe ich gefinden in der Doku von Espressif
-* KILL Telefonkonferenz [2021-11-01 14:00]
 * DONE variablen.h anlegen
 * DONE GPIO communication packet ackn (UART)
 1) UART
@@ -132,9 +131,8 @@ immer eine leere Zeile nach jedem Print...
 * DONE change esp_now_register_recv_cb in Abhängigkeit von Unicast/broadcast
 Einfach UnicastSetup erneut ausführen?
 * DONE Degbug C header chaos
-* TODO find related work
 * DONE Tolja Mail schreiben
-* TODO Espressif Mail schicken?
+* IDEA Espressif Mail schicken?
 * DONE dynamic struct
 Wenn ich daten verschicke, dann sollen die Pakete natürlich nicht immer MAX_LENGTH haben, deswgen darf das struct nicht direkt so groß angelegt werden.
 Lösung: Einfach die Länge des zu übertragenden Signals beschneiden und +1 rechnen
@@ -203,7 +201,6 @@ Tatsächlich habe ich dieselben Knoten genommen und einfach ein neues Experiment
 - Testmessung verwenden
 * DONE Plos exportieren
 * DONE Nette Mail schreiben
-* TODO Paket größe variieren?
 * DONE Testen ob nach SLAVE_COUNT Namensänderung der Code noch funktioniert
 * DONE Eventuel eine rückmeldung geben, wie weit der Fortschritt bei der Messung ist
 * DONE Master soll in das csv schreiben, von welchem Slave die Daten kommen (statt der 9999)
@@ -234,12 +231,6 @@ CLOSED: [2021-06-03 Do 23:41]
 * DONE Code aufräumen:
 CLOSED: [2021-09-02 Do 13:19]
 253, 254, 255 durch Konstanzen ersetzen wie IS_METADATA, IS_DMX_DATA, IS_SEND_RESULTS
-* TODO VERBOSE/DEBUG Klammern setzen, sinnvoll
-- DEBUG: Alle Nachrichten, die nur minimal den effizienten Ablauf stören und im
-  Fehlerfall auftreten.
-- VERBOSE: Informationen über jeden einzelnen Prozess
-- Sonst: keine Kommentare oder nur an stellen, an denen sie KEINE Auswirkung auf
-  die Performance haben.
 * DONE Fix Error: after successfull test, Master needs to be restarted
 CLOSED: [2021-06-03 Do 23:41]
 After successfull test Master needs restart.
@@ -318,13 +309,6 @@ CLOSED: [2021-07-10 Sa 11:23]
 - Latenz eines Packets angeben und nicht über die gesamt Sequence
 - [-] Diagram zeigen bei dem die Resends des Unicasts zur Geltung kommen
 
-* TODO [#B] Wireshark Messung durchführen! [0/3]
-** TODO Korrekten Channel wählen
-** TODO Kanalzeit berechnen und zwar nicht mit send vs onDataSend.
-Vielleicht eher mit UART?
-** TODO Reliability von Unicast untersuchen
-zu erwarten ist, dass jedes Paket 8 mal versucht wird zu senden und danach dann
-abgebrochen wird.
 * DONE Broadcast Messung [0/0]
 CLOSED: [2021-07-13 Di 06:20]
 ** DONE success ratio korrekt erfassen
@@ -353,9 +337,36 @@ CLOSED: [2021-09-02 Do 13:20]
 CLOSED: [2021-09-02 Do 13:20]
 * DONE Warten auf Mail von Tolja
 CLOSED: [2021-09-01 Mi 10:26]
-* TODO Namen für BA finden
+* TODO find related work
+* DONE Namen für BA finden
+CLOSED: [2021-09-07 Di 10:11]
+* TODO VERBOSE/DEBUG Klammern setzen, sinnvoll
+- DEBUG: Alle Nachrichten, die nur minimal den effizienten Ablauf stören und im
+  Fehlerfall auftreten.
+- VERBOSE: Informationen über jeden einzelnen Prozess
+- Sonst: keine Kommentare oder nur an stellen, an denen sie KEINE Auswirkung auf
+  die Performance haben.
+* TODO Paket größe variieren?
 * DONE Slides aufräumen
 CLOSED: [2021-09-03 Fr 13:44]
 * DONE Meeting 14:00 Uhr
 CLOSED: [2021-09-03 Fr 13:44]
-* TODO Meeting Mo 14:00
+* DONE Meeting Mo 14:00
+CLOSED: [2021-09-06 Mo 22:37]
+* TODO Foliensatz überarbeiten
+- [ ] 100% Scale
+- [ ] Hold-Back to Delayed-Repetition
+- [ ] Formatieren
+- [ ] Formel von Delay plotten
+  + Graf in Abhängigkeit von M und R
+* TODO Formel für Delay finden
+* TODO [#B] Wireshark Messung durchführen! [0/0]
+** TODO Korrekten Channel wählen
+** TODO Kanalzeit berechnen und zwar nicht mit send vs onDataSend.
+Vielleicht eher mit UART?
+** TODO Reliability von Unicast untersuchen
+zu erwarten ist, dass jedes Paket 8 mal versucht wird zu senden und danach dann
+abgebrochen wird.
+* TODO Improve ab arrayToVector rr als parameter
+damit man flexibel die rr anpassen kann!
+* TODO Python code aufräumen

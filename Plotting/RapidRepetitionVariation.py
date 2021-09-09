@@ -313,3 +313,28 @@ def diff_plot(diff_array):
 
 fig, ax1 = plt.subplots()
 diff_plot(diff_array)
+
+
+#%%
+def delay_plot_bc_overModulation():
+    fig.set_size_inches(10, 6)
+
+    plt.plot([1,2,3,4,5,6,7], [2,2,2,2,2,2,2], color='b', markersize=8, marker='.')
+    plt.plot([1,2,3,4,5,6,7], [4,4,4,4,4,4,4], color='r', markersize=8, marker='.')
+    plt.plot([1,2,3,4,5,6,7], [14,14,14,14,14,14,14], color='g', markersize=8, marker='.')
+
+    plt.title('Delay in Transmissions\nRepetitions = 2')
+
+    ax1.legend(['#Nodes=1', '#Nodes=2', '#Nodes=7'])
+    # plt.xticks(np.arange(1, 8, step=1))
+    plt.yticks(np.arange(0, 25, 5))
+    plt.minorticks_on()
+
+    plt.grid()
+    plt.ylabel('Delay between nodes')
+    plt.xlabel('Modulation M')
+    plt.savefig('/home/walther/Documents/bachelor/Graphs/delayOverModulationBCDeterministic.png', dpi=1000)
+    plt.show()
+
+fig, ax1 = plt.subplots()
+delay_plot_bc_overModulation()
