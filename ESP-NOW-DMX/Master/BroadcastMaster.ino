@@ -29,6 +29,23 @@ void setupBroadcast() {
   broadcastArray[3] = broadcastData4;
   broadcastArray[4] = broadcastData5;
 
+  //! REMOVE ME
+  Serial.print("broadcastData1");
+  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { 
+    if (i % 2 == 0) {
+      broadcastData1.dmxFrame[i] = 0; 
+      Serial.print(0);
+    }
+    else {
+      broadcastData1.dmxFrame[i] = 255; 
+      Serial.print(255);
+    }
+  }
+  Serial.println("");
+  broadcastArray[0] = broadcastData1;
+
+  broadcastData1.broadcastId = 1;
+
   WiFi.mode(WIFI_STA);
   if (VERBOSE) Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
 

@@ -133,16 +133,17 @@ def plot_success_bar_for_node(array, node):
     print(means*100)
 
     plt.subplots(figsize=(10, 7))
-    x = ["1","2","3","4","5","6", "7\n#Nodes"]
+    x = ["No Delay","1","2","3","4","5", "200"]
     plt.errorbar(x, means*100, yerr=std_errors/6, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
     # plt.boxplot(means*100)
 
     plt.axis((0,SLAVE_COUNT, 95, 105))
     plt.minorticks_on()
     plt.tick_params(axis='x', which='minor', bottom=False) # no x ticks
-    plt.title('Success Ratio with increasing M for Delayed Repetion\nExample node #4')
+    plt.title('Success Ratio for Delayed Repetion (DR)\nNode #4')
     plt.ylabel('Success Ratio in %')
-    plt.xlabel('M')
+    plt.xlabel('DR')
+    plt.xlim((-1, 7))
     plt.ylim(95,100)
     plt.grid()
     # fig.patch.set_facecolor('xkcd:white')
@@ -165,8 +166,8 @@ def grouping_success(array, modulation):
 
     for node in range (0,SLAVE_COUNT):
         success_vectors[node] = array_to_success_vector(array, node, modulation)
-    print('succes_vector[#x] =\n', success_vectors[3,200:400])
-    print('shape             ='  , success_vectors.shape)
+    # print('succes_vector[#x] =\n', success_vectors[3,200:400])
+    # print('shape             ='  , success_vectors.shape)
     
     std_error_group = np.zeros(SLAVE_COUNT)
     mean_group = np.zeros(SLAVE_COUNT)
@@ -189,7 +190,6 @@ def grouping_success(array, modulation):
     
             success_ratios_for_all_combinations[i] = np.count_nonzero(tmpArray == groupsize)/ LEN
             
-        # print("")
         mean_group[groupsize - 1]      = np.mean(success_ratios_for_all_combinations)
         std_error_group[groupsize - 1] = np.std(success_ratios_for_all_combinations)
         # print(mean_group[groupsize - 1])
@@ -201,29 +201,30 @@ def grouping_success(array, modulation):
 
 def grouping_plot(array):
     # ERRORPLOT OR PLOT
-    # mean_group, std_error_group = grouping_success(arraySR, 1)
-    # plt.errorbar(range(1,8), mean_group*100, yerr=std_error_group*100, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
-    # mean_group, std_error_group = grouping_success(arraySR, 2)
-    # plt.errorbar(range(1,8), mean_group*100, yerr=std_error_group*100, fmt='-o', color='r', markersize=8, linestyle='none', capsize=7)
-    # mean_group, std_error_group = grouping_success(arraySR, 5)
-    # plt.errorbar(range(1,8), mean_group*100, yerr=std_error_group*100, fmt='-o', color='g', markersize=8, linestyle='none', capsize=7)
-
     mean_group, std_error_group = grouping_success(arraySR, 1)
-    plt.plot(range(1,8), mean_group*100, color='b', markersize=8, marker='.')
+    plt.errorbar(range(1,8), mean_group*100, yerr=std_error_group*100, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
     mean_group, std_error_group = grouping_success(arraySR, 2)
-    plt.plot(range(1,8), mean_group*100, color='r', markersize=8, marker='.')
-    mean_group, std_error_group = grouping_success(arraySR, 5)
-    plt.plot(range(1,8), mean_group*100, color='g', markersize=8, marker='.')
+    plt.errorbar(range(1,8), mean_group*100, yerr=std_error_group*100, fmt='-o', color='r', markersize=8, linestyle='none', capsize=7)
     mean_group, std_error_group = grouping_success(arraySR, 10)
-    plt.plot(range(1,8), mean_group*100, color='y', markersize=8, marker='.')
+    plt.errorbar(range(1,8), mean_group*100, yerr=std_error_group*100, fmt='-o', color='g', markersize=8, linestyle='none', capsize=7)
+
+    # mean_group, std_error_group = grouping_success(arraySR, 1)
+    # plt.plot(range(1,8), mean_group*100, color='b', markersize=8, marker='.')
+    # mean_group, std_error_group = grouping_success(arraySR, 2)
+    # plt.plot(range(1,8), mean_group*100, color='r', markersize=8, marker='.')
+    # mean_group, std_error_group = grouping_success(arraySR, 5)
+    # plt.plot(range(1,8), mean_group*100, color='g', markersize=8, marker='.')
+    # mean_group, std_error_group = grouping_success(arraySR, 10)
+    # plt.plot(range(1,8), mean_group*100, color='y', markersize=8, marker='.')
 
     fig.tight_layout()  # otherwise the right y-label is slightly clipped
     fig.set_size_inches(7, 5)
-    ax1.legend(['M=1', 'M=2', 'M=5', 'M=10'])
-    plt.xticks(np.arange(1, 8, step=1))
-    plt.yticks(np.arange(95, 101, 5.0))
+    ax1.legend(['M=0', 'M=1', 'M=10'])
     plt.minorticks_on()
-    plt.title('Success ratio for grouping\n Using RR=3 over M')
+    plt.ylim((95,100))
+    plt.xticks(np.arange(1, 8, step=1))
+    plt.yticks(np.arange(95, 101, 1.0))
+    plt.title('Success ratio Delayed Repetition for grouping\n Repetitions = 2')
     plt.ylabel('Success Ratio in %')
     plt.xlabel('Groupsize')
     plt.grid()
@@ -316,23 +317,29 @@ diff_plot(diff_array)
 
 
 #%%
+def simple_delayed_repetition_buffering(delayedRepetition, repetitions):
+    result = [ (dr+1) * repetitions for dr in delayedRepetition]
+    print(result)
+    return result
+
 def delay_plot_bc_overModulation():
     fig.set_size_inches(10, 6)
 
-    plt.plot([1,2,3,4,5,6,7], [2,2,2,2,2,2,2], color='b', markersize=8, marker='.')
-    plt.plot([1,2,3,4,5,6,7], [4,4,4,4,4,4,4], color='r', markersize=8, marker='.')
-    plt.plot([1,2,3,4,5,6,7], [14,14,14,14,14,14,14], color='g', markersize=8, marker='.')
+    x = [0,1,2,3,4,5]
+    plt.plot(x, simple_delayed_repetition_buffering(x, 0), color='b', markersize=8, marker='.')
+    plt.plot(x, simple_delayed_repetition_buffering(x, 1), color='r', markersize=8, marker='.')
+    plt.plot(x, simple_delayed_repetition_buffering(x, 2), color='g', markersize=8, marker='.')
 
-    plt.title('Delay in Transmissions\nRepetitions = 2')
+    plt.title('Buffering Delay in for Delayed Repetition')
 
-    ax1.legend(['#Nodes=1', '#Nodes=2', '#Nodes=7'])
+    ax1.legend(['Repetitions=0', 'Repetitions=1', 'Repetitions=2'])
     # plt.xticks(np.arange(1, 8, step=1))
-    plt.yticks(np.arange(0, 25, 5))
+    # plt.yticks(np.arange(0, 25, 5))
     plt.minorticks_on()
 
     plt.grid()
-    plt.ylabel('Delay between nodes')
-    plt.xlabel('Modulation M')
+    plt.ylabel('Buffering Delay')
+    plt.xlabel('Delayed Repetitions DR')
     plt.savefig('/home/walther/Documents/bachelor/Graphs/delayOverModulationBCDeterministic.png', dpi=1000)
     plt.show()
 

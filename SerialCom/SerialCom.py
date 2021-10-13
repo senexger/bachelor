@@ -28,7 +28,7 @@ if __name__ == "__main__":
         "CHANNEL_TOTAL"         : 160,
         "BROADCAST_FRAME_SIZE"  : 160,
         "UNICAST_FRAME_SIZE"    : 20,
-        "SLAVE_COUNT"           : 7,
+        "SLAVE_COUNT"           : 1,
         "RAPID_REPITITION"      : 3,
         "SEND_REPITITION"       : 200,
         "WAIT_AFTER_SEND"       : 4,

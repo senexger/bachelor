@@ -162,10 +162,6 @@ in der unicastmaster:74 läuft etwas falsch
   z.B.: ein unicastroundtrip mit jeweils 20 Byts
 * DONE WAIT_AFTER_SEND uint16_t?
 Ich glaube ich muss den Wert vergrößern, es sei denn es ists beim Testen nicht notwendig
-* KILL advanced_Meta_struct instead of MACLIST constansts
-CLOSED: [2021-05-28 Fr 05:00]
-das struct in dem alle Werte drin stehen könnte auch genommen werden um diese Werte zu benutzen.
-Dann wäre ein Aufruf zb: meta.broadcastId anstelle von BROADCASTID, dann muss es nicht zweimal gemacht werden
 * DONE der slave scheint immer korrekte pakete zu empfangen
 * DONE usefull bitrate vs peak bitrate
 * DONE RapidRepition
@@ -353,20 +349,30 @@ CLOSED: [2021-09-03 Fr 13:44]
 CLOSED: [2021-09-03 Fr 13:44]
 * DONE Meeting Mo 14:00
 CLOSED: [2021-09-06 Mo 22:37]
-* TODO Foliensatz überarbeiten
+* DONE Foliensatz überarbeiten
+CLOSED: [2021-09-10 Fr 10:00]
 - [ ] 100% Scale
 - [ ] Hold-Back to Delayed-Repetition
 - [ ] Formatieren
 - [ ] Formel von Delay plotten
   + Graf in Abhängigkeit von M und R
-* TODO Formel für Delay finden
-* TODO [#B] Wireshark Messung durchführen! [0/0]
-** TODO Korrekten Channel wählen
+* DONE Formel für Delay finden
+CLOSED: [2021-09-10 Fr 10:00]
+* TODO [#B] Wireshark Messung durchführen! [1/4]
+** DONE Korrekten Channel wählen
+CLOSED: [2021-10-13 Mi 11:35]
 ** TODO Kanalzeit berechnen und zwar nicht mit send vs onDataSend.
 Vielleicht eher mit UART?
 ** TODO Reliability von Unicast untersuchen
 zu erwarten ist, dass jedes Paket 8 mal versucht wird zu senden und danach dann
 abgebrochen wird.
+** TODO Find magic number
 * TODO Improve ab arrayToVector rr als parameter
 damit man flexibel die rr anpassen kann!
 * TODO Python code aufräumen
+* TODO Refreshrate berechnen
+* TODO Delay plotten
+* TODO Tabellendokument verstehen!
+* TODO Mail an Tolja!!
+* DONE Arbeit anmelden
+CLOSED: [2021-10-06 Mi 17:57]
