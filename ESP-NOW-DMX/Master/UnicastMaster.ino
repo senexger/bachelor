@@ -7,19 +7,14 @@ void setupUnicast() {
   for (uint8_t i=0; i <= MAX_FRAME_SIZE; i++) {
     unicastData[i] = i;
   }
-  WiFi.mode(WIFI_STA);
-  if (VERBOSE) Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
 
   InitESPNow();
 
   // adding peers to the peerlist - allowing to send esp-now
   Serial.println("Adding Slaves to peerlist:");
-  addNodeToPeerlist(SLAVE_MAC_ARRAY[0]);
-  addNodeToPeerlist(SLAVE_MAC_1);
-  addNodeToPeerlist(SLAVE_MAC_2);
-  addNodeToPeerlist(SLAVE_MAC_3);
-  addNodeToPeerlist(SLAVE_MAC_4);
-  addNodeToPeerlist(SLAVE_MAC_5);
+  for (int i = 0; i <= 9; i++) {
+    addNodeToPeerlist(SLAVE_MAC_ARRAY[i]);
+  }
 
   if(VERBOSE) esp_now_register_send_cb(onDataSent);
 }
