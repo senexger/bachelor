@@ -10,22 +10,15 @@
 // peerlist information
 esp_now_peer_info_t peer_info;
 
-void addPeersForESP() {
-  addNodeToPeerlist(SLAVE_MAC_1);
-  addNodeToPeerlist(SLAVE_MAC_2);
-  addNodeToPeerlist(SLAVE_MAC_3);
-}
-
 // peerlist information
 void addNodeToPeerlist(const uint8_t *mac_addr) {
   // add peer to send the slave information
-  bool exists = esp_now_is_peer_exist(mac_addr);
-  if (!exists) {
-    memcpy(peer_info.peer_addr, mac_addr, 6);
-    // TODO add parameter for channel
-    // peer_info.channel = MASTER_CHANNEL; // 0-14, default 0?
+  if (!esp_now_is_peer_exist(mac_addr)) {
+    // // TODO add parameter for channel
+    // peer_info.channel = 13; // 0-14, default 0?
     // peer_info.ifidx = ESP_IF_WIFI_STA; // ?
     // peer_info.encrypt = false; // ?
+    memcpy(peer_info.peer_addr, mac_addr, 6);
     esp_err_t status = esp_now_add_peer(&peer_info);
     if (ESP_OK != status && DEBUG)
       Serial.println("[ERROR] Could not add peer");
@@ -39,7 +32,12 @@ void addNodeToPeerlist(const uint8_t *mac_addr) {
 
 // Init ESP Now with fallback
 void InitESPNow() {
-  WiFi.disconnect();
+  // TODO here is something to do...
+  // WiFi.disconnect();
+  WiFi.mode(WIFI_STA);
+  // Serial.println(Wifi.channel());
+  if (VERBOSE) Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
+
   if (esp_now_init() == ESP_OK) {
     if (DEBUG) Serial.println("[OK] ESPNow success");
   }

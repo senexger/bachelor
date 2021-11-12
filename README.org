@@ -358,21 +358,29 @@ CLOSED: [2021-09-10 Fr 10:00]
   + Graf in Abhängigkeit von M und R
 * DONE Formel für Delay finden
 CLOSED: [2021-09-10 Fr 10:00]
-* TODO [#B] Wireshark Messung durchführen! [1/4]
+* DONE [#B] Wireshark Messung durchführen! [0/0]
+CLOSED: [2021-10-26 Di 15:13]
 ** DONE Korrekten Channel wählen
 CLOSED: [2021-10-13 Mi 11:35]
+* TODO Improve ab arrayToVector rr als parameter
+damit man flexibel die rr anpassen kann!
+* DONE Python code aufräumen
+CLOSED: [2021-10-23 Sa 12:25]
+* TODO Refreshrate berechnen
+* TODO Delay plotten
+* TODO Tabellendokument verstehen!
+* DONE Mail an Tolja!!
+CLOSED: [2021-10-23 Sa 12:25]
+* DONE Arbeit anmelden
+CLOSED: [2021-10-06 Mi 17:57]
+* DONE Meeting mit Tolja vorbereiten!
+CLOSED: [2021-10-26 Di 15:13    ]
+* TODO Wireshark messung verarbeiten
 ** TODO Kanalzeit berechnen und zwar nicht mit send vs onDataSend.
 Vielleicht eher mit UART?
 ** TODO Reliability von Unicast untersuchen
 zu erwarten ist, dass jedes Paket 8 mal versucht wird zu senden und danach dann
 abgebrochen wird.
 ** TODO Find magic number
-* TODO Improve ab arrayToVector rr als parameter
-damit man flexibel die rr anpassen kann!
-* TODO Python code aufräumen
-* TODO Refreshrate berechnen
-* TODO Delay plotten
-* TODO Tabellendokument verstehen!
-* TODO Mail an Tolja!!
-* DONE Arbeit anmelden
-CLOSED: [2021-10-06 Mi 17:57]
+* TODO Mittwochsmeeting vorbereiten
+* TODO RR=2 Buffering Delay analysieren

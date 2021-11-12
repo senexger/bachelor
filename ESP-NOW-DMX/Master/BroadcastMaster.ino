@@ -46,9 +46,6 @@ void setupBroadcast() {
 
   broadcastData1.broadcastId = 1;
 
-  WiFi.mode(WIFI_STA);
-  if (VERBOSE) Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
-
   InitESPNow();
 
   if (VERBOSE) Serial.println("Adding Broadcast to peerlist");

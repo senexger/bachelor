@@ -22,16 +22,16 @@ if __name__ == "__main__":
         "DEBUG"                 : 0,
         "TIMESTAMP"             : 0,
         "AIRTIME"               : 0,
-        "FULL_REPETITIONS"      : 1000,
-        "DMX_BROADCASTING"      : 1,
+        "FULL_REPETITIONS"      : 10,
+        "DMX_BROADCASTING"      : 0,
 
         "CHANNEL_TOTAL"         : 160,
         "BROADCAST_FRAME_SIZE"  : 160,
         "UNICAST_FRAME_SIZE"    : 20,
         "SLAVE_COUNT"           : 1,
         "RAPID_REPITITION"      : 3,
-        "SEND_REPITITION"       : 200,
-        "WAIT_AFTER_SEND"       : 4,
+        "SEND_REPITITION"       : 10,
+        "WAIT_AFTER_SEND"       : 0,
         "WAIT_AFTER_REP_SEND"   : 1000
     }
 
@@ -44,7 +44,7 @@ if __name__ == "__main__":
         # for rapid in range (1,4):
         #     test1['RAPID_REPITITION'] = rapid
         for wait in [4]:
-            test1['WAIT_AFTER_SEND'] = wait
+            # test1['WAIT_AFTER_SEND'] = wait
 
             current_time = datetime.datetime.now().strftime("_%m-%d-%H:%M:%S")
             data=json.dumps(test1)
@@ -75,14 +75,14 @@ if __name__ == "__main__":
                         if ('DONE' in incoming):
                             currentSlave += 1
                             if (currentSlave == test1['SLAVE_COUNT']):
-                                with open(f'/home/walther/Documents/bachelor/Data/latency/broadcast{exp_name}{current_time}.csv', 'a', newline='') as file:
-                                    writer = csv.writer(file, delimiter=',')
-                                    writer.writerow([int(9999)])
-                                # break
+                                # with open(f'/home/walther/Documents/bachelor/Data/latency/broadcast{exp_name}{current_time}.csv', 'a', newline='') as file:
+                                #     writer = csv.writer(file, delimiter=',')
+                                #     writer.writerow([int(9999)])
+                                break
 
-                        with open(f'/home/walther/Documents/bachelor/Data/latency/broadcast{exp_name}{current_time}.csv', 'a', newline='') as file:
-                            writer = csv.writer(file, delimiter=',')
-                            writer.writerow([int(incoming)])
+                        # with open(f'/home/walther/Documents/bachelor/Data/latency/broadcast{exp_name}{current_time}.csv', 'a', newline='') as file:
+                        #     writer = csv.writer(file, delimiter=',')
+                        #     writer.writerow([int(incoming)])
 
                     except Exception as e:
                         print (e)
