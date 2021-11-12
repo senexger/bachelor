@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2021.6.15)  12 OCT 2021 10:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2021.6.15)  21 OCT 2021 10:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1930,11 +1930,11 @@ LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
 ]
 Chapter 1.
 LaTeX Font Info:    Font shape `T1/mdbch/m/it' will be
-(Font)              scaled to size 9.60007pt on input line 104.
+(Font)              scaled to size 9.60007pt on input line 107.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 13.82408pt on input line 108.
+(Font)              scaled to size 13.82408pt on input line 111.
 LaTeX Font Info:    Font shape `T1/mdbch/m/fsc' will be
-(Font)              scaled to size 9.60007pt on input line 120.
+(Font)              scaled to size 9.60007pt on input line 123.
 [1
 
 
@@ -1943,44 +1943,44 @@ LaTeX Font Info:    Font shape `T1/mdbch/m/fsc' will be
 File: figures/coverage-30--0-static1.pdf Graphic file (type pdf)
 <use figures/coverage-30--0-static1.pdf>
 Package pdftex.def Info: figures/coverage-30--0-static1.pdf  used on input line
- 134.
+ 137.
 (pdftex.def)             Requested size: 103.50105pt x 103.50226pt.
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 134.
+(Font)              scaled to size 7.68005pt on input line 137.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 7.68005pt on input line 134.
+(Font)              scaled to size 7.68005pt on input line 137.
 <figures/connectivity-50-0-static1.pdf, id=201, 301.125pt x 301.125pt>
 File: figures/connectivity-50-0-static1.pdf Graphic file (type pdf)
 <use figures/connectivity-50-0-static1.pdf>
 Package pdftex.def Info: figures/connectivity-50-0-static1.pdf  used on input l
-ine 135.
+ine 138.
 (pdftex.def)             Requested size: 103.50105pt x 103.50226pt.
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 136.
+(Font)              scaled to size 8.64006pt on input line 139.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 8.64006pt on input line 136.
+(Font)              scaled to size 8.64006pt on input line 139.
 LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 136.
+(Font)              scaled to size 8.64006pt on input line 139.
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 8.64006pt on input line 136.
+(Font)              scaled to size 8.64006pt on input line 139.
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 136.
+(Font)              scaled to size 8.64006pt on input line 139.
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 136.
+(Font)              scaled to size 8.64006pt on input line 139.
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 136.
+(Font)              scaled to size 8.64006pt on input line 139.
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 136.
+(Font)              scaled to size 8.64006pt on input line 139.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 136.
+(Font)              scaled to size 8.64006pt on input line 139.
  [2 <./figures/coverage-30--0-static1.pdf> <./figures/connectivity-50-0-static1
 .pdf>]
-Underfull \hbox (badness 2253) in paragraph at lines 177--177
+Underfull \hbox (badness 2253) in paragraph at lines 180--180
 []|\T1/mdbch/m/n/10 (+20) Forest fire de-tec-tion, flood de-tec-
  []
 
 
-Underfull \hbox (badness 3503) in paragraph at lines 177--177
+Underfull \hbox (badness 3503) in paragraph at lines 180--180
 \T1/mdbch/m/n/10 (+20) tack de-tec-tion, bat-tle-field surveil-
  []
 
@@ -1988,35 +1988,35 @@ Underfull \hbox (badness 3503) in paragraph at lines 177--177
 
 ]
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 237.
+(Font)              scaled to size 6.72005pt on input line 240.
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 237.
+(Font)              scaled to size 4.80003pt on input line 240.
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 5.76004pt on input line 239.
+(Font)              scaled to size 5.76004pt on input line 242.
  [4
 
 ]
 Package textcomp Info: Symbol \textminus not provided by
 (textcomp)             font family mdbch in TS1 encoding.
-(textcomp)             Default family used instead on input line 257.
+(textcomp)             Default family used instead on input line 260.
  (/usr/share/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
 Package textcomp Info: Symbol \textminus not provided by
 (textcomp)             font family mdbch in TS1 encoding.
-(textcomp)             Default family used instead on input line 258.
+(textcomp)             Default family used instead on input line 261.
 Package textcomp Info: Symbol \textminus not provided by
 (textcomp)             font family mdbch in TS1 encoding.
-(textcomp)             Default family used instead on input line 259.
+(textcomp)             Default family used instead on input line 262.
 LaTeX Font Info:    Trying to load font information for TS1+mdbch on input line
- 259.
+ 262.
 
 (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/ts1mdbch.fd
 File: ts1mdbch.fd 2013/08/29 Fontinst v1.933 font definitions for TS1/mdbch.
 )
 LaTeX Font Info:    Font shape `TS1/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 259.
+(Font)              scaled to size 9.60007pt on input line 262.
 Package microtype Info: Character `texttwelveudash ' is missing
 (microtype)             in font `TS1/mdbch/m/n/10'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -2043,63 +2043,39 @@ Package microtype Info: Character `textcelsius ' is missing
 Package microtype Warning: I cannot find a spacing list for font
 (microtype)                `TS1/mdbch/m/n/10' (context: `nonfrench'). Switching
  off
-(microtype)                spacing for this font on input line 259.
+(microtype)                spacing for this font on input line 262.
 
 Package textcomp Info: Symbol \textminus not provided by
 (textcomp)             font family mdbch in TS1 encoding.
-(textcomp)             Default family used instead on input line 260.
+(textcomp)             Default family used instead on input line 263.
 Package textcomp Info: Symbol \textminus not provided by
 (textcomp)             font family mdbch in TS1 encoding.
-(textcomp)             Default family used instead on input line 261.
+(textcomp)             Default family used instead on input line 264.
 Package textcomp Info: Symbol \textminus not provided by
 (textcomp)             font family mdbch in TS1 encoding.
-(textcomp)             Default family used instead on input line 261.
+(textcomp)             Default family used instead on input line 264.
 [5
 
 ]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 291.
+put line 294.
  [6
 
-]
-LaTeX Font Info:    Font shape `T1/mdbch/m/it' will be
-(Font)              scaled to size 8.64006pt on input line 320.
+] [7
 
-! Missing font identifier.
-<to be read again> 
-                   \chardef 
-l.320 			<
-          primary>
-I was looking for a control sequence whose
-current meaning has been defined by \font.
-
-! Missing number, treated as zero.
-<to be read again> 
-                   \chardef 
-l.320 			<
-          primary>
-A number should have been here; I inserted `0'.
-(If you can't figure out why I needed to see a number,
-look up `weird error' in the index to The TeXbook.)
-
-[7
-
-]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 342.
- [8
+] [8
 
 ]
 
 LaTeX Warning: Citation 'akyildiz2002survey' on page 9 undefined on input line 
-395.
+365.
 
 
 LaTeX Warning: Citation 'arampatzis2005survey' on page 9 undefined on input lin
-e 395.
+e 365.
 
 
-Overfull \hbox (5.4827pt too wide) in paragraph at lines 395--396
+Overfull \hbox (5.4827pt too wide) in paragraph at lines 365--366
 []\T1/mdbch/m/n/10 (-20) ``\T1/mdbch/b/n/10 (-20) Foo and bar are of equal valu
 e. Thus, any can be used.\T1/mdbch/m/n/10 (-20) '' [],|
  []
@@ -2109,139 +2085,143 @@ e. Thus, any can be used.\T1/mdbch/m/n/10 (-20) '' [],|
 ]
 
 LaTeX Warning: Citation 'akyildiz2002survey' on page 10 undefined on input line
- 396.
+ 366.
 
 
 LaTeX Warning: Citation 'arampatzis2005survey' on page 10 undefined on input li
-ne 396.
+ne 366.
 
 
 LaTeX Warning: Citation 'akyildiz2002survey' on page 10 undefined on input line
- 400.
+ 370.
 
 
 LaTeX Warning: Citation 'arampatzis2005survey' on page 10 undefined on input li
-ne 400.
+ne 370.
 
 
-Overfull \hbox (8.63977pt too wide) in paragraph at lines 400--401
+Overfull \hbox (8.63977pt too wide) in paragraph at lines 370--371
 []\T1/mdbch/m/n/10 (-20) ``\T1/mdbch/b/n/10 (-20) Foo and bar are of equal valu
 e\T1/mdbch/m/n/10 (-20) '' [], [].|
  []
 
 
 LaTeX Warning: Citation 'akyildiz2002survey' on page 10 undefined on input line
- 401.
+ 371.
 
 
 LaTeX Warning: Citation 'arampatzis2005survey' on page 10 undefined on input li
-ne 401.
+ne 371.
 
 
 LaTeX Warning: Citation 'akyildiz2002survey' on page 10 undefined on input line
- 405.
+ 375.
 
 
 LaTeX Warning: Citation 'arampatzis2005survey' on page 10 undefined on input li
-ne 405.
+ne 375.
 
 
 LaTeX Warning: Citation 'akyildiz2002survey' on page 10 undefined on input line
- 406.
+ 376.
 
 
 LaTeX Warning: Citation 'arampatzis2005survey' on page 10 undefined on input li
-ne 406.
+ne 376.
 
 
 LaTeX Warning: Citation 'akyildiz2002survey' on page 10 undefined on input line
- 410.
+ 380.
 
 
 LaTeX Warning: Citation 'arampatzis2005survey' on page 10 undefined on input li
-ne 410.
+ne 380.
 
 
 LaTeX Warning: Citation 'akyildiz2002survey' on page 10 undefined on input line
- 411.
+ 381.
 
 
 LaTeX Warning: Citation 'arampatzis2005survey' on page 10 undefined on input li
-ne 411.
+ne 381.
 
 
-Overfull \hbox (23.06146pt too wide) in paragraph at lines 411--412
+Overfull \hbox (23.06146pt too wide) in paragraph at lines 381--382
 []\T1/mdbch/b/n/10 (-20) Foo \T1/mdbch/m/n/10 (-20) (de-tailed in []) and \T1/m
 dbch/b/n/10 (-20) bar \T1/mdbch/m/n/10 (-20) (de-tailed in [])|
  []
 
 
 LaTeX Warning: Citation 'akyildiz2002survey' on page 10 undefined on input line
- 417.
+ 387.
 
 
 LaTeX Warning: Citation 'dietrich2009lifetime' on page 10 undefined on input li
-ne 420.
+ne 390.
 
 
 LaTeX Warning: Citation 'dietrich2009lifetime' on page 10 undefined on input li
-ne 423.
+ne 393.
 
 [10]
 
 LaTeX Warning: Citation 'akyildiz2002survey' on page 11 undefined on input line
- 431.
+ 401.
 
 
 LaTeX Warning: Citation 'akyildiz2002survey' on page 11 undefined on input line
- 431.
+ 401.
 
 [11] [12]
 Chapter 2.
 [13
 
-]
+] [14]
 Chapter 3.
-[14
-
-]
-Chapter 4.
 [15
 
 ]
-Chapter 5.
+Chapter 4.
 [16
 
 ]
-Chapter 6.
+Chapter 5.
 [17
 
-] [18
+]
+Chapter 6.
+[18
+
+] [19
 
 
 ] (./thesis.lof)
 \tf@lof=\write8
 \openout8 = `thesis.lof'.
 
- [19
+ [20
 
 
 ] (./thesis.lot)
 \tf@lot=\write9
 \openout9 = `thesis.lot'.
 
- [20
+ [21
 
 
 ]
 
-LaTeX Warning: Empty bibliography on input line 576.
+LaTeX Warning: Empty bibliography on input line 564.
+
+
+Package acro Warning: Acronym properties may have changed. Rerun to get them
+(acro)                synchronized.
 
 (./thesis.tdo)
 \tf@tdo=\write10
 \openout10 = `thesis.tdo'.
 
- [21
+ [22
 
 
 ]
@@ -2249,6 +2229,9 @@ No complaints by nag.
 (./thesis.aux (./thesis.acr))
 
 LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
 Package rerunfilecheck Info: File `thesis.out' has not changed.
 (rerunfilecheck)             Checksum: 27A6F0ED0B87BA1B39AC4E256A3F0794;3139.
@@ -2262,11 +2245,11 @@ Package logreq Info: Writing requests to 'thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 47448 strings out of 478994
- 939872 string characters out of 5864751
- 1672327 words of memory out of 5000000
- 63467 multiletter control sequences out of 15000+600000
- 528071 words of font info for 483 fonts, out of 8000000 for 9000
+ 47139 strings out of 478994
+ 937458 string characters out of 5864751
+ 1669243 words of memory out of 5000000
+ 63194 multiletter control sequences out of 15000+600000
+ 523195 words of font info for 466 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
  98i,19n,131p,1122b,2341s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf-dist/fo
@@ -2274,23 +2257,21 @@ nts/enc/dvips/cm-super/cm-super-ts1.enc}{/usr/share/texmf-dist/fonts/enc/dvips/
 ly1/texnansi.enc}{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share
 /texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/share/texmf-dist/font
 s/type1/bitstrea/charter/bchr8a.pfb></usr/share/texmf-dist/fonts/type1/bitstrea
-/charter/bchri8a.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/latxfon
-t/lcircle1.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/latxfont/line
-10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/share/texm
-f-dist/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf-dist/fonts/type1/publ
-ic/lm/lmtt8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt9.pfb></usr/sh
-are/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chb8t.pfb></usr/share/tex
-mf-dist/fonts/type1/public/mathdesign/mdbch/md-chr7m.pfb></usr/share/texmf-dist
-/fonts/type1/public/mathdesign/mdbch/md-chr7t.pfb></usr/share/texmf-dist/fonts/
-type1/public/mathdesign/mdbch/md-chr7v.pfb></usr/share/texmf-dist/fonts/type1/p
-ublic/mathdesign/mdbch/md-chr7y.pfb></usr/share/texmf-dist/fonts/type1/public/m
-athdesign/mdbch/md-chr8t.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesi
-gn/mdbch/md-chri7m.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm0
-700.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on thesis.pdf (28 pages, 431838 bytes).
+/charter/bchri8a.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></
+usr/share/texmf-dist/fonts/type1/public/lm/lmtt8.pfb></usr/share/texmf-dist/fon
+ts/type1/public/lm/lmtt9.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesi
+gn/mdbch/md-chb8t.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbc
+h/md-chr7m.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-ch
+r7t.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr7v.pfb
+></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr7y.pfb></usr/
+share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr8t.pfb></usr/share/t
+exmf-dist/fonts/type1/public/mathdesign/mdbch/md-chri7m.pfb></usr/share/texmf-d
+ist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/share/texmf-dist/fonts/type1
+/urw/helvetic/uhvr8a.pfb>
+Output written on thesis.pdf (29 pages, 393248 bytes).
 PDF statistics:
- 461 PDF objects out of 1000 (max. 8388607)
- 388 compressed objects within 4 object streams
- 102 named destinations out of 1000 (max. 500000)
- 168753 words of extra memory for PDF output out of 184870 (max. 10000000)
+ 439 PDF objects out of 1000 (max. 8388607)
+ 368 compressed objects within 4 object streams
+ 91 named destinations out of 1000 (max. 500000)
+ 157489 words of extra memory for PDF output out of 184870 (max. 10000000)
 

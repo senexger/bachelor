@@ -66,7 +66,10 @@ about 1/2 page:
 \end{enumerate}
 	
 
-In the field of lighting and stage technology, the challenge of controlling the individual installations, called 'fixtures', quickly and without complications is a recurring one. Established solutions are realized via cables. However, due to the progress in radio technology, wireless solutions are becoming more and more common.
+In the field of lighting and stage technology, the challenge of controlling the individual installations, called 'fixtures', quickly and without complications is a recurring one. Established solutions are realized via cables. 
+
+
+However, due to the progress in radio technology, wireless solutions are becoming more and more common. Therefor is often expensive hardware needed.
 	
 	Parallel to this we have a fast growing market around creative and individually developed DIY projects, which have found their own niche. Durch niedrigpreisige 
 	
@@ -312,46 +315,13 @@ Grammars can be typeset using the \texttt{grammar} environment.
 An alternative graphical form is also available.
 This version is often easier to read, but does not lend itself well to more complex grammars.
 
-\begin{grammar}
-<input> ::= \[[
-	\begin{stack}
-		\\
-		\begin{rep}
-			<primary>
-		\\ `;'
-	\end{rep}
-	\end{stack}
-\]]
-
-<primary> ::= \[[
-		\begin{stack}
-			<primary> \begin{stack} `*' \\ `/' \end{stack} <primary>
-			\\ "NUMBER"
-		\end{stack}
-\]]
-\end{grammar}
-
 
 \clearpage
 \section{Program Code}
 
 Program code should be omitted.
 What your programs do will already be explained in text form or, if needed, in algorithmic form.
-If including source code is absolutely necessary, it should be typeset as seen in \cref{lst:code}.
-
-\begin{lstlisting}[style=txt,caption=Sample application,label=lst:code]{}
-APPLICATION("printU", 192, arg)
-{
-    // Set Priority
-    NutThreadSetPriority(16);
-    // main() loop
-    for (;;) {
-        putchar('U');
-        NutSleep(125);
-    }
-}
-\end{lstlisting}
-
+If including source code is absolutely necessary, it should be typeset as seen in ....
 
 \clearpage
 \section{References}
@@ -422,7 +392,7 @@ When citing more than a few pages worth of text, point the reader to the specifi
 If a figure or a table is closely based on another one, make sure to cite its source, preferably in its caption, like so:
 \emph{Figure 1 -- the relation of ravens and writing desks (based on~\cite[Figure~42]{dietrich2009lifetime})}.
 Be aware that, while there is a well-established convention on how to illustrate a verbatim quote of text (by using quotation marks), there is no well-established convention for indicating that an image was copied verbatim.
-Thus, when citing a figure or table, you must explicitly state whether it was copied verbatim, abstracted, or whether it served as inspiration for your own.
+Thus, when citing a figure or table, you must explicitly state whether it was copied verbatim, ed, or whether it served as inspiration for your own.
 
 Do not cite URLs. Content found there is not peer reviewed and it is likely to change during the lifetime of your work.
 For pointing a reader to interesting websites, use footnotes -- but trust your reader to know how to use a web search engine.
@@ -510,7 +480,25 @@ If, however, you are writing a seminar thesis, the present structure is likely w
 \item recommended length: 1-2 pages.
 \end{itemize}
 
+In the subject area 
 
+====
+
+In the field of lighting and stage technology, the challenge of controlling the individual installations, called 'fixtures', quickly and without complications is a recurring one. Established solutions are realized via cables.
+
+\subsection*{DMX}
+The current industry standard is DMX-512A which is an Data-Link protocol transmitting serial data at 250 kHz.
+
+\subsection*{Art-Net}
+However, due to the progress in radio technology, wireless solutions are becoming more and more common.
+	
+	Parallel to this we have a fast growing market around creative and individually developed DIY projects, which have found their own niche. Durch niedrigpreisige 
+	
+	While most commercial solutions still rely on expensive and complex wired control, it is particularly suitable for smaller projects to experiment with the new wireless technologies. 
+	
+	In this thesis I try to implement a wireless solution, which does not need an IP-Layer using the popular platform ESP and the proprietary protocol ESP-NOW to distribute the light information to each fixture. ESP-Now instead works more like an direct radio communication.
+
+a	
 \chapter{Fundamentals}
 \label{sec:fundamentals}
 
