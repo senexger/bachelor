@@ -11,9 +11,10 @@ from scipy import stats
 np.set_printoptions(formatter={'float': lambda x: "{0:0.4f}".format(x)})
 
 #%%
-TEST_REPETITION = 1000
-SEND_REPETITION = 200
-SLAVE_COUNT     = 7
+TEST_REPETITION  = 1000
+SEND_REPETITION  = 200
+RAPID_REPETITION = 2
+SLAVE_COUNT      = 7
 
 arraySR = np.genfromtxt("/home/walther/Documents/bachelor/Data/latency/broadcast/broadcast7NodesRR3.csv", delimiter=",", dtype="int")
 arraySR = np.reshape(arraySR, (TEST_REPETITION, SLAVE_COUNT, SEND_REPETITION))
