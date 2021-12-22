@@ -77,22 +77,27 @@ def decode_array_to_vector(vector):
             print("ERROR")
     return vector_decoded
 
-def vector_modulation(vector, M):
+def vector_modulation(vector, M, repetitions):
+    """Calculates from the incomming vector for each sequence of repetitions, 
+    if at least one of the repetitions arrived correctly.
+    
+    Keyword arguments:
+    vector        -- decoded vector with zeros for one specific node
+    M             -- Delay for the delayed repetition
+    repetitions   -- the number of rapid-repetition
     """
-    """
-    # print(vector[:30])
-    modulation = np.zeros((3,len(vector)//3), dtype=int)
+    print(vector[:30])
+    modulation = np.zeros((repetitions,len(vector)//repetitions), dtype=int)
 
     for i in range(0,len(vector)):
-        offset = (i // (M*3)) * M
-        x      = (i // M) % 3
-        y      = (i % M)
+        offset = (i // (M*repetitions)) * M
+        x      = (i //  M) % repetitions
+        y      = (i %   M)
     
         modulation[x][y+offset] = vector[i]
 
-    print('rr1=',modulation[0,:10])
-    print('rr2=',modulation[1,:10])
-    print('rr3=',modulation[2,:10])
+    for i in range(0, repetitions):
+        print('rr' + str(i) + '= ', modulation[i,:10])
 
     return modulation
 
@@ -105,7 +110,7 @@ def vector_success_ratio(vector):
 
     return success
         
-def array_to_success_vector(array, node, modulation):
+def array_to_success_vector(array, node, modulation, repetitions):
     array1D = array_to_vector(array, node)
     print('rx =', array1D[200:220])
 
@@ -113,7 +118,7 @@ def array_to_success_vector(array, node, modulation):
     arrayDecoded = decode_array_to_vector(array1D[200:])
     print('decode_array_to_vecor\n',arrayDecoded[401:422])
 
-    vectorModulation = vector_modulation(arrayDecoded, modulation)
+    vectorModulation = vector_modulation(arrayDecoded, modulation, repetitions)
     print('vector_modulation\n',vectorModulation[:,:20])
 
     return vector_success_ratio(vectorModulation)
@@ -122,7 +127,7 @@ def array_to_success_vector(array, node, modulation):
 selectedNode = 3
 modulation = 1
 # array, node, M
-successVector = array_to_success_vector(arraySR[:,:,:], selectedNode, modulation)#SEND_REPETITION*3)
+successVector = array_to_success_vector(arraySR[:,:,:], selectedNode, modulation, 3)#SEND_REPETITION*3)
 print(successVector[:20])
 print(successVector.size)
 total = (np.size(successVector))
