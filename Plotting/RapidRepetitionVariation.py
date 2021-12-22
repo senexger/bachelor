@@ -28,7 +28,7 @@ def array_to_vector(array, selected_node):
     Keyword arguments:
     array         -- the measured values
     selected_node -- the node encoded in the array
-    repetitions   -- the number of rapid-repetitions (redundant information/transmission)
+    repetitions   -- the number of rapid-repetitions (redundant information/retransmissions)
     """
     array_to_vector = np.zeros(SEND_REPETITION*TEST_REPETITION, dtype=int)
     for i in range(0, TEST_REPETITION):
@@ -36,12 +36,8 @@ def array_to_vector(array, selected_node):
             array_to_vector[j+i*SEND_REPETITION] = array[i,selected_node,j]
     return array_to_vector
 
-def decode_array_to_vector(vector, repetition):
-    """Decode a encoded vector with a rapid repetition
-
-    vector     - the vector containing the encoded sequence of repetitions
-    repetition - the value giving the configuration of the rapid repetition
-    """
+def decode_array_to_vector(vector):
+    """Decode a encoded vector to a bool for each transmission"""
     vector_decoded = np.zeros(len(vector)*3, dtype=int)
     # TODO Das ist so hässlich, das könnte glatt ein modernes Kunstwerk sein!!!!111!1!!11
     for i in range(0, len(vector)*3, 3):
@@ -79,7 +75,11 @@ def decode_array_to_vector(vector, repetition):
             vector_decoded[i+2] = 1
         else:
             print("ERROR")
+    return vector_decoded
+
 def vector_modulation(vector, M):
+    """
+    """
     # print(vector[:30])
     modulation = np.zeros((3,len(vector)//3), dtype=int)
 
@@ -89,9 +89,11 @@ def vector_modulation(vector, M):
         y      = (i % M)
     
         modulation[x][y+offset] = vector[i]
-    # print('rr1=',modulation[0,:10])
-    # print('rr2=',modulation[1,:10])
-    # print('rr3=',modulation[2,:10])
+
+    print('rr1=',modulation[0,:10])
+    print('rr2=',modulation[1,:10])
+    print('rr3=',modulation[2,:10])
+
     return modulation
 
 def vector_success_ratio(vector):
@@ -104,23 +106,23 @@ def vector_success_ratio(vector):
     return success
         
 def array_to_success_vector(array, node, modulation):
-    array1D = array_tto_vector(array, node)
-    # print('rx =', array1D[200:220])
+    array1D = array_to_vector(array, node)
+    print('rx =', array1D[200:220])
 
     # skip first 200 for each node, because measurement was broken
-    arrayDecoded = decode_array_to_vector(array1D[200:], RAPID_REPETITION)
-    # print('decode_array_to_vecor\n',arrayDecoded[401:422])
+    arrayDecoded = decode_array_to_vector(array1D[200:])
+    print('decode_array_to_vecor\n',arrayDecoded[401:422])
 
     vectorModulation = vector_modulation(arrayDecoded, modulation)
-    # print('vector_modulation\n',vectorModulation[:,:20])
+    print('vector_modulation\n',vectorModulation[:,:20])
 
     return vector_success_ratio(vectorModulation)
 
 ######TESTING##################
 selectedNode = 3
-modulation = 3
+modulation = 1
 # array, node, M
-successVector = array_to_success_vector(arraySR[:,:,:], selectedNode, 4)#SEND_REPETITION*3)
+successVector = array_to_success_vector(arraySR[:,:,:], selectedNode, modulation)#SEND_REPETITION*3)
 print(successVector[:20])
 print(successVector.size)
 total = (np.size(successVector))
