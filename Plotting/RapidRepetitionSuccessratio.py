@@ -12,7 +12,7 @@ from scipy import stats
 
 np.set_printoptions(threshold=sys.maxsize)
 # %%
-TEST_REPETITION = 1000
+TEST_REPETITION = 100
 SEND_REPETITION = 200
 SLAVE_COUNT = 7
 
@@ -198,3 +198,4 @@ arrayRR = [arrayByNodesRR0, arrayByNodesRR1, arrayByNodesRR2]
 
 fig, ax1 = plt.subplots(figsize=(10, 7))
 successRatio_plot(arrayByNodesRR0, arrayByNodesRR1, arrayByNodesRR2)
+# %%
