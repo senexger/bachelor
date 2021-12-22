@@ -102,10 +102,11 @@ def vector_modulation(vector, M, repetitions):
     return modulation
 
 def vector_success_ratio(vector):
+    """Create a success vector given all success vectors of all repetitions"""
     success = np.zeros(np.shape(vector)[1], dtype=int)
 
     for i in range(0, len(success)):
-        if (vector[0:3,i].any()):
+        if (vector[0:RAPID_REPETITION,i].any()):
             success[i] = 1
 
     return success
