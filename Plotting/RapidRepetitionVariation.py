@@ -16,57 +16,69 @@ SEND_REPETITION  = 200
 RAPID_REPETITION = 2
 SLAVE_COUNT      = 7
 
-arraySR = np.genfromtxt("/home/walther/Documents/bachelor/Data/latency/broadcast/broadcast7NodesRR3.csv", delimiter=",", dtype="int")
+arraySR = np.genfromtxt("/home/walther/Documents/bachelor/Data/latency/broadcast/broadcast7" \
+                        "NodesRR3.csv", delimiter=",", dtype="int")
 arraySR = np.reshape(arraySR, (TEST_REPETITION, SLAVE_COUNT, SEND_REPETITION))
 
 #%%
 # 3 dim array to vector per node
-def array_To_Vector(array, node):
-    arrayToVector = np.zeros(SEND_REPETITION*TEST_REPETITION, dtype=int)
+def array_to_vector(array, selected_node):
+    """Creates a vector of encoded transmissions from an vector containing all nodes (called array)
+    
+    Keyword arguments:
+    array         -- the measured values
+    selected_node -- the node encoded in the array
+    repetitions   -- the number of rapid-repetitions (redundant information/transmission)
+    """
+    array_to_vector = np.zeros(SEND_REPETITION*TEST_REPETITION, dtype=int)
     for i in range(0, TEST_REPETITION):
         for j in range(0, SEND_REPETITION):
-            arrayToVector[j+i*SEND_REPETITION] = array[i,node,j]
-    return arrayToVector
+            array_to_vector[j+i*SEND_REPETITION] = array[i,selected_node,j]
+    return array_to_vector
 
-def decode_array_to_vector(vector):
-    vectorDecoded = np.zeros(len(vector)*3, dtype=int)
+def decode_array_to_vector(vector, repetition):
+    """Decode a encoded vector with a rapid repetition
+
+    vector     - the vector containing the encoded sequence of repetitions
+    repetition - the value giving the configuration of the rapid repetition
+    """
+    vector_decoded = np.zeros(len(vector)*3, dtype=int)
+    # TODO Das ist so hässlich, das könnte glatt ein modernes Kunstwerk sein!!!!111!1!!11
     for i in range(0, len(vector)*3, 3):
         if vector[i//3] == 0:
-            vectorDecoded[i]   = 0
-            vectorDecoded[i+1] = 0
-            vectorDecoded[i+2] = 0
+            vector_decoded[i]   = 0
+            vector_decoded[i+1] = 0
+            vector_decoded[i+2] = 0
         elif vector[i//3] == 1:
-            vectorDecoded[i]   = 1
-            vectorDecoded[i+1] = 0
-            vectorDecoded[i+2] = 0
+            vector_decoded[i]   = 1
+            vector_decoded[i+1] = 0
+            vector_decoded[i+2] = 0
         elif vector[i//3] == 2:
-            vectorDecoded[i]   = 0
-            vectorDecoded[i+1] = 1
-            vectorDecoded[i+2] = 0
+            vector_decoded[i]   = 0
+            vector_decoded[i+1] = 1
+            vector_decoded[i+2] = 0
         elif vector[i//3] == 3:
-            vectorDecoded[i]   = 1
-            vectorDecoded[i+1] = 1
-            vectorDecoded[i+2] = 0
+            vector_decoded[i]   = 1
+            vector_decoded[i+1] = 1
+            vector_decoded[i+2] = 0
         elif vector[i//3] == 4:
-            vectorDecoded[i]   = 0
-            vectorDecoded[i+1] = 0
-            vectorDecoded[i+2] = 1
+            vector_decoded[i]   = 0
+            vector_decoded[i+1] = 0
+            vector_decoded[i+2] = 1
         elif vector[i//3] == 5:
-            vectorDecoded[i]   = 1
-            vectorDecoded[i+1] = 0
-            vectorDecoded[i+2] = 1
+            vector_decoded[i]   = 1
+            vector_decoded[i+1] = 0
+            vector_decoded[i+2] = 1
         elif vector[i//3] == 6:
-            vectorDecoded[i]   = 0
-            vectorDecoded[i+1] = 1
-            vectorDecoded[i+2] = 1
+            vector_decoded[i]   = 0
+            vector_decoded[i+1] = 1
+            vector_decoded[i+2] = 1
         elif vector[i//3] == 7:
-            vectorDecoded[i]   = 1
-            vectorDecoded[i+1] = 1
-            vectorDecoded[i+2] = 1
+            vector_decoded[i]   = 1
+            vector_decoded[i+1] = 1
+            vector_decoded[i+2] = 1
         else:
             print("ERROR")
-    return vectorDecoded
-
 def vector_modulation(vector, M):
     # print(vector[:30])
     modulation = np.zeros((3,len(vector)//3), dtype=int)
@@ -92,11 +104,11 @@ def vector_success_ratio(vector):
     return success
         
 def array_to_success_vector(array, node, modulation):
-    array1D = array_To_Vector(array, node)
+    array1D = array_tto_vector(array, node)
     # print('rx =', array1D[200:220])
 
     # skip first 200 for each node, because measurement was broken
-    arrayDecoded = decode_array_to_vector(array1D[200:])
+    arrayDecoded = decode_array_to_vector(array1D[200:], RAPID_REPETITION)
     # print('decode_array_to_vecor\n',arrayDecoded[401:422])
 
     vectorModulation = vector_modulation(arrayDecoded, modulation)
@@ -105,10 +117,10 @@ def array_to_success_vector(array, node, modulation):
     return vector_success_ratio(vectorModulation)
 
 ######TESTING##################
-node = 3
+selectedNode = 3
 modulation = 3
 # array, node, M
-successVector = array_to_success_vector(arraySR[:,:,:], node, 4)#SEND_REPETITION*3)
+successVector = array_to_success_vector(arraySR[:,:,:], selectedNode, 4)#SEND_REPETITION*3)
 print(successVector[:20])
 print(successVector.size)
 total = (np.size(successVector))
@@ -285,13 +297,13 @@ def diff_vector(array, node, modulation):
     # print('delay =', diff_vector[:8])
     return(diff_vector)
 
-node = 3
+selectedNode = 3
 
-diff_vector1 = diff_vector(arraySR, node, 1)
-diff_vector2 = diff_vector(arraySR, node, 2)
-diff_vector3 = diff_vector(arraySR, node, 3)
-diff_vector4 = diff_vector(arraySR, node, 4)
-diff_vector5 = diff_vector(arraySR, node, 5)
+diff_vector1 = diff_vector(arraySR, selectedNode, 1)
+diff_vector2 = diff_vector(arraySR, selectedNode, 2)
+diff_vector3 = diff_vector(arraySR, selectedNode, 3)
+diff_vector4 = diff_vector(arraySR, selectedNode, 4)
+diff_vector5 = diff_vector(arraySR, selectedNode, 5)
 # diff_vector_max = diff_vector(arraySR, node, SEND_REPETITION)
 
 diff_array = [diff_vector1, diff_vector2, diff_vector3, diff_vector4, diff_vector5]
