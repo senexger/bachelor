@@ -126,8 +126,11 @@ def array_to_success_vector(array, node, modulation, repetitions):
 ######TESTING##################
 selectedNode = 3
 modulation = 1
+# TODO just temp
+RAPID_REPETITION = 2
+
 # array, node, M
-successVector = array_to_success_vector(arraySR[:,:,:], selectedNode, modulation, 3)#SEND_REPETITION*3)
+successVector = array_to_success_vector(arraySR[:,:,:], selectedNode, modulation, RAPID_REPETITION)#SEND_REPETITION*3)
 print(successVector[:20])
 print(successVector.size)
 total = (np.size(successVector))
