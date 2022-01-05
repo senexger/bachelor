@@ -89,7 +89,8 @@ def vector_modulation(vector, M, repetitions):
     print(vector[:30])
     modulation = np.zeros((repetitions,len(vector)//repetitions), dtype=int)
 
-    for i in range(0,len(vector)):
+    #? TODO is the RAPID-REPETITION NEEDED?
+    for i in range(0,len(vector)-RAPID_REPETITION):
         offset = (i // (M*repetitions)) * M
         x      = (i //  M) % repetitions
         y      = (i %   M)
@@ -112,32 +113,132 @@ def vector_success_ratio(vector):
     return success
         
 def array_to_success_vector(array, node, modulation, repetitions):
+    """Kochbuch-Funktion"""
     array1D = array_to_vector(array, node)
+    # skip first 200
     print('rx =', array1D[200:220])
 
     # skip first 200 for each node, because measurement was broken
     arrayDecoded = decode_array_to_vector(array1D[200:])
-    print('decode_array_to_vecor\n',arrayDecoded[401:422])
+    # print('decode_array_to_vecor\n',arrayDecoded[:20])
 
     vectorModulation = vector_modulation(arrayDecoded, modulation, repetitions)
-    print('vector_modulation\n',vectorModulation[:,:20])
+    # print('vector_modulation\n',vectorModulation[:,:20])
 
     return vector_success_ratio(vectorModulation)
 
 ######TESTING##################
 selectedNode = 3
-modulation = 1
+modulation   = 6
 # TODO just temp
-RAPID_REPETITION = 2
+RAPID_REPETITION = 3
 
 # array, node, M
 successVector = array_to_success_vector(arraySR[:,:,:], selectedNode, modulation, RAPID_REPETITION)#SEND_REPETITION*3)
 print(successVector[:20])
 print(successVector.size)
-total = (np.size(successVector))
-nonzero = (np.count_nonzero(successVector))
 
-print (1/(total/nonzero))
+nonZero_100_parts = np.zeros(51)
+
+for i in range(0,50):
+    nonZero_100_parts[i] = 1/(200/np.count_nonzero(successVector[i*200:(i+1)*200]))
+    # total = (np.size(successVector))
+    # nonzero = (np.count_nonzero(successVector[0,200]))
+
+print(nonZero_100_parts)
+print(np.mean(nonZero_100_parts))
+print(np.sqrt(np.std(nonZero_100_parts)))
+# print (1/(200/nonzero))
+
+
+
+
+
+#%% NOTFALLPLOT!!! ALARM!!!111
+
+def notfall_plot():
+    """Next try"""
+
+    std_errors_notfall = [0.9441176470588235,0.956764705882353,0.9566666666666667,0.9555882352941176,0.9581372549019608]
+    # means_notfall      = [0.3683008780654771,0.369783911444378,0.3699188003853914,0.3693752096142936,0.3697603382284395]
+
+    plt.subplots(figsize=(10, 7))
+    x = ["No Delay","1","2","3","4"]
+    # plt.errorbar(x, means_notfall*100, yerr=std_errors_notfall, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
+    # plt.errorbar(x, means2*100, yerr=std_errors2/6, fmt='-o', color='r', markersize=8, linestyle='none', capsize=7)
+    # plt.boxplot(std_errors_notfall)
+    plt.plot(x, std_errors_notfall)
+    
+
+    # plt.axis((0,SLAVE_COUNT, 95, 105))
+    plt.minorticks_on()
+    plt.tick_params(axis='x', which='minor', bottom=False) # no x ticks
+    plt.title('Success Ratio for Delayed Repetion (DR)\nNode #4')
+    plt.ylabel('Success Ratio in %')
+    plt.xlabel('DR')
+    plt.xlim((-1, 7))
+    plt.ylim(95,100)
+    plt.grid()
+    # fig.patch.set_facecolor('xkcd:white')
+
+    plt.savefig('/home/walther/Documents/bachelor/Graphs/SuccessRatioM.png', dpi=1000)
+    plt.show()
+
+    return
+
+notfall_plot()
+
+
+#%%
+
+def plot_success_bar_for_node2(array, node):
+    """Next try"""
+    std_errors = np.zeros(SLAVE_COUNT)
+    means = np.zeros(SLAVE_COUNT)
+    std_errors2 = np.zeros(SLAVE_COUNT)
+    means2 = np.zeros(SLAVE_COUNT)
+
+    # 1-6
+    RAPID_REPETITION = 2
+    for M in range(1,7):
+        std_errors[M-1] = np.std(array_to_success_vector(array, node, M, RAPID_REPETITION), ddof=1) / np.sqrt(np.size(np.std(array_to_success_vector(array, node, M, RAPID_REPETITION))) / 100)
+        means[M-1]      = np.mean(array_to_success_vector(array, node, M, RAPID_REPETITION))
+    
+    # RAPID_REPETITION = 3
+    # for M in range(1,7):
+    #     std_errors2[M-1] = np.std(array_to_success_vector(array, node, M, RAPID_REPETITION), ddof=1) / np.sqrt(np.size(np.std(array_to_success_vector(array, node, M, RAPID_REPETITION))) / 100)
+    #     means2[M-1]      = np.mean(array_to_success_vector(array, node, M, RAPID_REPETITION))
+    
+    # Maximum Delay
+    # std_errors[6] = np.std(array_to_success_vector(array, node, SEND_REPETITION*RAPID_REPETITION, RAPID_REPETITION), ddof=1) / np.sqrt(np.size(np.std(array_to_success_vector(array, node, SEND_REPETITION*RAPID_REPETITION, RAPID_REPETITION))) / 100)
+    # means[6]      = np.mean(array_to_success_vector(array, node, SEND_REPETITION*RAPID_REPETITION, RAPID_REPETITION))
+
+    print(std_errors)
+    print(means*100)
+
+    plt.subplots(figsize=(10, 7))
+    x = ["No Delay","1","2","3","4","5","6"]
+    plt.errorbar(x, means*100, yerr=std_errors/6, fmt='-o', color='b', markersize=8, linestyle='none', capsize=7)
+    # plt.errorbar(x, means2*100, yerr=std_errors2/6, fmt='-o', color='r', markersize=8, linestyle='none', capsize=7)
+    # plt.boxplot(means*100)
+
+    plt.axis((0,SLAVE_COUNT, 95, 105))
+    plt.minorticks_on()
+    plt.tick_params(axis='x', which='minor', bottom=False) # no x ticks
+    plt.title('Success Ratio for Delayed Repetion (DR)\nNode #4')
+    plt.ylabel('Success Ratio in %')
+    plt.xlabel('DR')
+    plt.xlim((-1, 7))
+    plt.ylim(95,100)
+    plt.grid()
+    # fig.patch.set_facecolor('xkcd:white')
+
+    plt.savefig('/home/walther/Documents/bachelor/Graphs/SuccessRatioM.png', dpi=1000)
+    plt.show()
+
+    return
+
+plot_success_bar_for_node2(arraySR, 3)
 
 #%%
 # SUCCESS BAR FOR NODE

@@ -8,6 +8,9 @@
 % [twoside] - double sided
 % [cutmargins] - text body fills complete page
 
+% Required package
+\usepackage{tikz}
+
 % Choose one of the following lines.
 %\group{Cooperative Mobile Systems}
 \group{Distributed Embedded Systems}
@@ -18,27 +21,28 @@
 \birthplace{Berlin}
 
 % Title of your thesis.
-\title{Optimizing Data Link Operation to support Lightning Control Protocol on ESP Platform}
+\title{Evaluation of protocols for control stage lighting}
 
-% Choose one of the following lines, changing the word "Computer Science" to match your degree program.
-%\thesistype{Master's Thesis in Computer Science}\thesiscite{Master's Thesis~(Masterarbeit)}
-\thesistype{Bachelor Thesis in Computer Science}\thesiscite{Bachelor Thesis~(Bachelorarbeit)}
-%\thesistype{Seminar Thesis in Computer Science}\thesiscite{Seminar Thesis~(Seminararbeit)}
+% Degree program.
+\thesistype{Bachelor Thesis in Computer Engineering}\thesiscite{Bachelor Thesis~(Bachelorarbeit)}
 
 % List of advisors, separated by commas. Delete if identical to referees or inapplicable.
 \advisors{Anatolij Zubow}
 
 % List of referees, separated by commas.
-\referees{Christoph Sommer, Falko Dressler}
+\referees{Falko Dressler, Thomas Sikora}
 
+% Own abbreviations
+\acrodef{DMX}{Digital Multiplex}
+\acrodef{CANhashing}[CAN]{Content Addressable Network}{extra={when referring to the distributed hash table}}
+\acrodef{CANproto}[CAN]{Controller Area Network}{extra={when referring to the bus protocol}}
 
-% Define abbreviations used in the thesis here.
+% Example abbreviations 
 \acrodef{WSN}{Wireless Sensor Network}
 \acrodef{MANET}{Mobile Ad Hoc Network}
 \acrodef{ROI}{Region of Interest}{short-indefinite={an}, long-plural-form={Regions of Interest}}
 \acrodef{ADAC}{German Automobile Association}{foreign={Allgemeiner Deutscher Automobilclub}}
-\acrodef{CANhashing}[CAN]{Content Addressable Network}{extra={when referring to the distributed hash table}}
-\acrodef{CANproto}[CAN]{Controller Area Network}{extra={when referring to the bus protocol}}
+
 
 \begin{document}
 
@@ -49,8 +53,6 @@
 \thispagestyle{empty}
 
 \cleardoublepage
-
-\TODO{This template is for use with \texttt{pdflatex} and \texttt{biber}. It has been tested with TeX~Live 2020 (as of 8 February 2021).}
 
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
@@ -97,6 +99,268 @@ Gleicher Text (sinngemäß, nicht wörtlich) in Deutsch
 
 \cleardoublepage
 \pagenumbering{arabic}
+
+
+
+\chapter{Introduction}
+%\chapter{Einleitung}
+\label{sec:introduction}
+
+\begin{itemize}
+\item general motivation for your work, context and goals.
+\item context: make sure to link where your work fits in
+\item problem: gap in knowledge, too expensive, too slow, a deficiency, superseded technology
+\item strategy: the way you will address the problem
+\item recommended length: 1-2 pages.
+\end{itemize}
+
+In the subject area 
+
+====
+
+In the field of lighting and stage technology, the challenge of controlling the individual installations, called 'fixtures', quickly and without complications is a recurring one. Established solutions are realized via cables.
+
+\subsection*{Challenges}
+
+\begin{itemize}
+\item low cost
+\item (ESP Platform)
+\item DIY community
+\end{itemize}
+
+\subsection*{Motivation/Requirements}
+
+\begin{itemize}
+\item Improved Reliability
+\item Lower latency
+\item Synchronisation
+\item higher update frequency
+\item Range
+\end{itemize}
+
+\subsection*{Contribution}
+
+\begin{itemize}
+\item open source available on github [link]
+\item thought-provoking impulse for different approaches
+\end{itemize}
+
+\subsection*{Thesis Outline}
+
+\chapter{Fundamentals}
+\label{sec:fundamentals}
+
+\begin{itemize}
+
+\item describe methods and techniques that build the basis of your work
+\todo{don't get what methods and techniques i was using}
+\item include what's needed to understand your work (e.g., techniques, protocols, models, hardware, software, ...)
+\item exclude what's not (e.g., anything you yourself did, anything your reader can be expected to know, ...)
+\item review related work(!)
+\todo{List of papers:}
+\item recommended length: approximately one third of the thesis.
+\end{itemize}
+
+
+\subsection*{DMX - Classical Approach}
+The current industry standard is DMX-512A which is an Data-Link protocol transmitting serial data at 250 kHz.
+
+\subsubsection*{Topology}
+
+\begin{itemize}
+\item fixtures
+\item channel
+\end{itemize}
+
+\subsection*{Art-Net}
+
+\begin{itemize}
+\item 2.4 or 5GHz
+\item DMX-Like
+\item related work
+\end{itemize}
+
+However, due to the progress in radio technology, wireless solutions are becoming more and more common.
+	
+	Parallel to this we have a fast growing market around creative and individually developed DIY projects, which have found their own niche. Durch niedrigpreisige 
+	
+	While most commercial solutions still rely on expensive and complex wired control, it is particularly suitable for smaller projects to experiment with the new wireless technologies. 
+	
+	In this thesis I try to implement a wireless solution, which does not need an IP-Layer using the popular platform ESP and the proprietary protocol ESP-NOW to distribute the light information to each fixture. ESP-Now instead works more like an direct radio communication.
+
+\subsection*{ESP Platform}
+
+\subsubsection*{ESP32 Hardware}
+However, due to the progress in radio technology, wireless solutions are becoming more and more common.
+
+\begin{itemize}
+\item Range
+\item Properity
+\item Reverse-Engineering 
+\item related work
+\item cheap chip
+\item 2.4 GHz (cheap)
+\end{itemize}
+
+\subsubsection*{ESP-Now}
+However, due to the progress in radio technology, wireless solutions are becoming more and more common.
+
+\begin{itemize}
+\item Range
+\item Properity
+\item Reverse-Engineering 
+\item related work
+\item cheap chip
+\item 2.4 GHz (cheap)
+\item How does ESP-Now match the requirements from the motivation
+\item Frame Format
+\item Vendor specific frame
+\item gaps in the documentation
+\end{itemize}
+
+\subsection{ESP-Now vs Art-Net Baseline}
+
+\begin{itemize}
+\item Network stack diagram
+\item baseline
+\end{itemize}
+
+
+\chapter{Developed architecture / System design / Implementation / ...}
+\TODO{title of chapter: ESP-Now DMX Like Protocol}
+
+
+\begin{itemize}
+\item describe everything you yourself did (as opposed to the fundamentals chapter, which explains what you built on)
+\item start with a theoretical approach
+\item describe the developed system/algorithm/method from a high-level point of view
+\item go ahead in presenting your developments in more detail
+\item recommended length: approximately one third of the thesis.
+\end{itemize}
+
+
+\subsection*{Slim Unicast}
+\begin{itemize}
+\item topology
+\item Network stack
+\item re transmissions
+\item reliability
+\item tolja calculation sheet for 802.11
+\item wireshark measurements
+\end{itemize}
+ 
+
+% Input layer neurons'number
+\newcommand{\inputnum}{1} 
+ 
+% Hidden layer neurons'number
+\newcommand{\hiddennum}{5}  
+
+\begin{figure}%
+	\centering
+	\begin{tikzpicture}
+		% Input Layer
+		\foreach \i in {1,...,\inputnum}
+		{
+		    \node[circle, 
+		        minimum size = 6mm,
+		        fill=orange!30] (Input-\i) at (0,-\i) {};
+		}
+		% Hidden Layer
+		\foreach \i in {1,...,\hiddennum}
+		{
+		    \node[circle, 
+		        minimum size = 6mm,
+		        fill=teal!50,
+		        yshift=(\hiddennum-\inputnum)*5 mm
+		    ] (Hidden-\i) at (2.5,-\i) {};
+		}
+		% Connect neurons In-Hidden
+		\foreach \i in {1,...,\inputnum}
+		{
+		    \foreach \j in {1,...,\hiddennum}
+		    {
+		        \draw[->, shorten >=1pt] (Input-\i) -- (Hidden-\j);   
+		    }
+		}
+		% Inputs
+		\foreach \i in {1,...,\inputnum}
+		{            
+		    \draw[<-, shorten <=1pt] (Input-\i) -- ++(-1,0)
+		        node[left]{$x_{\i}$};
+		}
+	\end{tikzpicture}
+	\caption{Topology of the Slim Unicast}%
+	\label{fig:topology_unicast}%
+\end{figure}
+
+\subsection*{Slim Broadcast}
+\begin{itemize}
+\item topology
+\item efficiency
+\item for how many nodes it does make theoretical a difference
+\end{itemize}
+
+\subsection*{Rapid Repetition}
+\begin{itemize}
+\item simple
+\item redundant
+\item fast
+\item cite paper from tolja
+\item explain why its only relevant for BC?
+\end{itemize}
+
+\subsection*{Delayed Repetition}
+
+\begin{itemize}
+\item when to perform repetition
+\item buffering delay
+\item explain why its only relevant for BC?
+\end{itemize}
+
+\subsection*{Test Setup}
+\begin{itemize}
+\item Collecting values
+\item state machine
+\item python script
+\item saving values
+\item digital encoding e.g.: 7774774727177
+\end{itemize}
+
+
+\chapter*{Evaluation}
+
+
+\begin{itemize}
+\item measurement setup / results / evaluation / discussion
+\item whatever you have done, you must comment it, compare it to other systems, evaluate it
+\item usually, adequate graphs help to show the benefits of your approach
+\item each result/graph must not only be described, but also discussed (What's the reason for this peak? Why have you observed this effect? What does this tell about your architecture/system/implementation?)
+\item recommended length: approximately one third of the thesis.
+\end{itemize}
+
+\subsection*{Keep in Mind}
+\begin{itemize}
+\item metrics (SR, Latency, ...)
+\item compare with art-net all the time
+\end{itemize}
+
+\subsection*{Unicast vs Broadcast}
+\subsection*{RR}
+\subsection*{DR}
+\subsection*{Grouping}
+
+\chapter{Conclusion}
+
+
+\begin{itemize}
+\item summarize again what your paper did, but now emphasize more the results, and comparisons
+\item write conclusions that can be drawn from the results found and the discussion presented in the paper
+\item future work (be very brief, explain what, but not much how, do not speculate about results or impact)
+\item recommended length: one page.
+\end{itemize}
+
+
 
 \chapter{Guidelines}
 
@@ -251,22 +515,7 @@ For example, the measurements show that the car was accelerating at \SI{5}{\metr
 Units without a number can be typeset using \verb|\si|; longer unit-less numbers or ranges can be typeset using the \verb|\num| and \verb|\numrange| commands, respectively: The number \num{12345678} lies in the range of \numrange{10000000}{20000000}.
 \Cref{tab:si-in-tables} gives an example of how to typeset numbers and units in tables.
 
-\begin{table}
-	\centering
-	\begin{tabular}{l>{\raggedright}p{4cm}S[table-text-alignment=left,table-format=1.4e-1]s}
-	\toprule
-		\multicolumn{2}{l}{factor} & \multicolumn{1}{l}{value} & \multicolumn{1}{c}{unit} \\
-	\midrule
-		$M$ & vehicle mass & 1.3250e+3 & \kilo\gram \\
-		$g$ & gravitational constant & 9.81 & \metre\per\second\squared \\
-		$\vartheta$ & road grade & 0 & \degree \\
-		$\alpha$ & & 1.1100 & \gram\per\second \\
-		$\delta$ & & 1.9800e-6 & \gram\per\meter\cubed\second\squared \\
-	\bottomrule
-	\end{tabular}
-	\caption{EMIT factors for a category 9 vehicle}
-	\label{tab:si-in-tables}
-\end{table}
+Here I deleted a Algorithm example. I hope that i wont need it again.
 
 \clearpage
 \section{Algorithms}
@@ -466,88 +715,6 @@ It should be easy enough to follow your thesis with all section headings removed
 The remainder of this document gives a rough outline of how to structure your thesis.
 It is mainly geared towards Bachelor and Master's theses, but feel free to adapt the structure to your specific needs.
 If, however, you are writing a seminar thesis, the present structure is likely wholly inapplicable.
-
-
-\chapter{Introduction}
-%\chapter{Einleitung}
-\label{sec:introduction}
-
-\begin{itemize}
-\item general motivation for your work, context and goals.
-\item context: make sure to link where your work fits in
-\item problem: gap in knowledge, too expensive, too slow, a deficiency, superseded technology
-\item strategy: the way you will address the problem
-\item recommended length: 1-2 pages.
-\end{itemize}
-
-In the subject area 
-
-====
-
-In the field of lighting and stage technology, the challenge of controlling the individual installations, called 'fixtures', quickly and without complications is a recurring one. Established solutions are realized via cables.
-
-\subsection*{DMX}
-The current industry standard is DMX-512A which is an Data-Link protocol transmitting serial data at 250 kHz.
-
-\subsection*{Art-Net}
-However, due to the progress in radio technology, wireless solutions are becoming more and more common.
-	
-	Parallel to this we have a fast growing market around creative and individually developed DIY projects, which have found their own niche. Durch niedrigpreisige 
-	
-	While most commercial solutions still rely on expensive and complex wired control, it is particularly suitable for smaller projects to experiment with the new wireless technologies. 
-	
-	In this thesis I try to implement a wireless solution, which does not need an IP-Layer using the popular platform ESP and the proprietary protocol ESP-NOW to distribute the light information to each fixture. ESP-Now instead works more like an direct radio communication.
-
-a	
-\chapter{Fundamentals}
-\label{sec:fundamentals}
-
-
-\begin{itemize}
-\item describe methods and techniques that build the basis of your work
-\item include what's needed to understand your work (e.g., techniques, protocols, models, hardware, software, ...)
-\item exclude what's not (e.g., anything you yourself did, anything your reader can be expected to know, ...)
-\item review related work(!)
-\item recommended length: approximately one third of the thesis.
-\end{itemize}
-
-
-\chapter{Developed architecture / System design / Implementation / ...}
-
-
-\begin{itemize}
-\item describe everything you yourself did (as opposed to the fundamentals chapter, which explains what you built on)
-\item start with a theoretical approach
-\item describe the developed system/algorithm/method from a high-level point of view
-\item go ahead in presenting your developments in more detail
-\item recommended length: approximately one third of the thesis.
-\end{itemize}
-
-
-
-\chapter{Evaluation}
-
-
-\begin{itemize}
-\item measurement setup / results / evaluation / discussion
-\item whatever you have done, you must comment it, compare it to other systems, evaluate it
-\item usually, adequate graphs help to show the benefits of your approach
-\item each result/graph must not only be described, but also discussed (What's the reason for this peak? Why have you observed this effect? What does this tell about your architecture/system/implementation?)
-\item recommended length: approximately one third of the thesis.
-\end{itemize}
-
-
-
-\chapter{Conclusion}
-
-
-\begin{itemize}
-\item summarize again what your paper did, but now emphasize more the results, and comparisons
-\item write conclusions that can be drawn from the results found and the discussion presented in the paper
-\item future work (be very brief, explain what, but not much how, do not speculate about results or impact)
-\item recommended length: one page.
-\end{itemize}
-
 
 
 \cleardoublepage
