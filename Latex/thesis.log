@@ -1,16 +1,16 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.1.3)  5 JAN 2022 11:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.1.3)  10 JAN 2022 13:49
 entering extended mode
  restricted \write18 enabled.
+ file:line:error style messages enabled.
  %&-line parsing enabled.
-**thesis.tex
-(./thesis.tex
+**/home/walther/Documents/bachelor/Latex/thesis.tex
+(/home/walther/Documents/bachelor/Latex/thesis.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2021-11-22> (./ccs-thesis.cls
 Document Class: ccs-thesis 2021/02/08 The CCS Thesis Class
 (/usr/share/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
-)
-(/usr/share/texmf-dist/tex/latex/base/report.cls
+) (/usr/share/texmf-dist/tex/latex/base/report.cls
 Document Class: report 2021/10/04 v1.4n Standard LaTeX document class
 (/usr/share/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
@@ -27,18 +27,14 @@ File: size10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
 \bibindent=\dimen138
-)
-(/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
+) (/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
-
-(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
+ (/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
-)
-(/usr/share/texmf-dist/tex/generic/iftex/ifvtex.sty
+) (/usr/share/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
-
-(/usr/share/texmf-dist/tex/generic/iftex/iftex.sty
+ (/usr/share/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2020/03/06 v1.0d TeX engine tests
 ))
 \Gm@cnth=\count192
@@ -53,11 +49,9 @@ Package: iftex 2020/03/06 v1.0d TeX engine tests
 \Gm@layouthoffset=\dimen145
 \Gm@layoutvoffset=\dimen146
 \Gm@dimlist=\toks17
-)
-(/usr/share/texmf-dist/tex/latex/setspace/setspace.sty
+) (/usr/share/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2011/12/19 v6.7a set line spacing
-)
-(/usr/share/texmf-dist/tex/latex/lm/lmodern.sty
+) (/usr/share/texmf-dist/tex/latex/lm/lmodern.sty
 Package: lmodern 2015/05/01 v1.6.1 Latin Modern Fonts
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
@@ -91,22 +85,15 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
-)
-(/usr/share/texmf-dist/tex/latex/psnfss/helvet.sty
+) (/usr/share/texmf-dist/tex/latex/psnfss/helvet.sty
 Package: helvet 2020/03/25 PSNFSS-v9.3 (WaS) 
-)
-(/usr/share/texmf-dist/tex/latex/mathdesign/mathdesign.sty
+) (/usr/share/texmf-dist/tex/latex/mathdesign/mathdesign.sty
 Package: mathdesign 2013/08/29 v2.31 Math Design Project
-
-(/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/mdbch.cfg)
-(/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/mdbch.sty
-Package: mdbch 2013/08/29 v2.31 bitstream bitstream charter + mdbch (Math Desig
-n Project)
-
-(/usr/share/texmf-dist/tex/latex/mathdesign/mdfont.def
+ (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/mdbch.cfg) (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/mdbch.sty
+Package: mdbch 2013/08/29 v2.31 bitstream bitstream charter + mdbch (Math Design Project)
+ (/usr/share/texmf-dist/tex/latex/mathdesign/mdfont.def
 File: mdfont.def 2013/08/29 v2.31 (Math Design Project)
-)
-(/usr/share/texmf-dist/tex/latex/mathdesign/mdttfont.def
+) (/usr/share/texmf-dist/tex/latex/mathdesign/mdttfont.def
 File: mdttfont.def 2013/08/29 v2.31 (Math Design Project)
 )
 \symmdcal=\mathgroup4
@@ -159,22 +146,17 @@ LaTeX Font Info:    Overwriting symbol font `lettersupright' in version `bold'
 LaTeX Font Info:    Redeclaring math alphabet \mathrm on input line 145.
 LaTeX Font Info:    Overwriting math alphabet `\mathcal' in version `normal'
 (Font)                  OMS/mdbch/m/n --> OMS/mdbch/m/n on input line 167.
-
-(/usr/share/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+ (/usr/share/texmf-dist/tex/latex/xkeyval/xkeyval.sty
 Package: xkeyval 2020/11/20 v2.8 package option processing (HA)
-
-(/usr/share/texmf-dist/tex/generic/xkeyval/xkeyval.tex
-(/usr/share/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+ (/usr/share/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/usr/share/texmf-dist/tex/generic/xkeyval/xkvutils.tex
 \XKV@toks=\toks18
 \XKV@tempa@toks=\toks19
 )
 \XKV@depth=\count195
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
-LaTeX Font Info:    Trying to load font information for OT1+mdbch on input line
- 186.
-
-(/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/ot1mdbch.fd
+LaTeX Font Info:    Trying to load font information for OT1+mdbch on input line 186.
+ (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/ot1mdbch.fd
 File: ot1mdbch.fd 2013/08/29 Fontinst v1.933 font definitions for OT1/mdbch.
 )
 LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
@@ -195,33 +177,25 @@ LaTeX Font Info:    Overwriting symbol font `mathdesignB' in version `bold'
 LaTeX Font Info:    Redeclaring math accent \widetilde on input line 532.
 LaTeX Font Info:    Redeclaring math accent \widehat on input line 533.
 \rulethickness=\skip49
-)
-(/usr/share/texmf-dist/tex/latex/base/fontenc.sty
+) (/usr/share/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-LaTeX Font Info:    Trying to load font information for T1+mdbch on input line 
-112.
-
-(/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/t1mdbch.fd
+LaTeX Font Info:    Trying to load font information for T1+mdbch on input line 112.
+ (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/t1mdbch.fd
 File: t1mdbch.fd 2013/08/29 Fontinst v1.933 font definitions for T1/mdbch.
 )
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
 (Font)              scaled to size 9.60007pt on input line 112.
-))
-(/usr/share/texmf-dist/tex/latex/base/inputenc.sty
+)) (/usr/share/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2021/02/14 v1.3d Input encoding file
 \inpenc@prehook=\toks21
 \inpenc@posthook=\toks22
-)
-(/usr/share/texmf-dist/tex/latex/base/fontenc.sty
+) (/usr/share/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-)
-(/usr/share/texmf-dist/tex/latex/base/textcomp.sty
+) (/usr/share/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
-)
-(/usr/share/texmf-dist/tex/latex/microtype/microtype.sty
+) (/usr/share/texmf-dist/tex/latex/microtype/microtype.sty
 Package: microtype 2021/12/10 v3.0b Micro-typographical refinements (RS)
-
-(/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+ (/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count196
 )
@@ -234,126 +208,95 @@ LaTeX Info: Redefining \textls on input line 1173.
 \MT@outer@kern=\dimen147
 LaTeX Info: Redefining \textmicrotypecontext on input line 1759.
 \MT@listname@count=\count198
-
-(/usr/share/texmf-dist/tex/latex/microtype/microtype-pdftex.def
+ (/usr/share/texmf-dist/tex/latex/microtype/microtype-pdftex.def
 File: microtype-pdftex.def 2021/12/10 v3.0b Definitions specific to pdftex (RS)
-
 LaTeX Info: Redefining \lsstyle on input line 897.
 LaTeX Info: Redefining \lslig on input line 897.
 \MT@outer@space=\skip50
 )
 Package microtype Info: Loading configuration file microtype.cfg.
-
-(/usr/share/texmf-dist/tex/latex/microtype/microtype.cfg
+ (/usr/share/texmf-dist/tex/latex/microtype/microtype.cfg
 File: microtype.cfg 2021/12/10 v3.0b microtype main configuration file (RS)
-))
-(/usr/share/texmf-dist/tex/latex/hyphenat/hyphenat.sty
+)) (/usr/share/texmf-dist/tex/latex/hyphenat/hyphenat.sty
 Package: hyphenat 2009/09/02 v2.3c hyphenation utilities
 \langwohyphens=\language87
 LaTeX Info: Redefining \_ on input line 43.
-)
-(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+) (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
-
-(/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+ (/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
-
-(/usr/share/texmf-dist/tex/latex/graphics/trig.sty
+ (/usr/share/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
-)
-(/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+) (/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 107.
-
-(/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def
+ (/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen148
 \Gin@req@width=\dimen149
-)
-(/usr/share/texmf-dist/tex/latex/url/url.sty
+) (/usr/share/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip16
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
-)
-(/usr/share/texmf-dist/tex/latex/float/float.sty
+) (/usr/share/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count199
 \float@exts=\toks24
 \float@box=\box51
 \@float@everytoks=\toks25
 \@floatcapt=\box52
-)
-(/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
+) (/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2021-06-07 v7.00m Hypertext links for LaTeX
-
-(/usr/share/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+ (/usr/share/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
-)
-(/usr/share/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
-Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
-)
-
-(/usr/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+) (/usr/share/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+ (/usr/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-)
-(/usr/share/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
+) (/usr/share/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
 Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
-)
-(/usr/share/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+) (/usr/share/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-)
-(/usr/share/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+) (/usr/share/texmf-dist/tex/generic/pdfescape/pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
-)
-(/usr/share/texmf-dist/tex/latex/hycolor/hycolor.sty
+) (/usr/share/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-)
-(/usr/share/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+) (/usr/share/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
 Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
-)
-(/usr/share/texmf-dist/tex/latex/auxhook/auxhook.sty
+) (/usr/share/texmf-dist/tex/latex/auxhook/auxhook.sty
 Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
-)
-(/usr/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+) (/usr/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
 )
 \@linkdim=\dimen150
 \Hy@linkcounter=\count266
 \Hy@pagecounter=\count267
-
-(/usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def
+ (/usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2021-06-07 v7.00m Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-)
-(/usr/share/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def
-File: hyperref-langpatches.def 2021-06-07 v7.00m Hyperref: patches for babel la
-nguages
-)
-(/usr/share/texmf-dist/tex/generic/intcalc/intcalc.sty
+) (/usr/share/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def
+File: hyperref-langpatches.def 2021-06-07 v7.00m Hyperref: patches for babel languages
+) (/usr/share/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
-)
-(/usr/share/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+) (/usr/share/texmf-dist/tex/generic/etexcmds/etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
 \Hy@SavedSpaceFactor=\count268
-
-(/usr/share/texmf-dist/tex/latex/hyperref/puenc.def
+ (/usr/share/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2021-06-07 v7.00m Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
 Package hyperref Info: Option `bookmarks' set `true' on input line 4073.
-Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 4073
-.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 4073.
 Package hyperref Info: Option `colorlinks' set `false' on input line 4073.
-Package hyperref Info: Option `pdfdisplaydoctitle' set `true' on input line 407
-3.
+Package hyperref Info: Option `pdfdisplaydoctitle' set `true' on input line 4073.
 Package hyperref Info: Option `breaklinks' set `true' on input line 4073.
 Package hyperref Info: Hyper figures OFF on input line 4192.
 Package hyperref Info: Link nesting OFF on input line 4197.
@@ -365,13 +308,10 @@ Package hyperref Info: Bookmarks ON on input line 4445.
 \c@Hy@tempcnt=\count269
 LaTeX Info: Redefining \url on input line 4804.
 \XeTeXLinkMargin=\dimen151
-
-(/usr/share/texmf-dist/tex/generic/bitset/bitset.sty
+ (/usr/share/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
-
-(/usr/share/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
-Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
-)
+ (/usr/share/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
 \Fld@menulength=\count270
 \Field@Width=\dimen152
@@ -385,8 +325,7 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6101.
 Package hyperref Info: PDF/A mode OFF on input line 6106.
 LaTeX Info: Redefining \ref on input line 6146.
 LaTeX Info: Redefining \pageref on input line 6150.
-
-(/usr/share/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+ (/usr/share/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
@@ -395,33 +334,25 @@ package with kernel methods
 \c@Hfootnote=\count273
 )
 Package hyperref Info: Driver: hpdftex.
-
-(/usr/share/texmf-dist/tex/latex/hyperref/hpdftex.def
+ (/usr/share/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2021-06-07 v7.00m Hyperref driver for pdfTeX
-
-(/usr/share/texmf-dist/tex/latex/base/atveryend-ltx.sty
-Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
-kage
+ (/usr/share/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
 with kernel methods
 )
 \Fld@listcount=\count274
 \c@bookmark@seq@number=\count275
-
-(/usr/share/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+ (/usr/share/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
-
-(/usr/share/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+ (/usr/share/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
-86.
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 286.
 )
 \Hy@SectionHShift=\skip51
-)
-(/usr/share/texmf-dist/tex/latex/caption/caption.sty
+) (/usr/share/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2020/10/26 v3.5g Customizing captions (AR)
-
-(/usr/share/texmf-dist/tex/latex/caption/caption3.sty
+ (/usr/share/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
 \captionmargin=\dimen154
 \captionmargin@=\dimen155
@@ -436,8 +367,7 @@ Package caption Info: Standard document class detected.
 \c@continuedfloat=\count277
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
-)
-(/usr/share/texmf-dist/tex/latex/subfig/subfig.sty
+) (/usr/share/texmf-dist/tex/latex/subfig/subfig.sty
 Package: subfig 2005/06/28 ver: 1.3 subfig package
 \c@KVtest=\count278
 \sf@farskip=\skip52
@@ -452,8 +382,7 @@ Package: subfig 2005/06/28 ver: 1.3 subfig package
 \c@lotdepth=\count284
 \sf@top=\skip55
 \sf@bottom=\skip56
-)
-(/usr/share/texmf-dist/tex/latex/csquotes/csquotes.sty
+) (/usr/share/texmf-dist/tex/latex/csquotes/csquotes.sty
 Package: csquotes 2021-02-22 v5.2l context-sensitive quotations (JAW)
 \csq@reset=\count285
 \csq@gtype=\count286
@@ -462,24 +391,19 @@ Package: csquotes 2021-02-22 v5.2l context-sensitive quotations (JAW)
 \csq@maxlvl=\count289
 \csq@tshold=\count290
 \csq@ltx@everypar=\toks26
-
-(/usr/share/texmf-dist/tex/latex/csquotes/csquotes.def
+ (/usr/share/texmf-dist/tex/latex/csquotes/csquotes.def
 File: csquotes.def 2021-02-22 v5.2l csquotes generic definitions (JAW)
 )
 Package csquotes Info: Trying to load configuration file 'csquotes.cfg'...
 Package csquotes Info: ... configuration file loaded successfully.
-
-(/usr/share/texmf-dist/tex/latex/csquotes/csquotes.cfg
+ (/usr/share/texmf-dist/tex/latex/csquotes/csquotes.cfg
 File: csquotes.cfg 
-))
-(/usr/share/texmf-dist/tex/latex/biblatex/biblatex.sty
+)) (/usr/share/texmf-dist/tex/latex/biblatex/biblatex.sty
 Package: biblatex 2020/12/31 v3.16 programmable bibliographies (PK/MW)
-
-(/usr/share/texmf-dist/tex/latex/logreq/logreq.sty
+ (/usr/share/texmf-dist/tex/latex/logreq/logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
 \lrq@indent=\count291
-
-(/usr/share/texmf-dist/tex/latex/logreq/logreq.def
+ (/usr/share/texmf-dist/tex/latex/logreq/logreq.def
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 ))
 \c@tabx@nest=\count292
@@ -540,8 +464,7 @@ File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 \c@mincompwidth=\count336
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/blx-dm.def
+ (/usr/share/texmf-dist/tex/latex/biblatex/blx-dm.def
 File: blx-dm.def 2020/12/31 v3.16 biblatex localization (PK/MW)
 )
 Package biblatex Info: Trying to load biblatex style data model...
@@ -632,14 +555,12 @@ Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
 \localshorteditorwidth=\skip78
 Package biblatex Info: Trying to load compatibility code...
 Package biblatex Info: ... file 'blx-compat.def' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/blx-compat.def
+ (/usr/share/texmf-dist/tex/latex/biblatex/blx-compat.def
 File: blx-compat.def 2020/12/31 v3.16 biblatex compatibility (PK/MW)
 )
 Package biblatex Info: Trying to load generic definitions...
 Package biblatex Info: ... file 'biblatex.def' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/biblatex.def
+ (/usr/share/texmf-dist/tex/latex/biblatex/biblatex.def
 File: biblatex.def 2020/12/31 v3.16 biblatex compatibility (PK/MW)
 \c@textcitecount=\count405
 \c@textcitetotal=\count406
@@ -657,36 +578,30 @@ File: biblatex.def 2020/12/31 v3.16 biblatex compatibility (PK/MW)
 )
 Package biblatex Info: Trying to load bibliography style 'ieee'...
 Package biblatex Info: ... file 'ieee.bbx' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex-ieee/ieee.bbx
+ (/usr/share/texmf-dist/tex/latex/biblatex-ieee/ieee.bbx
 File: ieee.bbx 2021/12/06 v1.3f biblatex bibliography style
 Package biblatex Info: Trying to load bibliography style 'numeric-comp'...
 Package biblatex Info: ... file 'numeric-comp.bbx' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/bbx/numeric-comp.bbx
+ (/usr/share/texmf-dist/tex/latex/biblatex/bbx/numeric-comp.bbx
 File: numeric-comp.bbx 2020/12/31 v3.16 biblatex bibliography style (PK/MW)
 Package biblatex Info: Trying to load bibliography style 'numeric'...
 Package biblatex Info: ... file 'numeric.bbx' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/bbx/numeric.bbx
+ (/usr/share/texmf-dist/tex/latex/biblatex/bbx/numeric.bbx
 File: numeric.bbx 2020/12/31 v3.16 biblatex bibliography style (PK/MW)
 Package biblatex Info: Trying to load bibliography style 'standard'...
 Package biblatex Info: ... file 'standard.bbx' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
+ (/usr/share/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
 File: standard.bbx 2020/12/31 v3.16 biblatex bibliography style (PK/MW)
 \c@bbx:relatedcount=\count414
 \c@bbx:relatedtotal=\count415
 ))))
 Package biblatex Info: Trying to load citation style 'ieee'...
 Package biblatex Info: ... file 'ieee.cbx' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex-ieee/ieee.cbx
+ (/usr/share/texmf-dist/tex/latex/biblatex-ieee/ieee.cbx
 File: ieee.cbx 2021/12/06 v1.3f biblatex citation style
 Package biblatex Info: Trying to load citation style 'numeric-comp'...
 Package biblatex Info: ... file 'numeric-comp.cbx' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/cbx/numeric-comp.cbx
+ (/usr/share/texmf-dist/tex/latex/biblatex/cbx/numeric-comp.cbx
 File: numeric-comp.cbx 2020/12/31 v3.16 biblatex citation style (PK/MW)
 \c@cbx@tempcnta=\count416
 \c@cbx@tempcntb=\count417
@@ -710,45 +625,35 @@ Package biblatex Info: Redefining '\cites'.
 )
 Package biblatex Info: Trying to load configuration file...
 Package biblatex Info: ... file 'biblatex.cfg' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/biblatex.cfg
+ (/usr/share/texmf-dist/tex/latex/biblatex/biblatex.cfg
 File: biblatex.cfg 
-))
-(/usr/share/texmf-dist/tex/latex/xpatch/xpatch.sty
-(/usr/share/texmf-dist/tex/latex/l3kernel/expl3.sty
+)) (/usr/share/texmf-dist/tex/latex/xpatch/xpatch.sty (/usr/share/texmf-dist/tex/latex/l3kernel/expl3.sty
 Package: expl3 2021-11-22 L3 programming layer (loader) 
-
-(/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+ (/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2021-12-14 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count420
 \l__pdf_internal_box=\box53
 ))
 Package: xpatch 2020/03/25 v0.3a Extending etoolbox patching commands
-
-(/usr/share/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+ (/usr/share/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
 Package: xparse 2021-11-12 L3 Experimental document command parser
-))
-(/usr/share/texmf-dist/tex/latex/siunitx/siunitx.sty
+)) (/usr/share/texmf-dist/tex/latex/siunitx/siunitx.sty
 Package: siunitx 2021-12-03 v3.0.37 A comprehensive (SI) units package
 \l__siunitx_angle_tmp_dim=\dimen162
 \l__siunitx_angle_marker_box=\box54
 \l__siunitx_angle_unit_box=\box55
 \l__siunitx_compound_count_int=\count421
-
-(/usr/share/texmf-dist/tex/latex/translations/translations.sty
-Package: translations 2021/01/17 v1.10a internationalization of LaTeX2e package
-s (CN)
+ (/usr/share/texmf-dist/tex/latex/translations/translations.sty
+Package: translations 2021/01/17 v1.10a internationalization of LaTeX2e packages (CN)
 )
 \l__siunitx_number_exponent_fixed_int=\count422
 \l__siunitx_number_min_decimal_int=\count423
 \l__siunitx_number_min_integer_int=\count424
 \l__siunitx_number_round_precision_int=\count425
 \l__siunitx_number_group_minimum_int=\count426
-
-(/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
+ (/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
-
-(/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty
+ (/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks27
 \ex@=\dimen163
@@ -765,8 +670,7 @@ File: amsgen.sty 1999/11/30 v2.0 generic functions
 \l__siunitx_unit_tmp_int=\count427
 \l__siunitx_unit_position_int=\count428
 \l__siunitx_unit_total_int=\count429
-
-(/usr/share/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
+ (/usr/share/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
 Package: l3keys2e 2021-11-12 LaTeX2e option processing using LaTeX3 keys
 )
 
@@ -790,8 +694,7 @@ Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
 \extratabsurround=\skip79
 \backup@length=\skip80
 \ar@cellbox=\box62
-))
-(/usr/share/texmf-dist/tex/latex/booktabs/booktabs.sty
+)) (/usr/share/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \heavyrulewidth=\dimen170
 \lightrulewidth=\dimen171
@@ -810,8 +713,7 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisruleclass=\count432
 \@lastruleclass=\count433
 \@thisrulewidth=\dimen182
-)
-(/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+) (/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2021/10/15 v2.17l AMS math features
 \@mathmargin=\skip81
 
@@ -819,8 +721,7 @@ For additional information on amsmath, use the `?' option.
 (/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen183
-)
-(/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
+) (/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2021/08/26 v2.02 operator names
 )
 \inf@bad=\count434
@@ -860,8 +761,7 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
 \mathdisplay@stack=\toks32
 LaTeX Info: Redefining \[ on input line 2938.
 LaTeX Info: Redefining \] on input line 2939.
-)
-(/usr/share/texmf-dist/tex/latex/amscls/amsthm.sty
+) (/usr/share/texmf-dist/tex/latex/amscls/amsthm.sty
 Package: amsthm 2020/05/29 v2.20.6
 \thm@style=\toks33
 \thm@bodyfont=\toks34
@@ -874,34 +774,22 @@ Package: amsthm 2020/05/29 v2.20.6
 \dth@everypar=\toks38
 )
 \c@thm=\count446
-
-(/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
-(/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
-(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+ (/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
 \pgfutil@everybye=\toks39
 \pgfutil@tempdima=\dimen191
 \pgfutil@tempdimb=\dimen192
-
-(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.tex))
-(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+ (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.tex)) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
 \pgfutil@abb=\box65
-)
-(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
-(/usr/share/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (/usr/share/texmf-dist/tex/generic/pgf/pgf.revision.tex)
 Package: pgfrcs 2021/05/15 v3.1.9a (3.1.9a)
 ))
 Package: pgf 2021/05/15 v3.1.9a (3.1.9a)
-
-(/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty
-(/usr/share/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
-(/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+ (/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (/usr/share/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
 Package: pgfsys 2021/05/15 v3.1.9a (3.1.9a)
-
-(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+ (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
 \pgfkeys@pathtoks=\toks40
 \pgfkeys@temptoks=\toks41
-
-(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex
+ (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex
 \pgfkeys@tmptoks=\toks42
 ))
 \pgf@x=\dimen193
@@ -924,30 +812,23 @@ Package: pgfsys 2021/05/15 v3.1.9a (3.1.9a)
 \t@pgf@tokb=\toks44
 \t@pgf@tokc=\toks45
 \pgf@sys@id@count=\count451
-
-(/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+ (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2021/05/15 v3.1.9a (3.1.9a)
 )
 Driver file for pgf: pgfsys-pdftex.def
-
-(/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+ (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
 File: pgfsys-pdftex.def 2021/05/15 v3.1.9a (3.1.9a)
-
-(/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+ (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
 File: pgfsys-common-pdf.def 2021/05/15 v3.1.9a (3.1.9a)
-)))
-(/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
+))) (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgfsyssoftpath@smallbuffer@items=\count452
 \pgfsyssoftpath@bigbuffer@items=\count453
-)
-(/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-))
-(/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
+)) (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2021/10/31 v2.13 LaTeX color extensions (UK)
-
-(/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
+ (/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 227.
@@ -960,35 +841,18 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1372.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1373.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1374.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1375.
-)
-(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2021/05/15 v3.1.9a (3.1.9a)
-
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+ (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
 \pgfmath@dimen=\dimen259
 \pgfmath@count=\count454
 \pgfmath@box=\box66
 \pgfmath@toks=\toks46
 \pgfmath@stack@operand=\toks47
 \pgfmath@stack@operation=\toks48
-)
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex)
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code
-.tex)
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex)
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.te
-x) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex)
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex)
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex)
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics
-.code.tex))) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex))) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
 \c@pgfmathroundto@lastzeros=\count455
-)) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfint.code.tex)
-(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+)) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@picminx=\dimen260
 \pgf@picmaxx=\dimen261
@@ -1004,8 +868,7 @@ File: pgfcorepoints.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@yy=\dimen271
 \pgf@zx=\dimen272
 \pgf@zy=\dimen273
-)
-(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@path@lastx=\dimen274
 \pgf@path@lasty=\dimen275
@@ -1013,112 +876,80 @@ File: pgfcorepathconstruct.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 File: pgfcorepathusage.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@shorten@end@additional=\dimen276
 \pgf@shorten@start@additional=\dimen277
-)
-(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgfpic=\box67
 \pgf@hbox=\box68
 \pgf@layerbox@main=\box69
 \pgf@picture@serial@count=\count456
-)
-(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgflinewidth=\dimen278
-)
-(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.t
-ex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
 File: pgfcoretransformations.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@pt@x=\dimen279
 \pgf@pt@y=\dimen280
 \pgf@pt@temp=\dimen281
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-)
-(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
 File: pgfcoreobjects.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-)
-(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.te
-x
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
 File: pgfcorepathprocessing.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
 File: pgfcorearrows.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgfarrowsep=\dimen282
-)
-(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@max=\dimen283
 \pgf@sys@shading@range@num=\count457
 \pgf@shadingcount=\count458
-)
-(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-
-(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
+ (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
 File: pgfcoreexternal.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgfexternal@startupbox=\box70
-))
-(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
+)) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
 File: pgfcorelayers.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-)
-(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
 File: pgfcoretransparency.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
 File: pgfcorepatterns.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-)
-(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
 File: pgfcorerdf.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-)))
-(/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+))) (/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
 File: pgfmoduleshapes.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgfnodeparttextbox=\box71
-)
-(/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
 File: pgfmoduleplot.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-)
-(/usr/share/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
+) (/usr/share/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
 Package: pgfcomp-version-0-65 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@nodesepstart=\dimen284
 \pgf@nodesepend=\dimen285
-)
-(/usr/share/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
+) (/usr/share/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
 Package: pgfcomp-version-1-18 2021/05/15 v3.1.9a (3.1.9a)
-))
-(/usr/share/texmf-dist/tex/latex/pgf/utilities/pgffor.sty
-(/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
-(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex))
-(/usr/share/texmf-dist/tex/latex/pgf/math/pgfmath.sty
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex))
-(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+)) (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (/usr/share/texmf-dist/tex/latex/pgf/math/pgfmath.sty (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
 Package: pgffor 2021/05/15 v3.1.9a (3.1.9a)
-
-(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
+ (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
 \pgffor@iter=\dimen286
 \pgffor@skip=\dimen287
 \pgffor@stack=\toks49
 \pgffor@toks=\toks50
-))
-(/usr/share/texmf-dist/tex/generic/babel/babel.sty
+)) (/usr/share/texmf-dist/tex/generic/babel/babel.sty
 Package: babel 2021/11/29 3.67 The Babel package
 \babel@savecnt=\count459
 \U@D=\dimen288
 \l@unhyphenated=\language89
-
-(/usr/share/texmf-dist/tex/generic/babel/txtbabel.def)
+ (/usr/share/texmf-dist/tex/generic/babel/txtbabel.def)
 \bbl@readstream=\read4
 \bbl@dirlevel=\count460
-
-(/usr/share/texmf-dist/tex/generic/babel-german/ngerman.ldf
-Language: ngerman 2021/02/27 v2.13 German support for babel (post-1996 orthogra
-phy)
-
-(/usr/share/texmf-dist/tex/generic/babel-german/ngermanb.ldf
-Language: ngermanb 2021/02/27 v2.13 German support for babel (post-1996 orthogr
-aphy)
-))
-(/usr/share/texmf-dist/tex/generic/babel-english/american.ldf
+ (/usr/share/texmf-dist/tex/generic/babel-german/ngerman.ldf
+Language: ngerman 2021/02/27 v2.13 German support for babel (post-1996 orthography)
+ (/usr/share/texmf-dist/tex/generic/babel-german/ngermanb.ldf
+Language: ngermanb 2021/02/27 v2.13 German support for babel (post-1996 orthography)
+)) (/usr/share/texmf-dist/tex/generic/babel-english/american.ldf
 Language: american 2017/06/06 v3.3r English support from the babel system
-
-(/usr/share/texmf-dist/tex/generic/babel-english/english.ldf
+ (/usr/share/texmf-dist/tex/generic/babel-english/english.ldf
 Language: english 2017/06/06 v3.3r English support from the babel system
 Package babel Info: Hyphen rules for 'canadian' set to \l@english
 (babel)             (\language0). Reported on input line 102.
@@ -1126,42 +957,31 @@ Package babel Info: Hyphen rules for 'australian' set to \l@ukenglish
 (babel)             (\language21). Reported on input line 105.
 Package babel Info: Hyphen rules for 'newzealand' set to \l@ukenglish
 (babel)             (\language21). Reported on input line 108.
-)))
-(/usr/share/texmf-dist/tex/latex/datetime/datetime.sty
+))) (/usr/share/texmf-dist/tex/latex/datetime/datetime.sty
 Package: datetime 2015/03/20 v2.60 Date Time Package
-
-(/usr/share/texmf-dist/tex/latex/fmtcount/fmtcount.sty
+ (/usr/share/texmf-dist/tex/latex/fmtcount/fmtcount.sty
 Package: fmtcount 2020/01/30 v3.07
-
-(/usr/share/texmf-dist/tex/latex/fmtcount/fcprefix.sty
+ (/usr/share/texmf-dist/tex/latex/fmtcount/fcprefix.sty
 Package: fcprefix 2012/09/28
-
-(/usr/share/texmf-dist/tex/latex/fmtcount/fcnumparser.sty
+ (/usr/share/texmf-dist/tex/latex/fmtcount/fcnumparser.sty
 Package: fcnumparser 2017/06/15
 \fc@digit@counter=\count461
 ))
 \c@padzeroesN=\count462
 \fc@tmpcatcode=\count463
-
-(/usr/share/texmf-dist/tex/latex/fmtcount/fc-english.def
+ (/usr/share/texmf-dist/tex/latex/fmtcount/fc-english.def
 File: fc-english.def 2016/01/12
-)
-(/usr/share/texmf-dist/tex/latex/fmtcount/fc-american.def
+) (/usr/share/texmf-dist/tex/latex/fmtcount/fc-american.def
 File: fc-american.def 2016/01/12
-
-(/usr/share/texmf-dist/tex/latex/fmtcount/fc-USenglish.def
+ (/usr/share/texmf-dist/tex/latex/fmtcount/fc-USenglish.def
 File: fc-USenglish.def 2013/08/17
-))
-(/usr/share/texmf-dist/tex/latex/fmtcount/fc-ngerman.def
+)) (/usr/share/texmf-dist/tex/latex/fmtcount/fc-ngerman.def
 File: fc-ngerman.def 2012/06/18
-
-(/usr/share/texmf-dist/tex/latex/fmtcount/fc-german.def
+ (/usr/share/texmf-dist/tex/latex/fmtcount/fc-german.def
 File: fc-german.def 2018/06/17
-
-(/usr/share/texmf-dist/tex/latex/fmtcount/fc-germanb.def
+ (/usr/share/texmf-dist/tex/latex/fmtcount/fc-germanb.def
 File: fc-germanb.def 2013/08/17
-))
-(/usr/share/texmf-dist/tex/latex/fmtcount/fc-ngermanb.def
+)) (/usr/share/texmf-dist/tex/latex/fmtcount/fc-ngermanb.def
 File: fc-ngermanb.def 2013/08/17
 ))
 \@DT@modctr=\count464
@@ -1171,8 +991,7 @@ File: fc-ngermanb.def 2013/08/17
 \@tmpstrctr=\count468
 \@DT@loopN=\count469
 \@DT@X=\count470
-)
-(/usr/share/texmf-dist/tex/latex/datetime/datetime-defaults.sty
+) (/usr/share/texmf-dist/tex/latex/datetime/datetime-defaults.sty
 Package: datetime-defaults 2013/09/10
 )
 \@day=\count471
@@ -1187,24 +1006,20 @@ Package: datetime-defaults 2013/09/10
 \currenthour=\count480
 \currentminute=\count481
 \currentsecond=\count482
-Package datetime Info: No datetime.cfg file found, using default settings on in
-put line 308.
+Package datetime Info: No datetime.cfg file found, using default settings on input line 308.
 \@dtctr=\count483
 \dayofyear=\count484
 \dayofweek=\count485
 LaTeX Info: Redefining \today on input line 736.
-
-(/usr/share/texmf-dist/tex/latex/datetime/dt-american.def
+ (/usr/share/texmf-dist/tex/latex/datetime/dt-american.def
 File: dt-american.def 2013/09/10
-)
-(/usr/share/texmf-dist/tex/latex/datetime/dt-ngerman.def
+) (/usr/share/texmf-dist/tex/latex/datetime/dt-ngerman.def
 File: dt-ngerman.def 2013/09/10
 LaTeX Info: Redefining \datengerman on input line 86.
 )
 \dt@a=\toks51
 \dt@b=\toks52
-)
-(/usr/share/texmf-dist/tex/latex/cleveref/cleveref.sty
+) (/usr/share/texmf-dist/tex/latex/cleveref/cleveref.sty
 Package: cleveref 2018/03/27 v0.21.4 Intelligent cross-referencing
 Package cleveref Info: `hyperref' support loaded on input line 2370.
 LaTeX Info: Redefining \cref on input line 2370.
@@ -1219,8 +1034,7 @@ LaTeX Info: Redefining \labelcref on input line 2370.
 LaTeX Info: Redefining \labelcpageref on input line 2370.
 Package cleveref Info: `amsthm' support loaded on input line 3026.
 Package cleveref Info: `subfig' support loaded on input line 3164.
-)
-(/usr/share/texmf-dist/tex/latex/enumitem/enumitem.sty
+) (/usr/share/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2019/06/20 v3.9 Customized lists
 \labelindent=\skip87
 \enit@outerparindent=\dimen289
@@ -1228,8 +1042,7 @@ Package: enumitem 2019/06/20 v3.9 Customized lists
 \enit@inbox=\box72
 \enit@count@id=\count486
 \enitdp@description=\count487
-)
-(/usr/share/texmf-dist/tex/latex/acro/acro.sty
+) (/usr/share/texmf-dist/tex/latex/acro/acro.sty
 Package: acro 2021/01/16 v3.5 typeset acronyms and other abbreviations (CN)
 \g__acro_version_int=\count488
 \l__acro_tmpa_int=\count489
@@ -1260,25 +1073,17 @@ Loading module `definitions' ...
 Loading module `upgrade' ...
 )
 \enitdp@acronyms=\count498
-
-(/usr/share/texmf-dist/tex/latex/emptypage/emptypage.sty
-Package: emptypage 2010/05/30 v1.2 Suppress page numbers and headings on empty 
-pages
-)
-(/usr/share/texmf-dist/tex/latex/ellipsis/ellipsis.sty
+ (/usr/share/texmf-dist/tex/latex/emptypage/emptypage.sty
+Package: emptypage 2010/05/30 v1.2 Suppress page numbers and headings on empty pages
+) (/usr/share/texmf-dist/tex/latex/ellipsis/ellipsis.sty
 Package: ellipsis 2020/05/22 v1.8 fixes spacing around ellipses (three dots)
-
-(/usr/share/texmf-dist/tex/latex/tools/xspace.sty
+ (/usr/share/texmf-dist/tex/latex/tools/xspace.sty
 Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 )
 LaTeX Info: Redefining \textellipsis on input line 77.
-)
-(/usr/share/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
-(/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+) (/usr/share/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2021/05/15 v3.1.9a (3.1.9a)
-
-(/usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.te
-x
+ (/usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@plot@mark@count=\count499
 \pgfplotmarksize=\dimen290
@@ -1306,54 +1111,40 @@ File: pgfmodulematrix.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@matrix@numberofcolumns=\count506
 )
 \tikz@expandcount=\count507
-
-(/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrary
-topaths.code.tex
+ (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-)))
-(/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrary
-calc.code.tex
+))) (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.code.tex
 File: tikzlibrarycalc.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 ) (/usr/share/texmf-dist/tex/latex/base/flafter.sty
 Package: flafter 2021/07/31 v1.4e Standard LaTeX floats after reference (FMi)
 Applying: [2015/01/01] float order in 2-column on input line 49.
 Already applied: [0000/00/00] float order in 2-column on input line 151.
-)
-(/usr/share/texmf-dist/tex/latex/placeins/placeins.sty
+) (/usr/share/texmf-dist/tex/latex/placeins/placeins.sty
 Package: placeins 2005/04/18  v 2.2
-)
-(/usr/share/texmf-dist/tex/latex/nag/nag.sty
+) (/usr/share/texmf-dist/tex/latex/nag/nag.sty
 Package: nag 2011/11/25 0.7 warning about old commands (ulmi)
 \c@nag@c=\count508
 \c@nag@sins=\count509
 Package nag Info: Loaded nag-l2tabu.cfg  on input line 552.
-
-(/usr/share/texmf-dist/tex/latex/nag/nag-l2tabu.cfg
+ (/usr/share/texmf-dist/tex/latex/nag/nag-l2tabu.cfg
 File: nag-l2tabu.cfg 2010/05/17 v2.11 l2tabu rules for nag.sty (ulmi)
 )
 Package nag Info: Loaded nag-orthodox.cfg  on input line 552.
-
-(/usr/share/texmf-dist/tex/latex/nag/nag-orthodox.cfg
+ (/usr/share/texmf-dist/tex/latex/nag/nag-orthodox.cfg
 File: nag-orthodox.cfg 2006/04/19 v1.8 strict rules for nag.sty (ulmi)
-))
-(/usr/share/texmf-dist/tex/latex/currfile/currfile.sty
-Package: currfile 2020/09/29 v0.7d Provides the file path elements of the curre
-nt input file
-
-(/usr/share/texmf-dist/tex/latex/filehook/filehook.sty
+)) (/usr/share/texmf-dist/tex/latex/currfile/currfile.sty
+Package: currfile 2020/09/29 v0.7d Provides the file path elements of the current input file
+ (/usr/share/texmf-dist/tex/latex/filehook/filehook.sty
 Package: filehook 2020/09/29 v0.8a Hooks for input files
-
-(/usr/share/texmf-dist/tex/latex/filehook/filehook-2020.sty
+ (/usr/share/texmf-dist/tex/latex/filehook/filehook-2020.sty
 Package: filehook-2020 2020/09/29 v0.8a Hooks for input files
 ))
 \c@currfiledepth=\count510
-)
-(/usr/share/texmf-dist/tex/latex/chngcntr/chngcntr.sty
+) (/usr/share/texmf-dist/tex/latex/chngcntr/chngcntr.sty
 Package: chngcntr 2018/04/09 v1.1a change counter resetting
 Package chngcntr Info: \counterwithout already defined.
 (chngcntr)             Quitting chngcntr on input line 21.
-)
-(/usr/share/texmf-dist/tex/latex/algorithms/algorithmic.sty
+) (/usr/share/texmf-dist/tex/latex/algorithms/algorithmic.sty
 Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
 \c@ALC@unique=\count511
 \c@ALC@line=\count512
@@ -1361,14 +1152,11 @@ Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
 \c@ALC@depth=\count514
 \ALC@tlm=\skip88
 \algorithmicindent=\skip89
-)
-(/usr/share/texmf-dist/tex/latex/algorithms/algorithm.sty
-Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
-nment
+) (/usr/share/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
 \@float@every@algorithm=\toks54
 \c@algorithm=\count515
-)
-(/usr/share/texmf-dist/tex/latex/mdwtools/syntax.sty
+) (/usr/share/texmf-dist/tex/latex/mdwtools/syntax.sty
 Package: syntax 1996/05/17 1.07 Syntax typesetting (MDW)
 \grammarparsep=\skip90
 \grammarindent=\dimen299
@@ -1380,8 +1168,7 @@ Package: syntax 1996/05/17 1.07 Syntax typesetting (MDW)
 \sdrulewidth=\dimen300
 \sdcirclediam=\dimen301
 \sdindent=\dimen302
-)
-(/usr/share/texmf-dist/tex/latex/titlesec/titlesec.sty
+) (/usr/share/texmf-dist/tex/latex/titlesec/titlesec.sty
 Package: titlesec 2021/07/05 v2.14 Sectioning titles
 \ttl@box=\box77
 \beforetitleunit=\skip96
@@ -1392,9 +1179,7 @@ Package: titlesec 2021/07/05 v2.14 Sectioning titles
 \titlewidth=\dimen305
 \titlewidthlast=\dimen306
 \titlewidthfirst=\dimen307
-
-(/usr/share/texmf-dist/tex/latex/titlesec/titleps.sty))
-(/usr/share/texmf-dist/tex/latex/listings/listings.sty
+ (/usr/share/texmf-dist/tex/latex/titlesec/titleps.sty)) (/usr/share/texmf-dist/tex/latex/listings/listings.sty
 \lst@mode=\count516
 \lst@gtempboxa=\box78
 \lst@token=\toks56
@@ -1407,25 +1192,20 @@ Package: titlesec 2021/07/05 v2.14 Sectioning titles
 \lst@newlines=\count520
 \lst@lineno=\count521
 \lst@maxwidth=\dimen311
-
-(/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
+ (/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
 \c@lstnumber=\count522
 \lst@skipnumbers=\count523
 \lst@framebox=\box79
-)
-(/usr/share/texmf-dist/tex/latex/listings/listings.cfg
+) (/usr/share/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2020/03/24 1.8d listings configuration
 ))
 Package: listings 2020/03/24 1.8d (Carsten Heinz)
-
-(/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
+ (/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
-)
-(/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
+) (/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
-)
-(/usr/share/texmf-dist/tex/latex/tocbibind/tocbibind.sty
+) (/usr/share/texmf-dist/tex/latex/tocbibind/tocbibind.sty
 Package: tocbibind 2010/10/13 v1.5k extra ToC listings
 Package tocbibind Info: The document has chapter divisions on input line 50.
 
@@ -1435,9 +1215,7 @@ Package tocbibind Note: Using chapter style headings, unless overridden.
 ) (/usr/share/texmf-dist/tex/latex/todonotes/todonotes.sty
 Package: todonotes 2021/06/04 v1.1.5 Todonotes source and documentation.
 Package: todonotes 2021/06/04
-
-(/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrary
-positioning.code.tex
+ (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 ) (/usr/share/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
@@ -1459,70 +1237,48 @@ LaTeX Info: Redefining \addtolength on input line 81.
 \g__acro_DMX_int=\count529
 \g__acro_CANhashing_int=\count530
 \g__acro_CANproto_int=\count531
-\g__acro_WSN_int=\count532
-\g__acro_MANET_int=\count533
-\g__acro_ROI_int=\count534
-\g__acro_ADAC_int=\count535
+\g__acro_UDP_int=\count532
+\g__acro_WSN_int=\count533
+\g__acro_MANET_int=\count534
+\g__acro_ROI_int=\count535
+\g__acro_ADAC_int=\count536
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'american'.
-
-(./thesis.aux
-
-LaTeX Warning: Label `fig:setup1' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:setup1' multiply defined.
-
-
-LaTeX Warning: Label `fig:setup1@cref' multiply defined.
-
-
-LaTeX Warning: Label `fig:setup2' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:setup2' multiply defined.
-
-
-LaTeX Warning: Label `fig:setup2@cref' multiply defined.
-
-(./thesis.acr))
+ (./thesis.aux (./thesis.acr))
 \openout1 = `thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for MDA/cmr/m/n on input line 47.
-LaTeX Font Info:    Trying to load font information for MDA+cmr on input line 4
-7.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for MDA/cmr/m/n on input line 49.
+LaTeX Font Info:    Trying to load font information for MDA+cmr on input line 49.
  (/usr/share/texmf-dist/tex/latex/mathdesign/mdacmr.fd
 File: mdacmr.fd 
 )
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for MDB/cmr/m/n on input line 47.
-LaTeX Font Info:    Trying to load font information for MDB+cmr on input line 4
-7.
-
-(/usr/share/texmf-dist/tex/latex/mathdesign/mdbcmr.fd
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for MDB/cmr/m/n on input line 49.
+LaTeX Font Info:    Trying to load font information for MDB+cmr on input line 49.
+ (/usr/share/texmf-dist/tex/latex/mathdesign/mdbcmr.fd
 File: mdbcmr.fd 
 )
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1560,18 +1316,18 @@ LaTeX Font Info:    ... okay on input line 47.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 47.
-Package microtype Info: Applying patch `item' on input line 47.
-Package microtype Info: Applying patch `toc' on input line 47.
-Package microtype Info: Applying patch `eqnum' on input line 47.
-Package microtype Info: Applying patch `footnote' on input line 47.
+LaTeX Info: Redefining \microtypecontext on input line 49.
+Package microtype Info: Applying patch `item' on input line 49.
+Package microtype Info: Applying patch `toc' on input line 49.
+Package microtype Info: Applying patch `eqnum' on input line 49.
+Package microtype Info: Applying patch `footnote' on input line 49.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 47.
+LaTeX Info: Redefining \showhyphens on input line 49.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: Adjustment of interword spacing enabled.
 Package microtype Info: Using default spacing set `alltext-nott'.
@@ -1580,48 +1336,39 @@ Package microtype Info: Using default kerning set `alltext'.
 Package microtype Info: Redefining babel's language switching commands.
 (/usr/share/texmf-dist/tex/latex/microtype/mt-bch.cfg
 File: mt-bch.cfg 2007/03/03 v1.5 microtype config. file: Bitstream Charter (RS)
-
-)
-(/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+) (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count536
+\scratchcounter=\count537
 \scratchdimen=\dimen314
 \scratchbox=\box80
-\nofMPsegments=\count537
-\nofMParguments=\count538
+\nofMPsegments=\count538
+\nofMParguments=\count539
 \everyMPshowfont=\toks57
-\MPscratchCnt=\count539
+\MPscratchCnt=\count540
 \MPscratchDim=\dimen315
-\MPnumerator=\count540
-\makeMPintoPDFobject=\count541
+\MPnumerator=\count541
+\makeMPintoPDFobject=\count542
 \everyMPtoPDFconversion=\toks58
 ) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
-85.
-
-(/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring OFF on input line 47.
-
-(/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
+Package hyperref Info: Link coloring OFF on input line 49.
+ (/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
-
-(/usr/share/texmf-dist/tex/latex/refcount/refcount.sty
+ (/usr/share/texmf-dist/tex/latex/refcount/refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-)
-(/usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+) (/usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count542
+\c@section@level=\count543
 )
-LaTeX Info: Redefining \ref on input line 47.
-LaTeX Info: Redefining \pageref on input line 47.
-LaTeX Info: Redefining \nameref on input line 47.
-
-(./thesis.out) (./thesis.out)
+LaTeX Info: Redefining \ref on input line 49.
+LaTeX Info: Redefining \pageref on input line 49.
+LaTeX Info: Redefining \nameref on input line 49.
+ (./thesis.out) (./thesis.out)
 \@outlinefile=\write5
 \openout5 = `thesis.out'.
 
@@ -1631,36 +1378,30 @@ Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 Package biblatex Info: Trying to load language 'american'...
 Package biblatex Info: ... file 'american.lbx' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/lbx/american.lbx
+ (/usr/share/texmf-dist/tex/latex/biblatex/lbx/american.lbx
 File: american.lbx 2020/12/31 v3.16 biblatex localization (PK/MW)
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+ (/usr/share/texmf-dist/tex/latex/biblatex/lbx/english.lbx
 File: english.lbx 2020/12/31 v3.16 biblatex localization (PK/MW)
 )
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+ (/usr/share/texmf-dist/tex/latex/biblatex/lbx/english.lbx
 File: english.lbx 2020/12/31 v3.16 biblatex localization (PK/MW)
 ))
 Package biblatex Info: Trying to load language 'ngerman'...
 Package biblatex Info: ... file 'ngerman.lbx' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/lbx/ngerman.lbx
+ (/usr/share/texmf-dist/tex/latex/biblatex/lbx/ngerman.lbx
 File: ngerman.lbx 2020/12/31 v3.16 biblatex localization (PK/MW)
 Package biblatex Info: Trying to load language 'german'...
 Package biblatex Info: ... file 'german.lbx' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/lbx/german.lbx
+ (/usr/share/texmf-dist/tex/latex/biblatex/lbx/german.lbx
 File: german.lbx 2020/12/31 v3.16 biblatex localization (PK/MW)
 )
 Package biblatex Info: Trying to load language 'german'...
 Package biblatex Info: ... file 'german.lbx' found.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/lbx/german.lbx
+ (/usr/share/texmf-dist/tex/latex/biblatex/lbx/german.lbx
 File: german.lbx 2020/12/31 v3.16 biblatex localization (PK/MW)
 ))
 Package biblatex Info: Input encoding 'utf8' detected.
@@ -1671,18 +1412,17 @@ Package biblatex Info: ... and expl3
 (biblatex)             2021-11-22 L3 programming layer (loader) 
 (biblatex)             is new enough (at least 2020/04/06),
 (biblatex)             setting 'casechanger=expl3'.
-
-(/usr/share/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty
+ (/usr/share/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty
 Package: blx-case-expl3 2020/12/31 v3.16 expl3 case changing code for biblatex
 )
 \openout3 = `thesis.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'thesis.bbl' not found.
+Package biblatex Info: ... file 'thesis.bbl' found.
+ (./thesis.bbl)
+Package biblatex Info: Reference section=0 on input line 49.
+Package biblatex Info: Reference segment=0 on input line 49.
 
-No file thesis.bbl.
-Package biblatex Info: Reference section=0 on input line 47.
-Package biblatex Info: Reference segment=0 on input line 47.
 
 LaTeX hooks Warning: Generic hook
 (hooks)              'file/after/translations-basic-dictionary-american.trsl'
@@ -1691,11 +1431,8 @@ LaTeX hooks Warning: Generic hook
 (hooks)              'file/translations-basic-dictionary-american.trsl/after'
 (hooks)              instead.
 
-
-(/usr/share/texmf-dist/tex/latex/translations/translations-basic-dictionary-eng
-lish.trsl
-File: translations-basic-dictionary-english.trsl (english translation file `tra
-nslations-basic-dictionary')
+(/usr/share/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
+File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
 )
 
 LaTeX hooks Warning: Generic hook
@@ -1705,48 +1442,34 @@ LaTeX hooks Warning: Generic hook
 (hooks)              'file/translations-basic-dictionary-german.trsl/after'
 (hooks)              instead.
 
-
-(/usr/share/texmf-dist/tex/latex/translations/translations-basic-dictionary-ger
-man.trsl
-File: translations-basic-dictionary-german.trsl (german translation file `trans
-lations-basic-dictionary')
+(/usr/share/texmf-dist/tex/latex/translations/translations-basic-dictionary-german.trsl
+File: translations-basic-dictionary-german.trsl (german translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' f
-or `german'. on input line 47.
+Package translations Info: loading dictionary `translations-basic-dictionary' for `german'. on input line 49.
 \l__acro_aux_file_iow=\write6
 \openout6 = `thesis.acr'.
 
-LaTeX Info: Redefining \dots on input line 47.
+LaTeX Info: Redefining \dots on input line 49.
 Package nag Info: Attempting subfig hack.
 Package nag Info: OK, equivalent to subfig 1.3, redefining \sf@@@subfloat.
-Package nag Info: pgf.sty is broken: disabling dollar check on input line 47.
-Package nag Info: Command \frontmatter not defined, skipping amendment on input
- line 47.
-Package nag Info: Command \mainmatter not defined, skipping amendment on input 
-line 47.
-Package nag Info: Command \backmatter not defined, skipping amendment on input 
-line 47.
-Package nag Info: Command \RaggedLeft not defined, skipping amendment on input 
-line 47.
-Package nag Info: Command \RaggedRight not defined, skipping amendment on input
- line 47.
-\c@lstlisting=\count543
-Package nag Info: Command \captionabove not defined, skipping amendment on inpu
-t line 47.
-Package nag Info: Command \captionbelow not defined, skipping amendment on inpu
-t line 47.
-Package nag Info: Command \hc@caption not defined, skipping amendment on input 
-line 47.
-Package nag Info: Command \topcaption not defined, skipping amendment on input 
-line 47.
-\c@@ccsauthorcount=\count544
-<tkn/TU_Logo_lang_4c_rot.pdf, id=95, 202.7575pt x 113.42375pt>
+Package nag Info: pgf.sty is broken: disabling dollar check on input line 49.
+Package nag Info: Command \frontmatter not defined, skipping amendment on input line 49.
+Package nag Info: Command \mainmatter not defined, skipping amendment on input line 49.
+Package nag Info: Command \backmatter not defined, skipping amendment on input line 49.
+Package nag Info: Command \RaggedLeft not defined, skipping amendment on input line 49.
+Package nag Info: Command \RaggedRight not defined, skipping amendment on input line 49.
+\c@lstlisting=\count544
+Package nag Info: Command \captionabove not defined, skipping amendment on input line 49.
+Package nag Info: Command \captionbelow not defined, skipping amendment on input line 49.
+Package nag Info: Command \hc@caption not defined, skipping amendment on input line 49.
+Package nag Info: Command \topcaption not defined, skipping amendment on input line 49.
+\c@@ccsauthorcount=\count545
+<tkn/TU_Logo_lang_4c_rot.pdf, id=75, 202.7575pt x 113.42375pt>
 File: tkn/TU_Logo_lang_4c_rot.pdf Graphic file (type pdf)
 <use tkn/TU_Logo_lang_4c_rot.pdf>
-Package pdftex.def Info: tkn/TU_Logo_lang_4c_rot.pdf  used on input line 51.
+Package pdftex.def Info: tkn/TU_Logo_lang_4c_rot.pdf  used on input line 53.
 (pdftex.def)             Requested size: 202.757pt x 113.42346pt.
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 51
-.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 53.
  (/usr/share/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
@@ -1755,131 +1478,120 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 51.
+(Font)              scaled to size 6.72005pt on input line 53.
 LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 51.
-LaTeX Font Info:    Trying to load font information for OML+mdbch on input line
- 51.
-
-(/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/omlmdbch.fd
+(Font)              scaled to size 4.80003pt on input line 53.
+LaTeX Font Info:    Trying to load font information for OML+mdbch on input line 53.
+ (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/omlmdbch.fd
 File: omlmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for OML/mdbch.
 )
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 9.60007pt on input line 51.
+(Font)              scaled to size 9.60007pt on input line 53.
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 6.72005pt on input line 51.
+(Font)              scaled to size 6.72005pt on input line 53.
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 4.80003pt on input line 51.
-LaTeX Font Info:    Trying to load font information for OMS+mdbch on input line
- 51.
-
-(/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/omsmdbch.fd
+(Font)              scaled to size 4.80003pt on input line 53.
+LaTeX Font Info:    Trying to load font information for OMS+mdbch on input line 53.
+ (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/omsmdbch.fd
 File: omsmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for OMS/mdbch.
 )
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 51.
+(Font)              scaled to size 9.60007pt on input line 53.
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 51.
+(Font)              scaled to size 6.72005pt on input line 53.
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 51.
-LaTeX Font Info:    Trying to load font information for OMX+mdbch on input line
- 51.
-
-(/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/omxmdbch.fd
+(Font)              scaled to size 4.80003pt on input line 53.
+LaTeX Font Info:    Trying to load font information for OMX+mdbch on input line 53.
+ (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/omxmdbch.fd
 File: omxmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for OMX/mdbch.
 )
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 51.
+(Font)              scaled to size 9.60007pt on input line 53.
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 51.
+(Font)              scaled to size 6.72005pt on input line 53.
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 51.
+(Font)              scaled to size 4.80003pt on input line 53.
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 51.
+(Font)              scaled to size 9.60007pt on input line 53.
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 51.
+(Font)              scaled to size 6.72005pt on input line 53.
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 51.
-LaTeX Font Info:    Trying to load font information for MDA+mdbch on input line
- 51.
-
-(/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/mdamdbch.fd
+(Font)              scaled to size 4.80003pt on input line 53.
+LaTeX Font Info:    Trying to load font information for MDA+mdbch on input line 53.
+ (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/mdamdbch.fd
 File: mdamdbch.fd 2013/08/29 Fontinst v1.933 font definitions for MDA/mdbch.
 )
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 51.
+(Font)              scaled to size 9.60007pt on input line 53.
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 51.
+(Font)              scaled to size 6.72005pt on input line 53.
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 51.
-LaTeX Font Info:    Trying to load font information for MDB+mdbch on input line
- 51.
-
-(/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/mdbmdbch.fd
+(Font)              scaled to size 4.80003pt on input line 53.
+LaTeX Font Info:    Trying to load font information for MDB+mdbch on input line 53.
+ (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/mdbmdbch.fd
 File: mdbmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for MDB/mdbch.
 )
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 51.
+(Font)              scaled to size 9.60007pt on input line 53.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 51.
+(Font)              scaled to size 6.72005pt on input line 53.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 51.
+(Font)              scaled to size 4.80003pt on input line 53.
 
 Missing character: There is no ; in font nullfont!
 LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 51.
+(Font)              scaled to size 7.68005pt on input line 53.
 LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
-(Font)              scaled to size 5.76004pt on input line 51.
+(Font)              scaled to size 5.76004pt on input line 53.
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 7.68005pt on input line 51.
+(Font)              scaled to size 7.68005pt on input line 53.
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 5.76004pt on input line 51.
+(Font)              scaled to size 5.76004pt on input line 53.
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 51.
+(Font)              scaled to size 7.68005pt on input line 53.
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 5.76004pt on input line 51.
+(Font)              scaled to size 5.76004pt on input line 53.
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 51.
+(Font)              scaled to size 7.68005pt on input line 53.
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 5.76004pt on input line 51.
+(Font)              scaled to size 5.76004pt on input line 53.
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 51.
+(Font)              scaled to size 7.68005pt on input line 53.
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 5.76004pt on input line 51.
+(Font)              scaled to size 5.76004pt on input line 53.
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 51.
+(Font)              scaled to size 7.68005pt on input line 53.
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 5.76004pt on input line 51.
+(Font)              scaled to size 5.76004pt on input line 53.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 51.
+(Font)              scaled to size 7.68005pt on input line 53.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 5.76004pt on input line 51.
-<tkn/tknlogo-with-text.pdf, id=97, 434.1pt x 65.13123pt>
+(Font)              scaled to size 5.76004pt on input line 53.
+<tkn/tknlogo-with-text.pdf, id=77, 434.1pt x 65.13123pt>
 File: tkn/tknlogo-with-text.pdf Graphic file (type pdf)
 <use tkn/tknlogo-with-text.pdf>
-Package pdftex.def Info: tkn/tknlogo-with-text.pdf  used on input line 51.
+Package pdftex.def Info: tkn/tknlogo-with-text.pdf  used on input line 53.
 (pdftex.def)             Requested size: 199.16928pt x 29.8822pt.
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./tkn/TU_Logo_lang_4c_rot.
-pdf> <./tkn/tknlogo-with-text.pdf>]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./tkn/TU_Logo_lang_4c_rot.pdf> <./tkn/tknlogo-with-text.pdf>]
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 16.58891pt on input line 51.
+(Font)              scaled to size 16.58891pt on input line 53.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 16.58891pt on input line 51.
+(Font)              scaled to size 16.58891pt on input line 53.
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 11.52008pt on input line 51.
+(Font)              scaled to size 11.52008pt on input line 53.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 11.52008pt on input line 51.
+(Font)              scaled to size 11.52008pt on input line 53.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 9.60007pt on input line 51.
+(Font)              scaled to size 9.60007pt on input line 53.
  [1
 
 ]
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 13.82408pt on input line 51.
+(Font)              scaled to size 13.82408pt on input line 53.
 
-Underfull \hbox (badness 10000) in paragraph at lines 51--51
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
 
  []
 
@@ -1887,9 +1599,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 51--51
 
 ]
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 19.91054pt on input line 57.
+(Font)              scaled to size 19.91054pt on input line 59.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 19.91054pt on input line 57.
+(Font)              scaled to size 19.91054pt on input line 59.
  [3
 
 
@@ -1902,14 +1614,10 @@ LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
 
 
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the load
-shadowlibrary option was not given when loadingthe todonotes package on input l
-ine 98.
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 94.
 
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
-ine 98.
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 9
-8.
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 94.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 94.
 (/usr/share/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1922,13 +1630,12 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 ]
 Chapter 1.
-LaTeX Font Info:    Trying to load font information for TS1+mdbch on input line
- 110.
+LaTeX Font Info:    Trying to load font information for TS1+mdbch on input line 105.
 (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/ts1mdbch.fd
 File: ts1mdbch.fd 2013/08/29 Fontinst v1.933 font definitions for TS1/mdbch.
 )
 LaTeX Font Info:    Font shape `TS1/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 110.
+(Font)              scaled to size 9.60007pt on input line 105.
 Package microtype Info: Character `texttwelveudash ' is missing
 (microtype)             in font `TS1/mdbch/m/n/10'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -1953,327 +1660,146 @@ Package microtype Info: Character `textcelsius ' is missing
 
 
 Package microtype Warning: I cannot find a spacing list for font
-(microtype)                `TS1/mdbch/m/n/10' (context: `nonfrench'). Switching
- off
-(microtype)                spacing for this font on input line 110.
+(microtype)                `TS1/mdbch/m/n/10' (context: `nonfrench'). Switching off
+(microtype)                spacing for this font on input line 105.
 
+LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
+(Font)              scaled to size 13.82408pt on input line 119.
 [1
 
 
 ] [2]
 Chapter 2.
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the load
-shadowlibrary option was not given when loadingthe todonotes package on input l
-ine 156.
-
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the load
-shadowlibrary option was not given when loadingthe todonotes package on input l
-ine 160.
-
 [3
 
-] [4]
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 221.
-
-[5]
+]
 Chapter 3.
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the load
-shadowlibrary option was not given when loadingthe todonotes package on input l
-ine 230.
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 162.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 166.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 179.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 187.
+
+[4
+
+]
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 196.
+
+[5]
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 234.
+
+[6]
+Chapter 4.
+[7
+
+]
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 292.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 294.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 297.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 307.
 
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 303.
+(Font)              scaled to size 8.64006pt on input line 342.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 8.64006pt on input line 303.
-LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 303.
-LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 8.64006pt on input line 303.
-LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 303.
-LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 303.
-LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 303.
-LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 303.
-LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 303.
-[6
+(Font)              scaled to size 8.64006pt on input line 342.
+[8]
 
-] [7] [8] [9
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 362.
 
-]
-Chapter 4.
-[10
 
-]
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 373.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 384--387
+
+ []
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 389.
+
+[9]
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 390.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 403.
+
+[10]
 Chapter 5.
-LaTeX Font Info:    Font shape `T1/mdbch/m/it' will be
-(Font)              scaled to size 9.60007pt on input line 382.
-LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 13.82408pt on input line 386.
-LaTeX Font Info:    Font shape `T1/mdbch/m/fsc' will be
-(Font)              scaled to size 9.60007pt on input line 398.
 [11
 
-]
-<figures/coverage-30--0-static1.pdf, id=218, 301.125pt x 301.125pt>
-File: figures/coverage-30--0-static1.pdf Graphic file (type pdf)
-<use figures/coverage-30--0-static1.pdf>
-Package pdftex.def Info: figures/coverage-30--0-static1.pdf  used on input line
- 412.
-(pdftex.def)             Requested size: 103.50105pt x 103.50226pt.
-LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 412.
-LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 7.68005pt on input line 412.
-<figures/connectivity-50-0-static1.pdf, id=219, 301.125pt x 301.125pt>
-File: figures/connectivity-50-0-static1.pdf Graphic file (type pdf)
-<use figures/connectivity-50-0-static1.pdf>
-Package pdftex.def Info: figures/connectivity-50-0-static1.pdf  used on input l
-ine 413.
-(pdftex.def)             Requested size: 103.50105pt x 103.50226pt.
- [12 <./figures/coverage-30--0-static1.pdf> <./figures/connectivity-50-0-static
-1.pdf>]
-Underfull \hbox (badness 2253) in paragraph at lines 455--455
-[]|\T1/mdbch/m/n/10 (+20) Forest fire de-tec-tion, flood de-tec-
- []
-
-
-Underfull \hbox (badness 3503) in paragraph at lines 455--455
-\T1/mdbch/m/n/10 (+20) tack de-tec-tion, bat-tle-field surveil-
- []
-
+] [12]
+Chapter 6.
 [13
 
 ]
-LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 515.
-LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 515.
-LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 5.76004pt on input line 517.
+LaTeX Font Info:    Font shape `T1/mdbch/m/it' will be
+(Font)              scaled to size 9.60007pt on input line 810.
  [14
-
-]
-
-LaTeX Warning: Reference `tab:si-in-tables' on page 1 undefined on input line 5
-27.
-
-[15
-
-]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 554.
- [16
-
-] [17
-
-] [18
-
-]
-
-LaTeX Warning: Citation 'akyildiz2002survey' on page 19 undefined on input line
- 625.
-
-
-LaTeX Warning: Citation 'arampatzis2005survey' on page 19 undefined on input li
-ne 625.
-
-
-Overfull \hbox (4.32109pt too wide) in paragraph at lines 625--626
-[]\T1/mdbch/m/n/10 (-20) ``\T1/mdbch/b/n/10 (-20) Foo and bar are of equal valu
-e. Thus, any can be used.\T1/mdbch/m/n/10 (-20) '' [],|
- []
-
-[19
-
-]
-
-LaTeX Warning: Citation 'akyildiz2002survey' on page 20 undefined on input line
- 626.
-
-
-LaTeX Warning: Citation 'arampatzis2005survey' on page 20 undefined on input li
-ne 626.
-
-
-LaTeX Warning: Citation 'akyildiz2002survey' on page 20 undefined on input line
- 630.
-
-
-LaTeX Warning: Citation 'arampatzis2005survey' on page 20 undefined on input li
-ne 630.
-
-
-Overfull \hbox (7.47816pt too wide) in paragraph at lines 630--631
-[]\T1/mdbch/m/n/10 (-20) ``\T1/mdbch/b/n/10 (-20) Foo and bar are of equal valu
-e\T1/mdbch/m/n/10 (-20) '' [], [].|
- []
-
-
-LaTeX Warning: Citation 'akyildiz2002survey' on page 20 undefined on input line
- 631.
-
-
-LaTeX Warning: Citation 'arampatzis2005survey' on page 20 undefined on input li
-ne 631.
-
-
-LaTeX Warning: Citation 'akyildiz2002survey' on page 20 undefined on input line
- 635.
-
-
-LaTeX Warning: Citation 'arampatzis2005survey' on page 20 undefined on input li
-ne 635.
-
-
-LaTeX Warning: Citation 'akyildiz2002survey' on page 20 undefined on input line
- 636.
-
-
-LaTeX Warning: Citation 'arampatzis2005survey' on page 20 undefined on input li
-ne 636.
-
-
-LaTeX Warning: Citation 'akyildiz2002survey' on page 20 undefined on input line
- 640.
-
-
-LaTeX Warning: Citation 'arampatzis2005survey' on page 20 undefined on input li
-ne 640.
-
-
-LaTeX Warning: Citation 'akyildiz2002survey' on page 20 undefined on input line
- 641.
-
-
-LaTeX Warning: Citation 'arampatzis2005survey' on page 20 undefined on input li
-ne 641.
-
-
-Overfull \hbox (23.06146pt too wide) in paragraph at lines 641--642
-[]\T1/mdbch/b/n/10 (-20) Foo \T1/mdbch/m/n/10 (-20) (de-tailed in []) and \T1/m
-dbch/b/n/10 (-20) bar \T1/mdbch/m/n/10 (-20) (de-tailed in [])|
- []
-
-
-LaTeX Warning: Citation 'akyildiz2002survey' on page 20 undefined on input line
- 647.
-
-
-LaTeX Warning: Citation 'dietrich2009lifetime' on page 20 undefined on input li
-ne 650.
-
-
-LaTeX Warning: Citation 'dietrich2009lifetime' on page 20 undefined on input li
-ne 653.
-
-[20]
-
-LaTeX Warning: Citation 'akyildiz2002survey' on page 21 undefined on input line
- 661.
-
-
-LaTeX Warning: Citation 'akyildiz2002survey' on page 21 undefined on input line
- 661.
-
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the load
-shadowlibrary option was not given when loadingthe todonotes package on input l
-ine 673.
-
-[21]
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the load
-shadowlibrary option was not given when loadingthe todonotes package on input l
-ine 706.
-
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the load
-shadowlibrary option was not given when loadingthe todonotes package on input l
-ine 708.
-
-[22] [23
 
 
 ] (./thesis.lof)
 \tf@lof=\write8
 \openout8 = `thesis.lof'.
 
- [24
+ [15
 
 
 ] (./thesis.lot)
 \tf@lot=\write9
 \openout9 = `thesis.lot'.
 
- [25
+ [16
 
 
 ]
 
-LaTeX Warning: Empty bibliography on input line 742.
+LaTeX Warning: Empty bibliography on input line 818.
 
 (./thesis.tdo)
 \tf@tdo=\write10
 \openout10 = `thesis.tdo'.
 
- [26
+ [17
 
 
 ]
 No complaints by nag.
 (./thesis.aux (./thesis.acr))
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: B6055A8AFC50451AA7A1DD19185CFA5E;3269.
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                thesis
-(biblatex)                and rerun LaTeX afterwards.
-
+(rerunfilecheck)             Checksum: 40318E1041D0CAECAB8BFA29F4E2B490;2403.
 Package logreq Info: Writing requests to 'thesis.run.xml'.
 \openout1 = `thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 48718 strings out of 478353
- 994986 string characters out of 5854636
- 1682514 words of memory out of 5000000
- 65485 multiletter control sequences out of 15000+600000
- 513776 words of font info for 433 fonts, out of 8000000 for 9000
+ 48275 strings out of 478353
+ 989829 string characters out of 5854636
+ 1688790 words of memory out of 5000000
+ 65248 multiletter control sequences out of 15000+600000
+ 484042 words of font info for 300 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
- 85i,19n,131p,1122b,2341s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf-dist/fo
-nts/enc/dvips/ly1/texnansi.enc}{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.e
-nc}</usr/share/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/share/t
-exmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/share/texmf-dist/fonts/
-type1/bitstrea/charter/bchri8a.pfb></usr/share/texmf-dist/fonts/type1/public/lm
-/lmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt8.pfb></usr/share/
-texmf-dist/fonts/type1/public/lm/lmtt9.pfb></usr/share/texmf-dist/fonts/type1/p
-ublic/mathdesign/mdbch/md-chb8t.pfb></usr/share/texmf-dist/fonts/type1/public/m
-athdesign/mdbch/md-chr7m.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesi
-gn/mdbch/md-chr7t.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbc
-h/md-chr7v.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-ch
-r7y.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr8t.pfb
-></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chri7m.pfb></usr
-/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on thesis.pdf (32 pages, 403427 bytes).
+ 85i,10n,131p,1161b,2341s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/share/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/share/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chb8t.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr7t.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr7y.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr8t.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chri7m.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
+Output written on thesis.pdf (23 pages, 150718 bytes).
 PDF statistics:
- 442 PDF objects out of 1000 (max. 8388607)
- 371 compressed objects within 4 object streams
- 97 named destinations out of 1000 (max. 500000)
- 138961 words of extra memory for PDF output out of 154059 (max. 10000000)
+ 319 PDF objects out of 1000 (max. 8388607)
+ 269 compressed objects within 3 object streams
+ 68 named destinations out of 1000 (max. 500000)
+ 103071 words of extra memory for PDF output out of 106986 (max. 10000000)
 

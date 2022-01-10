@@ -32,10 +32,12 @@
 % List of referees, separated by commas.
 \referees{Falko Dressler, Thomas Sikora}
 
-% Own abbreviations
+% Abbreviations DMX
 \acrodef{DMX}{Digital Multiplex}
 \acrodef{CANhashing}[CAN]{Content Addressable Network}{extra={when referring to the distributed hash table}}
 \acrodef{CANproto}[CAN]{Controller Area Network}{extra={when referring to the bus protocol}}
+% Abbreviations Networking
+\acrodef{UDP}{User Datagram Protocol}
 
 % Example abbreviations 
 \acrodef{WSN}{Wireless Sensor Network}
@@ -70,19 +72,13 @@ about 1/2 page:
 
 In the field of lighting and stage technology, the challenge of controlling the individual installations, called 'fixtures', quickly and without complications is a recurring one. Established solutions are realized via cables. 
 
-
 However, due to the progress in radio technology, wireless solutions are becoming more and more common. Therefor is often expensive hardware needed.
+Parallel to this we have a fast growing market around creative and individually developed DIY projects, which have found their own niche. Durch niedrigpreisige 
+While most commercial solutions still rely on expensive and complex wired control, it is particularly suitable for smaller projects to experiment with the new wireless technologies. 
+In this thesis I try to implement a wireless solution, which does not need an IP-Layer using the popular platform ESP and the properitary protocol ESP-NOW to distribute the light information to each fixture. 
+ESP-Now instead works more like an direct radio communication.
 	
-	Parallel to this we have a fast growing market around creative and individually developed DIY projects, which have found their own niche. Durch niedrigpreisige 
-	
-	While most commercial solutions still rely on expensive and complex wired control, it is particularly suitable for smaller projects to experiment with the new wireless technologies. 
-	
-	In this thesis I try to implement a wireless solution, which does not need an IP-Layer using the popular platform ESP and the properitary protocol ESP-NOW to distribute the light information to each fixture. ESP-Now instead works more like an direct radio communication.
-	
-	
-
 \end{otherlanguage*}
-
 
 \chapter*{Kurzfassung}
 \addcontentsline{toc}{chapter}{Kurzfassung}
@@ -104,7 +100,6 @@ Gleicher Text (sinngemäß, nicht wörtlich) in Deutsch
 
 \chapter{Introduction}
 %\chapter{Einleitung}
-\label{sec:introduction}
 
 \begin{itemize}
 \item general motivation for your work, context and goals.
@@ -118,34 +113,45 @@ In the subject area
 
 ====
 
-In the field of lighting and stage technology, the challenge of controlling the individual installations, called 'fixtures', quickly and without complications is a recurring one. Established solutions are realized via cables.
+In the field of lighting and stage technology, the challenge of controlling the individual installations, called 'fixtures', quickly and without complications is a recurring one. 
+Established solutions are realized via cables.
 
-\subsection*{Challenges}
-
+\section*{Motivation/Requirements}
 \begin{itemize}
-\item low cost
-\item (ESP Platform)
-\item DIY community
-\end{itemize}
-
-\subsection*{Motivation/Requirements}
-
-\begin{itemize}
-\item Improved Reliability
+\item Reliability
+\item .. and why 100\% Reliability is not important (pyrotechnics)
 \item Lower latency
 \item Synchronisation
 \item higher update frequency
 \item Range
 \end{itemize}
 
-\subsection*{Contribution}
+\section*{Challenges}
+\begin{itemize}
+\item low cost
+\item (ESP Platform)
+\item DIY community
+\end{itemize}
 
+\section*{Problemstatement and Contribution WICHTIG}
 \begin{itemize}
 \item open source available on github [link]
 \item thought-provoking impulse for different approaches
+\item Protocol auf DL Layer/App Layer Ebene
+\item Art-Net baseline
+\item simulativ und experimentel untersucht
 \end{itemize}
 
-\subsection*{Thesis Outline}
+\section*{Thesis Outline}
+
+\chapter{Related Work}
+\begin{itemize}
+	\item Wie der und der in Paper so gezeigt hat bla bla
+	\item Auch Ding et al haben versucht
+	\item ...
+	\item 10 Paper
+	\item halbe seite
+\end{itemize}
 
 \chapter{Fundamentals}
 \label{sec:fundamentals}
@@ -161,38 +167,62 @@ In the field of lighting and stage technology, the challenge of controlling the 
 \item recommended length: approximately one third of the thesis.
 \end{itemize}
 
+\section{Light protocols}
 
-\subsection*{DMX - Classical Approach}
-The current industry standard is DMX-512A which is an Data-Link protocol transmitting serial data at 250 kHz.
+In this chapter I give you a short introduction about stage lighting protocols that are already in use. 
+After that I will discuss which protocol I like to modify to get improvements I was looking for in the requirements.
 
-\subsubsection*{Topology}
+\subsection*{DMX-512A}
+\ac{DMX}, is the current industry standard for stage lighting. It is based on \ac{CANproto}, therefore it uses wires.
 
-\begin{itemize}
-\item fixtures
-\item channel
-\end{itemize}
+All devices, called fixtures, are daisy chained together.
+\TODO{Picture of topology}
+
+% \subsubsection{fixture}
+A fixture is a lighting instrument, 
+this could be a moving-head, fresnel, spotlight, stroboscope or any other light installation.
+It could also be a fog machine that emits fog on an appropriate signal.
+Since \ac{DMX} is unidirectional we can assume that fixtures generally only receive or forward (daisy chain) control signals sent from the control console.
+In this thesis I equate it with a node or an entity receiving a signal.
+\TODO{Show Hardware e.g. DMX Plug}
+
+% \subsubsection*{Channel}
+A channel in the event technology is to distinguish between e.g. a WiFi channel. 
+
+Each FIXTURE is assigned at least one, but usually several CHANNEL, which are the payload containing in a packet to all FIXTURES. 
+Each fixture knows which CHANNEL is intended for it. Each channel consists of one byte.
+For example, an RGB LED spotlight could have three channels, one for each color.
+Due to the resolution of one byte, the individual colors can (theoretically) be controlled in 256 different intensities.
+\TODO{Bild von fixtures verteilt auf channel}
+
+% \subsubsection*{DMX-Universe}
+A universe can contain a set of 512 Channel. If there is a need of more channels one needs more DMX universes.
+Due to the fact that a DMX universe always has its own bus, starting from its own controller, this can lead to inconveniences.
 
 \subsection*{Art-Net}
-
+\label{sec:artnet}
 \begin{itemize}
 \item 2.4 or 5GHz
 \item DMX-Like
 \item related work
 \end{itemize}
 
-However, due to the progress in radio technology, wireless solutions are becoming more and more common.
-	
-	Parallel to this we have a fast growing market around creative and individually developed DIY projects, which have found their own niche. Durch niedrigpreisige 
-	
-	While most commercial solutions still rely on expensive and complex wired control, it is particularly suitable for smaller projects to experiment with the new wireless technologies. 
-	
-	In this thesis I try to implement a wireless solution, which does not need an IP-Layer using the popular platform ESP and the proprietary protocol ESP-NOW to distribute the light information to each fixture. ESP-Now instead works more like an direct radio communication.
+Due the limitation of 512 channel for each universe there where protocols implemented using the 
 
-\subsection*{ESP Platform}
 
-\subsubsection*{ESP32 Hardware}
-However, due to the progress in radio technology, wireless solutions are becoming more and more common.
+Art-Net also called Art-Net DMX is 
 
+\section{Data Link Layer in 802.11}
+\begin{itemize}
+	\item how works the DL layer
+	\item was ist BC, was Unicast
+	\item was sind frames
+	\item how the Application layer
+\end{itemize}
+
+\section{ESP Platform}
+
+\subsection*{ESP32 Hardware}
 \begin{itemize}
 \item Range
 \item Properity
@@ -201,10 +231,13 @@ However, due to the progress in radio technology, wireless solutions are becomin
 \item cheap chip
 \item 2.4 GHz (cheap)
 \end{itemize}
+\TODO{This text ist garbage?!}
+However, due to the progress in radio technology, wireless solutions are becoming more and more common. 
+The Chinese hardware compagny Espressif has some very cheap but capable chips developed in the past years.
+These Chips enjoy growing popularity in the industry and in upcomming DIY projects.
+Because of the low acquisation cost we have to deal with some limitations.
 
-\subsubsection*{ESP-Now}
-However, due to the progress in radio technology, wireless solutions are becoming more and more common.
-
+\subsection*{ESP-Now}
 \begin{itemize}
 \item Range
 \item Properity
@@ -219,17 +252,12 @@ However, due to the progress in radio technology, wireless solutions are becomin
 \end{itemize}
 
 \subsection{ESP-Now vs Art-Net Baseline}
-
 \begin{itemize}
 \item Network stack diagram
 \item baseline
 \end{itemize}
 
-
-\chapter{Developed architecture / System design / Implementation / ...}
-\TODO{title of chapter: ESP-Now DMX Like Protocol}
-
-
+\chapter{Proposed Approach}
 \begin{itemize}
 \item describe everything you yourself did (as opposed to the fundamentals chapter, which explains what you built on)
 \item start with a theoretical approach
@@ -238,6 +266,15 @@ However, due to the progress in radio technology, wireless solutions are becomin
 \item recommended length: approximately one third of the thesis.
 \end{itemize}
 
+Starting from the ESP-Now protocol, different approaches can be chosen to route the control signals to the fixtures. 
+In the following I will present different approaches, which I have also investigated experimentally.
+
+\section{Design}
+\label{sec:cross-reff}
+\begin{itemize}
+	\item Specification of the protocols
+	\item analytic results (simulierte Ergebnisse)
+\end{itemize}
 
 \subsection*{Slim Unicast}
 \begin{itemize}
@@ -248,13 +285,31 @@ However, due to the progress in radio technology, wireless solutions are becomin
 \item tolja calculation sheet for 802.11
 \item wireshark measurements
 \end{itemize}
- 
+
+The most similar approach using ESP-Now to Art-Net \cref{sec:artnet} is to send instead of \ac{UDP} packets, is to transmit Unicast transmissions to all fixtures.
+The most intuitive way is to send the most recent signal to all fixtures via Round Robin.
+The sender node selects a fixture after each other and transmits to it all the needed channel.
+\TODO{calculation of the estimated transmission time of unicasts}
+One benefit of the unicast is the support of acknoledgements. So the reliability should be very good. 
+\TODO{move to buffering delay??}
+Unfortunately the ESP-Now protocol does not allow to control the number of retransmissions before the packet is discarded.
+Synchronisation of all devices is also expensive, because every fixture has to wait after the successfull receiving of his packet until the last fixture received his packet too.
+\TODO{Verständlich schreiben!}
+
+\begin{align*} \label{eq:transmission_unicast}
+	t_{bestcase}  &= N \cdot (t_{transmission} + 8 \cdot t_{ack}) \\
+	t_{worstcase} &= N \cdot (t_{transmission} + 1 \cdot t_{ack})
+\end{align*} 
+
+The idea of the unicast is, that a transmission to each device is very fast, because the transmitted payload is very small (1-25 Byte).
+However, since we are sending many small packets, it can be assumed that we will be sending a lot of overhead.
+So we playing off reliability against transmission speed.
+\todo{Man kann transmissions skippen, wenn eine fixture keine veränderten daten erhält}
 
 % Input layer neurons'number
 \newcommand{\inputnum}{1} 
- 
 % Hidden layer neurons'number
-\newcommand{\hiddennum}{5}  
+\newcommand{\outputnum}{3}  
 
 \begin{figure}%
 	\centering
@@ -267,31 +322,25 @@ However, due to the progress in radio technology, wireless solutions are becomin
 		        fill=orange!30] (Input-\i) at (0,-\i) {};
 		}
 		% Hidden Layer
-		\foreach \i in {1,...,\hiddennum}
+		\foreach \i in {1,...,\outputnum}
 		{
 		    \node[circle, 
 		        minimum size = 6mm,
 		        fill=teal!50,
-		        yshift=(\hiddennum-\inputnum)*5 mm
+		        yshift=(\outputnum-\inputnum)*5 mm
 		    ] (Hidden-\i) at (2.5,-\i) {};
 		}
-		% Connect neurons In-Hidden
+		% Connect neurons In-Out
 		\foreach \i in {1,...,\inputnum}
 		{
-		    \foreach \j in {1,...,\hiddennum}
+		    \foreach \j in {1,...,\outputnum}
 		    {
 		        \draw[->, shorten >=1pt] (Input-\i) -- (Hidden-\j);   
 		    }
 		}
-		% Inputs
-		\foreach \i in {1,...,\inputnum}
-		{            
-		    \draw[<-, shorten <=1pt] (Input-\i) -- ++(-1,0)
-		        node[left]{$x_{\i}$};
-		}
 	\end{tikzpicture}
 	\caption{Topology of the Slim Unicast}%
-	\label{fig:topology_unicast}%
+	\label{fig:topology-unicast}%
 \end{figure}
 
 \subsection*{Slim Broadcast}
@@ -300,6 +349,28 @@ However, due to the progress in radio technology, wireless solutions are becomin
 \item efficiency
 \item for how many nodes it does make theoretical a difference
 \end{itemize}
+
+The ESP-Now protocol supports both unicast and broadcast.
+In the documentation of the ESP-protocol is written, that broadcast is not supported 
+% \TODO{link, https:\/\/www.espressif.com\/sites\/default\/files\/documentation\/esp-now_user_guide_en.pdf, 2016}
+but actually it is. \\
+Instead of transmitting every unicast after each other, we transmit a broadcast with the payload of all channels at the same time to all fixtures.
+If we need more than 250 channel we have to send to broadcasts to transmit all information to all fixtures.
+To achieve this we need to tell each fixture in advance his channel.
+A fixture with a channel above 250 needs to modulo to get the broadcast ID.
+
+\TODO{Notwendig?}
+\begin{align*}
+	315 \mod 250 &= 1 \\
+	315 / 250 &= 65
+\end{align*}
+
+Insead of transmitting to several fixtures after each other we just transmitt to all fixtures at the same time.
+This solves the problem of synchronization for less than 250 channel.
+For more than 250 each fixture has to wait until the last broadcast is arrived, 
+even if he must be discarded because the required channel has already been arrived in a previous broadcast.
+Through less overhead there is an estimated difference when a specific amount of fixtures is reached.
+\TODO{Grafik die zeigt, wie der Broadcast besser performt, sobald eine bestimmte zahl fixtures erreicht ist}
 
 \subsection*{Rapid Repetition}
 \begin{itemize}
@@ -310,27 +381,38 @@ However, due to the progress in radio technology, wireless solutions are becomin
 \item explain why its only relevant for BC?
 \end{itemize}
 
-\subsection*{Delayed Repetition}
+The ESP-Now broadcast does not support acknoledgements.
+So we can't retransmit a packet to the fixture, which is not arrived successfully.
+In case of broadcast we had to transmit the hole broadcast or an unicast to each fixture wich does not send back the acknoledgement.\\
 
+Since this is very cumbersome to implement, it is a good approach to simply repeat each broadcast. 
+\TODO{Cite paper A First Implementation and Evaluation of the IEEE 802.11aa Group Addressed Transmission Service}
+This is called rapid repetition. \TODO{Sure??}
+The idea is, that we can push the reliability wich each redundant retransmission.
+
+We have to figure out how many repetitions we should transmit in order to find the best balance between reliability and latency/update ratio.
+
+\subsection*{Delayed Repetition}
 \begin{itemize}
 \item when to perform repetition
 \item buffering delay
 \item explain why its only relevant for BC?
 \end{itemize}
 
-\subsection*{Test Setup}
+To push the idea of rapid repetion even further, we should take a look to temporarily occuring disturbances.
+\TODO{Figure of bad channel time}
+
+\section{Test Environment}
 \begin{itemize}
+\item IDE \& ESP hardware flashing
 \item Collecting values
 \item state machine
 \item python script
 \item saving values
-\item digital encoding e.g.: 7774774727177
+\item digital encoding e.g.: 777477472717
 \end{itemize}
 
-
-\chapter*{Evaluation}
-
-
+\chapter{Evaluation}
 \begin{itemize}
 \item measurement setup / results / evaluation / discussion
 \item whatever you have done, you must comment it, compare it to other systems, evaluate it
@@ -339,20 +421,27 @@ However, due to the progress in radio technology, wireless solutions are becomin
 \item recommended length: approximately one third of the thesis.
 \end{itemize}
 
-\subsection*{Keep in Mind}
+\section*{Keep in Mind}
 \begin{itemize}
 \item metrics (SR, Latency, ...)
 \item compare with art-net all the time
 \end{itemize}
 
+\section{Methodic}
+\begin{itemize}
+	\item Testbed
+	\item Collect Data
+\end{itemize}
+
+\section{Protocols under Study}
 \subsection*{Unicast vs Broadcast}
-\subsection*{RR}
-\subsection*{DR}
+\subsection*{Rapid Repetition}
+\subsection*{Delayed Repetition}
 \subsection*{Grouping}
 
-\chapter{Conclusion}
+\section{Results}
 
-
+\chapter{Conclusion \& Discussion}
 \begin{itemize}
 \item summarize again what your paper did, but now emphasize more the results, and comparisons
 \item write conclusions that can be drawn from the results found and the discussion presented in the paper
@@ -360,8 +449,8 @@ However, due to the progress in radio technology, wireless solutions are becomin
 \item recommended length: one page.
 \end{itemize}
 
-
-
+\newcommand{\comment}[1]{}
+\comment{
 \chapter{Guidelines}
 
 The following are general guidelines for how to write a thesis, with a special focus on how to use the template we provide.
@@ -709,13 +798,11 @@ Rather than ``this section contains two sub-sections'', say ``in the following, 
 Do not use section headings as a replacement for introductory text and a short motivation.
 It should be easy enough to follow your thesis with all section headings removed.
 
-
 \section{About the remainder of this document}
-
 The remainder of this document gives a rough outline of how to structure your thesis.
 It is mainly geared towards Bachelor and Master's theses, but feel free to adapt the structure to your specific needs.
 If, however, you are writing a seminar thesis, the present structure is likely wholly inapplicable.
-
+}
 
 \cleardoublepage
 

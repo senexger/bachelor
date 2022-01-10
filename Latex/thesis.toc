@@ -9,40 +9,30 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {2}Fundamentals}{3}{chapter.2}%
+\contentsline {chapter}{\numberline {2}Related Work}{3}{chapter.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.0.1}ESP-Now vs Art-Net Baseline}{5}{subsection.2.0.1}%
+\contentsline {chapter}{\numberline {3}Fundamentals}{4}{chapter.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {3}Developed architecture / System design / Implementation / ...}{6}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Light protocols}{4}{section.3.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Conclusion}{10}{chapter.4}%
+\contentsline {section}{\numberline {3.2}Data Link Layer in 802.11}{5}{section.3.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Guidelines}{11}{chapter.5}%
+\contentsline {section}{\numberline {3.3}ESP Platform}{5}{section.3.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}Typesetting}{11}{section.5.1}%
+\contentsline {subsection}{\numberline {3.3.1}ESP-Now vs Art-Net Baseline}{6}{subsection.3.3.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.2}Cross References}{12}{section.5.2}%
+\contentsline {chapter}{\numberline {4}Proposed Approach}{7}{chapter.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.3}Figures}{12}{section.5.3}%
+\contentsline {section}{\numberline {4.1}Design}{7}{section.4.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.4}Tables}{13}{section.5.4}%
+\contentsline {section}{\numberline {4.2}Test Environment}{10}{section.4.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.5}Math}{14}{section.5.5}%
+\contentsline {chapter}{\numberline {5}Evaluation}{11}{chapter.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.6}Units}{15}{section.5.6}%
+\contentsline {section}{\numberline {5.1}Methodic}{11}{section.5.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.7}Algorithms}{16}{section.5.7}%
+\contentsline {section}{\numberline {5.2}Protocols under Study}{12}{section.5.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.8}Typesetting Grammars}{17}{section.5.8}%
+\contentsline {section}{\numberline {5.3}Results}{12}{section.5.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.9}Program Code}{18}{section.5.9}%
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.10}References}{19}{section.5.10}%
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.11}Abbreviations}{21}{section.5.11}%
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.12}TODOs and FIXMEs}{22}{section.5.12}%
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.13}Sections}{22}{section.5.13}%
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.14}About the remainder of this document}{22}{section.5.14}%
+\contentsline {chapter}{\numberline {6}Conclusion \& Discussion}{13}{chapter.6}%

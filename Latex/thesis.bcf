@@ -2348,27 +2348,6 @@
     <bcf:datasource type="file" datatype="bibtex">references.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">akyildiz2002survey</bcf:citekey>
-    <bcf:citekey order="1">arampatzis2005survey</bcf:citekey>
-    <bcf:citekey order="2">akyildiz2002survey</bcf:citekey>
-    <bcf:citekey order="3">arampatzis2005survey</bcf:citekey>
-    <bcf:citekey order="4">akyildiz2002survey</bcf:citekey>
-    <bcf:citekey order="4">arampatzis2005survey</bcf:citekey>
-    <bcf:citekey order="5">akyildiz2002survey</bcf:citekey>
-    <bcf:citekey order="6">arampatzis2005survey</bcf:citekey>
-    <bcf:citekey order="7">akyildiz2002survey</bcf:citekey>
-    <bcf:citekey order="7">arampatzis2005survey</bcf:citekey>
-    <bcf:citekey order="8">akyildiz2002survey</bcf:citekey>
-    <bcf:citekey order="9">arampatzis2005survey</bcf:citekey>
-    <bcf:citekey order="10">akyildiz2002survey</bcf:citekey>
-    <bcf:citekey order="11">arampatzis2005survey</bcf:citekey>
-    <bcf:citekey order="12">akyildiz2002survey</bcf:citekey>
-    <bcf:citekey order="13">arampatzis2005survey</bcf:citekey>
-    <bcf:citekey order="14">akyildiz2002survey</bcf:citekey>
-    <bcf:citekey order="16">dietrich2009lifetime</bcf:citekey>
-    <bcf:citekey order="17">dietrich2009lifetime</bcf:citekey>
-    <bcf:citekey order="18">akyildiz2002survey</bcf:citekey>
-    <bcf:citekey order="19">akyildiz2002survey</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
