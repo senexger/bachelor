@@ -17,22 +17,20 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {3.2}Data Link Layer in 802.11}{5}{section.3.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.3}ESP Platform}{5}{section.3.3}%
+\contentsline {section}{\numberline {3.3}ESP Platform}{6}{section.3.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.1}ESP-Now vs Art-Net Baseline}{6}{subsection.3.3.1}%
+\contentsline {chapter}{\numberline {4}Proposed Approach}{8}{chapter.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Proposed Approach}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Design}{8}{section.4.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Design}{7}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Implementation}{12}{section.4.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Test Environment}{10}{section.4.2}%
+\contentsline {chapter}{\numberline {5}Evaluation}{14}{chapter.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Evaluation}{11}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Methodic}{14}{section.5.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}Methodic}{11}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Protocols under Study}{15}{section.5.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.2}Protocols under Study}{12}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Results}{15}{section.5.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.3}Results}{12}{section.5.3}%
-\defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Conclusion \& Discussion}{13}{chapter.6}%
+\contentsline {chapter}{\numberline {6}Conclusion \& Discussion}{16}{chapter.6}%
