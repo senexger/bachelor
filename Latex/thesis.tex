@@ -11,33 +11,21 @@
 % Required package
 \usepackage{tikz}
 
-% Source code example
-\lstset{language=c}
-
-\definecolor{clr-background}{RGB}{255,255,255}
-\definecolor{clr-text}{RGB}{0,0,0}
-\definecolor{clr-string}{RGB}{163,21,21}
-\definecolor{clr-namespace}{RGB}{0,0,0}
-\definecolor{clr-preprocessor}{RGB}{128,128,128}
-\definecolor{clr-keyword}{RGB}{0,0,255}
-\definecolor{clr-type}{RGB}{43,145,175}
-\definecolor{clr-variable}{RGB}{0,0,0}
-\definecolor{clr-constant}{RGB}{111,0,138} % macro color
-\definecolor{clr-comment}{RGB}{0,128,0}
-
-\lstdefinestyle{VS2017}{
-	backgroundcolor=\color{clr-background},
-	basicstyle=\color{clr-text}, % any text
-	stringstyle=\color{clr-string},
-	identifierstyle=\color{clr-variable}, % just about anything that isn't a directive, comment, string or known type
-	commentstyle=\color{clr-comment},
-	directivestyle=\color{clr-preprocessor}, % preprocessor commands
-	% listings doesn't differentiate between types and keywords (e.g. int vs return)
-	% use the user types color
-	keywordstyle=\color{clr-type},
-	keywordstyle={[2]\color{clr-constant}}, % you'll need to define these or use a custom language
-	tabsize=4
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=single,
+  xleftmargin=\parindent,
+  language=C++,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
 }
+
+\lstset{escapechar=@,style=customc}
 
 % Choose one of the following lines.
 %\group{Cooperative Mobile Systems}
@@ -72,6 +60,7 @@
 \acrodef{OSI}{Open Systems Interconnection}
 \acrodef{MAC}{Media Access Control}
 \acrodef{DL}{Data Link}
+\acrodef{IP}{Internet Protocol}
 
 % Example abbreviations 
 \acrodef{WSN}{Wireless Sensor Network}
@@ -117,8 +106,18 @@ ESP-Now instead works more like an direct radio communication.
 \chapter*{Kurzfassung}
 \addcontentsline{toc}{chapter}{Kurzfassung}
 \begin{otherlanguage*}{ngerman}
+\begin{itemize}
+	\item kabellose lösungen werden interessant
+	\item chips werden günstiger
+	\item für kleine projekte leider sehr teuere Hardware
+	\item 802.11 wird als standard benutzt
+	\item protokolle wie art-net könnten optimiert werden
+	\item esp plattform bietet interssante möglichkeiten, wegen der geringen kosten der chips und esp-now
+	\item entwicklung einer plattform die esp-now nutzt
+	\item verschiedene ansätze studiert, wie broadcast und unicasts
+	\item mit jeweils unterschiedlichen modifikationen
+\end{itemize}
 
-Gleicher Text (sinngemäß, nicht wörtlich) in Deutsch
 
 \end{otherlanguage*}
 \acresetall
@@ -180,7 +179,7 @@ Established solutions are realized via cables.
 
 \chapter{Related Work}
 \begin{itemize}
-	\item Wie der und der in Paper so gezeigt hat bla bla
+	\item Wie der und der in Paper so gezeigt hat 
 	\item Auch Ding et al haben versucht
 	\item ...
 	\item 10 Paper
@@ -204,7 +203,7 @@ Established solutions are realized via cables.
 \section{Light protocols}
 
 In this chapter I give you a short introduction about stage lighting protocols that are already in use. 
-After that I will discuss which protocol I like to modify to get improvements I was looking for in the requirements.
+After that I will discuss why I choosed the ESP Platform and which modifications I made to get the improvements I was looking for in the requirements.
 
 \subsection*{DMX-512A}
 \ac{DMX}, is the current industry standard for stage lighting. It is based on \ac{CANproto}, therefore it uses wires.
@@ -278,6 +277,12 @@ It is the second layer of the \ac{OSI} model of computer networking.
 \end{table}
 
 \section{ESP Platform}
+\begin{itemize}
+	\item Why ESP Platform 
+	\item whats is the alternative
+	\item chip shortage for Arduino
+	\item price gab to esp32 dev boards
+\end{itemize}
 Almost every 802.11 capable \ac{MCU} could be picked for this research.
 But there are several reasons why the ESP Platform from Espressif is a valid choice.
 There are several chips provided by Espressif with WiFi specifications, these chips are very affordable (\todo{ESP32 Kosten in € 2021 aufführen? Link? Datum?}) 
@@ -332,7 +337,7 @@ Starting from the ESP-Now protocol, different approaches can be chosen to route 
 In the following I will present different approaches, which are also investigated experimentally.
 
 \section{Design}
-\label{sec:cross-reff}
+\label{sec:design}
 \begin{itemize}
 	\item Specification of the protocols
 	\item analytic results (simulierte Ergebnisse)
@@ -351,11 +356,13 @@ There are several specifications to go through and some details of the implement
 \item wireshark measurements
 \end{itemize}
 
-The most similar approach using ESP-Now to Art-Net \cref{sec:artnet} is to send instead of \ac{UDP} packets, 
-	is to transmit Unicast transmissions streight from the data link layer to all fixtures.
-\TODO{fix picture of Protocol stack}
+Art-Net \cref{sec:artnet} makes use of the \ac{IP} and the \ac{UDP} for routing and controlling the transmissions.
+The most similar approach using ESP-Now insted of Art-Net is cutting the Layer above the Data Link Layer.
+It is more like a direct transmission between sender and fixture, saving some overhead.
+In the Application layer is the Art-Net replaced with the Slim-Unicast, controlling the order and timing of the repetitions.
+\todo{ist Slim-Unicast auf sender-seite nicht anders zu behandeln als auf empfängerseite?}
 
-\begin{table}
+\begin{table}[h]
 	\centering
 	% \label{tab:layer_overview}
 	\begin{tabular} { ccc }
@@ -374,7 +381,7 @@ The most similar approach using ESP-Now to Art-Net \cref{sec:artnet} is to send 
 		\end{tabular}
 		\begin{tabular}{ |c| } 
 			\hline
-			Light-Unicast\\
+			Slim-Unicast\\
 			\\
 			\\
 			\hline
@@ -385,7 +392,7 @@ The most similar approach using ESP-Now to Art-Net \cref{sec:artnet} is to send 
 		\end{tabular}
 		\begin{tabular}{ |c| } 
 			\hline
-			Light-Broadcast\\
+			Slim-Broadcast\\
 			\\
 			\\
 			\hline
@@ -398,6 +405,7 @@ The most similar approach using ESP-Now to Art-Net \cref{sec:artnet} is to send 
 	\caption{OSI Layer of Slim Unicast and Broadcast}
 	\label{tab:Layer}
 \end{table}
+\TODO{Fehlt hier nicht ESP-Now?}
 
 An intuitive way is to send the most recent signal to all fixtures via Round Robin.
 The sender node selects a fixture after each other and transmits all the needed channel to it.
@@ -502,11 +510,11 @@ The idea is, that we can push the reliability wich each redundant retransmission
 
 The estimated reliability of a fixture with average success ratio (SR) of 83\% without Repetition has to be 83\%.
 If we increase the number of Rapid Repetitions (RR) we can roughly estimate:
-\TODO{RR Formel: ER? Intervall unbeschränkt?} 
-\begin{align*}
-	ER &= 1-SR &\text{Errorrate}\\
-	SR_{RR}(RR) &= 1-ER^{RR+1} & RR=[0,1,2,..[
-\end{align*}
+\begin{align}
+	% ER &= 1-SR &\text{Errorrate}\\
+	SR_{RR}(RR) &= 1-(1-SR)^{RR+1} 
+\end{align}
+\todo{RR von 0 beginnen}
 \TODO{grafische Darstellung RR=[0,1,2,3,4], für einen guten und einen schlechten Knoten 83\% und 95\%}
 
 We have to figure out how many repetitions we should transmit in order to find the best balance between reliability and latency/update ratio.
@@ -537,26 +545,35 @@ To push the idea of rapid repetion even further, we should take a look to tempor
 \end{itemize}
 Unfortunally in the documentation of the ESP-protocol is written, that broadcast is not supported 
 % \TODO{link, https:\/\/www.espressif.com\/sites\/default\/files\/documentation\/esp-now_user_guide_en.pdf, 2016}
-but actually it is. Insted of adding the \ac{MAC} Address of a fixture, we can use ff:ff:ff:ff:ff:ff 
-\todo{has this a proper name, like broadcast address?} to add a peer with the broadcast \ac{MAC}.
+but actually it is. Insted of adding the \ac{MAC} Address of a fixture, we can use 
+\todo{has this a proper name, like broadcast address?} ff:ff:ff:ff:ff:ff 
+to add a peer with the broadcast \ac{MAC}.
 
-\begin{lstlisting}{VS2017} 
-void addFixtureToPeerList(const uint8_t *mac_addr) {
-	if (esp_now_is_peer_exist(mac_addr)) 
-		return;
+\label{lst:shorttable}
+\begin{lstlisting}
+void addFixtureToPeerList(const uint8_t *mac_addr) 
+{
+	if (esp_now_is_peer_exist(mac_addr)) return;
+
 	peer_info.channel = 1;               // 1-14
 	peer_info.ifidx   = ESP_IF_WIFI_STA; // Station mode
 	peer_info.encrypt = false;         	 // not needed
 	memcpy(peer_info.peer_addr, mac_addr, 6);
 
 	esp_err_t status = esp_now_add_fixture(&peer_info);
-	if (ESP_OK != status)
+	if (ESP_OK != status) 
+	{
 		Serial.println("[ERROR] Could not add fixture");
-	else
+	}
+	else 
+	{
 		Serial.println("[OK] fixture added");
+	}
 }
 \end{lstlisting}
-\TODO{fix colorscheme of code examples}
+% \lstinputlisting[caption=Scheduler, style=customc]{hello.c}
+
+\TODO{fix colorscheme omf code examples}
 
 \subsection*{Collecting measurment results}
 \begin{itemize}

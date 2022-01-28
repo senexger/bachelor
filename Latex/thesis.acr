@@ -1,4 +1,4 @@
 \ACRO{total-barriers}{1}
-\ACRO{usage}{RR=={0}||MCU=={1}||DMX=={2}||CANhashing=={0}||CANproto=={1}||UDP=={1}||OSI=={1}||MAC=={2}||DL=={1}||WSN=={0}||MANET=={0}||ROI=={0}||ADAC=={0}}
-\ACRO{pages}{CANproto=={9@1@4}||DMX=={9@1@4}||DL=={10@1@5}||OSI=={10@1@5}||MCU=={10@1@5}||UDP=={14@1@9}||MAC=={17@1@12}}
+\ACRO{usage}{RR=={0}||MCU=={1}||DMX=={2}||CANhashing=={0}||CANproto=={1}||UDP=={1}||OSI=={1}||MAC=={2}||DL=={1}||IP=={1}||WSN=={0}||MANET=={0}||ROI=={0}||ADAC=={0}}
+\ACRO{pages}{CANproto=={9@1@4}||DMX=={9@1@4}||DL=={10@1@5}||OSI=={10@1@5}||MCU=={11@1@6}||IP=={14@1@9}||UDP=={14@1@9}||MAC=={17@1@12}}
 \ACRO{barriers}{}
