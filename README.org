@@ -132,7 +132,7 @@ immer eine leere Zeile nach jedem Print...
 Einfach UnicastSetup erneut ausführen?
 * DONE Degbug C header chaos
 * DONE Tolja Mail schreiben
-* IDEA Espressif Mail schicken?
+* KILL Espressif Mail schicken?
 * DONE dynamic struct
 Wenn ich daten verschicke, dann sollen die Pakete natürlich nicht immer MAX_LENGTH haben, deswgen darf das struct nicht direkt so groß angelegt werden.
 Lösung: Einfach die Länge des zu übertragenden Signals beschneiden und +1 rechnen
@@ -333,7 +333,6 @@ CLOSED: [2021-09-02 Do 13:20]
 CLOSED: [2021-09-02 Do 13:20]
 * DONE Warten auf Mail von Tolja
 CLOSED: [2021-09-01 Mi 10:26]
-* TODO find related work
 * DONE Namen für BA finden
 CLOSED: [2021-09-07 Di 10:11]
 * TODO VERBOSE/DEBUG Klammern setzen, sinnvoll
@@ -342,7 +341,8 @@ CLOSED: [2021-09-07 Di 10:11]
 - VERBOSE: Informationen über jeden einzelnen Prozess
 - Sonst: keine Kommentare oder nur an stellen, an denen sie KEINE Auswirkung auf
   die Performance haben.
-* TODO Paket größe variieren?
+* DONE Paket größe variieren?
+CLOSED: [2022-01-29 Sa 01:09]
 * DONE Slides aufräumen
 CLOSED: [2021-09-03 Fr 13:44]
 * DONE Meeting 14:00 Uhr
@@ -382,5 +382,10 @@ Vielleicht eher mit UART?
 zu erwarten ist, dass jedes Paket 8 mal versucht wird zu senden und danach dann
 abgebrochen wird.
 ** TODO Find magic number
-* TODO Mittwochsmeeting vorbereiten
-* TODO RR=2 Buffering Delay analysieren
+* DONE Mittwochsmeeting vorbereiten
+CLOSED: [2022-01-29 Sa 01:08]
+* DONE RR=2 Buffering Delay analysieren
+CLOSED: [2022-01-29 Sa 01:08]
+* TODO Unicast Brechnungen durchführen
+* TODO Alle Plots überarbeiten!
+* TODO find related work

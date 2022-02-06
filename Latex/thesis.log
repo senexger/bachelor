@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.1.3)  28 JAN 2022 14:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.1.3)  31 JAN 2022 15:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1772,15 +1772,15 @@ Package todonotes Warning: Trying to put a shadow below a todonote,but the loads
 Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 532.
 
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 549.
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 551.
 
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 553.
+(Font)              scaled to size 7.68005pt on input line 555.
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 554.
+(Font)              scaled to size 4.80003pt on input line 556.
 [12]
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 576.
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 578.
 
 [13]
 Chapter 5.
@@ -1788,12 +1788,12 @@ Chapter 5.
 
 ]
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 616.
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 617.
 
 [15]
 Chapter 6.
 
-Underfull \hbox (badness 10000) in paragraph at lines 630--631
+Underfull \hbox (badness 10000) in paragraph at lines 631--632
 
  []
 
@@ -1801,7 +1801,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 630--631
 
 ]
 LaTeX Font Info:    Font shape `T1/mdbch/m/it' will be
-(Font)              scaled to size 9.60007pt on input line 990.
+(Font)              scaled to size 9.60007pt on input line 991.
  [17
 
 
@@ -1821,7 +1821,7 @@ LaTeX Font Info:    Font shape `T1/mdbch/m/it' will be
 
 ]
 
-LaTeX Warning: Empty bibliography on input line 998.
+LaTeX Warning: Empty bibliography on input line 999.
 
 (./thesis.tdo
 LaTeX Font Info:    Faking \texteuro for font family mdbch
@@ -1855,13 +1855,13 @@ Package logreq Info: Writing requests to 'thesis.run.xml'.
 Here is how much of TeX's memory you used:
  49288 strings out of 478353
  1016939 string characters out of 5854636
- 1742624 words of memory out of 5000000
+ 1738624 words of memory out of 5000000
  66157 multiletter control sequences out of 15000+600000
  496918 words of font info for 352 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
- 85i,14n,131p,1161b,2341s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 85i,14n,131p,1161b,2448s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc}{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/share/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/share/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chb8t.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr7t.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr7y.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr8t.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chri7m.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on thesis.pdf (27 pages, 205232 bytes).
+Output written on thesis.pdf (27 pages, 205541 bytes).
 PDF statistics:
  397 PDF objects out of 1000 (max. 8388607)
  338 compressed objects within 4 object streams
