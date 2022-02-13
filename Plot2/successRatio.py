@@ -12,17 +12,14 @@ square_purp         = dict(markerfacecolor='purple', marker='s', size=1)
 medianprops_red     = dict(linestyle='-.', linewidth=1.5, color='red')
 medianprops_purp    = dict(linestyle='-.', linewidth=1.5, color='purple')
 
-
 SEQ_SIZE = 600
 FIX_SIZE = 7
 EXP_SIZE = 999
 
-#%%
 # import data
 data_formatted = genfromtxt('/home/walther/Documents/bachelor/Plot2/removeme.csv', delimiter=",", dtype="int")
-print(data_formatted.shape)
+# print(data_formatted.shape)
 
-#%%
 # sanitize data to 3D array
 data = np.zeros((SEQ_SIZE, FIX_SIZE, EXP_SIZE))
 print(data.shape)
@@ -52,7 +49,7 @@ def sr_per_fixture_broadcast(data):
     plt.show()
     plt.close()
     
-    plt.savefig('/home/walther/Documents/bachelor/Graphs/SR_per_fixture_broadcast.pdf', dpi=1000)
+    plt.savefig('/home/walther/Documents/bachelor/Plot2/Graphs/SR_per_fixture_broadcast', dpi=1000)
 
 flierprop_purp = dict(marker='s', markerfacecolor='purple', markersize=3)
 medianprops_purp = dict(linestyle='-', color='purple')
