@@ -65,16 +65,24 @@ print(rr_data_node3[0:100,8,0])
 #%% Calculate success ratio if using RR
 REP_SIZE = 6
 
-rr_success_ratio = np.zeros((EXP_SIZE, REP_SIZE))
+def calculate_rr_success_ratio(rr_data_of_node):
+    '''given rapid repetion array
+    calculates successratio for each experiemnt
+    '''
+    rr_success_ratio_of_node = np.zeros((EXP_SIZE, REP_SIZE))
 
-for exp in range(0,EXP_SIZE):
-    for rep in range(0,REP_SIZE):
-        count_is_zero = np.count_nonzero(rr_data_node3[:,exp,rep]==0)
-        rr_success_ratio[exp, rep] = 1 - count_is_zero/SEQ_SIZE
+    for exp in range(0,EXP_SIZE):
+        for rep in range(0,REP_SIZE):
+            count_is_zero = np.count_nonzero(rr_data_of_node[:,exp,rep]==0)
+            rr_success_ratio_of_node[exp, rep] = 1 - count_is_zero/SEQ_SIZE
+    
+    return rr_success_ratio_of_node
 
-print(rr_success_ratio[:10,0])
-print(rr_success_ratio[:10,1])
-print(rr_success_ratio[:10,2])
+sr_result_node3 = calculate_rr_success_ratio(rr_data_node3)
+
+print(sr_result_node3[:10,0])
+print(sr_result_node3[:10,1])
+print(sr_result_node3[:10,2])
 #%% For Control: Success Ratio of data4 
 # success_ratio_data4 = np.zeros((EXP_SIZE))
 
@@ -87,23 +95,23 @@ print(rr_success_ratio[:10,2])
 # print(success_ratio_data4[0])
 #%%
 #success ratio for each node broadcast
-def sr_rapid_repetition_node4(rr_data):
+def boxplot_sr_rapid_repetition_node_x(rr_data):
+    ''' Plot Boxplot for given node with all Rapid Repetitions'''
 
     ax1.set_xlabel('Rapid Repetitions', color='black')
-    ax1.set_ylabel('Success Ratio in %') 
-    # ax1.
-    
+    ax1.set_ylabel('Success Ratio in %')
+
     ax1.boxplot(rr_data[::10,:], flierprops=flierprop_purp, medianprops=medianprops_purp)
 
     plt.figure(num=None, figsize=None, dpi=800)
     plt.show()
     plt.close()
-    
+
     plt.savefig('/home/walther/Documents/bachelor/Plot2/Graphs/RR_variation_Node4.pdf', dpi=1000)
 
 flierprop_purp = dict(marker='s', markerfacecolor='purple', markersize=3)
 medianprops_purp = dict(linestyle='-', color='purple')
 
 fig, ax1 = plt.subplots()
-print(rr_success_ratio.shape)
-sr_rapid_repetition_node4(rr_success_ratio)
+print(sr_result_node3.shape)
+boxplot_sr_rapid_repetition_node_x(sr_result_node3)
