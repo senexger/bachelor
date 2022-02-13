@@ -33,58 +33,65 @@ for exp in range(0,EXP_SIZE):
 #%%
 # Rapid Repetitions for node 4
 # select node 4
-SEQ_SIZE = 600
-
 data4 = data[:,3,:]
 print(data4.shape)
 
-REP_SIZE = 6
+def apply_rr_to_node(data_node, min_rr=0, max_rr=6):
+    '''Transforms the data of a wes to an wireless vector 
+    and calculates the output data for given repetitions
 
-rr_data = np.zeros((SEQ_SIZE, EXP_SIZE, REP_SIZE), dtype=int)
+    data_node   input vector of data of selected node
+    min_rr      minumum rapid repetition, default = 0
+    max_rr      maximum rapid repetition, default = 6
+    '''
 
-for rep in range(0,REP_SIZE):
-    for exp in range(0, EXP_SIZE):
-        i = 0
-        for seq in range(0, SEQ_SIZE):
-            if (np.count_nonzero(data4[seq:seq+rep+1, exp])):
-                rr_data[i, exp, rep] = 1
-            i = i + 1
-            if (i==SEQ_SIZE):
-                break
+    rr_data = np.zeros((SEQ_SIZE, EXP_SIZE, max_rr-min_rr), dtype=int)
 
-# print(data4[0:100,8])
-# print(rr_data[0:100,8,0])
-# print(rr_data[0:100,8,1])
+    for rep in range(min_rr, max_rr):
+        for exp in range(0, EXP_SIZE):
+            i = 0
+            for seq in range(0, SEQ_SIZE):
+                if (np.count_nonzero(data_node[seq:seq+rep+1, exp])):
+                    rr_data[i, exp, rep] = 1
+                i = i + 1
+                if (i==SEQ_SIZE):
+                    break
+
+    return rr_data
+
+rr_data_node3 = apply_rr_to_node(data[:,3,:])
+print(rr_data_node3[0:100,8,0])
 
 #%% Calculate success ratio if using RR
-success_ratio_data4 = np.zeros((EXP_SIZE))
+REP_SIZE = 6
 
 rr_success_ratio = np.zeros((EXP_SIZE, REP_SIZE))
 
 for exp in range(0,EXP_SIZE):
     for rep in range(0,REP_SIZE):
-        count_is_zero = np.count_nonzero(rr_data[:,exp,rep]==0)
+        count_is_zero = np.count_nonzero(rr_data_node3[:,exp,rep]==0)
         rr_success_ratio[exp, rep] = 1 - count_is_zero/SEQ_SIZE
 
-print(success_ratio_data4[:10])
 print(rr_success_ratio[:10,0])
 print(rr_success_ratio[:10,1])
 print(rr_success_ratio[:10,2])
 #%% For Control: Success Ratio of data4 
+# success_ratio_data4 = np.zeros((EXP_SIZE))
 
-for exp in range(0,SEQ_SIZE):
-    count_is_zero = np.count_nonzero(data4[:SEQ_SIZE, exp]==0)
-    success_ratio_data4[exp] = 1 - count_is_zero/SEQ_SIZE
-print(success_ratio_data4[0])
+# for exp in range(0,SEQ_SIZE):
+#     count_is_zero = np.count_nonzero(data4[:SEQ_SIZE, exp]==0)
+#     success_ratio_data4[exp] = 1 - count_is_zero/SEQ_SIZE
+# print(success_ratio_data4[0])
 
-success_ratio_data4 = np.mean(data4[:SEQ_SIZE], axis=0)
-print(success_ratio_data4[0])
+# success_ratio_data4 = np.mean(data4[:SEQ_SIZE], axis=0)
+# print(success_ratio_data4[0])
 #%%
 #success ratio for each node broadcast
 def sr_rapid_repetition_node4(rr_data):
 
     ax1.set_xlabel('Rapid Repetitions', color='black')
     ax1.set_ylabel('Success Ratio in %') 
+    # ax1.
     
     ax1.boxplot(rr_data[::10,:], flierprops=flierprop_purp, medianprops=medianprops_purp)
 
