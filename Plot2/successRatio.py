@@ -38,7 +38,7 @@ def sr_per_fixture_broadcast(data):
     for exp in range(0,EXP_SIZE):
         for fix in range(0,FIX_SIZE):
             count_is_zero = np.count_nonzero(data[:,fix,exp]==0)
-            sr_array[exp,fix] = 1 - count_is_zero/SEQ_SIZE
+            sr_array[exp,fix] = 100* (1 - count_is_zero/SEQ_SIZE)
 
     ax1.set_xlabel('Fixture enum.', color='black')
     ax1.set_ylabel('Success Ratio in %') 
