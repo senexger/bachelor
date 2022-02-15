@@ -5,46 +5,52 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ List of papers:}{4}{section*.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Picture of topology}{4}{section*.7}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ eigener Wortlaut}{4}{section*.7}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ I or we? It should be I...}{4}{section*.8}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Rewrite introductino in chapter Fundamentals}{4}{section*.8}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Show Hardware e.g. DMX Plug}{4}{section*.9}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ ESP32 Kosten in € 2021 aufführen? Link? Datum?}{5}{section*.10}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Bild von fixtures verteilt auf channel}{5}{section*.10}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ use passive voice}{5}{section*.11}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ ESP32 Kosten in € 2021 aufführen? Link? Datum?}{6}{section*.12}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Picture of topology}{6}{section*.12}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ ist Slim-Unicast auf sender-seite nicht anders zu behandeln als auf empfängerseite?}{9}{section*.13}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ I or we? It should be I...}{6}{section*.13}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Fehlt hier nicht ESP-Now?}{9}{section*.15}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Show Hardware e.g. DMX Plug}{6}{section*.14}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Discuss the inimportance of order of round robin in unicast}{9}{section*.16}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Bild von fixtures verteilt auf channel}{6}{section*.15}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ calculation of the estimated transmission time of unicasts}{9}{section*.17}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ ist Slim-Unicast auf sender-seite nicht anders zu behandeln als auf empfängerseite?}{9}{section*.16}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ move to buffering delay??}{9}{section*.18}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Fehlt hier nicht ESP-Now?}{9}{section*.18}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Man kann transmissions skippen, wenn eine fixture keine veränderten daten erhält}{10}{section*.19}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Discuss the inimportance of order of round robin in unicast}{9}{section*.19}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Notwendig?}{10}{section*.21}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ calculation of the estimated transmission time of unicasts}{9}{section*.20}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Grafik die zeigt, wie der Broadcast besser performt, sobald eine bestimmte zahl fixtures erreicht ist}{10}{section*.22}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ move to buffering delay??}{9}{section*.21}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Cite paper A First Implementation and Evaluation of the IEEE 802.11aa Group Addressed Transmission Service}{11}{section*.23}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Man kann transmissions skippen, wenn eine fixture keine veränderten daten erhält}{10}{section*.22}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Is Rapid Repetition a appropriate name? Unsosliced Repetition is better siehe Paper?}{11}{section*.24}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Notwendig?}{10}{section*.24}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ RR von 0 beginnen}{11}{section*.25}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Grafik die zeigt, wie der Broadcast besser performt, sobald eine bestimmte zahl fixtures erreicht ist}{10}{section*.25}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ grafische Darstellung RR=[0,1,2,3,4], für einen guten und einen schlechten Knoten 83\% und 95\%}{11}{section*.26}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Cite paper A First Implementation and Evaluation of the IEEE 802.11aa Group Addressed Transmission Service}{11}{section*.26}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ (test-)setup: kann man das so schrieben?}{11}{section*.27}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Is Rapid Repetition a appropriate name? Unsosliced Repetition is better siehe Paper?}{11}{section*.27}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Figure of bad channel time}{12}{section*.28}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ RR von 0 beginnen}{11}{section*.28}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ has this a proper name, like broadcast address?}{12}{section*.29}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ grafische Darstellung RR=[0,1,2,3,4], für einen guten und einen schlechten Knoten 83\% und 95\%}{11}{section*.29}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ fix colorscheme omf code examples}{13}{section*.30}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ (test-)setup: kann man das so schrieben?}{11}{section*.30}%
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Difference between Results and Discussion?}{15}{section*.31}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Figure of bad channel time}{12}{section*.31}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ has this a proper name, like broadcast address?}{12}{section*.32}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ fix colorscheme omf code examples}{13}{section*.33}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Difference between Results and Discussion?}{16}{section*.35}%

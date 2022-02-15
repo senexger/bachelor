@@ -13,11 +13,13 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {3}Fundamentals}{4}{chapter.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.1}Light protocols}{4}{section.3.1}%
+\contentsline {section}{\numberline {3.1}IEEE 802.11 Specification Family}{4}{section.3.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.2}Data Link Layer in 802.11}{5}{section.3.2}%
+\contentsline {section}{\numberline {3.2}Data Link Layer in 802.11}{4}{section.3.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.3}ESP Platform}{6}{section.3.3}%
+\contentsline {section}{\numberline {3.3}ESP Platform}{5}{section.3.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.4}Light protocols}{5}{section.3.4}%
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {4}Proposed Approach}{8}{chapter.4}%
 \defcounter {refsection}{0}\relax 
@@ -25,12 +27,12 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.2}Implementation}{12}{section.4.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Evaluation}{14}{chapter.5}%
+\contentsline {chapter}{\numberline {5}Evaluation}{15}{chapter.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}Methodic}{14}{section.5.1}%
+\contentsline {section}{\numberline {5.1}Methodic}{15}{section.5.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.2}Protocols under Study}{14}{section.5.2}%
+\contentsline {section}{\numberline {5.2}Protocols under Study}{15}{section.5.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.3}Results}{15}{section.5.3}%
+\contentsline {section}{\numberline {5.3}Results}{16}{section.5.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Conclusion \& Discussion}{16}{chapter.6}%
+\contentsline {chapter}{\numberline {6}Conclusion \& Discussion}{17}{chapter.6}%
