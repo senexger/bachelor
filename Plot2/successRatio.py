@@ -49,7 +49,7 @@ def sr_per_fixture_broadcast(data):
     plt.show()
     plt.close()
     
-    plt.savefig('/home/walther/Documents/bachelor/Plot2/Graphs/SR_per_fixture_broadcast', dpi=1000)
+    # plt.savefig('/home/walther/Documents/bachelor/Plot2/Graphs/SR_per_fixture_broadcast', dpi=1000)
 
 flierprop_purp = dict(marker='s', markerfacecolor='purple', markersize=3)
 medianprops_purp = dict(linestyle='-', color='purple')

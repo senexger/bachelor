@@ -121,7 +121,7 @@ def boxplot_sr_rapid_repetition_node_x(rr_data):
     plt.show()
     plt.close()
 
-    plt.savefig('/home/walther/Documents/bachelor/Plot2/Graphs/RR_variation_Node4.pdf', dpi=1000)
+    # plt.savefig('/home/walther/Documents/bachelor/Plot2/Graphs/RR_variation_Node4.pdf', dpi=1000)
     return
 
 flierprop_purp = dict(marker='s', markerfacecolor='purple', markersize=3)
