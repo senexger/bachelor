@@ -68,6 +68,7 @@
 \acrodef{IP}{Internet Protocol}
 \acrodef{IEEE}{Institut of Electrical and Electronics Engineers}
 \acrodef{CD}{Collision Detection}
+\acrodef{CSMA/CA}{Carrier-sense multiple access with collision avoidance}
 \acrodef{DCF}{Distributed Coordination Function}
 \acrodef{PCF}{Point Coordination Function}
 \acrodef{DIFS}{DCF Inter Frame Spaces}
@@ -77,6 +78,11 @@
 \acrodef{MPDU}{}
 \acrodef{DSSS}{Direct Sequence Spread Spectrum}
 \acrodef{FHSS}{Frequencey Hopping}
+\acrodef{STA}{Station}
+\acrodef{AP}{Access Point}
+\acrodef{WES}{Wireless Endsystem}
+\acrodef{BSS}{Basic Service Set}
+\acrodef{OFDM}{Orthogonal Frequency Division Multiplexing)}
 
 \begin{document}
 
@@ -209,26 +215,8 @@ Established solutions are realized via cables.
 \item recommended length: approximately one third of the thesis.
 \end{itemize}
 
-In this chapter I discuss the fundamentals required for understanding the different implementations in the Data Link Layer. 
-\todo{eigener Wortlaut}
-\\
-In order to understand the upcomming ESP-Now protocol we have to take a look at the \ac{DL} layer in 802.11.
-It is the second layer of the \ac{OSI} model of computer networking. 
-\TODO{Rewrite introductino in chapter Fundamentals}
-
-\section{IEEE 802.11 Specification Family}
-
-The \ac{IEEE}
-
-
-\section{Data Link Layer in 802.11}
-\begin{itemize}
-	\item why is it important for us
-	\item how works the DL layer
-	\item was ist BC, was Unicast
-	\item was sind frames
-	\item how the Application layer
-\end{itemize}
+In this chapter I discuss the fundamentals required for understanding the different implementations in the Data Link Layer.\todo{eigener Wortlaut}
+Located in the second layer of the \ac{OSI} Model.\todo{refrence to table below}
 
 \begin{table}
 	\centering
@@ -251,6 +239,101 @@ The \ac{IEEE}
 	\caption{\ac{OSI} model}
 	\label{tab:OsiModel}
 \end{table}
+
+In order to understand the upcomming ESP-Now protocol we have to take a look at the \ac{DL} layer in 802.11.
+It is the second layer of the \ac{OSI} model of computer networking. 
+\TODO{Rewrite introductino in chapter Fundamentals}
+
+\section{IEEE 802.11 Specification Family}
+
+The \ac{IEEE} 802 is a family of standards dealing with area networks different kinds.
+\begin{itemize}
+	\item 802.11 Wireless local area network (WLAN)
+	\item 802.15.1 Wireless personal area network (WPAN)
+	\item 802.15.4 Low-rate WPAN (LR-WPAN)
+	\item 802.16 Wireless metropolitan area network (WMAN)
+\end{itemize}
+
+For this thesis is the focus set to the 802.11, because of the accessability and wide functionality.
+There are two \ac{BSS} defined:
+\begin{itemize}
+	\item Infrastructure BSS\\
+	A central element manages the network and all the traffic goes through. 
+	Every \ac{STA} must always communicate via the \ac{AP} and never directly - exceptional: Direct Link Mode.
+	An initial association must take place to use this \ac{BSS}.
+	\item Independent BSS\\
+	A network without a central station, where the network topology can flexible change over time.
+	The communication is directly between the Wireless Endsystems.\todo{WES in AdHoc correct?}
+	Efficent routing can became a problem in more complex topologys.
+\end{itemize}
+The most common use in 802.11 is the Infrastructure mode.\\ 
+
+\subsection{IEEE Frame Structure}
+• Image of 802.11 frame structure PHY and MAC header\\
+• Image of MAC header\\
+• Image of frame control field of MAC in MAC header\\
+• Image of frame control field of MAC in MAC header\\
+
+\subsection{DL-Layer in 802.11}
+
+\begin{itemize}
+	\item why is it important for us
+	\item how works the DL layer
+	\item was ist BC, was Unicast
+	\item was sind frames
+	\item how the Application layer
+\end{itemize}
+
+\subsection{Physical layer}
+There are several complements to the 802.11 standard.
+Modulation: \ac{DSSS} introduced in 802.11b with larger bit rates: 1, 2, 5.5, 11 Mbit/s
+Automatic fall-back to lower bitrates in case of bad radio channel.\todo{eigene Worte}.
+\begin{itemize}
+	\item 802.11b \\
+	supports larger bitrates in \ac{DSSS} from 1Mbit/s to 11Mbit/s.
+	It is in the 2.4 GHz ISM band.
+	\item 802.11a and 802.11g \\
+	\ac{OFDM} Data rates up to 54 Mbit/s are supported. 802.11a is in the 5GHz ISM band.
+	\item 802.11n\\
+	Multiple antennas to increase data rates. Using 2.4 GHz and 5GHz ISM band
+	\item 802.11ac\\
+	Support of wider channel and out of it higher bitrates.
+	\item 802.11ax\\
+	Like 802.11ac but with additional use of the 6GHz ISM band and better power control. 
+	Also called WiFi6.
+\end{itemize}
+
+\subsection{802 Stuff}
+Multiple Access/Multiplexing: When Signals to/from different users share a common channel using time division methods (TDM/TDMA, CSMA)\todo{eigene Worte}\\
+
+Addressing
+In a LAN environment, devices are logically separated using 48-bit
+globally unique MAC addresses: example
+In IPv4 networks (e.g. Internet), nodes are logically separated
+using 32-bit globally unique IP addresses: example \\
+
+Routing
+• Routing in a (W)LAN is based on MAC addresses, never IP addresses.\\
+• A router (e.g. integrated with an access point) performs mapping between\\
+these two address types: \\
+
+Address allocation
+• MAC addresses are associated with the hardware devices.\\
+• IP addresses can be allocated to (W)LAN devices either on a\\
+permanent basis or dynamically from an address pool using the
+Dynamic Host Configuration Protocol (DHCP). \\
+
+Mesh networks
+are able to relay frames from one device to another.
+• Provide coverage extension over multiple hops (e.g. Internet access)
+• Sufficient address information is required to be able to relay data from a
+source device to the ultimate destination (IP or MAC address).
+This can be used to extend the range from on \ac{WES} to another \ac{WES} over some other \ac{WES}.
+Since range isn't a critical parameter in this thesis, it hasn't to be further discussed.\\
+
+Beacon Frames
+contain the channel information found during passive scanning. Probe request are used in acting scanning.
+
 
 \section{ESP Platform}
 \begin{itemize}

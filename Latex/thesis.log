@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.1.3)  16 FEB 2022 00:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.1.3)  16 FEB 2022 13:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1268,15 +1268,21 @@ File: lstlang1.sty 2020/03/24 1.8d listings language file
 \g__acro_IP_int=\count545
 \g__acro_IEEE_int=\count546
 \g__acro_CD_int=\count547
-\g__acro_DCF_int=\count548
-\g__acro_PCF_int=\count549
-\g__acro_DIFS_int=\count550
-\g__acro_NAV_int=\count551
-\g__acro_PHY_int=\count552
-\g__acro_CW_int=\count553
-\g__acro_MPDU_int=\count554
-\g__acro_DSSS_int=\count555
-\g__acro_FHSS_int=\count556
+\g__acro_CSMA/CA_int=\count548
+\g__acro_DCF_int=\count549
+\g__acro_PCF_int=\count550
+\g__acro_DIFS_int=\count551
+\g__acro_NAV_int=\count552
+\g__acro_PHY_int=\count553
+\g__acro_CW_int=\count554
+\g__acro_MPDU_int=\count555
+\g__acro_DSSS_int=\count556
+\g__acro_FHSS_int=\count557
+\g__acro_STA_int=\count558
+\g__acro_AP_int=\count559
+\g__acro_WES_int=\count560
+\g__acro_BSS_int=\count561
+\g__acro_OFDM_int=\count562
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
@@ -1284,36 +1290,36 @@ Package csquotes Info: Redefining alias 'default' -> 'american'.
  (./thesis.aux (./thesis.acr))
 \openout1 = `thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for MDA/cmr/m/n on input line 81.
-LaTeX Font Info:    Trying to load font information for MDA+cmr on input line 81.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for MDA/cmr/m/n on input line 87.
+LaTeX Font Info:    Trying to load font information for MDA+cmr on input line 87.
  (/usr/share/texmf-dist/tex/latex/mathdesign/mdacmr.fd
 File: mdacmr.fd 
 )
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for MDB/cmr/m/n on input line 81.
-LaTeX Font Info:    Trying to load font information for MDB+cmr on input line 81.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for MDB/cmr/m/n on input line 87.
+LaTeX Font Info:    Trying to load font information for MDB+cmr on input line 87.
  (/usr/share/texmf-dist/tex/latex/mathdesign/mdbcmr.fd
 File: mdbcmr.fd 
 )
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1351,18 +1357,18 @@ LaTeX Font Info:    ... okay on input line 81.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 81.
-Package microtype Info: Applying patch `item' on input line 81.
-Package microtype Info: Applying patch `toc' on input line 81.
-Package microtype Info: Applying patch `eqnum' on input line 81.
-Package microtype Info: Applying patch `footnote' on input line 81.
+LaTeX Info: Redefining \microtypecontext on input line 87.
+Package microtype Info: Applying patch `item' on input line 87.
+Package microtype Info: Applying patch `toc' on input line 87.
+Package microtype Info: Applying patch `eqnum' on input line 87.
+Package microtype Info: Applying patch `footnote' on input line 87.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 81.
+LaTeX Info: Redefining \showhyphens on input line 87.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: Adjustment of interword spacing enabled.
 Package microtype Info: Using default spacing set `alltext-nott'.
@@ -1373,16 +1379,16 @@ Package microtype Info: Redefining babel's language switching commands.
 File: mt-bch.cfg 2007/03/03 v1.5 microtype config. file: Bitstream Charter (RS)
 ) (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count557
+\scratchcounter=\count563
 \scratchdimen=\dimen315
 \scratchbox=\box80
-\nofMPsegments=\count558
-\nofMParguments=\count559
+\nofMPsegments=\count564
+\nofMParguments=\count565
 \everyMPshowfont=\toks57
-\MPscratchCnt=\count560
+\MPscratchCnt=\count566
 \MPscratchDim=\dimen316
-\MPnumerator=\count561
-\makeMPintoPDFobject=\count562
+\MPnumerator=\count567
+\makeMPintoPDFobject=\count568
 \everyMPtoPDFconversion=\toks58
 ) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -1396,7 +1402,7 @@ Package grfext Info: Graphics extension search list:
  (/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring OFF on input line 81.
+Package hyperref Info: Link coloring OFF on input line 87.
  (/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
  (/usr/share/texmf-dist/tex/latex/refcount/refcount.sty
@@ -1404,11 +1410,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (/usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count563
+\c@section@level=\count569
 )
-LaTeX Info: Redefining \ref on input line 81.
-LaTeX Info: Redefining \pageref on input line 81.
-LaTeX Info: Redefining \nameref on input line 81.
+LaTeX Info: Redefining \ref on input line 87.
+LaTeX Info: Redefining \pageref on input line 87.
+LaTeX Info: Redefining \nameref on input line 87.
  (./thesis.out) (./thesis.out)
 \@outlinefile=\write5
 \openout5 = `thesis.out'.
@@ -1461,8 +1467,8 @@ Package: blx-case-expl3 2020/12/31 v3.16 expl3 case changing code for biblatex
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'thesis.bbl' found.
  (./thesis.bbl)
-Package biblatex Info: Reference section=0 on input line 81.
-Package biblatex Info: Reference segment=0 on input line 81.
+Package biblatex Info: Reference section=0 on input line 87.
+Package biblatex Info: Reference segment=0 on input line 87.
 
 
 LaTeX hooks Warning: Generic hook
@@ -1486,31 +1492,31 @@ LaTeX hooks Warning: Generic hook
 (/usr/share/texmf-dist/tex/latex/translations/translations-basic-dictionary-german.trsl
 File: translations-basic-dictionary-german.trsl (german translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' for `german'. on input line 81.
+Package translations Info: loading dictionary `translations-basic-dictionary' for `german'. on input line 87.
 \l__acro_aux_file_iow=\write6
 \openout6 = `thesis.acr'.
 
-LaTeX Info: Redefining \dots on input line 81.
+LaTeX Info: Redefining \dots on input line 87.
 Package nag Info: Attempting subfig hack.
 Package nag Info: OK, equivalent to subfig 1.3, redefining \sf@@@subfloat.
-Package nag Info: pgf.sty is broken: disabling dollar check on input line 81.
-Package nag Info: Command \frontmatter not defined, skipping amendment on input line 81.
-Package nag Info: Command \mainmatter not defined, skipping amendment on input line 81.
-Package nag Info: Command \backmatter not defined, skipping amendment on input line 81.
-Package nag Info: Command \RaggedLeft not defined, skipping amendment on input line 81.
-Package nag Info: Command \RaggedRight not defined, skipping amendment on input line 81.
-\c@lstlisting=\count564
-Package nag Info: Command \captionabove not defined, skipping amendment on input line 81.
-Package nag Info: Command \captionbelow not defined, skipping amendment on input line 81.
-Package nag Info: Command \hc@caption not defined, skipping amendment on input line 81.
-Package nag Info: Command \topcaption not defined, skipping amendment on input line 81.
-\c@@ccsauthorcount=\count565
-<tkn/TU_Logo_lang_4c_rot.pdf, id=99, 202.7575pt x 113.42375pt>
+Package nag Info: pgf.sty is broken: disabling dollar check on input line 87.
+Package nag Info: Command \frontmatter not defined, skipping amendment on input line 87.
+Package nag Info: Command \mainmatter not defined, skipping amendment on input line 87.
+Package nag Info: Command \backmatter not defined, skipping amendment on input line 87.
+Package nag Info: Command \RaggedLeft not defined, skipping amendment on input line 87.
+Package nag Info: Command \RaggedRight not defined, skipping amendment on input line 87.
+\c@lstlisting=\count570
+Package nag Info: Command \captionabove not defined, skipping amendment on input line 87.
+Package nag Info: Command \captionbelow not defined, skipping amendment on input line 87.
+Package nag Info: Command \hc@caption not defined, skipping amendment on input line 87.
+Package nag Info: Command \topcaption not defined, skipping amendment on input line 87.
+\c@@ccsauthorcount=\count571
+<tkn/TU_Logo_lang_4c_rot.pdf, id=111, 202.7575pt x 113.42375pt>
 File: tkn/TU_Logo_lang_4c_rot.pdf Graphic file (type pdf)
 <use tkn/TU_Logo_lang_4c_rot.pdf>
-Package pdftex.def Info: tkn/TU_Logo_lang_4c_rot.pdf  used on input line 85.
+Package pdftex.def Info: tkn/TU_Logo_lang_4c_rot.pdf  used on input line 91.
 (pdftex.def)             Requested size: 202.757pt x 113.42346pt.
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 85.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 91.
  (/usr/share/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
@@ -1519,120 +1525,120 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 85.
+(Font)              scaled to size 6.72005pt on input line 91.
 LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 85.
-LaTeX Font Info:    Trying to load font information for OML+mdbch on input line 85.
+(Font)              scaled to size 4.80003pt on input line 91.
+LaTeX Font Info:    Trying to load font information for OML+mdbch on input line 91.
  (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/omlmdbch.fd
 File: omlmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for OML/mdbch.
 )
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 9.60007pt on input line 85.
+(Font)              scaled to size 9.60007pt on input line 91.
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 6.72005pt on input line 85.
+(Font)              scaled to size 6.72005pt on input line 91.
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 4.80003pt on input line 85.
-LaTeX Font Info:    Trying to load font information for OMS+mdbch on input line 85.
+(Font)              scaled to size 4.80003pt on input line 91.
+LaTeX Font Info:    Trying to load font information for OMS+mdbch on input line 91.
  (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/omsmdbch.fd
 File: omsmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for OMS/mdbch.
 )
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 85.
+(Font)              scaled to size 9.60007pt on input line 91.
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 85.
+(Font)              scaled to size 6.72005pt on input line 91.
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 85.
-LaTeX Font Info:    Trying to load font information for OMX+mdbch on input line 85.
+(Font)              scaled to size 4.80003pt on input line 91.
+LaTeX Font Info:    Trying to load font information for OMX+mdbch on input line 91.
  (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/omxmdbch.fd
 File: omxmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for OMX/mdbch.
 )
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 85.
+(Font)              scaled to size 9.60007pt on input line 91.
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 85.
+(Font)              scaled to size 6.72005pt on input line 91.
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 85.
+(Font)              scaled to size 4.80003pt on input line 91.
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 85.
+(Font)              scaled to size 9.60007pt on input line 91.
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 85.
+(Font)              scaled to size 6.72005pt on input line 91.
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 85.
-LaTeX Font Info:    Trying to load font information for MDA+mdbch on input line 85.
+(Font)              scaled to size 4.80003pt on input line 91.
+LaTeX Font Info:    Trying to load font information for MDA+mdbch on input line 91.
  (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/mdamdbch.fd
 File: mdamdbch.fd 2013/08/29 Fontinst v1.933 font definitions for MDA/mdbch.
 )
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 85.
+(Font)              scaled to size 9.60007pt on input line 91.
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 85.
+(Font)              scaled to size 6.72005pt on input line 91.
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 85.
-LaTeX Font Info:    Trying to load font information for MDB+mdbch on input line 85.
+(Font)              scaled to size 4.80003pt on input line 91.
+LaTeX Font Info:    Trying to load font information for MDB+mdbch on input line 91.
  (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/mdbmdbch.fd
 File: mdbmdbch.fd 2013/08/29 Fontinst v1.933 font definitions for MDB/mdbch.
 )
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 85.
+(Font)              scaled to size 9.60007pt on input line 91.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 6.72005pt on input line 85.
+(Font)              scaled to size 6.72005pt on input line 91.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 85.
+(Font)              scaled to size 4.80003pt on input line 91.
 
 Missing character: There is no ; in font nullfont!
 LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 85.
+(Font)              scaled to size 7.68005pt on input line 91.
 LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
-(Font)              scaled to size 5.76004pt on input line 85.
+(Font)              scaled to size 5.76004pt on input line 91.
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 7.68005pt on input line 85.
+(Font)              scaled to size 7.68005pt on input line 91.
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 5.76004pt on input line 85.
+(Font)              scaled to size 5.76004pt on input line 91.
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 85.
+(Font)              scaled to size 7.68005pt on input line 91.
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 5.76004pt on input line 85.
+(Font)              scaled to size 5.76004pt on input line 91.
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 85.
+(Font)              scaled to size 7.68005pt on input line 91.
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 5.76004pt on input line 85.
+(Font)              scaled to size 5.76004pt on input line 91.
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 85.
+(Font)              scaled to size 7.68005pt on input line 91.
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 5.76004pt on input line 85.
+(Font)              scaled to size 5.76004pt on input line 91.
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 85.
+(Font)              scaled to size 7.68005pt on input line 91.
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 5.76004pt on input line 85.
+(Font)              scaled to size 5.76004pt on input line 91.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 85.
+(Font)              scaled to size 7.68005pt on input line 91.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 5.76004pt on input line 85.
-<tkn/tknlogo-with-text.pdf, id=101, 434.1pt x 65.13123pt>
+(Font)              scaled to size 5.76004pt on input line 91.
+<tkn/tknlogo-with-text.pdf, id=113, 434.1pt x 65.13123pt>
 File: tkn/tknlogo-with-text.pdf Graphic file (type pdf)
 <use tkn/tknlogo-with-text.pdf>
-Package pdftex.def Info: tkn/tknlogo-with-text.pdf  used on input line 85.
+Package pdftex.def Info: tkn/tknlogo-with-text.pdf  used on input line 91.
 (pdftex.def)             Requested size: 199.16928pt x 29.8822pt.
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./tkn/TU_Logo_lang_4c_rot.pdf> <./tkn/tknlogo-with-text.pdf>]
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 16.58891pt on input line 85.
+(Font)              scaled to size 16.58891pt on input line 91.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 16.58891pt on input line 85.
+(Font)              scaled to size 16.58891pt on input line 91.
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 11.52008pt on input line 85.
+(Font)              scaled to size 11.52008pt on input line 91.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 11.52008pt on input line 85.
+(Font)              scaled to size 11.52008pt on input line 91.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 9.60007pt on input line 85.
+(Font)              scaled to size 9.60007pt on input line 91.
  [1
 
 ]
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 13.82408pt on input line 85.
+(Font)              scaled to size 13.82408pt on input line 91.
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--85
+Underfull \hbox (badness 10000) in paragraph at lines 91--91
 
  []
 
@@ -1640,20 +1646,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 85--85
 
 ]
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 19.91054pt on input line 91.
+(Font)              scaled to size 19.91054pt on input line 97.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 19.91054pt on input line 91.
+(Font)              scaled to size 19.91054pt on input line 97.
  [3
 
 
 
 ]
-LaTeX Font Info:    Trying to load font information for TS1+mdbch on input line 119.
+LaTeX Font Info:    Trying to load font information for TS1+mdbch on input line 125.
  (/usr/share/texmf-dist/tex/latex/mathdesign/mdbch/ts1mdbch.fd
 File: ts1mdbch.fd 2013/08/29 Fontinst v1.933 font definitions for TS1/mdbch.
 )
 LaTeX Font Info:    Font shape `TS1/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 119.
+(Font)              scaled to size 9.60007pt on input line 125.
 Package microtype Info: Character `texttwelveudash ' is missing
 (microtype)             in font `TS1/mdbch/m/n/10'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -1683,10 +1689,10 @@ Package microtype Info: Character `textcelsius ' is missing
 
 
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 136.
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 142.
 
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 136.
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 136.
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 142.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 142.
 (/usr/share/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1702,10 +1708,10 @@ Chapter 1.
 
 Package microtype Warning: I cannot find a spacing list for font
 (microtype)                `TS1/mdbch/m/n/10' (context: `nonfrench'). Switching off
-(microtype)                spacing for this font on input line 147.
+(microtype)                spacing for this font on input line 153.
 
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 13.82408pt on input line 161.
+(Font)              scaled to size 13.82408pt on input line 167.
 [1
 
 
@@ -1716,122 +1722,172 @@ Chapter 2.
 ]
 Chapter 3.
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 204.
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 210.
 
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 208.
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 214.
 
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 213.
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 218.
 
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 217.
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 219.
+
+
+LaTeX Warning: Marginpar on page 4 moved.
+
+LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
+(Font)              scaled to size 8.64006pt on input line 239.
+LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
+(Font)              scaled to size 8.64006pt on input line 239.
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 245.
 
 [4
 
 ]
-LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 8.64006pt on input line 251.
-LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 8.64006pt on input line 251.
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 266.
 
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 264.
-
-LaTeX Font Info:    Faking \texteuro for font family mdbch
-(Font)              in TS1 encoding on input line 264.
-LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 6.72002pt on input line 264.
-LaTeX Font Info:    Faking \texteuro for font family mdbch
-(Font)              in TS1 encoding on input line 264.
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 273.
-
-[5]
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 279.
-
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 285.
-
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 287.
-
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 296.
-
-[6] [7]
-Chapter 4.
-[8
-
-]
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 383.
-
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 428.
-
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 432.
-
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 433.
-
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 438.
-
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 448.
-
-[9]
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 500.
-
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 511.
-
-[10]
-Underfull \hbox (badness 10000) in paragraph at lines 522--525
+Underfull \hbox (badness 10000) in paragraph at lines 269--270
 
  []
 
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 527.
+Underfull \hbox (badness 10000) in paragraph at lines 272--276
+
+ []
+
+[5]
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 290.
 
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 528.
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 307.
 
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 537.
+Underfull \hbox (badness 10000) in paragraph at lines 307--308
+
+ []
 
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 538.
+Underfull \hbox (badness 10000) in paragraph at lines 309--314
+
+ []
 
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 541.
+Underfull \hbox (badness 10000) in paragraph at lines 315--319
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 320--325
+
+ []
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 326--333
+
+ []
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 347.
+
+LaTeX Font Info:    Faking \texteuro for font family mdbch
+(Font)              in TS1 encoding on input line 347.
+LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
+(Font)              scaled to size 6.72002pt on input line 347.
+LaTeX Font Info:    Faking \texteuro for font family mdbch
+(Font)              in TS1 encoding on input line 347.
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 356.
+
+[7]
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 362.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 368.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 370.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 379.
+
+[8] [9]
+Chapter 4.
+[10
+
+]
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 466.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 511.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 515.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 516.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 521.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 531.
 
 [11]
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 552.
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 583.
 
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 571.
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 594.
 
-LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 7.68005pt on input line 575.
-LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 4.80003pt on input line 576.
 [12]
+Underfull \hbox (badness 10000) in paragraph at lines 605--608
 
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 598.
+ []
 
-<figures/sequence_diagram.pdf, id=264, 794.00638pt x 614.295pt>
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 610.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 611.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 620.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 621.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 624.
+
+[13]
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 635.
+
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 654.
+
+LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
+(Font)              scaled to size 7.68005pt on input line 658.
+LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
+(Font)              scaled to size 4.80003pt on input line 659.
+[14]
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 681.
+
+<figures/sequence_diagram.pdf, id=293, 794.00638pt x 614.295pt>
 File: figures/sequence_diagram.pdf Graphic file (type pdf)
 <use figures/sequence_diagram.pdf>
-Package pdftex.def Info: figures/sequence_diagram.pdf  used on input line 610.
+Package pdftex.def Info: figures/sequence_diagram.pdf  used on input line 693.
 (pdftex.def)             Requested size: 635.20596pt x 491.43666pt.
 
-Overfull \hbox (290.20596pt too wide) in paragraph at lines 610--611
+Overfull \hbox (290.20596pt too wide) in paragraph at lines 693--694
 [][] |
  []
 
@@ -1839,89 +1895,89 @@ Overfull \hbox (290.20596pt too wide) in paragraph at lines 610--611
 \pgf@layerboxsaved@umlsd@background=\box82
 \pgf@layerbox@umlsd@threadlayer=\box83
 \pgf@layerboxsaved@umlsd@threadlayer=\box84
-[13] [14 <./figures/sequence_diagram.pdf>]
+[15] [16 <./figures/sequence_diagram.pdf>]
 Chapter 5.
-[15
-
-]
-
-Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 677.
-
-[16]
-Chapter 6.
-
-Underfull \hbox (badness 10000) in paragraph at lines 691--692
-
- []
-
 [17
 
 ]
+
+Package todonotes Warning: Trying to put a shadow below a todonote,but the loadshadowlibrary option was not given when loadingthe todonotes package on input line 760.
+
+[18]
+Chapter 6.
+
+Underfull \hbox (badness 10000) in paragraph at lines 774--775
+
+ []
+
+[19
+
+]
 LaTeX Font Info:    Font shape `T1/mdbch/m/it' will be
-(Font)              scaled to size 9.60007pt on input line 1051.
- [18
+(Font)              scaled to size 9.60007pt on input line 1134.
+ [20
 
 
 ] (./thesis.lof)
 \tf@lof=\write8
 \openout8 = `thesis.lof'.
 
- [19
+ [21
 
 
 ] (./thesis.lot)
 \tf@lot=\write9
 \openout9 = `thesis.lot'.
 
- [20
+ [22
 
 
 ]
 
-LaTeX Warning: Empty bibliography on input line 1059.
+LaTeX Warning: Empty bibliography on input line 1142.
 
 (./thesis.tdo
 LaTeX Font Info:    Faking \texteuro for font family mdbch
-(Font)              in TS1 encoding on input line 12.
+(Font)              in TS1 encoding on input line 20.
 
-Overfull \hbox (7.59888pt too wide) in paragraph at lines 24--24
+Overfull \hbox (7.59888pt too wide) in paragraph at lines 32--32
  [][] [][][][] \T1/mdbch/m/n/10 (-20) ist Slim-Unicast auf sender-seite nicht an-ders zu be-han-deln als auf empfänger- |
  []
 
+[23
 
-Overfull \hbox (0.45807pt too wide) in paragraph at lines 46--46
+
+]
+Overfull \hbox (0.45807pt too wide) in paragraph at lines 54--54
  [][] [][][][] \T1/mdbch/m/n/10 (-20) grafis-che Darstel-lung RR=[0,1,2,3,4], für einen guten und einen schlechten |
  []
 
-[21
-
-
-])
+)
 \tf@tdo=\write10
 \openout10 = `thesis.tdo'.
 
- [22]
+ [24]
 No complaints by nag.
 (./thesis.aux (./thesis.acr))
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 46F8962A67ED0DD693C3A5E9CDC59458;2398.
+(rerunfilecheck)             Checksum: BF8C75AD65C0D1071F74D51235176DEC;2886.
 Package logreq Info: Writing requests to 'thesis.run.xml'.
 \openout1 = `thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 50961 strings out of 478353
- 1068542 string characters out of 5854636
- 1766525 words of memory out of 5000000
- 67799 multiletter control sequences out of 15000+600000
- 499026 words of font info for 359 fonts, out of 8000000 for 9000
+ 51572 strings out of 478353
+ 1092472 string characters out of 5854636
+ 1779007 words of memory out of 5000000
+ 68387 multiletter control sequences out of 15000+600000
+ 501429 words of font info for 376 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
  85i,14n,131p,1161b,2448s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc}{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/share/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/share/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chb8t.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr7t.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr7y.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr8t.pfb></usr/share/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chri7m.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on thesis.pdf (28 pages, 229790 bytes).
+Output written on thesis.pdf (30 pages, 235853 bytes).
 PDF statistics:
- 455 PDF objects out of 1000 (max. 8388607)
- 373 compressed objects within 4 object streams
- 109 named destinations out of 1000 (max. 500000)
- 122628 words of extra memory for PDF output out of 128383 (max. 10000000)
+ 488 PDF objects out of 1000 (max. 8388607)
+ 403 compressed objects within 5 object streams
+ 118 named destinations out of 1000 (max. 500000)
+ 122652 words of extra memory for PDF output out of 128383 (max. 10000000)
 
