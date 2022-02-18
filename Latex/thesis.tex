@@ -12,6 +12,10 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows,shadows} % for pgf-umlsd
 \usepackage[underline=true,rounded corners=false]{pgf-umlsd}
+% Protocol Header file
+\usepackage{bytefield}
+% table coloring
+\usepackage{colortbl}
 
 
 \lstdefinestyle{customc}{
@@ -77,12 +81,13 @@
 \acrodef{CW}{Contention Window}
 \acrodef{MPDU}{}
 \acrodef{DSSS}{Direct Sequence Spread Spectrum}
-\acrodef{FHSS}{Frequencey Hopping}
+\acrodef{FHSS}{Frequency Hopping Spread Spectrum}
 \acrodef{STA}{Station}
 \acrodef{AP}{Access Point}
 \acrodef{WES}{Wireless Endsystem}
 \acrodef{BSS}{Basic Service Set}
 \acrodef{OFDM}{Orthogonal Frequency Division Multiplexing)}
+\acrodef{MIMO}{Multiple Input-Multiple Output)}
 
 \begin{document}
 
@@ -215,8 +220,14 @@ Established solutions are realized via cables.
 \item recommended length: approximately one third of the thesis.
 \end{itemize}
 
-In this chapter I discuss the fundamentals required for understanding the different implementations in the Data Link Layer.\todo{eigener Wortlaut}
-Located in the second layer of the \ac{OSI} Model.\todo{refrence to table below}
+In this chapter I discuss the fundamentals required for understanding the different approaches 
+in this thesis using.
+I will repeat some basic knowledge of the physical- and data link layer,
+which are located in the first and second layer of the \ac{OSI} Model.\todo{refrence to table below}
+% alternativ introduction
+In order to understand the upcomming ESP-Now protocol we have to take a look at the \ac{DL} layer in 802.11.
+It is the second layer of the \ac{OSI} model of computer networking. 
+\TODO{Rewrite introductino in chapter Fundamentals}
 
 \begin{table}
 	\centering
@@ -231,18 +242,14 @@ Located in the second layer of the \ac{OSI} Model.\todo{refrence to table below}
 		\hline
 		Network layer\\
 		\hline
-		Data Link layer\\
+		\cellcolor{yellow!25}Data Link layer\\
 		\hline
-		Physical layer\\
+		\cellcolor{yellow!25}Physical layer\\
 		\hline
 	\end{tabular}
 	\caption{\ac{OSI} model}
 	\label{tab:OsiModel}
 \end{table}
-
-In order to understand the upcomming ESP-Now protocol we have to take a look at the \ac{DL} layer in 802.11.
-It is the second layer of the \ac{OSI} model of computer networking. 
-\TODO{Rewrite introductino in chapter Fundamentals}
 
 \section{IEEE 802.11 Specification Family}
 
@@ -274,6 +281,24 @@ The most common use in 802.11 is the Infrastructure mode.\\
 • Image of frame control field of MAC in MAC header\\
 • Image of frame control field of MAC in MAC header\\
 
+\begin{figure}
+	% \centering
+	\begin{bytefield}[bitwidth=1.1em, bitheight=\widthof{~Duration~}, boxformatting={\centering\small}]{29}
+		\bitheader[endianness=little]{0-29} \\
+		\bitbox{2}{FC} &
+		\bitbox{2}{\rotatebox{90}{Duration}} &
+		\bitbox{6}{Address\\1} &
+		\bitbox{6}{Address\\2} &
+		\bitbox{6}{Address\\3} &
+		\bitbox{2}{SC} &
+		\bitbox{6}{Address\\4}
+	\end{bytefield}
+	\caption{MAC header in a WLAN frame}%
+	\label{fig:mac_header}%
+\end{figure}
+
+802.11ac and later using frame aggregation in order to reduce overhead.
+
 \subsection{DL-Layer in 802.11}
 
 \begin{itemize}
@@ -288,20 +313,23 @@ The most common use in 802.11 is the Infrastructure mode.\\
 There are several complements to the 802.11 standard.
 \begin{itemize}
 	\item 802.11b \\
-	supports larger bitrates in \ac{DSSS} from 1Mbit/s to 11Mbit/s.
-	It is in the 2.4 GHz ISM band.
+	supports larger bitrates with \ac{DSSS} or \ac{FHSS} as modulation from 1Mbit/s to 11Mbit/s.
+	It uses the 2.4 GHz ISM band.
 	\item 802.11a and 802.11g \\
-	\ac{OFDM} Data rates up to 54 Mbit/s are supported. 802.11a is in the 5GHz ISM band.
+	with \ac{OFDM} data rates are increased up to 54 Mbit/s.
+	Where 802.11a is in the 5GHz ISM band 802.11g uses the 2.4GHz ISM band.
 	\item 802.11n\\
-	Multiple antennas to increase data rates. Using 2.4 GHz and 5GHz ISM band
+	It also uses \ac{OFDM} and improves with additionaly \ac{MIMO}, channel bonding and frame aggregation to increase the bandwidth and decrease the overhead.
+	Using 2.4 GHz and 5GHz ISM band.
 	\item 802.11ac\\
-	Support of wider channel and out of it higher bitrates.
+	Support of wider channel and out of it higher bitrates. It also includes features like Multi-User MIMO.
+	It only uses the 5 GHz ISM band.
 	\item 802.11ax\\
 	Like 802.11ac but with additional use of the 6GHz ISM band and better power control. 
 	Also called WiFi6.
 \end{itemize}
 
-\subsection{802 Stuff}
+\subsection{IEEE 802 Stuff}
 Multiple Access/Multiplexing: When Signals to/from different users share a common channel using time division methods (TDM/TDMA, CSMA)\todo{eigene Worte}\\
 
 DSSS: Usage of multiple antennas
