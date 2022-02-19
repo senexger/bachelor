@@ -10,12 +10,14 @@
 
 % Required package
 \usepackage{tikz}
+\usepackage{outlines}
 \usetikzlibrary{arrows,shadows} % for pgf-umlsd
 \usepackage[underline=true,rounded corners=false]{pgf-umlsd}
 % Protocol Header file
 \usepackage{bytefield}
 % table coloring
 \usepackage{colortbl}
+
 
 
 \lstdefinestyle{customc}{
@@ -169,7 +171,7 @@ In the subject area
 In the field of lighting and stage technology, the challenge of controlling the individual installations, called 'fixtures', quickly and without complications is a recurring one. 
 Established solutions are realized via cables.
 
-\section*{Motivation/Requirements}
+\section{Motivation/Requirements}
 \begin{itemize}
 \item Reliability
 \item .. and why 100\% Reliability is not important (pyrotechnics)
@@ -179,14 +181,14 @@ Established solutions are realized via cables.
 \item Range
 \end{itemize}
 
-\section*{Challenges}
+\section{Challenges}
 \begin{itemize}
 \item low cost
 \item (ESP Platform)
 \item DIY community
 \end{itemize}
 
-\section*{Problemstatement and Contribution WICHTIG}
+\section{Problemstatement and Contribution WICHTIG}
 \begin{itemize}
 \item open source available on github [link]
 \item thought-provoking impulse for different approaches
@@ -195,7 +197,21 @@ Established solutions are realized via cables.
 \item simulativ und experimentel untersucht
 \end{itemize}
 
-\section*{Thesis Outline}
+\section{Thesis Outline}
+\begin{itemize}
+	\item A First Implementation and Evaluation of the IEEE 802.11aa Group Addressed Transmission Service    
+		\subitem unsosliced Repetition
+		\subitem blockack
+	\item Evaluation of Error Control Mechanisms for 802.11b Multicast Transmissions
+		\subitem packet loss rate
+		\subitem ARQ, FEC
+	\item ESP-NOW communication protocol with ESP32
+		\subitem ESP-NOW details
+	\item The Working Principles of ESP32 and Analytical Comparision of using Low-Cost Microcontroller Modules in Embedded Systems Design
+		\subitem why the ESP32 is superior over arduino
+	\item Adaptive Cross-Layer Protection Strategies for Robust Scqalable Video Transmissions Over 802.11 WLANs
+	\item Voice Capacity of IEEE 802.11b, 802.11a and 802.11g Wireless LANs
+\end{itemize}
 
 \chapter{Related Work}
 \begin{itemize}
@@ -210,14 +226,13 @@ Established solutions are realized via cables.
 \label{sec:fundamentals}
 
 \begin{itemize}
-
-\item describe methods and techniques that build the basis of your work
-\todo{don't get what methods and techniques i was using}
-\item include what's needed to understand your work (e.g., techniques, protocols, models, hardware, software, ...)
-\item exclude what's not (e.g., anything you yourself did, anything your reader can be expected to know, ...)
-\item review related work(!)
-\todo{List of papers:}
-\item recommended length: approximately one third of the thesis.
+	\item describe methods and techniques that build the basis of your work
+	\todo{don't get what methods and techniques i was using}
+	\item include what's needed to understand your work (e.g., techniques, protocols, models, hardware, software, ...)
+	\item exclude what's not (e.g., anything you yourself did, anything your reader can be expected to know, ...)
+	\item review related work(!)
+	\todo{List of papers:}
+	\item recommended length: approximately one third of the thesis.
 \end{itemize}
 
 In this chapter I discuss the fundamentals required for understanding the different approaches 
@@ -226,8 +241,8 @@ I will repeat some basic knowledge of the physical- and data link layer,
 which are located in the first and second layer of the \ac{OSI} Model.\todo{refrence to table below}
 % alternativ introduction
 In order to understand the upcomming ESP-Now protocol we have to take a look at the \ac{DL} layer in 802.11.
-It is the second layer of the \ac{OSI} model of computer networking. 
-\TODO{Rewrite introductino in chapter Fundamentals}
+It is the second layer of the \ac{OSI} model of computer networking illustrated in \cref{tab:OsiModel}.
+\TODO{Rewrite introduction in chapter Fundamentals}
 
 \begin{table}
 	\centering
@@ -411,7 +426,7 @@ Due to the resolution of one byte, the individual colors can (theoretically) be 
 A universe can contain a set of 512 Channel. If there is a need of more channels one needs more DMX universes.
 Due to the fact that a DMX universe always has its own bus, starting from its own controller, this can lead to inconveniences.
 
-\subsection*{Art-Net}
+\subsection{Art-Net}
 \label{sec:artnet}
 \begin{itemize}
 \item 2.4 or 5GHz
@@ -422,7 +437,7 @@ Due to the fact that a DMX universe always has its own bus, starting from its ow
 Due the limitation of 512 channel for each universe there where protocols implemented using the 
 Art-Net also called Art-Net DMX is 
 
-\subsection*{ESP32 Hardware}
+\subsection{ESP32 Hardware}
 \begin{itemize}
 \item reasons to pick
 \item availability due chipcrysis
@@ -435,7 +450,7 @@ Art-Net also called Art-Net DMX is
 \end{itemize}
 The chip ESP32 is quite common in DIY projects around everything from home automation to light installations. The chip supports the 
 
-\subsection*{ESP-Now}
+\subsection{ESP-Now}
 \label{sub:ESP-Now}
 \begin{itemize}
 \item Range
@@ -450,7 +465,7 @@ The chip ESP32 is quite common in DIY projects around everything from home autom
 \item gaps in the documentation
 \end{itemize}
 
-\subsection*{ESP-Now vs Art-Net Baseline}
+\subsection{ESP-Now vs Art-Net Baseline}
 \begin{itemize}
 \item Network stack diagram
 \item baseline
@@ -478,7 +493,7 @@ In the following I will present different approaches, which are also investigate
 In this chapter there are different approaches presented and discussed.
 There are several specifications to go through and some details of the implementation.
 
-\subsection*{Slim Unicast}
+\subsection{Slim Unicast}
 \begin{itemize}
 \item topology
 \item Network stack
@@ -596,7 +611,7 @@ So we playing off reliability against transmission speed.
 	\label{fig:topology-unicast}%
 \end{figure}
 
-\subsection*{Slim Broadcast}
+\subsection{Slim Broadcast}
 \begin{itemize}
 \item topology
 \item efficiency
@@ -622,7 +637,7 @@ even if he must be discarded because the required channel has already been arriv
 Through less overhead there is an estimated difference when a specific amount of fixtures is reached.
 \TODO{Grafik die zeigt, wie der Broadcast besser performt, sobald eine bestimmte zahl fixtures erreicht ist}
 
-\subsection*{Rapid Repetition}
+\subsection{Rapid Repetition}
 \begin{itemize}
 \item simple
 \item redundant
@@ -652,7 +667,7 @@ If we increase the number of Rapid Repetitions (RR) we can roughly estimate:
 We have to figure out how many repetitions we should transmit in order to find the best balance between reliability and latency/update ratio.
 This hardly correlates with the overall success ratio in the (test-)setup. \TODO{(test-)setup: kann man das so schrieben?}
 
-\subsection*{Delayed Repetition}
+\subsection{Delayed Repetition}
 \label{sub:DelayedRepetition}
 \begin{itemize}
 \item when to perform repetition
@@ -670,7 +685,7 @@ To push the idea of rapid repetion even further, we should take a look to tempor
 \item python script
 \end{itemize}
 
-\subsection*{ESP Programming}
+\subsection{ESP Programming}
 \begin{itemize}
 \item broadcast unicast
 \item IDF/Arduino
@@ -709,7 +724,7 @@ void addFixtureToPeerList(const uint8_t *mac_addr)
 
 \TODO{fix colorscheme omf code examples}
 
-\subsection*{Collecting measurment results}
+\subsection{Collecting measurment results}
 \begin{itemize}
 \item Collecting values
 \item state machine
