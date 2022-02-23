@@ -392,7 +392,7 @@ The most common use in 802.11 is the Infrastructure mode.\\
 • Image of frame control field of MAC in MAC header\\
 
 \begin{figure}
-	% \centering
+	\centering
 	\begin{bytefield}[bitwidth=1.1em, bitheight=\widthof{~Duration~}, boxformatting={\centering\small}]{29}
 		\bitheader[endianness=little]{0-29} \\
 		\bitbox{2}{FC} &
@@ -747,7 +747,7 @@ Through less overhead there is an estimated difference when a specific amount of
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.7]{/home/walther/Documents/bachelor/Plot2/Graphs/bc_analytic.pdf}
-	\caption{Transmission Time of Unicast vs Broadcast}
+	\caption{Transmission Time of Unicast vs Broadcast Analytis}
 	\label{fig:bc_analytic}
 \end{figure}
 
@@ -777,6 +777,13 @@ If we increase the number of Rapid Repetitions (RR) we can roughly estimate:
 \end{align}
 \todo{RR von 0 beginnen}
 \TODO{grafische Darstellung RR=[0,1,2,3,4], für einen guten und einen schlechten Knoten 83\% und 95\%}
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.7]{/home/walther/Documents/bachelor/Plot2/Graphs/rr_transmission_time.pdf}
+	\caption{Transmission Time with with different \ac{RR}s}
+	\label{fig:bc_analytic}
+\end{figure}
 
 We have to figure out how many repetitions we should transmit in order to find the best balance between reliability and latency/update ratio.
 This hardly correlates with the overall success ratio in the (test-)setup. \TODO{(test-)setup: kann man das so schrieben?}
