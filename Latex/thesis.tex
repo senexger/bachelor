@@ -17,10 +17,10 @@
 \usepackage{bytefield}
 \usepackage{makecell}
 \usepackage{tabularx}
+\usepackage{tabularray}
 % table coloring
 \usepackage{colortbl}
-
-
+\usepackage{lipsum}
 
 \lstdefinestyle{customc}{
   belowcaptionskip=1\baselineskip,
@@ -555,80 +555,103 @@ The chip ESP32 is quite common in DIY projects around everything from home autom
 \subsection{ESP-Now}
 \label{sub:ESP-Now}
 \begin{itemize}
-\item Range
-\item Properity
 \item Reverse-Engineering 
 \item related work
-\item cheap chip
-\item 2.4 GHz (cheap)
 \item How does ESP-Now match the requirements from the motivation
+\item 250 payload
 \item Frame Format
 \item Vendor specific frame
 \item gaps in the documentation
 \end{itemize}
 
-ESP-NOW is a kind of connectionless Wi-Fi communication protocol that is defined by Espressif. 
-In ESP-NOW, application data is encapsulated in a vendor-specific action frame and then transmitted from one Wi-Fi device to another without connection. 
-CTR with CBC-MAC Protocol(CCMP) is used to protect the action frame for security. ESP-NOW is widely used in smart light, remote controlling, sensor, etc.
+ESP-NOW is a properitary protocol developed by Espressif. 
+ESP-NOW is widely used in smart light, remote controlling, sensor, etc.\todo{cite ESP documentation website}. 
+It is a conectionless protocol, so the \ac{WES} are in Ad-Hoc mode insted of \ac{STA} and is compatible with the ESP8266, ESP32 and ESP32s. 
+Through the hardware limitation it can just be used on the 2.4 GHz frequncy band.
+ESP-NOW allows up to 20 ESPs for pairing or up to 10 if they they use encryption.
+Espressif promises throuput of up to 30MBit/s UDO over the air and a possible range of up to 1km.
+However Pasic et al. measured the range of the unmodified onboard antenna of the ESP32. 
+They got a \textbf{stable commication up to 190m in open field}.\todo{cite Roberto}\\
+The ESP-NOW protocol has a focus on low power consumption.
+A connectionless communication between \ac{WES}'s not only saves energy during the authentication process, 
+it also has a much less overhead, which results in shorter airtime, less disturbances and also less power consumption through the antenna (which is not relevant for this thesis).
+There is no TCP/IP header to be transmited. 
+For very small payloads, this offset can be dispropotional.
 
-ESP-NOW uses a vendor-specific action frame to transmit ESP-NOW data. 
+Unfortunately, the documentation is quite limited. \\
+
+ESP-NOW uses a vendor-specific action frame to transmit ESP-NOW data.
 The default ESP-NOW bit rate is 1 Mbps. 
-The format of the vendor-specific action frame is as follows.
-\TODO{cite or find own words}
+The format of the vendor-specific action frame is \todo{ESP documentation website}
+visualized in \ref{fig:esp-now_frame_format}.
 
 \begin{table}[h]
 	\centering
-	\begin{tabularx}{\linewidth}{|X|X|X|X|X|X|}
-		\hline
-		\makecell{MAC\\Header}& \makecell{Category\\Code} & \makecell{Org.} & \makecell{Random\\Values} & \makecell{Vendor SC} & \makecell{FCS} \\
-		\hline
-		\makecell{24 bytes} & \makecell{1 byte} & \makecell{3 byte} & \makecell{4 byte} & \makecell{7 $\sim$ 255\\bytes} & \makecell{4 bytes} \\
-		\hline
+	\begin{tblr}{	hlines,
+					vlines,
+					rows = {ht=1.3cm},
+					columns = {halign=c},
+					colspec = {XXXXXX},} 
+	\makecell{MAC\\Header}& \makecell{Category\\Code} & \makecell{Org.} & \makecell{Random\\Values} & \makecell{Vendor\\Specific\\Content} & \makecell{FCS} \\
+	\end{tblr}
+	\begin{tabularx}{\linewidth}{ X X X X X X }
+		\makecell{\footnotesize{24}} & \makecell{\footnotesize{1}} & \makecell{\footnotesize{3}} & \makecell{\footnotesize{4}} & \makecell{\footnotesize{7 $\sim$ 255}} & \makecell{\footnotesize{4}} \\
 	\end{tabularx}
-	\begin{itemize}
-		\setlength\itemsep{-0.5em}
-		\item MAC Header: As ESP-NOW is connectionless, the MAC header is a little different from that of standard frames.
-		\item Category Code: The Category Code field is set to the value(127) indicating the vendor-specific category.
-		\item Organization Identifier: The Organization Identifier contains a unique identifier (0x18fe34), which is the first three bytes of MAC address applied by Espressif.
-		\item Random Value: The Random Value filed is used to prevents relay attacks.
-		\item Vendor Specific Content: The Vendor Specific Content contains vendor-specific fields as follows:
-		\item Frame Check Sequence: The Vendor Specific Content contains vendor-specific fields as follows:
-	\end{itemize}
-	\caption{Vendor Specific Action Frame}
+	\caption{ESP-NOW Frame Format}
 	\label{fig:esp-now_frame_format}
-\end{table} 
+\end{table}
 
-Where the Vendor Specific Content is formatted like this. 
+\begin{itemize}
+	\setlength\itemsep{-0.5em}
+	\item MAC Header: As ESP-NOW is connectionless, the MAC header is a little different from that of standard frames.
+	\item Category Code: The Category Code field is set to the value(127) indicating the vendor-specific category.
+	\item Organization Identifier: The Organization Identifier contains a unique identifier (0x18fe34), which is the first three bytes of MAC address applied by Espressif.
+	\item Random Value: The Random Value filed is used to prevents relay attacks.
+	\item Vendor Specific Content: The Vendor Specific Content contains vendor-specific fields as follows:
+	\item Frame Check Sequence:
+\end{itemize}
+
+Inside of the ESP-NOW frame is the Vendor Specific Content visualized in \ref{fig:esp_now_vendor_format}. 
 
 \begin{table}[h]
-	\begin{tabularx}{\linewidth}{|X|X|X|X|X|X|}
-		\hline
+	\begin{tblr}{	hlines,
+					vlines,
+					rows = {ht=1.3cm},
+					columns = {halign=c},
+					colspec = {XXXXXX},} 
 		\makecell{Element\\ID}& \makecell{Length} & \makecell{Org.\\Identifier} & \makecell{Type} & \makecell{Version} & \makecell{Body}  \\
-		\hline
-		\makecell{1 byte} & \makecell{1 byte} & \makecell{3 byte} & \makecell{1 byte} & \makecell{1 byte} & \makecell{7 $\sim$ 255\\bytes} \\
-		\hline
+	\end{tblr}
+	\begin{tabularx}{\linewidth}{ X X X X X X }
+		\makecell{\footnotesize{24}} & \makecell{\footnotesize{1}} & \makecell{\footnotesize{3}} & \makecell{\footnotesize{4}} & \makecell{\footnotesize{7 $\sim$ 255}} & \makecell{\footnotesize{4}} \\
 	\end{tabularx}
-	\begin{itemize}
-		\setlength\itemsep{-0.5em}
-		\item Element ID: The Element ID field is set to the value (221), indicating the vendor-specific element.
-		\item Length: The length is the total length of Organization Identifier, Type, Version and Body.
-		\item Organization Identifier: The Organization Identifier contains a unique identifier(0x18fe34), which is the first three bytes of MAC address applied by Espressif.
-		\item Type: The Type field is set to the value (4) indicating ESP-NOW.
-		\item Version: The Version field is set to the version of ESP-NOW.
-		\item Body: The Body contains the ESP-NOW data.
-	\end{itemize}
-	\caption{Vendor Specific Content}
-	\label{fig:esp-now_vsc}
+
+	\caption{Vendor Specific Action Frame}
+	\label{fig:esp_now_vendor_format}
 \end{table} 
 
+\begin{itemize}
+	\setlength\itemsep{-0.5em}
+	\item Element ID: The Element ID field is set to the value (221), indicating the vendor-specific element.
+	\item Length: The length is the total length of Organization Identifier, Type, Version and Body.
+	\item Organization Identifier: The Organization Identifier contains a unique identifier(0x18fe34), which is the first three bytes of MAC address applied by Espressif.
+	\item Type: The Type field is set to the value (4) indicating ESP-NOW.
+	\item Version: The Version field is set to the version of ESP-NOW.
+	\item Body: The Body contains the ESP-NOW data.
+	\todo{this is cited from espressif manual!!}
+\end{itemize}
+
+Where the Vendor Specific Content is formatted like this. 
 Which can be Lorem Ipsum Excalibur.
 
 \subsection{ESP-Now vs Art-Net Baseline}
-\TODO{subsection is on a wrong position!}
+\todo{subsection can be on a wrong position!}
+\TODO{remove newpage command}
 \begin{itemize}
-\item Network stack diagram
-\item baseline
+	\item Network stack diagram
+	\item baseline
 \end{itemize}
+
+\lipsum[1]
 
 \chapter{Proposed Approach}
 \begin{itemize}
