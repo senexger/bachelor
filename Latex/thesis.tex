@@ -15,6 +15,8 @@
 \usepackage[underline=true,rounded corners=false]{pgf-umlsd}
 % Protocol Header file
 \usepackage{bytefield}
+\usepackage{makecell}
+\usepackage{tabularx}
 % table coloring
 \usepackage{colortbl}
 
@@ -565,7 +567,64 @@ The chip ESP32 is quite common in DIY projects around everything from home autom
 \item gaps in the documentation
 \end{itemize}
 
+ESP-NOW is a kind of connectionless Wi-Fi communication protocol that is defined by Espressif. 
+In ESP-NOW, application data is encapsulated in a vendor-specific action frame and then transmitted from one Wi-Fi device to another without connection. 
+CTR with CBC-MAC Protocol(CCMP) is used to protect the action frame for security. ESP-NOW is widely used in smart light, remote controlling, sensor, etc.
+
+ESP-NOW uses a vendor-specific action frame to transmit ESP-NOW data. 
+The default ESP-NOW bit rate is 1 Mbps. 
+The format of the vendor-specific action frame is as follows.
+\TODO{cite or find own words}
+
+\begin{table}[h]
+	\centering
+	\begin{tabularx}{\linewidth}{|X|X|X|X|X|X|}
+		\hline
+		\makecell{MAC\\Header}& \makecell{Category\\Code} & \makecell{Org.} & \makecell{Random\\Values} & \makecell{Vendor SC} & \makecell{FCS} \\
+		\hline
+		\makecell{24 bytes} & \makecell{1 byte} & \makecell{3 byte} & \makecell{4 byte} & \makecell{7 $\sim$ 255\\bytes} & \makecell{4 bytes} \\
+		\hline
+	\end{tabularx}
+	\begin{itemize}
+		\setlength\itemsep{-0.5em}
+		\item MAC Header: As ESP-NOW is connectionless, the MAC header is a little different from that of standard frames.
+		\item Category Code: The Category Code field is set to the value(127) indicating the vendor-specific category.
+		\item Organization Identifier: The Organization Identifier contains a unique identifier (0x18fe34), which is the first three bytes of MAC address applied by Espressif.
+		\item Random Value: The Random Value filed is used to prevents relay attacks.
+		\item Vendor Specific Content: The Vendor Specific Content contains vendor-specific fields as follows:
+		\item Frame Check Sequence: The Vendor Specific Content contains vendor-specific fields as follows:
+	\end{itemize}
+	\caption{Vendor Specific Action Frame}
+	\label{fig:esp-now_frame_format}
+\end{table} 
+
+Where the Vendor Specific Content is formatted like this. 
+
+\begin{table}[h]
+	\begin{tabularx}{\linewidth}{|X|X|X|X|X|X|}
+		\hline
+		\makecell{Element\\ID}& \makecell{Length} & \makecell{Org.\\Identifier} & \makecell{Type} & \makecell{Version} & \makecell{Body}  \\
+		\hline
+		\makecell{1 byte} & \makecell{1 byte} & \makecell{3 byte} & \makecell{1 byte} & \makecell{1 byte} & \makecell{7 $\sim$ 255\\bytes} \\
+		\hline
+	\end{tabularx}
+	\begin{itemize}
+		\setlength\itemsep{-0.5em}
+		\item Element ID: The Element ID field is set to the value (221), indicating the vendor-specific element.
+		\item Length: The length is the total length of Organization Identifier, Type, Version and Body.
+		\item Organization Identifier: The Organization Identifier contains a unique identifier(0x18fe34), which is the first three bytes of MAC address applied by Espressif.
+		\item Type: The Type field is set to the value (4) indicating ESP-NOW.
+		\item Version: The Version field is set to the version of ESP-NOW.
+		\item Body: The Body contains the ESP-NOW data.
+	\end{itemize}
+	\caption{Vendor Specific Content}
+	\label{fig:esp-now_vsc}
+\end{table} 
+
+Which can be Lorem Ipsum Excalibur.
+
 \subsection{ESP-Now vs Art-Net Baseline}
+\TODO{subsection is on a wrong position!}
 \begin{itemize}
 \item Network stack diagram
 \item baseline
