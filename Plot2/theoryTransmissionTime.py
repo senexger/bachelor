@@ -33,7 +33,7 @@ print(bc_transmissiontime_200byte_const)
 def plot_bc20_vs_bc200(ax):
     # with nice boxes
     # ax.plot(x, uc_transmissiontime_20byte/1000, 'bs-', label='Unicast', markerfacecolor='none', linewidth=1, color='forestgreen')
-    ax.plot(x, uc_transmissiontime_20byte/1000, '-', label='Unicast', markerfacecolor='none', linewidth=1.3, color='forestgreen')
+    ax.plot(x, uc_transmissiontime_20byte/1000, '-', label='Unicast', markerfacecolor='none', linewidth=1.3, color='teal')
     ax.plot(x, bc_transmissiontime_20byte/1000, '-', label='Broadcast', markerfacecolor='none', linewidth=1.3, color='darkmagenta')
     ax.set_xlabel('Number of WES')
     ax.set_ylabel('Transmission Time in μs')
