@@ -555,12 +555,8 @@ The chip ESP32 is quite common in DIY projects around everything from home autom
 \subsection{ESP-Now}
 \label{sub:ESP-Now}
 \begin{itemize}
-\item Reverse-Engineering 
-\item related work
 \item How does ESP-Now match the requirements from the motivation
 \item 250 payload
-\item Frame Format
-\item Vendor specific frame
 \item gaps in the documentation
 \end{itemize}
 
@@ -608,7 +604,7 @@ visualized in \ref{fig:esp-now_frame_format}.
 	\item Organization Identifier: The Organization Identifier contains a unique identifier (0x18fe34), which is the first three bytes of MAC address applied by Espressif.
 	\item Random Value: The Random Value filed is used to prevents relay attacks.
 	\item Vendor Specific Content: The Vendor Specific Content contains vendor-specific fields as follows:
-	\item Frame Check Sequence:
+	\item Frame Check Sequence: Used for error correction in layer 2
 \end{itemize}
 
 Inside of the ESP-NOW frame is the Vendor Specific Content visualized in \ref{fig:esp_now_vendor_format}. 
@@ -622,7 +618,7 @@ Inside of the ESP-NOW frame is the Vendor Specific Content visualized in \ref{fi
 		\makecell{Element\\ID}& \makecell{Length} & \makecell{Org.\\Identifier} & \makecell{Type} & \makecell{Version} & \makecell{Body}  \\
 	\end{tblr}
 	\begin{tabularx}{\linewidth}{ X X X X X X }
-		\makecell{\footnotesize{24}} & \makecell{\footnotesize{1}} & \makecell{\footnotesize{3}} & \makecell{\footnotesize{4}} & \makecell{\footnotesize{7 $\sim$ 255}} & \makecell{\footnotesize{4}} \\
+		\makecell{\footnotesize{1}} & \makecell{\footnotesize{1}} & \makecell{\footnotesize{3}} & \makecell{\footnotesize{1}} & \makecell{\footnotesize{4}} & \makecell{\footnotesize{7 $\sim$ 255}} \\
 	\end{tabularx}
 
 	\caption{Vendor Specific Action Frame}
