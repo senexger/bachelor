@@ -92,6 +92,7 @@
 \acrodef{BSS}{Basic Service Set}
 \acrodef{OFDM}{Orthogonal Frequency Division Multiplexing)}
 \acrodef{MIMO}{Multiple Input-Multiple Output)}
+\acrodef{WLAN}{Wireless Local Area Network}
 
 \begin{document}
 
@@ -367,8 +368,8 @@ It is the second layer of the \ac{OSI} model of computer networking illustrated 
 
 The \ac{IEEE} 802 is a family of standards dealing with area networks different kinds.
 \begin{itemize}
-	\item 802.11 Wireless local area network (WLAN)
-	\item 802.15.1 Wireless personal area network (WPAN)
+	\item 802.11 \ac{WLAN}
+	\item 802.15.1 Wireless Personal Area Network (WPAN)
 	\item 802.15.4 Low-rate WPAN (LR-WPAN)
 	\item 802.16 Wireless metropolitan area network (WMAN)
 \end{itemize}
@@ -380,9 +381,10 @@ There are two \ac{BSS} defined:
 	A central element manages the network and all the traffic goes through. 
 	Every \ac{STA} must always communicate via the \ac{AP} and never directly - exceptional: Direct Link Mode.
 	An initial association must take place to use this \ac{BSS}.
+	This is the most common mode a \ac{WLAN} is used.
 	\item Independent BSS\\
 	A network without a central station, where the network topology can flexible change over time.
-	The communication is directly between the Wireless Endsystems.\todo{WES in AdHoc correct?}
+	The communication happens directly between the Wireless Endsystems.\todo{WES in AdHoc correct?}
 	Efficent routing can became a problem in more complex topologys.
 \end{itemize}
 The most common use in 802.11 is the Infrastructure mode.\\ 
@@ -549,6 +551,7 @@ Art-Net also called Art-Net DMX is
 \item Reverse-Engineering 
 \item related work
 \item 2.4 GHz (cheap)
+\item Bild vom chip
 \end{itemize}
 The chip ESP32 is quite common in DIY projects around everything from home automation to light installations. The chip supports the 
 
@@ -562,23 +565,30 @@ The chip ESP32 is quite common in DIY projects around everything from home autom
 
 ESP-NOW is a properitary protocol developed by Espressif. 
 ESP-NOW is widely used in smart light, remote controlling, sensor, etc.\todo{cite ESP documentation website}. 
-It is a conectionless protocol, so the \ac{WES} are in Ad-Hoc mode insted of \ac{STA} and is compatible with the ESP8266, ESP32 and ESP32s. 
-Through the hardware limitation it can just be used on the 2.4 GHz frequncy band.
-ESP-NOW allows up to 20 ESPs for pairing or up to 10 if they they use encryption.
-Espressif promises throuput of up to 30MBit/s UDO over the air and a possible range of up to 1km.
-However Pasic et al. measured the range of the unmodified onboard antenna of the ESP32. 
+It is a conectionless protocol, so the \ac{WES}'s' are in Ad-Hoc mode insted of \ac{STA}.
+It is just supported with the ESP8266, ESP32 and ESP32, these are all chipsets from Espressif, but they are compatible with each other.
+Because of this, a ESP-Chip as gateway is needed to interact from the outside to the ESP-NOW network. 
+
+Through the hardware limitation of the boards it can just be used on the 2.4 GHz frequncy band.
+ESP-NOW allows 10 ESPs for pairing with encryption and up to 20 without encryption.
+Espressif promises throuput of up to 30MBit/s with UDP transmissions over the air and a possible range of up to 1km.
+However Pasic et al. measured a range of the unmodified onboard antenna of the ESP32. 
 They got a \textbf{stable commication up to 190m in open field}.\todo{cite Roberto}\\
 The ESP-NOW protocol has a focus on low power consumption.
 A connectionless communication between \ac{WES}'s not only saves energy during the authentication process, 
-it also has a much less overhead, which results in shorter airtime, less disturbances and also less power consumption through the antenna (which is not relevant for this thesis).
+Additionally, is the commonication the the properties of the ad-hoc mode, direct and not over a second access point.
+The protocol has a limitation of a limeted payload of 250 byte for each transmission.
+It also has a much less overhead, which results in shorter airtime, less disturbances and also less power consumption through the antenna 
+(latter is not relevant for this thesis).
 There is no TCP/IP header to be transmited. 
-For very small payloads, this offset can be dispropotional.
+For very small payloads, this offset can become dispropotional.
 
-Unfortunately, the documentation is quite limited. \\
+The default ESP-NOW bit rate is 1 Mbps it uses a channelwidth of 20MHz, there is no double channel (40Mbit/s or higher) used.
+But e.g. the low energy, high range protocol Long Range Wide Area Network (LoRaWAN) suffers from a to slow throuput for this application.
 
-ESP-NOW uses a vendor-specific action frame to transmit ESP-NOW data.
-The default ESP-NOW bit rate is 1 Mbps. 
-The format of the vendor-specific action frame is \todo{ESP documentation website}
+To undersant what ESP-NOW does it needs to take a look to the vendor-specific action frame transmiting ESP-NOW data.
+\todo{ESP documentation website}
+
 visualized in \ref{fig:esp-now_frame_format}.
 
 \begin{table}[h]
@@ -599,15 +609,15 @@ visualized in \ref{fig:esp-now_frame_format}.
 
 \begin{itemize}
 	\setlength\itemsep{-0.5em}
-	\item MAC Header: As ESP-NOW is connectionless, the MAC header is a little different from that of standard frames.
-	\item Category Code: The Category Code field is set to the value(127) indicating the vendor-specific category.
-	\item Organization Identifier: The Organization Identifier contains a unique identifier (0x18fe34), which is the first three bytes of MAC address applied by Espressif.
-	\item Random Value: The Random Value filed is used to prevents relay attacks.
-	\item Vendor Specific Content: The Vendor Specific Content contains vendor-specific fields as follows:
-	\item Frame Check Sequence: Used for error correction in layer 2
+	\item \textbf{MAC Header:} As ESP-NOW is connectionless, the MAC header differs from that of standard frames.
+	\item \textbf{Category Code:} The Category Code field is set to the value(127) indicating the vendor-specific category.
+	\item \textbf{Organization Identifier:} The Organization Identifier contains a unique identifier (0x18fe34), which is the first three bytes of MAC address applied by Espressif.
+	\item \textbf{Random Value:} The Random Value filed is used to prevents relay attacks.
+	\item \textbf{Vendor Specific Content:} The Vendor Specific Content contains vendor-specific fields (table \ref{fig:esp_now_vendor_format})
+	\item \textbf{Frame Check Sequence:} Used for error correction in layer 2.
 \end{itemize}
 
-Inside of the ESP-NOW frame is the Vendor Specific Content visualized in \ref{fig:esp_now_vendor_format}. 
+Inside of the ESP-NOW frame \ref{fig:esp-now_frame_format} is the vendor specific content visualized in \ref{fig:esp_now_vendor_format}. 
 
 \begin{table}[h]
 	\begin{tblr}{	hlines,
@@ -618,7 +628,7 @@ Inside of the ESP-NOW frame is the Vendor Specific Content visualized in \ref{fi
 		\makecell{Element\\ID}& \makecell{Length} & \makecell{Org.\\Identifier} & \makecell{Type} & \makecell{Version} & \makecell{Body}  \\
 	\end{tblr}
 	\begin{tabularx}{\linewidth}{ X X X X X X }
-		\makecell{\footnotesize{1}} & \makecell{\footnotesize{1}} & \makecell{\footnotesize{3}} & \makecell{\footnotesize{1}} & \makecell{\footnotesize{4}} & \makecell{\footnotesize{7 $\sim$ 255}} \\
+		\makecell{\footnotesize{1}} & \makecell{\footnotesize{1}} & \makecell{\footnotesize{3}} & \makecell{\footnotesize{1}} & \makecell{\footnotesize{4}} & \makecell{\footnotesize{7 $\sim$ 250}} \\
 	\end{tabularx}
 
 	\caption{Vendor Specific Action Frame}
@@ -627,17 +637,21 @@ Inside of the ESP-NOW frame is the Vendor Specific Content visualized in \ref{fi
 
 \begin{itemize}
 	\setlength\itemsep{-0.5em}
-	\item Element ID: The Element ID field is set to the value (221), indicating the vendor-specific element.
-	\item Length: The length is the total length of Organization Identifier, Type, Version and Body.
-	\item Organization Identifier: The Organization Identifier contains a unique identifier(0x18fe34), which is the first three bytes of MAC address applied by Espressif.
-	\item Type: The Type field is set to the value (4) indicating ESP-NOW.
-	\item Version: The Version field is set to the version of ESP-NOW.
-	\item Body: The Body contains the ESP-NOW data.
+	\item \textbf{Element ID:} The Element ID field is set to the value (221), indicating the vendor-specific element.
+	\item \textbf{Length:} The length is the total length of Organization Identifier, Type, Version and Body.
+	\item \textbf{Organization Identifier:} The Organization Identifier contains a unique identifier(0x18fe34), which is the first three bytes of MAC address applied by Espressif.
+	\item \textbf{Type:} The Type field is set to the value (4) indicating ESP-NOW.
+	\item \textbf{Version:} The Version field is set to the version of ESP-NOW.
+	\item \textbf{Body:} The Body contains the ESP-NOW data.
 	\todo{this is cited from espressif manual!!}
 \end{itemize}
 
-Where the Vendor Specific Content is formatted like this. 
-Which can be Lorem Ipsum Excalibur.
+It is worth to mention, that the vendor specific content \ref{fig:esp-now_frame_format} is allowed to contain up to 255 byte,
+but the sum over all values in \ref{fig:esp_now_vendor_format} if the body would contain the maximum of 250 bytes, 
+leads to a total of 260 bytes.
+The values are from the documentation of ESP-NOW from Espressif.
+They also claim, that broadcast is not supported in ESP-NOW, but it is.
+It seems that the documentation isn't complitly finished (or translated).
 
 \subsection{ESP-Now vs Art-Net Baseline}
 \todo{subsection can be on a wrong position!}
@@ -666,6 +680,7 @@ In the following I will present different approaches, which are also investigate
 \begin{itemize}
 	\item Specification of the protocols
 	\item analytic results (simulierte Ergebnisse)
+	\item Ad-Hoc complexity of topology is not a problem, because of its simple star structure.
 \end{itemize}
 
 In this chapter there are different approaches presented and discussed.
