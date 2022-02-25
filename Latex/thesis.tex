@@ -572,8 +572,9 @@ Because of this, a ESP-Chip as gateway is needed to interact from the outside to
 Through the hardware limitation of the boards it can just be used on the 2.4 GHz frequncy band.
 ESP-NOW allows 10 ESPs for pairing with encryption and up to 20 without encryption.
 Espressif promises throuput of up to 30MBit/s with UDP transmissions over the air and a possible range of up to 1km.
-However Pasic et al. measured a range of the unmodified onboard antenna of the ESP32. 
-They got a \textbf{stable commication up to 190m in open field}.\todo{cite Roberto}\\
+However \emph{\textcite{ESPNOWPaper}} measured a range of the unmodified onboard antenna of the ESP32 
+and just got a \emph{\textcite{ESPNOWPaper} stable commication up to 190m in open field}.\\
+
 The ESP-NOW protocol has a focus on low power consumption.
 A connectionless communication between \ac{WES}'s not only saves energy during the authentication process, 
 Additionally, is the commonication the the properties of the ad-hoc mode, direct and not over a second access point.
@@ -586,8 +587,11 @@ For very small payloads, this offset can become dispropotional.
 The default ESP-NOW bit rate is 1 Mbps it uses a channelwidth of 20MHz, there is no double channel (40Mbit/s or higher) used.
 But e.g. the low energy, high range protocol Long Range Wide Area Network (LoRaWAN) suffers from a to slow throuput for this application.
 
-To undersant what ESP-NOW does it needs to take a look to the vendor-specific action frame transmiting ESP-NOW data.
-\todo{ESP documentation website}
+To undersant what ESP-NOW does it needs to take a look to the vendor-specific action frame transmiting ESP-NOW data. 
+\todo{cite somehow the ESP-NOW documentation pdf: ESP-IDF Programming Guide: ESP-NOW, source: \url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}}
+% \todo{for late use: ESP-NOW User Guide, V1, source: https://www.espressif.com/en/support/documents/technical-documents?keys=&field_type_tid%5B%5D=492}
+
+% \url{https://www.heise.de/tipps-tricks/}
 
 visualized in \ref{fig:esp-now_frame_format}.
 
