@@ -80,6 +80,7 @@
 \acrodef{DCF}{Distributed Coordination Function}
 \acrodef{PCF}{Point Coordination Function}
 \acrodef{DIFS}{DCF Inter Frame Spaces}
+\acrodef{SIFS}{Short Inter Frame Spaces}
 \acrodef{NAV}{Network Allocation Vector}
 \acrodef{PHY}{Physical Network Layer}
 \acrodef{CW}{Contention Window}
@@ -442,6 +443,26 @@ There are several complements to the 802.11 standard.
 	\item was sind frames
 	\item how the Application layer
 \end{itemize}
+
+\subsubsection{Unicast}
+
+The link layer unicast is used to send data over an single hop to the target \ac{WES} destination.
+The link layer of each \ac{WES} checks the destination MAC address in the link layer header and discards the frame if the destinatin address does not match its own address.\\
+
+\TODO{image of unicast}
+
+Unicast is by default reliable.
+
+E.g. the \ac{AP} wants to transmit a packet to one specific \ac{WES}\\
+When the Unicast reaches the destination \ac{WES} an acknowledgement frame is send back after a \ac{SIFS}.
+
+If the acknowledgement is not successfully received by the sender, the sender will repeat the transmission for a given number.
+When the number is exceeded, the packet could not be delivered. 
+If the number is set to zero, the unicast can be considered as non-reliable.
+
+\subsubsection{Broadcast}
+
+\TODO{image of broadcast}
 
 
 
