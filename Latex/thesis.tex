@@ -449,57 +449,68 @@ There are several complements to the 802.11 standard.
 The link layer unicast is used to send data over an single hop to the target \ac{WES} destination.
 The link layer of each \ac{WES} checks the destination MAC address in the link layer header and discards the frame if the destinatin address does not match its own address.\\
 
-% Input layer number
-\newcommand{\inputnum}{1} 
-% Hidden layer number
-\newcommand{\outputnum}{3}  
-
-\begin{figure}
-	\centering
-	\begin{tikzpicture}
-		% Input Layer
-		\foreach \i in {1,...,\inputnum}
-		{
-		    \node[circle, 
-		        minimum size = 6mm,
-		        fill=teal!100] (Input-\i) at (0,-\i) {};
-		}
-		% Hidden Layer
-		\foreach \i in {1,...,\outputnum}
-		{
-		    \node[circle, 
-		        minimum size = 6mm,
-		        fill=teal!50,
-		        yshift=(\outputnum-\inputnum)*5 mm
-		    ] (Hidden-\i) at (2.5,-\i) {};
-		}
-		% Connect neurons In-Out
-		\foreach \i in {1,...,\inputnum}
-		{
-		    \foreach \j in {1,...,\outputnum}
-		    {
-		        \draw[->, shorten >=1pt] (Input-\i) -- (Hidden-\j);   
-		    }
-		}
-	\end{tikzpicture}
-	\caption{Topology of the Slim Unicast}%
-	\label{fig:topologyunicast}
-\end{figure}
-
 Unicast is by default reliable.
 
 E.g. the \ac{AP} wants to transmit a packet to one specific \ac{WES}\\
-When the Unicast reaches the destination \ac{WES} an acknowledgement frame is send back after a \ac{SIFS}.
+When the Unicast reaches the destination \ac{WES} an acknowledgement frame is send back after the \ac{SIFS} + backoff.\todo{when to explain CSMA/DC?}
 
 If the acknowledgement is not successfully received by the sender, the sender will repeat the transmission for a given number.
 When the number is exceeded, the packet could not be delivered. 
 If the number is set to zero, the unicast can be considered as non-reliable.
+\TODO{example}
+
+\todo{complete figure UC}
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[main/.style = {draw, circle}] 
+		\node[main] (1) {$x_1$}; 
+	\end{tikzpicture} 
+	\caption{Unicast Transmission}
+	\label{fig:unicast_topology}
+\end{figure}
 
 \subsubsection{Broadcast}
 
-\TODO{image of broadcast}
+If a packet should be received from all \ac{WES}'s it can be distributed as broadcast.
+The \ac{MAC} address of the destination address in the link layer is set to the common broadcast address, which is ff:ff:ff:ff:ff:ff.\\
+In contrast to unicast, broadcast is not reliable. 
+This is mainly because the packet is addressed to all nodes at the same time, and if link layer acknoledgements would be used, 
+the acknoledgements would be sent by all nodes at the same time, 
+because there is no mechanism in which order acknoledges should be answered. 
+In addition, the sender of a broadcast does not know how many WESs he is addressing the packet to in the first place.
+Retransmitting acknoledgements would lead to massive collision and loss of acknoledgements.
+E.g. management information in a \ac{WLAN} is sent in a broadcast mode, because it has to reach every \ac{WES} and isn't worth to be acknoleged.
+
+\todo{complete figure BC}
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[main/.style = {draw, circle}] 
+		\node[main] (1) {$x_1$}; 
+	\end{tikzpicture} 
+	\caption{Broadcast Transmission}
+	\label{fig:broadcast_topology}
+\end{figure}
 
 
+\subsection{Multicast}
+
+\TODO{Mutlicast explain multicast mac address}
+When the same packet should be transmitted to multiple \ac{WES}'s, but not to all, multicast can be used.
+Transmitting the same packet multiple times via unicast is wasteful.
+There are different approaches to realize acknowledgements for mutlicasts.
+They differ mainly by the respective field of application.
+\TODO{example}
+Link layer multicast is often used for large files in audio or video streams, where a big amount of data is distributed and multiple clients listen simultaneously.
+
+\todo{complete figure UC}
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[main/.style = {draw, circle}] 
+		\node[main] (1) {$x_1$}; 
+	\end{tikzpicture} 
+	\caption{Multicast Transmission}
+	\label{fig:multicast_topology}
+\end{figure}
 
 \subsection{IEEE 802 Stuff}
 Multiple Access/Multiplexing: When Signals to/from different users share a common channel using time division methods (TDM/TDMA, CSMA)\todo{eigene Worte}\\
