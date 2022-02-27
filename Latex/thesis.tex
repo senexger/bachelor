@@ -73,6 +73,7 @@
 \acrodef{OSI}{Open Systems Interconnection}
 \acrodef{MAC}{Media Access Control}
 \acrodef{DL}{Data Link}
+\acrodef{LLC}{Locig Linc Control}
 \acrodef{IP}{Internet Protocol}
 \acrodef{IEEE}{Institut of Electrical and Electronics Engineers}
 \acrodef{CD}{Collision Detection}
@@ -94,6 +95,7 @@
 \acrodef{OFDM}{Orthogonal Frequency Division Multiplexing)}
 \acrodef{MIMO}{Multiple Input-Multiple Output)}
 \acrodef{WLAN}{Wireless Local Area Network}
+\acrodef{BSSID}{Basic Service Set Identifier}
 
 \begin{document}
 
@@ -396,7 +398,7 @@ The most common use in 802.11 is the Infrastructure mode.\\
 • Image of frame control field of MAC in MAC header\\
 • Image of frame control field of MAC in MAC header\\
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\begin{bytefield}[bitwidth=1.1em, bitheight=\widthof{~Duration~}, boxformatting={\centering\small}]{29}
 		\bitheader[endianness=little]{0-29} \\
@@ -411,6 +413,34 @@ The most common use in 802.11 is the Infrastructure mode.\\
 	\caption{MAC header in a WLAN frame}%
 	\label{fig:mac_header}%
 \end{figure}
+\todo{Payload and FCS are missing}
+
+\begin{itemize}
+	\setlength\itemsep{-0.0em}
+	\item \textbf{Frame Control Field:} Discribes the Type of frame:
+	\begin{itemize}
+		\setlength\itemsep{-0.5em}
+		\item 00 Manegement Frame
+		\item 01 Control Frame
+		\item 10 Data Frame
+	\end{itemize}
+	\item \textbf{Duration:} Contains the \ac{NAV} value, specifies the transmission time required for the frame. 
+	In order to save power to save energy, WES can defer access to the medium for this duration
+	\item \textbf{Address fields:} Certain address fields are specified by the relative position of the address field.
+	Not every address field is needed by certain frames.
+	\begin{itemize}
+		\setlength\itemsep{-0.5em}
+		\item \ac{BSSID}
+		\item Source Address
+		\item Destination Address
+		\item Transmitting STA Address
+		\item Receiving STA Address
+	\end{itemize}
+	\item \textbf{Sequence Control:} Sequence number of the current frame modulo 4096.
+	\item \textbf{MAC Payload:} The actual payload information of the \ac{MAC} layer. 
+	The actual payload can differ, because the headers of the \ac{LLC} and ip etc. has to be subtracted.
+	\item \textbf{Frame Check Frequence:} The sender calculates the checksum for the entire data block and appends it to the end of the block.
+\end{itemize}
 
 802.11ac and later using frame aggregation in order to reduce overhead.
 
@@ -437,12 +467,15 @@ There are several complements to the 802.11 standard.
 \subsection{DL-Layer in 802.11}
 
 \begin{itemize}
-	\item why is it important for us
-	\item how works the DL layer
-	\item was ist BC, was Unicast
+	\item Sie behandelt Probleme, die aufgrund von Bitübertragungsfehlern auftreten.
+	\item Sie stellt sicher, dass die Daten in einem Tempo fließen, das die Sende- und Empfangsgeräte nicht überfordert.
+	\item Sie ermöglicht die Übertragung von Daten zu Layer 3, der Vermittlungsschicht, wo sie adressiert und weitergeleitet werden.
 	\item was sind frames
-	\item how the Application layer
+	\item related work?
 \end{itemize}
+
+
+
 
 \subsubsection{Unicast}
 
@@ -502,7 +535,7 @@ They differ mainly by the respective field of application.
 \TODO{example}
 Link layer multicast is often used for large files in audio or video streams, where a big amount of data is distributed and multiple clients listen simultaneously.
 
-\todo{complete figure UC}
+\todo{complete figure MC}
 \begin{figure}[h]
 	\centering
 	\begin{tikzpicture}[main/.style = {draw, circle}] 
