@@ -11,7 +11,6 @@
 % Required package
 \usepackage{tikz}
 \usepackage{outlines}
-\usetikzlibrary{arrows,shadows} % for pgf-umlsd
 \usepackage[underline=true,rounded corners=false]{pgf-umlsd}
 % Protocol Header file
 \usepackage{bytefield}
@@ -21,6 +20,7 @@
 % table coloring
 \usepackage{colortbl}
 \usepackage{lipsum}
+
 
 \lstdefinestyle{customc}{
   belowcaptionskip=1\baselineskip,
@@ -164,11 +164,11 @@ ESP-Now instead works more like an direct radio communication.
 %\chapter{Einleitung}
 
 \begin{itemize}
-\item general motivation for your work, context and goals.
-\item context: make sure to link where your work fits in
-\item problem: gap in knowledge, too expensive, too slow, a deficiency, superseded technology
-\item strategy: the way you will address the problem
-\item recommended length: 1-2 pages.
+	\item general motivation for your work, context and goals.
+	\item context: make sure to link where your work fits in
+	\item problem: gap in knowledge, too expensive, too slow, a deficiency, superseded technology
+	\item strategy: the way you will address the problem
+	\item recommended length: 1-2 pages.
 \end{itemize}
 
 In the subject area 
@@ -180,12 +180,12 @@ Established solutions are realized via cables.
 
 \section{Motivation/Requirements}
 \begin{itemize}
-\item Reliability
-\item .. and why 100\% Reliability is not important (pyrotechnics)
-\item Lower latency
-\item Synchronisation
-\item higher update frequency
-\item Range
+	\item Reliability
+	\item .. and why 100\% Reliability is not important (pyrotechnics)
+	\item Lower latency
+	\item Synchronisation
+	\item higher update frequency
+	\item Range
 \end{itemize}
 
 \section{Challenges}
@@ -333,7 +333,6 @@ Wireless solutions for stage lighting are growing fast.
 	\item include what's needed to understand your work (e.g., techniques, protocols, models, hardware, software, ...)
 	\item exclude what's not (e.g., anything you yourself did, anything your reader can be expected to know, ...)
 	\item review related work(!)
-	\todo{List of papers:}
 	\item recommended length: approximately one third of the thesis.
 \end{itemize}
 
@@ -594,31 +593,61 @@ random time delay to avoid collisions\\
 DIFS/SIFS:\\
 Delay between transmissions used for \ac{CSMA/CA}
 
-\section{ESP Platform}
-\begin{itemize}
-	\item Why ESP Platform 
-	\item whats is the alternative
-	\item chip shortage for Arduino
-	\item price gab to esp32 dev boards
-\end{itemize}
-Almost every 802.11 capable \ac{MCU} could be picked for this research.
-But there are several reasons why the ESP Platform from Espressif is a valid choice.
-There are several chips provided by Espressif with WiFi specifications, these chips are very affordable (\todo{ESP32 Kosten in € 2021 aufführen? Link? Datum?}) 
-and althrough the ongoing chip crysis (2021) there are easy to get, in contrast of the also very popular Chips from the manufacturer Arduino, which are also more expansive.
-Espressif supports an own development IDF to flash the chips, with minor tweeks it's also to use the Arduino IDE.\\
-However the properitary protocol ESP-Now which, just supported in the ESP Platform is discussed below \cref{sub:ESP-Now} has promising properties for the realisation of a low level protocol.
-
 \section{Light protocols}
 
-In this chapter I give you a short introduction about stage lighting protocols that are already in use. 
-After that I will discuss why I choosed the ESP Platform and which modifications I made to get the improvements I was looking for in the requirements.
-\todo{use passive voice} 
+There are several lighting protocols that are used. The field of application ranges from wired CAN buses over ethernet cables to wireless WLAN networks.
+To give a short insight, some of the most important protocols are explained below.
 
-\subsection*{DMX-512A}
-\ac{DMX}, is the current industry standard for stage lighting. It is based on \ac{CANproto}, therefore it uses wires.
+\subsection{DMX-512A}
+\ac{DMX} 512A, is the current industry standard for stage lighting. It is based on \ac{CANproto}, therefore it uses wires.
+Physically is the DMX protocol transmitted over a differential pair of lines using the RS-485 voltage levels. 
+According to the specification are XLR-5 type connectors are to be used. \todo{image der connectoren}
 
-All devices, called fixtures, are daisy chained together.
-\TODO{Picture of topology}
+All devices are daisy chained together. 
+The DMX controller is in the begin of each chain, just having an output.
+The receiving devices, in DMX terms called fixtures, are chained from output to input. 
+A terminator is specified in the DMX specification that is to be connected to the final output.
+The hole chain is called DMX-Universe and can contain a set of 512 channel. 
+If there is a need of more channels one needs more DMX universes.
+Due to the fact that a DMX universe always has its own bus, starting from its own controller, this can lead to inconveniences.
+
+% \TODO{Picture of topology}
+
+% \begin{tikzpicture}[thick,
+% 	    gain/.style = {
+% 	        draw, 
+% 	        isosceles triangle,
+% 	        isosceles triangle apex angle=60,
+% 	        minimum height = 2em,
+% 	        outer sep=0},
+% 	    TFblock/.style= {
+% 	        draw,  
+% 	        minimum size=1.5cm}]
+	
+% 	% Gain block
+% 	\node [gain,fill=cyan!20] (a) {$K_P$};
+	
+% 	% Washout Filter Block
+% 	\node [TFblock,fill=green!20,] (b) [right= of a] {$\cfrac{sT_{w}}{1+sT_w}$};
+	
+% 	% Phase Compensation Block
+% 	\node [TFblock,fill=orange!20] (c) [right =of b] {$\cfrac{1+sT_{1}}{1+sT_2}$};
+% 	\node [TFblock,fill=orange!20] (d)[right =of c] {$\cfrac{1+sT_{3}}{1+sT_4}$};
+	
+% 	% Arrows
+% 	\draw[-latex] (a.west)++(-1.5,0) edge node[above] {$\Delta \omega$} (a.west)
+% 	    (a.east) edge (b.west)
+% 	    (b.east) edge (c.west)
+% 	    (c.east) edge (d.west)
+% 	    (d.east) -- node[above] {$V_s$} ++(1.5,0) ;
+	
+% 	% Labels
+% 	\node[below=0.8cm] at (a){ Gain block};
+% 	\node[below=0.8cm] at (b){ Washout block};
+% 	\node[below=0.8cm] at (barycentric cs:c=1,d=1){ Phase compensation block};
+	
+% \end{tikzpicture}
+ 
 
 % \subsubsection{fixture}
 A fixture is a lighting instrument, 
@@ -637,10 +666,6 @@ For example, an RGB LED spotlight could have three channels, one for each color.
 Due to the resolution of one byte, the individual colors can (theoretically) be controlled in 256 different intensities.
 \TODO{Bild von fixtures verteilt auf channel}
 
-% \subsubsection*{DMX-Universe}
-A universe can contain a set of 512 Channel. If there is a need of more channels one needs more DMX universes.
-Due to the fact that a DMX universe always has its own bus, starting from its own controller, this can lead to inconveniences.
-
 \subsection{Art-Net}
 \label{sec:artnet}
 \begin{itemize}
@@ -651,6 +676,20 @@ Due to the fact that a DMX universe always has its own bus, starting from its ow
 
 Due the limitation of 512 channel for each universe there where protocols implemented using the 
 Art-Net also called Art-Net DMX is 
+
+\section{ESP Platform}
+\begin{itemize}
+	\item Why ESP Platform 
+	\item whats is the alternative
+	\item chip shortage for Arduino
+	\item price gab to esp32 dev boards
+\end{itemize}
+Almost every 802.11 capable \ac{MCU} could be picked for this research.
+But there are several reasons why the ESP Platform from Espressif is a valid choice.
+There are several chips provided by Espressif with WiFi specifications, these chips are very affordable (\todo{ESP32 Kosten in € 2021 aufführen? Link? Datum?}) 
+and althrough the ongoing chip crysis (2021) there are easy to get, in contrast of the also very popular Chips from the manufacturer Arduino, which are also more expansive.
+Espressif supports an own development IDF to flash the chips, with minor tweeks it's also to use the Arduino IDE.\\
+However the properitary protocol ESP-Now which, just supported in the ESP Platform is discussed below \cref{sub:ESP-Now} has promising properties for the realisation of a low level protocol.
 
 \subsection{ESP32 Hardware}
 \begin{itemize}
