@@ -72,6 +72,7 @@
 \acrodef{UDP}{User Datagram Protocol}
 \acrodef{OSI}{Open Systems Interconnection}
 \acrodef{MAC}{Media Access Control}
+\acrodef{MSDU}{MAC Service Data Unit}
 \acrodef{DL}{Data Link}
 \acrodef{LLC}{Locig Linc Control}
 \acrodef{IP}{Internet Protocol}
@@ -342,7 +343,7 @@ This contains basic knowledge of the physical- and data link layer,
 which are located in the first and second layer of the \ac{OSI} Model.\todo{refrence to table below}.\\
 % alternativ introduction
 In order to understand the upcomming ESP-Now protocol we have to take a look at the \ac{DL} layer in 802.11.
-It is the second layer of the \ac{OSI} model of computer networking illustrated in \cref{tab:OsiModel}.
+It is the second layer of the \ac{OSI} model of computer networking illustrated in \cref{tab:OSI}.
 \TODO{Rewrite introduction in chapter Fundamentals!}
 
 \begin{table}
@@ -364,7 +365,7 @@ It is the second layer of the \ac{OSI} model of computer networking illustrated 
 		\hline
 	\end{tabular}
 	\caption{\ac{OSI} model}
-	\label{tab:OsiModel}
+	\label{tab:OSI}
 \end{table}
 
 \section{IEEE 802.11 Specification Family}
@@ -390,13 +391,41 @@ There are two \ac{BSS} defined:
 	The communication happens directly between the Wireless Endsystems.\todo{WES in AdHoc correct?}
 	Efficent routing can became a problem in more complex topologys.
 \end{itemize}
-The most common use in 802.11 is the Infrastructure mode.\\ 
+The most common use in 802.11 is the Infrastructure mode, which is commonly used in office and home enviroments.\\ 
 
-\subsection{IEEE Frame Structure}
-• Image of 802.11 frame structure PHY and MAC header\\
-• Image of MAC header\\
-• Image of frame control field of MAC in MAC header\\
-• Image of frame control field of MAC in MAC header\\
+\subsection{Physical layer}
+
+In this thesis we sould take a breef look into the \ac{PHY} of the IEEE 802.11 standard, which is the first layer of the OSI model \ref{tab:OSI}.
+This layer provides mechanical, electrical and other functional tools to activate or deactivate physical connections, maintain them and transmit bits over them. 
+These can be, for example, electrical signals, optical signals (fiber optics, lasers) or electromagnetic waves (wireless networks).
+There are several complements to the 802.11 standard:
+
+\begin{itemize}
+	\item 802.11b \\
+	supports larger bitrates with \ac{DSSS} or \ac{FHSS} as modulation from 1Mbit/s to 11Mbit/s.
+	It uses the 2.4 GHz ISM band.
+	\item 802.11a and 802.11g \\
+	with \ac{OFDM} data rates are increased up to 54 Mbit/s.
+	Where 802.11a is in the 5GHz ISM band 802.11g uses the 2.4GHz ISM band.
+	\item 802.11n\\
+	It also uses \ac{OFDM} and improves with additionaly \ac{MIMO}, channel bonding and frame aggregation to increase the bandwidth and decrease the overhead.
+	Using 2.4 GHz and 5GHz ISM band.
+	\item 802.11ac\\
+	Support of wider channel and out of it higher bitrates. It also includes features like Multi-User MIMO.
+	It only uses the 5 GHz ISM band.
+	\item 802.11ax\\
+	Like 802.11ac but with additional use of the 6GHz ISM band and better power control. 
+	Also called WiFi6.
+\end{itemize}
+
+In this thesis the rather basic 802.11b is used with a transmission rate of 1Mbit/s.
+
+\subsection{Media Access Control Layer}
+
+The MAC is the second lowest layer of the \ac{OSI} Model \ref{tab:OSI} and includes network protocols that regulate how multiple computers share the physical transmission medium they use. 
+Without regulation, collisions and data loss would occur in the shared medium if several WES were to transmit simultaneously.
+
+The \ac{MAC} Protocol Data Unit is additional added inside of the \ac{PHY} Payload. It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
 
 \begin{figure}[h]
 	\centering
@@ -410,7 +439,7 @@ The most common use in 802.11 is the Infrastructure mode.\\
 		\bitbox{2}{SC} &
 		\bitbox{6}{Address\\4}
 	\end{bytefield}
-	\caption{MAC header in a WLAN frame}%
+	\caption{MAC header of a WLAN frame}
 	\label{fig:mac_header}%
 \end{figure}
 \todo{Payload and FCS are missing}
@@ -443,26 +472,6 @@ The most common use in 802.11 is the Infrastructure mode.\\
 \end{itemize}
 
 802.11ac and later using frame aggregation in order to reduce overhead.
-
-\subsection{Physical layer}
-There are several complements to the 802.11 standard.
-\begin{itemize}
-	\item 802.11b \\
-	supports larger bitrates with \ac{DSSS} or \ac{FHSS} as modulation from 1Mbit/s to 11Mbit/s.
-	It uses the 2.4 GHz ISM band.
-	\item 802.11a and 802.11g \\
-	with \ac{OFDM} data rates are increased up to 54 Mbit/s.
-	Where 802.11a is in the 5GHz ISM band 802.11g uses the 2.4GHz ISM band.
-	\item 802.11n\\
-	It also uses \ac{OFDM} and improves with additionaly \ac{MIMO}, channel bonding and frame aggregation to increase the bandwidth and decrease the overhead.
-	Using 2.4 GHz and 5GHz ISM band.
-	\item 802.11ac\\
-	Support of wider channel and out of it higher bitrates. It also includes features like Multi-User MIMO.
-	It only uses the 5 GHz ISM band.
-	\item 802.11ax\\
-	Like 802.11ac but with additional use of the 6GHz ISM band and better power control. 
-	Also called WiFi6.
-\end{itemize}
 
 \subsection{DL-Layer in 802.11}
 
@@ -549,26 +558,26 @@ Link layer multicast is often used for large files in audio or video streams, wh
 Multiple Access/Multiplexing: When Signals to/from different users share a common channel using time division methods (TDM/TDMA, CSMA)\todo{eigene Worte}\\
 
 DSSS: Usage of multiple antennas
-(up to 4) to increase data rates\\
+Direct Sequence Spread Spectrum. Spreading of the signal over a given bitsequence PN\\
 
-Addressing
+Addressing\\
 In a LAN environment, devices are logically separated using 48-bit
 globally unique MAC addresses: example
 In IPv4 networks (e.g. Internet), nodes are logically separated
 using 32-bit globally unique IP addresses: example \\
 
-Routing
+Routing\\
 • Routing in a (W)LAN is based on MAC addresses, never IP addresses.\\
 • A router (e.g. integrated with an access point) performs mapping between\\
 these two address types: \\
 
-Address allocation
+Address allocation\\
 • MAC addresses are associated with the hardware devices.\\
 • IP addresses can be allocated to (W)LAN devices either on a\\
 permanent basis or dynamically from an address pool using the
 Dynamic Host Configuration Protocol (DHCP). \\
 
-Mesh networks
+Mesh networks\\
 are able to relay frames from one device to another.
 • Provide coverage extension over multiple hops (e.g. Internet access)
 • Sufficient address information is required to be able to relay data from a
@@ -576,13 +585,13 @@ source device to the ultimate destination (IP or MAC address).
 This can be used to extend the range from on \ac{WES} to another \ac{WES} over some other \ac{WES}.
 Since range isn't a critical parameter in this thesis, it hasn't to be further discussed.\\
 
-Beacon Frames
+Beacon Frames\\
 contain the channel information found during passive scanning. Probe request are used in acting scanning.\\
 
-Backoff: 
+Backoff: \\
 random time delay to avoid collisions\\
 
-DIFS/SIFS:
+DIFS/SIFS:\\
 Delay between transmissions used for \ac{CSMA/CA}
 
 \section{ESP Platform}
@@ -667,7 +676,7 @@ The chip ESP32 is quite common in DIY projects around everything from home autom
 
 ESP-NOW is a properitary protocol developed by Espressif. 
 ESP-NOW is widely used in smart light, remote controlling, sensor, etc.\todo{cite ESP documentation website}. 
-It is a conectionless protocol, so the \ac{WES}'s' are in Ad-Hoc mode insted of \ac{STA}.
+It is a conectionless protocol, so the \ac{WES}'s are in Ad-Hoc mode insted of \ac{STA}.
 It is just supported with the ESP8266, ESP32 and ESP32, these are all chipsets from Espressif, but they are compatible with each other.
 Because of this, a ESP-Chip as gateway is needed to interact from the outside to the ESP-NOW network. 
 
@@ -703,17 +712,19 @@ visualized in \ref{fig:esp-now_frame_format}.
 					rows = {ht=1.3cm},
 					columns = {halign=c},
 					colspec = {XXXXXX},} 
-	\makecell{MAC\\Header}& \makecell{Category\\Code} & \makecell{Org.} & \makecell{Random\\Values} & \makecell{Vendor\\Specific\\Content} & \makecell{FCS} \\
+	\makecell{MAC\\Header} & \makecell{Category\\Code} & \makecell{Org.} & 
+	\makecell{Random\\Values} & \makecell{Vendor\\Specific\\Content} & \makecell{FCS}\\
 	\end{tblr}
 	\begin{tabularx}{\linewidth}{ X X X X X X }
-		\makecell{\footnotesize{24}} & \makecell{\footnotesize{1}} & \makecell{\footnotesize{3}} & \makecell{\footnotesize{4}} & \makecell{\footnotesize{7 $\sim$ 255}} & \makecell{\footnotesize{4}} \\
+		\makecell{\footnotesize{24}} & \makecell{\footnotesize{1}} & \makecell{\footnotesize{3}} & 
+		\makecell{\footnotesize{4}} & \makecell{\footnotesize{7 $\sim$ 255}} & \makecell{\footnotesize{4}} \\
 	\end{tabularx}
 	\caption{ESP-NOW Frame Format}
 	\label{fig:esp-now_frame_format}
 \end{table}
 
 \begin{itemize}
-	\setlength\itemsep{-0.5em}
+	\setlength\itemsep{-0.0em}
 	\item \textbf{MAC Header:} As ESP-NOW is connectionless, the MAC header differs from that of standard frames.
 	\item \textbf{Category Code:} The Category Code field is set to the value(127) indicating the vendor-specific category.
 	\item \textbf{Organization Identifier:} The Organization Identifier contains a unique identifier (0x18fe34), which is the first three bytes of MAC address applied by Espressif.
@@ -741,7 +752,7 @@ Inside of the ESP-NOW frame \ref{fig:esp-now_frame_format} is the vendor specifi
 \end{table} 
 
 \begin{itemize}
-	\setlength\itemsep{-0.5em}
+	\setlength\itemsep{-0.0em}
 	\item \textbf{Element ID:} The Element ID field is set to the value (221), indicating the vendor-specific element.
 	\item \textbf{Length:} The length is the total length of Organization Identifier, Type, Version and Body.
 	\item \textbf{Organization Identifier:} The Organization Identifier contains a unique identifier(0x18fe34), which is the first three bytes of MAC address applied by Espressif.
@@ -766,7 +777,7 @@ It seems that the documentation isn't complitly finished (or translated).
 	\item baseline
 \end{itemize}
 
-\lipsum[1]
+\TODO{ESP-NOW Baseline Artnet should be moved to Design part??}
 
 \chapter{Proposed Approach}
 \begin{itemize}
