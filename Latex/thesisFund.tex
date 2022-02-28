@@ -95,22 +95,16 @@ In this thesis the rather basic 802.11b is used with a transmission rate of 1Mbi
 
 \subsection{Data Link Layer}
 
-The \ac{DL} Layer is split in two layers. 
-\begin{itemize}
-	\item \ac{MAC} Layer, which provides control for accessing the transmission medium.
-	It's responsible for moving packets from one endsystem to another, across a shared transmission medium.
-	\item \ac{LLC} multiplex protocols over the MAC layer while transmitting and to de-multiplex the protocols while receiving.
-	LLC provides hop-to-hop flow and error control.
-	It allows multipoint communication over computer network.
-	Frame Sequence Numbers are assigned by LLC.
+The \ac{DL} Layer is the second lowest layer of the \ac{OSI} Model \ref{tab:OSI} and is split in two sublayers. 
+The \ac{LLC} sublayer which multiplex protocols over the MAC layer while transmitting and to de-multiplex the protocols while receiving.
+LLC provides the hop-to-hop flow and error control, allows multipoint communication over networks 
+and it also adds frame sequence numbers.
+But in this thesis we focus on the other data link sublayer.
 
-
-\end{itemize}
-
-The \ac{MAC} is the second lowest layer of the \ac{OSI} Model \ref{tab:OSI} and includes network protocols that regulate how multiple computers share the physical transmission medium they use. 
+The \ac{MAC} includes network protocols that regulate how multiple computers share the physical transmission medium they use. 
 Without regulation, collisions and data loss would occur in the shared medium if several WES were to transmit simultaneously.
-
-The \ac{MAC} Protocol Data Unit is additional added inside of the \ac{PHY} Payload. It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
+The \ac{MAC} Protocol Data Unit is additional added inside of the \ac{PHY} Payload. 
+It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
 
 \begin{figure}[h]
 	\centering
@@ -158,7 +152,8 @@ The \ac{MAC} Protocol Data Unit is additional added inside of the \ac{PHY} Paylo
 
 802.11ac and later using frame aggregation in order to reduce overhead.
 
-\subsection{IEEE 802 Stuff}
+\subsection{Carrier Sense Multiple Access/Collision Avoidance}
+\TODO{shot explaination of CSMA/CD}
 Multiple Access/Multiplexing: When Signals to/from different users share a common channel using time division methods (TDM/TDMA, CSMA)\todo{eigene Worte}\\
 
 DSSS: Usage of multiple antennas
@@ -278,7 +273,7 @@ According to the specification are XLR-5 type connectors are to be used. \todo{i
 
 \TODO{Show Hardware e.g. DMX Plug}
 
-The endsystems are called fixture because it's most likely a lighting instrument, 
+The endsystems are called fixture because it's most likely a lighting installation which is mounted somewhere, 
 this could be a moving-head, fresnel, spotlight, stroboscope or any other light installation.
 It could also be a fog machine that emits fog on an appropriate signal.
 
@@ -361,7 +356,8 @@ But there are several reasons why the ESP Platform from Espressif is a valid cho
 There are several chips provided by Espressif with WiFi specifications, these chips are very affordable (\todo{ESP32 Kosten in € 2021 aufführen? Link? Datum?}) 
 and althrough the ongoing chip crysis (2021) there are easy to get, in contrast of the also very popular Chips from the manufacturer Arduino, which are also more expansive.
 Espressif supports an own development IDF to flash the chips, with minor tweeks it's also to use the Arduino IDE.\\
-However the properitary protocol ESP-Now which, just supported in the ESP Platform is discussed below \cref{sub:ESP-Now} has promising properties for the realisation of a low level protocol.
+However the properitary protocol ESP-Now which, just supported in the ESP Ecosystem, is discussed below \cref{sub:ESP-Now} 
+and has promising properties for a solid and fast realisation of a low level protocol.
 
 \subsection{ESP32 Hardware}
 \begin{itemize}
@@ -375,7 +371,23 @@ However the properitary protocol ESP-Now which, just supported in the ESP Platfo
 \item 2.4 GHz (cheap)
 \item Bild vom chip
 \end{itemize}
-The chip ESP32 is quite common in DIY projects around everything from home automation to light installations. The chip supports the 
+The chip ESP32 is quite common in DIY projects around everything from home automation to light installations. 
+The chip is delivered with several development boards.
+The chip is promoted with: \todo{this is cited from: link zum esp32 datasheet}
+\begin{itemize}
+	\item 802.11 b/g/n with up to 150 Mbps
+	\item Wifi Multimedia (WMM)
+	\item Immediate Block ACK
+	\item Automatic Beacon monitoring (hardware TSF)
+	\item Virtual Wi-Fi Interfaces
+	\item Simultaneous support for Infrastructure Station, SoftAP, and Promiscuous modes
+	\item Bluetooth v4.2 BR/EDR and Bluetooth LE specifications
+	\item Xtensa® single-/dual-core 32-bit LX6 microprocessor(s)
+	\item Advanced Peripheral Interfaces: GPIO, ADC, DAC, touch sensors, hall sensor, 
+	SPI, I2S, I2C, UART, CAN, RMT (TX/RX), Motor/LED PWM 
+\end{itemize}
+
+\TODO{add picture of an ESP layout}
 
 \subsection{ESP-Now}
 \label{sub:ESP-Now}
