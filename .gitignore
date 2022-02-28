@@ -3,6 +3,8 @@ sdkconfig
 sdkconfig.old
 .vscode/arduino.json
 
-thesis*
+thesis.*
 !Latex/thesis.pdf
 !Latex/thesis.tex
+
+*.aux
