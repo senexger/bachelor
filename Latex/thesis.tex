@@ -20,6 +20,9 @@
 % table coloring
 \usepackage{colortbl}
 \usepackage{lipsum}
+% block diagram
+\usepackage{amsmath}
+\usetikzlibrary{shapes.geometric,positioning}
 
 
 \lstdefinestyle{customc}{
@@ -69,14 +72,13 @@
 \acrodef{CANproto}[CAN]{Controller Area Network}{extra={when referring to the bus protocol}}
 
 % Abbreviations Networking
-\acrodef{UDP}{User Datagram Protocol}
-\acrodef{OSI}{Open Systems Interconnection}
-\acrodef{MAC}{Media Access Control}
-\acrodef{MSDU}{MAC Service Data Unit}
-\acrodef{DL}{Data Link}
-\acrodef{LLC}{Locig Linc Control}
-\acrodef{IP}{Internet Protocol}
 \acrodef{IEEE}{Institut of Electrical and Electronics Engineers}
+\acrodef{OSI}{Open Systems Interconnection}
+\acrodef{MSDU}{MAC Service Data Unit}
+\acrodef{DL}{Data Link Layer}
+\acrodef{LLC}{Locig Link Control}
+\acrodef{MAC}{Media Access Control}
+\acrodef{IP}{Internet Protocol}
 \acrodef{CD}{Collision Detection}
 \acrodef{CSMA/CA}{Carrier-sense multiple access with collision avoidance}
 \acrodef{DCF}{Distributed Coordination Function}
@@ -97,6 +99,7 @@
 \acrodef{MIMO}{Multiple Input-Multiple Output)}
 \acrodef{WLAN}{Wireless Local Area Network}
 \acrodef{BSSID}{Basic Service Set Identifier}
+\acrodef{UDP}{User Datagram Protocol}
 
 \begin{document}
 
@@ -419,9 +422,9 @@ There are several complements to the 802.11 standard:
 
 In this thesis the rather basic 802.11b is used with a transmission rate of 1Mbit/s.
 
-\subsection{Media Access Control Layer}
+\subsection{Data Layer Layer}
 
-The MAC is the second lowest layer of the \ac{OSI} Model \ref{tab:OSI} and includes network protocols that regulate how multiple computers share the physical transmission medium they use. 
+The \ac{DL} is the second lowest layer of the \ac{OSI} Model \ref{tab:OSI} and includes network protocols that regulate how multiple computers share the physical transmission medium they use. 
 Without regulation, collisions and data loss would occur in the shared medium if several WES were to transmit simultaneously.
 
 The \ac{MAC} Protocol Data Unit is additional added inside of the \ac{PHY} Payload. It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
@@ -482,8 +485,45 @@ The \ac{MAC} Protocol Data Unit is additional added inside of the \ac{PHY} Paylo
 	\item related work?
 \end{itemize}
 
+\subsection{IEEE 802 Stuff}
+Multiple Access/Multiplexing: When Signals to/from different users share a common channel using time division methods (TDM/TDMA, CSMA)\todo{eigene Worte}\\
 
+DSSS: Usage of multiple antennas
+Direct Sequence Spread Spectrum. Spreading of the signal over a given bitsequence PN\\
 
+Addressing\\
+In a LAN environment, devices are logically separated using 48-bit
+globally unique MAC addresses: example
+In IPv4 networks (e.g. Internet), nodes are logically separated
+using 32-bit globally unique IP addresses: example \\
+
+Routing\\
+• Routing in a (W)LAN is based on MAC addresses, never IP addresses.\\
+• A router (e.g. integrated with an access point) performs mapping between\\
+these two address types: \\
+
+Address allocation\\
+• MAC addresses are associated with the hardware devices.\\
+• IP addresses can be allocated to (W)LAN devices either on a\\
+permanent basis or dynamically from an address pool using the
+Dynamic Host Configuration Protocol (DHCP). \\
+
+Mesh networks\\
+are able to relay frames from one device to another.
+• Provide coverage extension over multiple hops (e.g. Internet access)
+• Sufficient address information is required to be able to relay data from a
+source device to the ultimate destination (IP or MAC address).
+This can be used to extend the range from on \ac{WES} to another \ac{WES} over some other \ac{WES}.
+Since range isn't a critical parameter in this thesis, it hasn't to be further discussed.\\
+
+Beacon Frames\\
+contain the channel information found during passive scanning. Probe request are used in acting scanning.\\
+
+Backoff: \\
+random time delay to avoid collisions\\
+
+DIFS/SIFS:\\
+Delay between transmissions used for \ac{CSMA/CA}
 
 \subsubsection{Unicast}
 
@@ -532,16 +572,14 @@ E.g. management information in a \ac{WLAN} is sent in a broadcast mode, because 
 	\label{fig:broadcast_topology}
 \end{figure}
 
-
-\subsection{Multicast}
+\subsubsection{Multicast}
 
 \TODO{Mutlicast explain multicast mac address}
 When the same packet should be transmitted to multiple \ac{WES}'s, but not to all, multicast can be used.
 Transmitting the same packet multiple times via unicast is wasteful.
-There are different approaches to realize acknowledgements for mutlicasts.
-They differ mainly by the respective field of application.
-\TODO{example}
-Link layer multicast is often used for large files in audio or video streams, where a big amount of data is distributed and multiple clients listen simultaneously.
+There are different approaches to realize acknowledgements for mutlicasts, they differ mainly by the respective field of application.
+\TODO{examples for multicast ack + related work}
+Level 2 multicast is often used for large files in audio or video streams, where a big amount of data is distributed and multiple clients listen simultaneously.
 
 \todo{complete figure MC}
 \begin{figure}[h]
@@ -553,45 +591,6 @@ Link layer multicast is often used for large files in audio or video streams, wh
 	\label{fig:multicast_topology}
 \end{figure}
 
-\subsection{IEEE 802 Stuff}
-Multiple Access/Multiplexing: When Signals to/from different users share a common channel using time division methods (TDM/TDMA, CSMA)\todo{eigene Worte}\\
-
-DSSS: Usage of multiple antennas
-Direct Sequence Spread Spectrum. Spreading of the signal over a given bitsequence PN\\
-
-Addressing\\
-In a LAN environment, devices are logically separated using 48-bit
-globally unique MAC addresses: example
-In IPv4 networks (e.g. Internet), nodes are logically separated
-using 32-bit globally unique IP addresses: example \\
-
-Routing\\
-• Routing in a (W)LAN is based on MAC addresses, never IP addresses.\\
-• A router (e.g. integrated with an access point) performs mapping between\\
-these two address types: \\
-
-Address allocation\\
-• MAC addresses are associated with the hardware devices.\\
-• IP addresses can be allocated to (W)LAN devices either on a\\
-permanent basis or dynamically from an address pool using the
-Dynamic Host Configuration Protocol (DHCP). \\
-
-Mesh networks\\
-are able to relay frames from one device to another.
-• Provide coverage extension over multiple hops (e.g. Internet access)
-• Sufficient address information is required to be able to relay data from a
-source device to the ultimate destination (IP or MAC address).
-This can be used to extend the range from on \ac{WES} to another \ac{WES} over some other \ac{WES}.
-Since range isn't a critical parameter in this thesis, it hasn't to be further discussed.\\
-
-Beacon Frames\\
-contain the channel information found during passive scanning. Probe request are used in acting scanning.\\
-
-Backoff: \\
-random time delay to avoid collisions\\
-
-DIFS/SIFS:\\
-Delay between transmissions used for \ac{CSMA/CA}
 
 \section{Light protocols}
 
@@ -601,70 +600,70 @@ To give a short insight, some of the most important protocols are explained belo
 \subsection{DMX-512A}
 \ac{DMX} 512A, is the current industry standard for stage lighting. It is based on \ac{CANproto}, therefore it uses wires.
 Physically is the DMX protocol transmitted over a differential pair of lines using the RS-485 voltage levels. 
+The bus signal is updated with $\frac{1}{50}$Hz.
 According to the specification are XLR-5 type connectors are to be used. \todo{image der connectoren}
 
-All devices are daisy chained together. 
-The DMX controller is in the begin of each chain, just having an output.
-The receiving devices, in DMX terms called fixtures, are chained from output to input. 
-A terminator is specified in the DMX specification that is to be connected to the final output.
-The hole chain is called DMX-Universe and can contain a set of 512 channel. 
-If there is a need of more channels one needs more DMX universes.
-Due to the fact that a DMX universe always has its own bus, starting from its own controller, this can lead to inconveniences.
-
-% \TODO{Picture of topology}
-
-% \begin{tikzpicture}[thick,
-% 	    gain/.style = {
-% 	        draw, 
-% 	        isosceles triangle,
-% 	        isosceles triangle apex angle=60,
-% 	        minimum height = 2em,
-% 	        outer sep=0},
-% 	    TFblock/.style= {
-% 	        draw,  
-% 	        minimum size=1.5cm}]
-	
-% 	% Gain block
-% 	\node [gain,fill=cyan!20] (a) {$K_P$};
-	
-% 	% Washout Filter Block
-% 	\node [TFblock,fill=green!20,] (b) [right= of a] {$\cfrac{sT_{w}}{1+sT_w}$};
-	
-% 	% Phase Compensation Block
-% 	\node [TFblock,fill=orange!20] (c) [right =of b] {$\cfrac{1+sT_{1}}{1+sT_2}$};
-% 	\node [TFblock,fill=orange!20] (d)[right =of c] {$\cfrac{1+sT_{3}}{1+sT_4}$};
-	
-% 	% Arrows
-% 	\draw[-latex] (a.west)++(-1.5,0) edge node[above] {$\Delta \omega$} (a.west)
-% 	    (a.east) edge (b.west)
-% 	    (b.east) edge (c.west)
-% 	    (c.east) edge (d.west)
-% 	    (d.east) -- node[above] {$V_s$} ++(1.5,0) ;
-	
-% 	% Labels
-% 	\node[below=0.8cm] at (a){ Gain block};
-% 	\node[below=0.8cm] at (b){ Washout block};
-% 	\node[below=0.8cm] at (barycentric cs:c=1,d=1){ Phase compensation block};
-	
-% \end{tikzpicture}
- 
-
-% \subsubsection{fixture}
-A fixture is a lighting instrument, 
-this could be a moving-head, fresnel, spotlight, stroboscope or any other light installation.
-It could also be a fog machine that emits fog on an appropriate signal.
-Since \ac{DMX} is unidirectional we \todo{I or we? It should be I...} can assume that fixtures generally only receive or forward (daisy chain) control signals sent from the control console.
-In this thesis I equate it with a node or an entity receiving a signal.
 \TODO{Show Hardware e.g. DMX Plug}
 
-% \subsubsection*{Channel}
-A channel in the event technology is to distinguish between e.g. a WiFi channel. 
+The endsystems are called fixture because it's most likely a lighting instrument, 
+this could be a moving-head, fresnel, spotlight, stroboscope or any other light installation.
+It could also be a fog machine that emits fog on an appropriate signal.
 
-Each FIXTURE is assigned at least one, but usually several CHANNEL, which are the payload containing in a packet to all FIXTURES. 
-Each fixture knows which CHANNEL is intended for it. Each channel consists of one byte.
-For example, an RGB LED spotlight could have three channels, one for each color.
+All devices are daisy chained together visualized in \ref{fig:dmx_diagram}.
+The DMX controller is in the begin of each chain.
+The receiving endsystems, are chained behind each other from output to input. 
+A terminator, specified in the DMX specification, is to be connected to the final output.
+ 
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[thick,
+	    TFblock/.style= {
+	        draw,  
+	        minimum size=1.5cm}]
+	
+		% Blocks
+		\node [TFblock,fill=green!10] (a) {\footnotesize{\ \ \ \ \ \ \ \ OUT}};
+		\node [TFblock,fill=white!20,] (b) [right= of a] {\footnotesize{IN\ \ \ \ \ OUT}};
+		\node [TFblock,fill=white!20] (c) [right =of b] {\footnotesize{IN\ \ \ \ \ OUT}};
+		\node [TFblock,fill=orange!10] (d)[right =of c] {\footnotesize{IN\ \ \ \ \ \ \ \ \ \ \ \ }};
+
+		% % Arrows
+		\draw[-latex] 
+		    (a.east) edge (b.west)
+		    (b.east) edge (c.west)
+		    (c.east) edge (d.west) ;
+
+		% Labels
+		\node[below=0.8cm] at (a){Controller};
+		\node[below=0.8cm] at (b){Fixture 1};
+		\node[below=0.8cm] at (c){Fixture n};
+		\node[below=0.8cm] at (d){Terminator};
+		\node[above=0.2cm] at (barycentric cs:b=1,c=1){ ... };
+
+	\end{tikzpicture}
+	\caption{Block Diagram of an DMX Universe}
+	\label{fig:dmx_diagram}
+\end{figure}
+
+The hole chain is called DMX-Universe and can contain a set of 512 channel. 
+If there is a need of more channels one needs more DMX universes - each channel consists of one byte.
+Due to the fact that a DMX universe always has its own bus, starting from a new controller can lead to inconveniences.
+
+A channel in the event technology is to distinguish between e.g. a WiFi channel.
+Each endsystem is assigned at least one, but usually several channels.
+Every endsystems knows which channel is intended for it, this must to be preset.
+
+For example: An RGB-LED spotlight could have three channels, one for each color.
 Due to the resolution of one byte, the individual colors can (theoretically) be controlled in 256 different intensities.
+If the Channel 0-56 are already used, it could be set to channel 57, 58, 59.
+Any other free channel range would also be possible, provided it is connected.
+There exist hardware with automatic-address-assignment.
+
 \TODO{Bild von fixtures verteilt auf channel}
+
+Since \ac{DMX} is unidirectional it can be assumed that the endsystems generally only receive or forward (daisy chain) control signals sent from the control console.
+This is a major limitation of DMX, beside of the rather small universe size.
+It is also not reliable, the use of fire installations is therefore considered too dangerous.
 
 \subsection{Art-Net}
 \label{sec:artnet}
