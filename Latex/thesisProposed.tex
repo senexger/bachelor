@@ -67,6 +67,26 @@ because even if it was not developed for this purpose the specification fits qui
 \end{table}
 \TODO{Fehlt hier nicht ESP-Now?}
 
+For the purpose of this analysis, the controller transmits 20 Byte (analogue to 20 DMX channels) to every WESs.
+Four different metrics are considered, which where discussed in the requirements. \todo{ref to requirements}
+\begin{itemize}
+	\item \textbf{Latency} \\
+	What is the latency from commanding the controller to the estimated reaction at the WES e.g. lighting of a light?
+	For the sake of simplicity, delays caused by the microcontroller instruction set, data distribution and 
+	control of the light installation are neglected and the focus is placed only on the airtime.
+	\item \textbf{Update Frequency}\\
+	How often can the we update all WESs per second? 
+	This results in how smooth movement of moving heads are moving or how smooth the transition of the color of an LED can be performed.
+	\item \textbf{Reliability}\\
+	Wie sicher kommen die vom Controller gesendeten Daten bei den WESs an?
+	Lack of reliability can result 
+	in two WESs positioned next to each other not behaving the same because one of them only receives half of the signals.
+	\item \textbf{Synchronisation}\\
+	Are the signals sent to different WESs carried out at the same time?
+	If two of the WESs are to be controlled simultaneously, 
+	but the signal was transmitted one after the other, they have to wait for each other so that the lights change at the same time.
+\end{itemize}
+
 \subsection{Slim Unicast}
 
 The implementation that probably comes closest to Art-Net's is to replace the TCP packets sent by Art-Net 
@@ -74,16 +94,21 @@ to the respective IP-Address of the WESs with unicasts to the MAC-address of the
 Of course, the MAC address of all WESs must be known and they must all be paired with the controller, but 
 this process is just analogous to  mapping the corresponding IP addresses after dialing the WESs into a WLAN.
 
-Following the approach of DMX and updating the 'bus' every 44Hz, would made by sending the packets round robin via unicast. 
-With a correspondingly high number of WESs, this could be challenge with a transmission speed of 1MBit/s, 
-it scales linearly with each additional WES.
+\subsubsection*{Latency}
+
+Latency describes the time between a command and the expected response, here considered as airtime.
 The airtime using 1Mbit/s is rather easy calculated, every Byte (8 Bits) takes 8$\mu$s.
+
+For a full transmission the PHY and MAC preamble and header be transmitted twice, once for the data and once for the acknowledgement.
+The MAC body contains the payload, which depends of the needs of the addressed \ac{WES}.
+In a perfect clean channel the sender hasn't to defer, but has to take a \ac{DIFS} plus a backoff.
+A perfect empty channel resets the CW to CW$_{min}$, which are 16 slots in 802.11b,
+so the average backoff should take $\frac{CW_{min}}{2}$ slots, with a slottime of 20$\mu$s follows an average backoff of 160$\mu$s.
 
 \begin{table}[h]
 	\centering
 	\begin{tabular} { lrr }
 		\toprule
-
 		\multicolumn{1}{c}{Frame segment}
 		& \multicolumn{1}{c}{Byte}
 		& \multicolumn{1}{c}{Airtime in $\mu$s} \\
@@ -93,8 +118,8 @@ The airtime using 1Mbit/s is rather easy calculated, every Byte (8 Bits) takes 8
 		PHY header: PLCP preamble			& 18	& 144 \\
 		PHY header: PLCP header				& 6 	& 48 \\
 		MAC headers							& 28	& 224 \\
-		MAC body							& \textit{20} & \textit{160}\\
-		\textbf{= tx time data}				& 		& \textbf{626} \\
+		MAC body							& 20 	& 160 \\
+		\textbf{= tx time data}				& 		& \textbf{746} \\
 		SIFS								& -		& 10 \\
 		PHY header: PLCP preamble			& 18	& 144 \\
 		PHY header: PLCP header				& 6		& 48 \\
@@ -106,33 +131,47 @@ The airtime using 1Mbit/s is rather easy calculated, every Byte (8 Bits) takes 8
 	\label{tab:airtime_unicast_calc}
 \end{table}
 
-For a full transmission the PHY and MAC preamble and header be transmitted twice, once for the data and once for the acknowledgement.
-The MAC body contains the payload, which depends of the needs of the addressed \ac{WES}.
-In a perfect clean channel the sender hasn't to defer, but has to take a \ac{DIFS} plus a backoff.
-A perfect empty channel resets the CW to CW$_{min}$, which are 16 slots in 802.11b,
-so the average should take $\frac{CW_{min}}{2}$ slots. 
-Given a slottime of 20$\mu$s the average backoff takes 160$\mu$s.
+The total airtime of the transmission of data and ack, assuming the transmission arrived successfully, is $t_tx=1100\mu$s.
+Strictly speaking, the light could also be changed before the acknolegement is sent, i.e. after 746$\mu$s.
+The latency scales linearly, the delay to the n-th WES is:
+\begin{align}
+	n \cdot t_{tx} = n \cdot 1100\mu s
+\end{align}
 
 In order to avoid unnecessary load on the radio channel, Art-Net transmit only the changes.
-In the worst case, however, this affects all WESs.
+In the worst case, however, changes affect all WESs at the same time.
 
-\TODO{Discuss the inimportance of order of round robin in unicast}
+\subsubsection*{Update Frequency}
+Following the approach of DMX and updating the 'bus' every 44Hz, would made by sending the packets round robin via unicast. 
+\todo{Discuss the inimportance of order of round robin in unicast}
+With a correspondingly high number of WESs, this could be challenge with a transmission speed of 1MBit/s, 
+it also scales linearly with each additional WES. 
+In an labor steril empty channel, denying all side latencys, there could be:
+\begin{align}
+	\frac{1}{n * 1100\mu s} = \frac{9090}{n} Hz
+\end{align}
+
+For 10 WESs, addressed with respectively 20 Byte, it would still be 909Hz.
+This is far above the update frequency of DMX, but also very unrealistic and just intended to show,
+that it could theoretically be within the realm of possibility.
+
+\subsubsection*{Reliability}
+
 One benefit of the unicast is the support of acknoledgements. So the reliability should be very good. 
-Unfortunately the ESP-Now protocol does not allow to control the number of retransmissions before the packet is discarded.
-\todo{Is it tru, that retransmission can't be controlled in ESP-NOW?}
-
-The idea of the unicast is, that a transmission to each device is very fast, because the transmitted payload is smaller.
-
+The idea of the slim unicast is, that a transmission to each device is very fast, because the transmitted payload small.
 However, since we are sending many small packets, it can be assumed that we will be sending a lot of overhead.
 So we playing off reliability against transmission speed.
-\todo{Man kann transmissions skippen, wenn eine fixture keine veränderten daten erhält}
 
-\todo{reference to unicast topolgy in fundamentals}
+
+\subsubsection{Synchronisation}
 
 \begin{align*} \label{eq:delay_unicast}
 	t_{bestcase}  &= N \cdot (t_{frame} + 8 \cdot t_{ack}) \\
 	t_{worstcase} &= N \cdot (t_{frame} + 1 \cdot t_{ack})
 \end{align*} 
+
+Unfortunately the ESP-Now protocol does not allow to control the number of retransmissions before the packet is discarded.
+\todo{Is it tru, that retransmission can't be controlled in ESP-NOW?}
 
 \subsection{Slim Broadcast}
 \begin{itemize}
