@@ -1,41 +1,26 @@
 \chapter{Proposed Approach}
-\begin{itemize}
-\item describe everything you yourself did (as opposed to the fundamentals chapter, which explains what you built on)
-\item start with a theoretical approach
-\item describe the developed system/algorithm/method from a high-level point of view
-\item go ahead in presenting your developments in more detail
-\item recommended length: approximately one third of the thesis.
-\end{itemize}
 
-Starting from the ESP-Now protocol, different approaches can be chosen to route the control signals to the fixtures. 
-In the following I will present different approaches, which are also investigated experimentally.
+Different approaches are presented and discussed in this chapter using data link unicast or broadcast in different specifications,
+these were also empirically tested and evaluated in the \cref{sec:evaluation}.
+At the end of this chapter, the test setup was introduced and 
+it is briefly explained how the chips are programmed and how the measured values were generated and collected.
 
 \section{Design}
-\label{sec:design}
-\begin{itemize}
-	\item Specification of the protocols
-	\item analytic results (simulierte Ergebnisse)
-	\item Ad-Hoc complexity of topology is not a problem, because of its simple star structure.
-\end{itemize}
 
-In this chapter there are different approaches presented and discussed.
-There are several specifications to go through and some details of the implementation.
-
-\subsection{Slim Unicast}
-\begin{itemize}
-\item topology
-\item Network stack
-\item re transmissions
-\item reliability
-\item tolja calculation sheet for 802.11
-\item wireshark measurements
-\end{itemize}
-
-Art-Net \cref{sec:artnet} makes use of the \ac{IP} and the \ac{UDP} for routing and controlling the transmissions.
-The most similar approach using ESP-Now insted of Art-Net is cutting the Layer above the Data Link Layer.
-It is more like a direct transmission between sender and fixture, saving some overhead.
-In the Application layer is the Art-Net replaced with the Slim-Unicast, controlling the order and timing of the repetitions.
-\todo{ist Slim-Unicast auf sender-seite nicht anders zu behandeln als auf empfängerseite?}
+The use of high-layer protocols, such as Art-Net \cref{sec:artnet}, in lighting technology involves a considerable overhead. 
+Because the lighting console does not talk directly to the \ac{WES}, communication must be controlled via an \ac{AP}, 
+which means that the \ac{IP} (layer 3) must be used for addressing and \ac{UDP} (layer 4) for transporting the data. 
+They both come withe additional headers. 
+Such an overhead can lead to latency, channel congestion and packet loss.
+ 
+In an ad-hoc network \cref{itm:bss}, on the other hand, packets can be sent directly on the MAC (layer 2) \cref{tab:Layer}. 
+With a payload of a few bytes to each WES, keeping overheat small can be quite important. 
+Complexity problems as often typical in Ad-Hoc networks are not to be assumed, 
+since the controller at the light desk must normally stand in line of sight to the individual WES, 
+from there finally the lighting technician from there must have everything in the range of vision to be able to intervene. 
+One can therefore assume a simple star topology.
+In the following the ESP-NOW \cref{sub:espnow} protocol was chosen to distribute the packets low-level, 
+because even if it was not developed for this purpose the specification fits quite well to the requirements.
 
 \begin{table}[h]
 	\centering
@@ -51,58 +36,103 @@ In the Application layer is the Art-Net replaced with the Slim-Unicast, controll
 			\hline
 			802.11 DL/Unicast\\
 			\hline
-			802.11b/g/n PHY\\ 
+			802.11* PHY\\ 
 			\hline
 		\end{tabular}
 		\begin{tabular}{ |c| } 
 			\hline
-			Slim-Unicast\\
+			Slim Application\\
 			\\
 			\\
 			\hline
-			802.11 DL/Unicast\\
+			802.11 DL/UC or BC\\
 			\hline
 			802.11b/g/n PHY\\ 
 			\hline
 		\end{tabular}
-		\begin{tabular}{ |c| } 
-			\hline
-			Slim-Broadcast\\
-			\\
-			\\
-			\hline
-			802.11 DL/Broadcast\\
-			\hline
-			802.11b/g/n PHY\\ 
-			\hline
-		\end{tabular}
+		% \begin{tabular}{ |c| } 
+		% 	\hline
+		% 	Slim-Broadcast\\
+		% 	\\
+		% 	\\
+		% 	\hline
+		% 	802.11 DL/Broadcast\\
+		% 	\hline
+		% 	802.11b/g/n PHY\\ 
+		% 	\hline
+		% \end{tabular}
 	\end{tabular}
-	\caption{OSI Layer of Slim Unicast and Broadcast}
+	\caption{Art-Net Layer compared with Slim Data Link Layer}
 	\label{tab:Layer}
 \end{table}
 \TODO{Fehlt hier nicht ESP-Now?}
 
-An intuitive way is to send the most recent signal to all fixtures via Round Robin.
-The sender node selects a fixture after each other and transmits all the needed channel to it.
+\subsection{Slim Unicast}
+
+The implementation that probably comes closest to Art-Net's is to replace the TCP packets sent by Art-Net 
+to the respective IP-Address of the WESs with unicasts to the MAC-address of the WES.
+Of course, the MAC address of all WESs must be known and they must all be paired with the controller, but 
+this process is just analogous to  mapping the corresponding IP addresses after dialing the WESs into a WLAN.
+
+Following the approach of DMX and updating the 'bus' every 44Hz, would made by sending the packets round robin via unicast. 
+With a correspondingly high number of WESs, this could be challenge with a transmission speed of 1MBit/s, 
+it scales linearly with each additional WES.
+The airtime using 1Mbit/s is rather easy calculated, every Byte (8 Bits) takes 8$\mu$s.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular} { lrr }
+		\toprule
+
+		\multicolumn{1}{c}{Frame segment}
+		& \multicolumn{1}{c}{Byte}
+		& \multicolumn{1}{c}{Airtime in $\mu$s} \\
+		\midrule
+		DIFS								& -		& 50 \\
+		Average Backoff						& -		& 160 \\
+		PHY header: PLCP preamble			& 18	& 144 \\
+		PHY header: PLCP header				& 6 	& 48 \\
+		MAC headers							& 28	& 224 \\
+		MAC body							& \textit{20} & \textit{160}\\
+		\textbf{= tx time data}				& 		& \textbf{626} \\
+		SIFS								& -		& 10 \\
+		PHY header: PLCP preamble			& 18	& 144 \\
+		PHY header: PLCP header				& 6		& 48 \\
+		MAC headers, no MAC body	 		& 18	& 112 \\
+		\textbf{= tx time ack}				& 		& \textbf{314} \\
+		\bottomrule
+	\end{tabular}
+	\caption{Composition of the Total Airtime (tx + ack)}
+	\label{tab:airtime_unicast_calc}
+\end{table}
+
+For a full transmission the PHY and MAC preamble and header be transmitted twice, once for the data and once for the acknowledgement.
+The MAC body contains the payload, which depends of the needs of the addressed \ac{WES}.
+In a perfect clean channel the sender hasn't to defer, but has to take a \ac{DIFS} plus a backoff.
+A perfect empty channel resets the CW to CW$_{min}$, which are 16 slots in 802.11b,
+so the average should take $\frac{CW_{min}}{2}$ slots. 
+Given a slottime of 20$\mu$s the average backoff takes 160$\mu$s.
+
+In order to avoid unnecessary load on the radio channel, Art-Net transmit only the changes.
+In the worst case, however, this affects all WESs.
+
 \TODO{Discuss the inimportance of order of round robin in unicast}
-\TODO{calculation of the estimated transmission time of unicasts}
 One benefit of the unicast is the support of acknoledgements. So the reliability should be very good. 
 Unfortunately the ESP-Now protocol does not allow to control the number of retransmissions before the packet is discarded.
-Synchronisation of all devices is also expensive, because every fixture has to wait after the successfull receiving of his packet until the last fixture received his packet too.
-This is further discussed in \cref{sub:DelayedRepetition}.
-\TODO{move to buffering delay??}
+\todo{Is it tru, that retransmission can't be controlled in ESP-NOW?}
 
-\begin{align*} \label{eq:transmission_unicast}
-	t_{bestcase}  &= N \cdot (t_{transmission} + 8 \cdot t_{ack}) \\
-	t_{worstcase} &= N \cdot (t_{transmission} + 1 \cdot t_{ack})
-\end{align*} 
+The idea of the unicast is, that a transmission to each device is very fast, because the transmitted payload is smaller.
 
-The idea of the unicast is, that a transmission to each device is very fast, because the transmitted payload is very small (1-25 Byte).
 However, since we are sending many small packets, it can be assumed that we will be sending a lot of overhead.
 So we playing off reliability against transmission speed.
 \todo{Man kann transmissions skippen, wenn eine fixture keine veränderten daten erhält}
 
 \todo{reference to unicast topolgy in fundamentals}
+
+\begin{align*} \label{eq:delay_unicast}
+	t_{bestcase}  &= N \cdot (t_{frame} + 8 \cdot t_{ack}) \\
+	t_{worstcase} &= N \cdot (t_{frame} + 1 \cdot t_{ack})
+\end{align*} 
 
 \subsection{Slim Broadcast}
 \begin{itemize}
@@ -140,7 +170,7 @@ Through less overhead there is an estimated difference when a specific amount of
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.7]{/home/walther/Documents/bachelor/Plot2/Graphs/bc_analytic.pdf}
-	\caption{Transmission Time of Unicast vs Broadcast Analytis}
+	\caption{Transmission Time of Broadcasts Depending on Payload}
 	\label{fig:bc_analytic}
 \end{figure}
 
@@ -188,6 +218,11 @@ This hardly correlates with the overall success ratio in the (test-)setup. \TODO
 \item buffering delay
 \item explain why its only relevant for BC?
 \end{itemize}
+
+Therfore is synchronisation of all devices expensive, 
+because every fixture has to wait after the successfull receiving of his packet until the last fixture received his packet too.
+This is further discussed in \cref{sub:DelayedRepetition}.
+\TODO{move to buffering delay??}
 
 To push the idea of rapid repetion even further, we should take a look to temporarily occuring disturbances.
 \TODO{Figure of bad channel time}

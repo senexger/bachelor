@@ -54,6 +54,7 @@ The \ac{IEEE} 802 is a family of standards dealing with area networks different 
 For this thesis is the focus set to the 802.11, because of the accessability and wide functionality.
 There are two \ac{BSS} defined:
 \begin{itemize}
+	\label{itm:bss}
 	\item Infrastructure BSS\\
 	A central element manages the network and all the traffic goes through. 
 	Every \ac{STA} must always communicate via the \ac{AP} and never directly - exceptional: Direct Link Mode.
@@ -61,7 +62,7 @@ There are two \ac{BSS} defined:
 	This is the most common mode a \ac{WLAN} is used.
 	\item Independent BSS\\
 	A network without a central station, where the network topology can flexible change over time.
-	The communication happens directly between the Wireless Endsystems.\todo{WES in AdHoc correct?}
+	The communication happens directly between the Wireless Endsystems.
 	Efficent routing can became a problem in more complex topologys.
 \end{itemize}
 The most common use in 802.11 is the Infrastructure mode, which is commonly used in office and home enviroments.\\ 
@@ -268,7 +269,7 @@ To give a short insight, some of the most important protocols are explained belo
 \subsection{DMX-512A}
 \ac{DMX} 512A, is the current industry standard for stage lighting. It is based on \ac{CANproto}, therefore it uses wires.
 Physically is the DMX protocol transmitted over a differential pair of lines using the RS-485 voltage levels. 
-The bus signal is updated with $\frac{1}{50}$Hz.
+The bus signal is updated with 44Hz.
 According to the specification are XLR-5 type connectors are to be used. \todo{image der connectoren}
 
 \TODO{Show Hardware e.g. DMX Plug}
@@ -313,7 +314,7 @@ A terminator, specified in the DMX specification, is to be connected to the fina
 	\label{fig:dmx_diagram}
 \end{figure}
 
-The hole chain is called DMX-Universe and can contain a set of 512 channel. 
+The hole chain is called DMX-Universe and can contain a set of 512 channel.
 If there is a need of more channels one needs more DMX universes - each channel consists of one byte.
 Due to the fact that a DMX universe always has its own bus, starting from a new controller can lead to inconveniences.
 
@@ -327,7 +328,7 @@ If the Channel 0-56 are already used, it could be set to channel 57, 58, 59.
 Any other free channel range would also be possible, provided it is connected.
 There exist hardware with automatic-address-assignment.
 
-\TODO{Bild von fixtures verteilt auf channel}
+\TODO{Image of fixtures distributed on channel}
 
 Since \ac{DMX} is unidirectional it can be assumed that the endsystems generally only receive or forward (daisy chain) control signals sent from the control console.
 This is a major limitation of DMX, beside of the rather small universe size.
@@ -345,12 +346,7 @@ Due the limitation of 512 channel for each universe there where protocols implem
 Art-Net also called Art-Net DMX is 
 
 \section{ESP Platform}
-\begin{itemize}
-	\item Why ESP Platform 
-	\item whats is the alternative
-	\item chip shortage for Arduino
-	\item price gab to esp32 dev boards
-\end{itemize}
+
 Almost every 802.11 capable \ac{MCU} could be picked for this research.
 But there are several reasons why the ESP Platform from Espressif is a valid choice.
 There are several chips provided by Espressif with WiFi specifications, these chips are very affordable (\todo{ESP32 Kosten in € 2021 aufführen? Link? Datum?}) 
@@ -358,39 +354,36 @@ and althrough the ongoing chip crysis (2021) there are easy to get, in contrast 
 Espressif supports an own development IDF to flash the chips, with minor tweeks it's also to use the Arduino IDE.\\
 However the properitary protocol ESP-Now which, just supported in the ESP Ecosystem, is discussed below \cref{sub:ESP-Now} 
 and has promising properties for a solid and fast realisation of a low level protocol.
+\TODO{paper about esp above arduino}
 
 \subsection{ESP32 Hardware}
+
+The chip ESP32 is quite common in DIY projects around everything from home automation to light installations 
+and can baught on development boards, which are ready to use.
+The chip \ref{fig:esp32} is promoted with several features: \todo{this is cited from: link zum esp32 datasheet}
 \begin{itemize}
-\item reasons to pick
-\item availability due chipcrysis
-\item cheap chip
-\item Range
-\item Properity
-\item Reverse-Engineering 
-\item related work
-\item 2.4 GHz (cheap)
-\item Bild vom chip
-\end{itemize}
-The chip ESP32 is quite common in DIY projects around everything from home automation to light installations. 
-The chip is delivered with several development boards.
-The chip is promoted with: \todo{this is cited from: link zum esp32 datasheet}
-\begin{itemize}
-	\item 802.11 b/g/n with up to 150 Mbps
+	\setlength\itemsep{-0.0em}
+	\item Fast CPU (2 cores at 240 MHz)
+	\item 802.11 b/g/n with up to 150 Mbps (2.4GHz)
 	\item Wifi Multimedia (WMM)
 	\item Immediate Block ACK
 	\item Automatic Beacon monitoring (hardware TSF)
 	\item Virtual Wi-Fi Interfaces
-	\item Simultaneous support for Infrastructure Station, SoftAP, and Promiscuous modes
-	\item Bluetooth v4.2 BR/EDR and Bluetooth LE specifications
-	\item Xtensa® single-/dual-core 32-bit LX6 microprocessor(s)
+	\item Simultaneous support for Infrastructure, SoftAP, and Promiscuous modes
+	\item Bluetooth v4.2 BR/EDR and Bluetooth LE
 	\item Advanced Peripheral Interfaces: GPIO, ADC, DAC, touch sensors, hall sensor, 
 	SPI, I2S, I2C, UART, CAN, RMT (TX/RX), Motor/LED PWM 
 \end{itemize}
 
-\TODO{add picture of an ESP layout}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.2]{figures/espdevboard.jpg}
+	\caption{ESP32 Devboard (Devkit V1)}
+	\label{fig:esp32}%
+\end{figure}
 
 \subsection{ESP-Now}
-\label{sub:ESP-Now}
+\label{sub:espnow}
 \begin{itemize}
 \item How does ESP-Now match the requirements from the motivation
 \item 250 payload
@@ -398,18 +391,18 @@ The chip is promoted with: \todo{this is cited from: link zum esp32 datasheet}
 \end{itemize}
 
 ESP-NOW is a properitary protocol developed by Espressif. 
-ESP-NOW is widely used in smart light, remote controlling, sensor, etc.\todo{cite ESP documentation website}. 
+ESP-NOW is widely used in smart light, remote controlling, sensor, etc\todo{cite ESP documentation website}. 
 It is a conectionless protocol, so the \ac{WES}'s are in Ad-Hoc mode insted of \ac{STA}.
-It is just supported with the ESP8266, ESP32 and ESP32, these are all chipsets from Espressif, but they are compatible with each other.
-Because of this, a ESP-Chip as gateway is needed to interact from the outside to the ESP-NOW network. 
+It is just supported on the ESP8266, ESP32 and ESP32s, all chipsets from Espressif, but they are compatible with each other.
+Because of this, a ESP-Chip as gateway is needed to interact from the outside to the ESP-NOW communication. 
 
 Through the hardware limitation of the boards it can just be used on the 2.4 GHz frequncy band.
 ESP-NOW allows 10 ESPs for pairing with encryption and up to 20 without encryption.
-Espressif promises throuput of up to 30MBit/s with UDP transmissions over the air and a possible range of up to 1km.
+Espressif promises throuput of up to 30MBit/s with and a possible range of up to 1km.
 However \emph{\textcite{ESPNOWPaper}} measured a range of the unmodified onboard antenna of the ESP32 
 and just got a \emph{\textcite{ESPNOWPaper} stable commication up to 190m in open field}.\\
 
-The ESP-NOW protocol has a focus on low power consumption.
+The focus of the ESP-NOW protocol is on low power consumption.
 A connectionless communication between \ac{WES}'s not only saves energy during the authentication process, 
 Additionally, is the commonication the the properties of the ad-hoc mode, direct and not over a second access point.
 The protocol has a limitation of a limeted payload of 250 byte for each transmission.
