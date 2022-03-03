@@ -135,7 +135,7 @@ The total airtime of the transmission of data and ack, assuming the transmission
 Strictly speaking, the light could also be changed before the acknolegement is sent, i.e. after 746$\mu$s.
 The latency scales linearly, the delay to the n-th WES is:
 \begin{align}
-	n \cdot t_{tx} = n \cdot 1100\mu s
+	\text{Airtime} = N \cdot t_{tx} = N \cdot 1100\mu s
 \end{align}
 
 In order to avoid unnecessary load on the radio channel, Art-Net transmit only the changes.
@@ -146,9 +146,9 @@ Following the approach of DMX and updating the 'bus' every 44Hz, would made by s
 \todo{Discuss the inimportance of order of round robin in unicast}
 With a correspondingly high number of WESs, this could be challenge with a transmission speed of 1MBit/s, 
 it also scales linearly with each additional WES. 
-In an labor steril empty channel, denying all side latencys, there could be:
+In an labor steril empty channel, denying all side latencys, there airtime could be for N WESs:
 \begin{align}
-	\frac{1}{n * 1100\mu s} = \frac{9090}{n} Hz
+	\text{Frequency} = \frac{1}{N \cdot 1100\mu s} = \frac{9090}{N} Hz
 \end{align}
 
 For 10 WESs, addressed with respectively 20 Byte, it would still be 909Hz.
@@ -157,61 +157,121 @@ that it could theoretically be within the realm of possibility.
 
 \subsubsection*{Reliability}
 
-One benefit of the unicast is the support of acknoledgements. So the reliability should be very good. 
+One benefit of the unicast is the support of acknoledgements. 
+The acknoledgements trigger a retransmission if no packet has arrived, therefore a controlled light will receive its signal in any case.
+So the reliability should be very good.
+
+\subsubsection*{Synchronisation}
+
+Synchronising the unicast transmissions costs a lot of latency.
+This is because not only does each WES have to wait until its own packet has arrived,
+but until the packets have arrived at all the others.
+The implementation is chosen in such a way that each WES knows at which position of the round-robin it is
+and delays the execution of the successfully received transmission until the last WES has also received its signal.
+The delay must then be calculated deterministically.
+In ESP-NOW, the default is set to 8 retransmissions, so in the worst case it is assumed that a packet is sent 8 times
+and that for each WES.
+
+\begin{align} 
+	\text{Airtime}_{sync} &= 8 \cdot N \cdot 1100\mu s = N \cdot 8800\mu s \\
+	\text{Frequency}_{sync} &= \frac{1}{N * 8800\mu s} = \frac{1136}{N} Hz
+\end{align} 
+
 The idea of the slim unicast is, that a transmission to each device is very fast, because the transmitted payload small.
 However, since we are sending many small packets, it can be assumed that we will be sending a lot of overhead.
 So we playing off reliability against transmission speed.
-
-
-\subsubsection{Synchronisation}
-
-\begin{align*} \label{eq:delay_unicast}
-	t_{bestcase}  &= N \cdot (t_{frame} + 8 \cdot t_{ack}) \\
-	t_{worstcase} &= N \cdot (t_{frame} + 1 \cdot t_{ack})
-\end{align*} 
+It can be said that synchronisation is a feature that should be dispensed with in the slim unicast for the sake of latency.
 
 Unfortunately the ESP-Now protocol does not allow to control the number of retransmissions before the packet is discarded.
 \todo{Is it tru, that retransmission can't be controlled in ESP-NOW?}
 
 \subsection{Slim Broadcast}
-\begin{itemize}
-	\item topology
-	\item efficiency
-	\item for how many nodes it does make theoretical a difference
-\end{itemize}
 
 The ESP-Now protocol supports both unicast and broadcast.
-Instead of transmitting every unicast after each other, we transmit a broadcast with the payload of all channels at the same time to all fixtures.
-If we need more than 250 channel we have to send to broadcasts to transmit all information to all fixtures.
-To achieve this we need to tell each fixture in advance his channel.
-A fixture with a channel above 250 needs to modulo to get the broadcast ID.
+Instead of transmitting every unicast after each other, 
+Slim Broadcast transmitts a broadcast with the payload of all channels at the same time to all fixtures.
+If there is a need for more than 250 Byte (DMX channel) a second broadcasts has to be send to transmit containing the missing data.
+To achieve this, each WES must be told in advance at which position in the payload its data is located.
+The broadcast must also spend one byte of payload for the sequence number.
+Only in the application layer do the WESs discard the incorrect broadcasts and read out their area from the entire payload.
 
-\TODO{Notwendig?}
-\begin{align*}
-	315 \mod 250 &= 1 \\
-	315 / 250 &= 65
-\end{align*}
+For the unicast the payload was assumed to be 20 byte for each WES, the same amount is assumed for each WES in the Slim Broadcast calculations.
+The maximum payload of the broadcast is also fixed to 200 byte, because when it is close to the 250 byte limit, 
+reliability is supposed to collapse.\todo{quelle 200 byte}
 
-Insead of transmitting to several fixtures after each other we just transmitt to all fixtures at the same time.
-This solves the problem of synchronization for less than 250 channel.
-For more than 250 each fixture has to wait until the last broadcast is arrived, 
-even if he must be discarded because the required channel has already been arrived in a previous broadcast.
-Through less overhead there is an estimated difference when a specific amount of fixtures is reached.
-\TODO{Grafik die zeigt, wie der Broadcast besser performt, sobald eine bestimmte zahl fixtures erreicht ist}
+\subsubsection*{Latency}
 
-\begin{figure}
+The latency of the broadcast is easier to calculate than that of unicast, because the acknoledgments are no longer necessary.
+In return, the payload of a single transmission increases.
+Assuming 10 WESs are to be addressed, each with 20 byte payload \ref{tab:airtime_broadcast_calc}.
+
+\begin{table}[h]
 	\centering
-	\includegraphics[scale=0.7]{/home/walther/Documents/bachelor/Plot2/Graphs/bc_uc_transmissiontime_analytic.pdf}
+	\begin{tabular} { lrr }
+		\toprule
+		\multicolumn{1}{c}{Frame segment}
+		& \multicolumn{1}{c}{Byte}
+		& \multicolumn{1}{c}{Airtime in $\mu$s} \\
+		\midrule
+		DIFS								& -		& 50 \\
+		Average Backoff						& -		& 160 \\
+		PHY header: PLCP preamble			& 18	& 144 \\
+		PHY header: PLCP header				& 6 	& 48 \\
+		MAC headers							& 28	& 224 \\
+		MAC body							& 200 	& 1600 \\
+		\textbf{= tx time data}				& 		& \textbf{2286} \\
+		\bottomrule
+	\end{tabular}
+	\caption{Composition the Broadcast Airtime}
+	\label{tab:airtime_broadcast_calc}
+\end{table}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{/home/walther/Documents/bachelor/Plot2/Graphs/bc_analytic.pdf}
+	\caption{Transmission Time of Broadcasts Depending on Payload}
+	\label{fig:bc_analytic}
+\end{figure}
+
+Due to the fact that a second broadcast is needed if the maximum payload of ESP-NOW is exceeded,
+the expected transmission time is not continuous, as shown in \cref{fig:bc_analytic}.
+It is easy to see that the additional overhead caused by adding another package creates noticeable latency.
+
+\subsubsection*{Update Frequency}
+
+However, while compareing this to the latency of unicast \ref{tab:airtime_unicast_calc},
+it becomes clear that the low overhead and the missing acknoledgements lead to a significantly higher rate.
+A complete pass, i.e. addressing all WESs with 20 bytes, is already an order of magnitude faster from a number of 10 WESs.
+
+\begin{align}
+	\text{Frequency}_{UC} &= \frac{1}{10 \cdot 1100\mu s} = 909 Hz \\
+	\text{Frequency}_{BC} &= \frac{1}{2286\mu s} = 4347 Hz
+\end{align}
+
+Even if these values are only remotely comparable with real measurement data, it is clear,
+that the throughput is significantly higher with broadcast than with unicast.
+This effect should be even clearer under real conditions.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{/home/walther/Documents/bachelor/Plot2/Graphs/bc_uc_transmissiontime_analytic.pdf}
 	\caption{Transmission Time of Unicast vs Broadcast}
 	\label{fig:bc_uc_transmissiontime_analytic}
 \end{figure}
 
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.7]{/home/walther/Documents/bachelor/Plot2/Graphs/bc_analytic.pdf}
-	\caption{Transmission Time of Broadcasts Depending on Payload}
-	\label{fig:bc_analytic}
-\end{figure}
+\subsubsection*{Reliability}
+
+The huge advantage that the Slim Broadcast has over the Slim Unicast in terms of update frequency,
+comes at the cost of lower reliability.
+Broadcasts can't do acknolegements \todo{ref to fundamentionals, datalink, broadcast}, 
+a WES that has poor reception to the controller, will not receive packets and the controller cannot take countermeasures.
+
+\subsubsection*{Synchronisation}
+Insead of transmitting to several fixtures after each other we just transmitt to all fixtures at the same time.
+This solves the problem of synchronization for less than 200 channel.
+For more than 200 each WES has to wait until the last broadcast is arrived, 
+even if the broadcast must be discarded anyway because the required channel has already been arrived previous,
+deterministically calculated, the latency of all required broadcasts added up.\todo{ist der Satz gramatisch flasch?}
 
 \subsection{Rapid Repetition}
 \begin{itemize}
