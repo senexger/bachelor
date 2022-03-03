@@ -1,5 +1,13 @@
 \chapter{Proposed Approach}
 
+% \begin{itemize} 
+% 	\item describe everything you yourself did (as opposed to the fundamentals chapter, which explains what you built on)
+% 	\item start with a theoretical approach    
+% 	\item describe the developed system/algorithm/method from a high-level point of view
+% 	\item go ahead in presenting your developments in more detail  
+% 	\item recommended length: approximately one third of the thesis.
+% \end{itemize}
+
 Different approaches are presented and discussed in this chapter using data link unicast or broadcast in different specifications,
 these were also empirically tested and evaluated in the \cref{sec:evaluation}.
 At the end of this chapter, the test setup was introduced and 
@@ -274,41 +282,35 @@ even if the broadcast must be discarded anyway because the required channel has 
 deterministically calculated, the latency of all required broadcasts added up.\todo{ist der Satz gramatisch flasch?}
 
 \subsection{Rapid Repetition}
-\begin{itemize}
-\item simple
-\item redundant
-\item fast
-\item cite paper from tolja
-\item explain why its only relevant for BC?
-\end{itemize}
 
-The ESP-Now broadcast does not support acknoledgements.
-So we can't retransmit a packet to the fixture, which is not arrived successfully.
-In case of broadcast we had to transmit the hole broadcast or an unicast to each fixture wich does not send back the acknoledgement.\\
+\todo{Is Rapid Repetition a appropriate name? Unsosliced Repetition is better siehe Paper?}
 
-Since this is very cumbersome to implement, it is a good approach to simply repeat each broadcast. 
-\TODO{Cite paper A First Implementation and Evaluation of the IEEE 802.11aa Group Addressed Transmission Service}
-This is called rapid repetition. \TODO{Is Rapid Repetition a appropriate name? Unsosliced Repetition is better siehe Paper?}
-The idea is, that we can push the reliability wich each redundant retransmission.
+To improve the reliability of the slim broadcast, the same transmission can simply be repeated unsolicited.
+The idea is not to wait for a missing acknolegedment, but to increase the probability that one of the packets got through.
+\todo{Cite paper A First Implementation and Evaluation of the IEEE 802.11aa Group Addressed Transmission Service}
+The reliability of the Slim Broadcast with Rapid Repetition is improved with every rapid repetition (RR).
+In the formula below \cref{math:rr_sr}, with RR set to zero, there happens no repetition.
 
-The estimated reliability of a fixture with average success ratio (SR) of 83\% without Repetition has to be 83\%.
-If we increase the number of Rapid Repetitions (RR) we can roughly estimate:
 \begin{align}
-	% ER &= 1-SR &\text{Errorrate}\\
-	SR_{RR}(RR) &= 1-(1-SR)^{RR+1} 
+	\label{math:rr_sr}
+	\text{SR}_{RR}(RR)	&= 1-(1-\text{SR})^{RR+1} \\
+	\text{SR}_{RR}(0) 	&= SR \\
+	\text{SR}_{RR}(1) 	&= 1-(1-\text{SR})^{2}
 \end{align}
-\todo{RR von 0 beginnen}
-\TODO{grafische Darstellung RR=[0,1,2,3,4], für einen guten und einen schlechten Knoten 83\% und 95\%}
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.7]{/home/walther/Documents/bachelor/Plot2/Graphs/rr_transmission_time.pdf}
-	\caption{Transmission Time with with different \ac{RR}s}
-	\label{fig:bc_analytic}
+	\includegraphics[scale=0.5]{/home/walther/Documents/bachelor/Plot2/Graphs/rr_transmission_time.pdf}
+	\caption{Transmission Time with with different sets of Rapid Repetition (RR)}
+	\label{fig:rr_analytic}
 \end{figure}
 
-We have to figure out how many repetitions we should transmit in order to find the best balance between reliability and latency/update ratio.
-This hardly correlates with the overall success ratio in the (test-)setup. \TODO{(test-)setup: kann man das so schrieben?}
+The RR makes it possible to reach WESs with poor reception much more reliably,
+However, WESs that have very good reception also receive the same packet redundantly.
+The update frequency of a BC with RR must be divided by the number of repetitions, compared to one without repetitions,
+the same applies to the latency when synchronisation is required.
+However, in contrast to unicast, broadcast offers such shorter transmission times,
+that at least a few repetitions can be accepted. \cref{fig:rr_analytic}
 
 \subsection{Delayed Repetition}
 \label{sub:DelayedRepetition}
@@ -317,11 +319,6 @@ This hardly correlates with the overall success ratio in the (test-)setup. \TODO
 \item buffering delay
 \item explain why its only relevant for BC?
 \end{itemize}
-
-Therfore is synchronisation of all devices expensive, 
-because every fixture has to wait after the successfull receiving of his packet until the last fixture received his packet too.
-This is further discussed in \cref{sub:DelayedRepetition}.
-\TODO{move to buffering delay??}
 
 To push the idea of rapid repetion even further, we should take a look to temporarily occuring disturbances.
 \TODO{Figure of bad channel time}
