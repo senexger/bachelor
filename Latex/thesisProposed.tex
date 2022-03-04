@@ -320,10 +320,15 @@ that at least a few repetitions can be accepted. \cref{fig:rr_analytic}
 \item explain why its only relevant for BC?
 \end{itemize}
 
-To push the idea of rapid repetion even further, should also temporarily occuring noise be taken into account.
+To push the idea of rapid repetion even further, should also temporarily occuring noise be taken into account.\todo{displaced repetition vs delayed repetition}
 This can cause all the repetitions to be captured at once.
-If the individual repetitions of the first sequence are sent with displaced together with those of the second sequence,
-then the probability that at least one of the repetitions is not detected by the noise is increased.
+If the individual repetitions of the first sequence are sent displaced together with those of the second sequence,
+then the probability that at least one of the repetitions is not detected by a occuring noise noise is increased.
+
+By staggering the individual sequences, the update frequency is not affected,
+because just as many packets are sent as with Slim Broadcast RR.
+The latency, on the other hand, is significantly increased, especially when synchronisation is maintained.
+In the given example of \cref{fig:badChannel} the WESs has to wait for 5 times the duration of a broadcast transmission, instead of three.
 
 \begin{figure}[h]
 	\includegraphics[scale=0.75]{figures/BadChannel.pdf}
@@ -331,6 +336,13 @@ then the probability that at least one of the repetitions is not detected by the
 	\label{fig:badChannel}
 \end{figure}
 
+The delay of the Delayed Repetition can also be extended considerably.
+In extreme cases, it could be set to the number of sequences, which is of course impractical,
+but interleaving two or three sequences could help counteract persistent noise.
+
+With delayed repetition, improved reliability comes at the cost of latency, not update frequency.
+The measurement results \cref{sec:evaluation} will show whether the use of delayed repetition can reduce the number of rapid repetitions 
+while maintaining or even improving reliability.
 
 \subsection{ESP Programming}
 \begin{itemize}
