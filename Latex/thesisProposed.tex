@@ -312,7 +312,7 @@ the same applies to the latency when synchronisation is required.
 However, in contrast to unicast, broadcast offers such shorter transmission times,
 that at least a few repetitions can be accepted. \cref{fig:rr_analytic}
 
-\subsection{Delayed Repetition}
+\subsection{Delayed Rapid Repetition}
 \label{sub:DelayedRepetition}
 \begin{itemize}
 \item when to perform repetition
@@ -320,25 +320,28 @@ that at least a few repetitions can be accepted. \cref{fig:rr_analytic}
 \item explain why its only relevant for BC?
 \end{itemize}
 
-To push the idea of rapid repetion even further, we should take a look to temporarily occuring disturbances.
-\TODO{Figure of bad channel time}
+To push the idea of rapid repetion even further, should also temporarily occuring noise be taken into account.
+This can cause all the repetitions to be captured at once.
+If the individual repetitions of the first sequence are sent with displaced together with those of the second sequence,
+then the probability that at least one of the repetitions is not detected by the noise is increased.
 
-\section{Implementation}
+\begin{figure}[h]
+	\includegraphics[scale=0.75]{figures/BadChannel.pdf}
+	\caption{Rapid Repetition = 3 over a occuring noise}
+	\label{fig:badChannel}
+\end{figure}
+
+
+\subsection{ESP Programming}
 \begin{itemize}
-\item ESP programming
-\item code examples
-\item python script
+	\item broadcast unicast
+	\item IDF/Arduino
+	\item IDE \& ESP hardware flashing
+	\item setup devices
 \end{itemize}
 
 \todo{for later use: ESP-NOW User Guide, V1, source: \url{https://www.espressif.com/en/support/documents/}}
 
-\subsection{ESP Programming}
-\begin{itemize}
-\item broadcast unicast
-\item IDF/Arduino
-\item IDE \& ESP hardware flashing
-\item setup devices
-\end{itemize}
 Unfortunally in the documentation of the ESP-protocol is written, that broadcast is not supported 
 % \TODO{link, https:\/\/www.espressif.com\/sites\/default\/files\/documentation\/esp-now_user_guide_en.pdf, 2016}
 but actually it is. Insted of adding the \ac{MAC} Address of a fixture, we can use 
