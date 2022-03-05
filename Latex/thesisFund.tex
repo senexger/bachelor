@@ -194,13 +194,14 @@ random time delay to avoid collisions\\
 DIFS/SIFS:\\
 Delay between transmissions used for \ac{CSMA/CA}
 
-\subsubsection{Unicast}
+\subsection{Data Link Transmissions}
+\TODO{Text!}
+
+\subsubsection*{Unicast}
 
 The link layer unicast is used to send data over an single hop to the target \ac{WES} destination.
 The link layer of each \ac{WES} checks the destination MAC address in the link layer header and discards the frame if the destinatin address does not match its own address.\\
-
 Unicast is by default reliable.
-
 E.g. the \ac{AP} wants to transmit a packet to one specific \ac{WES}\\
 When the Unicast reaches the destination \ac{WES} an acknowledgement frame is send back after the \ac{SIFS} + backoff.\todo{when to explain CSMA/DC?}
 
@@ -219,7 +220,7 @@ If the number is set to zero, the unicast can be considered as non-reliable.
 	\label{fig:unicast_topology}
 \end{figure}
 
-\subsubsection{Broadcast}
+\subsubsection*{Broadcast}
 
 If a packet should be received from all \ac{WES}'s it can be distributed as broadcast.
 The \ac{MAC} address of the destination address in the link layer is set to the common broadcast address, which is ff:ff:ff:ff:ff:ff.\\
@@ -241,7 +242,7 @@ E.g. management information in a \ac{WLAN} is sent in a broadcast mode, because 
 	\label{fig:broadcast_topology}
 \end{figure}
 
-\subsubsection{Multicast}
+\subsubsection*{Multicast}
 
 \TODO{Mutlicast explain multicast mac address}
 When the same packet should be transmitted to multiple \ac{WES}'s, but not to all, multicast can be used.
@@ -337,9 +338,10 @@ It is also not reliable, the use of fire installations is therefore considered t
 \subsection{Art-Net}
 \label{sec:artnet}
 \begin{itemize}
-\item 2.4 or 5GHz
-\item DMX-Like
-\item related work
+	\item Example of an wifi protocol
+	\item 2.4 or 5GHz
+	\item DMX-Like
+	\item related work
 \end{itemize}
 
 Due the limitation of 512 channel for each universe there where protocols implemented using the 
@@ -382,14 +384,10 @@ The chip \ref{fig:esp32} is promoted with several features: \todo{this is cited 
 	\label{fig:esp32}%
 \end{figure}
 
+\TODO{final words to the ESP32 Hardware - a lot of features for a cheap hardware}
+
 \subsection{ESP-Now}
 \label{sub:espnow}
-\begin{itemize}
-\item How does ESP-Now match the requirements from the motivation
-\item 250 payload
-\item gaps in the documentation
-\end{itemize}
-
 ESP-NOW is a properitary protocol developed by Espressif. 
 ESP-NOW is widely used in smart light, remote controlling, sensor, etc\todo{cite ESP documentation website}. 
 It is a conectionless protocol, so the \ac{WES}'s are in Ad-Hoc mode insted of \ac{STA}.
@@ -416,6 +414,7 @@ But e.g. the low energy, high range protocol Long Range Wide Area Network (LoRaW
 
 To undersant what ESP-NOW does it needs to take a look to the vendor-specific action frame transmiting ESP-NOW data. 
 \todo{cite somehow the ESP-NOW documentation pdf: ESP-IDF Programming Guide: ESP-NOW, source: \url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}}
+\TODO{Explain Vendor Specific Frames!}
 
 % \url{https://www.heise.de/tipps-tricks/}
 
@@ -480,7 +479,7 @@ Inside of the ESP-NOW frame \ref{fig:esp-now_frame_format} is the vendor specifi
 
 It is worth to mention, that the vendor specific content \ref{fig:esp-now_frame_format} is allowed to contain up to 255 byte,
 but the sum over all values in \ref{fig:esp_now_vendor_format} if the body would contain the maximum of 250 bytes, 
-leads to a total of 260 bytes.
+leads to a total of 260 bytes.\todo{255 != 250 is it really that important?}
 The values are from the documentation of ESP-NOW from Espressif.
 They also claim, that broadcast is not supported in ESP-NOW, but it is.
 It seems that the documentation isn't complitly finished (or translated).

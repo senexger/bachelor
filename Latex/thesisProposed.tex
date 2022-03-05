@@ -73,7 +73,6 @@ because even if it was not developed for this purpose the specification fits qui
 	\caption{Art-Net Layer compared with Slim Data Link Layer}
 	\label{tab:Layer}
 \end{table}
-\TODO{Fehlt hier nicht ESP-Now?}
 
 For the purpose of this analysis, the controller transmits 20 Byte (analogue to 20 DMX channels) to every WESs.
 Four different metrics are considered, which where discussed in the requirements. \todo{ref to requirements}
@@ -95,7 +94,7 @@ Four different metrics are considered, which where discussed in the requirements
 	but the signal was transmitted one after the other, they have to wait for each other so that the lights change at the same time.
 \end{itemize}
 
-\subsection{Slim Unicast}
+\subsection*{Slim Unicast}
 
 The implementation that probably comes closest to Art-Net's is to replace the TCP packets sent by Art-Net 
 to the respective IP-Address of the WESs with unicasts to the MAC-address of the WES.
@@ -193,7 +192,7 @@ It can be said that synchronisation is a feature that should be dispensed with i
 Unfortunately the ESP-Now protocol does not allow to control the number of retransmissions before the packet is discarded.
 \todo{Is it tru, that retransmission can't be controlled in ESP-NOW?}
 
-\subsection{Slim Broadcast}
+\subsection*{Slim Broadcast}
 
 The ESP-Now protocol supports both unicast and broadcast.
 Instead of transmitting every unicast after each other, 
@@ -281,7 +280,7 @@ For more than 200 each WES has to wait until the last broadcast is arrived,
 even if the broadcast must be discarded anyway because the required channel has already been arrived previous,
 deterministically calculated, the latency of all required broadcasts added up.\todo{ist der Satz gramatisch flasch?}
 
-\subsection{Rapid Repetition}
+\subsection*{Rapid Repetition}
 
 \todo{Is Rapid Repetition a appropriate name? Unsosliced Repetition is better siehe Paper?}
 
@@ -312,13 +311,8 @@ the same applies to the latency when synchronisation is required.
 However, in contrast to unicast, broadcast offers such shorter transmission times,
 that at least a few repetitions can be accepted. \cref{fig:rr_analytic}
 
-\subsection{Delayed Rapid Repetition}
+\subsection*{Delayed Rapid Repetition}
 \label{sub:DelayedRepetition}
-\begin{itemize}
-\item when to perform repetition
-\item buffering delay
-\item explain why its only relevant for BC?
-\end{itemize}
 
 To push the idea of rapid repetion even further, should also temporarily occuring noise be taken into account.\todo{displaced repetition vs delayed repetition}
 This can cause all the repetitions to be captured at once.
@@ -344,47 +338,133 @@ With delayed repetition, improved reliability comes at the cost of latency, not 
 The measurement results \cref{sec:evaluation} will show whether the use of delayed repetition can reduce the number of rapid repetitions 
 while maintaining or even improving reliability.
 
-\subsection{ESP Programming}
-\begin{itemize}
-	\item broadcast unicast
-	\item IDF/Arduino
-	\item IDE \& ESP hardware flashing
-	\item setup devices
-\end{itemize}
+\section{Implementation}
 
+In this chapter a short hands-on is given on how to flash the microcontrollers for the testbed
+and which steps are necessary to get ESP-NOW running on theses chips.
+It also shows how the measurement data was collected,
+how the test setup was distributed from the PC to all the chips and how the data was subsequently returned to the PC.
+
+\subsection*{How To ESP-NOW}
+
+% \begin{itemize}
+% 	\item broadcast unicast
+% 	\item IDE \& ESP hardware flashing
+% 	\item setup devices
+% \end{itemize}
+
+The developer boad ESP32 Devkit V1 used in the experiments \cref{sec:evaluation} for the collection of the data
+can be ordered cheaply from common (most favourably Chinese) websites. [3.79€, www.aliexpress.com, 3/3/22]\todo{zeitangabe website aliexpress?}
+The most accessible way to flash a chip is using the Arduino IDE, which can be easy configured for flashing ESPs.
+A more precise approach is to use the IDF of Espressif itself, 
+which can also be easily made to work by installing the toolchain and build tools and an Plugin for your favorite IDE.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.4]{figures/ESP-ISF.png}
+	\caption{Flashing ESP. From the website of Espressif}
+	\label{fig:ESP-IDF}
+\end{figure}
+\todo{link und Quellenangabe: https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html}
+
+Espressif has provided a user guide for the use of ESP-NOW.
 \todo{for later use: ESP-NOW User Guide, V1, source: \url{https://www.espressif.com/en/support/documents/}}
+Unfortunately, some of the information is highly outdated, for example, it claims that broadcast is not supported.
+However, more detailed information can be found on the website [link].
+\url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}
+\todo{link einpflegen}
 
-Unfortunally in the documentation of the ESP-protocol is written, that broadcast is not supported 
-% \TODO{link, https:\/\/www.espressif.com\/sites\/default\/files\/documentation\/esp-now_user_guide_en.pdf, 2016}
-but actually it is. Insted of adding the \ac{MAC} Address of a fixture, we can use 
-\todo{has this a proper name, like broadcast address?} ff:ff:ff:ff:ff:ff 
-to add a peer with the broadcast \ac{MAC}.
+To use ESP-NOW on an ESP, only a few steps are necessary.
+The chip must activate Wifi and put it in STA mode and ESP-NOW can be activated.
+The two libraries "esp\_wifi.h" and "esp\_now.h" are required for this.
 
-\label{lst:shorttable}
+\begin{lstlisting}[caption=Init ESP-NOW]
+WiFi.mode(WIFI_STA);
+esp_now_init();
+\end{lstlisting}
+\label{lst:init}
+
+Later, the individual MAC addresses of the WESs must be entered.
+These are created in a separate header file and can then be added during the setup of the chip.
+
 \begin{lstlisting}
-void addFixtureToPeerList(const uint8_t *mac_addr) 
-{
-	if (esp_now_is_peer_exist(mac_addr)) return;
+#ifndef MACLIST_H
+#define MACLIST_H
 
-	peer_info.channel = 1;               // 1-14
-	peer_info.ifidx   = ESP_IF_WIFI_STA; // Station mode
-	peer_info.encrypt = false;         	 // not needed
-	memcpy(peer_info.peer_addr, mac_addr, 6);
+uint8_t WES_MAC_1[6] = { 0xFC ,0xF5 ,0xC4 ,0x31 ,0x9A ,0x44 };
+uint8_t WES_MAC_2[6] = { 0x24, 0x0A, 0xC4, 0x61, 0x19, 0x08 };
+uint8_t BC_MAC[6]    = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+\end{lstlisting}
+\label{lst:macaddress}
+\begin{lstlisting}[caption=Add Peers]
+#include "maclist.h"
 
-	esp_err_t status = esp_now_add_fixture(&peer_info);
-	if (ESP_OK != status) 
-	{
-		Serial.println("[ERROR] Could not add fixture");
-	}
-	else 
-	{
-		Serial.println("[OK] fixture added");
-	}
+if (!esp_now_is_peer_exist(WES_MAC_1)) {
+  peer_info.channel = 13;                   // 1-14
+  memcpy(peer_info.peer_addr, WES_MAC_1, 6);
+  esp_err_t status = esp_now_add_peer(&peer_info);
+}
+if (ESP_OK == status) {                     // check success
+  Serial.println("[OK] Slave-peer added"); 
 }
 \end{lstlisting}
-% \lstinputlisting[caption=Scheduler, style=customc]{hello.c}
+\label{lst:addPeer}
 
-\TODO{fix colorscheme omf code examples}
+Sending an ESP-NOW unicast is performed with the method esp\_now\_send().
+The MAC address of the recipient is passed, a pointer to the payload to be transmitted and its length.
+In the case of a broadcast, the address field is filled with the broadcast address ff:ff:ff:ff:ff:ff),
+The function esp\_now\_register\_send\_cb can be used to check whether the cast was successfully sent out.
+It is important to write as little code as possible in such a callback function.
+If you send the next package only after receiving the dispatch confirmation, then you can be sure that the packages are sent in the correct format,
+that the packages are sent in the correct order.
+
+\begin{lstlisting}[caption=Send ESP-NOW Cast UC/BC]
+void metaInformationToSlaves(const uint8_t *peer_addr, struct_advanced_meta metaData) {
+  esp_now_register_send_cb(onDataSent);     // register callback
+
+  esp_err_t status = esp_now_send(WES_MAC_1,
+                                 (uint8_t *) &payload,
+                                 sizeof(payload));
+  if (ESP_OK == status) {                   // check success
+    Serial.println("[OK] ESP-NOW sending"); 
+  }
+
+void onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+  if (status == ESP_NOW_SEND_SUCCESS) {
+    Serial.println("[OK] ESP-NOW Send"); 
+  }
+}
+\end{lstlisting}
+\label{lst:sendcast}
+
+Working with mirocontrollers requires a non continous program-flow, instead it's event-based.
+For the individual WESs, a callback function is registered after setup, 
+it's called when an ESP-NOW transmission is passed on to the application layer.
+
+\begin{lstlisting}[caption=ESP-NOW Callback Functions]
+esp_now_register_recv_cb(OnDataRecv);
+
+void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_len) {
+  if (incomingData[0] == 253) {             // setup data
+    applyMetaInformation(incomingData, data_len);
+    return;
+  }
+  if (incomingData[0] == 255) {             // verify data
+    applyPayload(incomingData, data_len);
+  }
+  if (incomingData[0] == 254) {             // return results
+    sendResultsToMaster();
+    return;
+  }
+\end{lstlisting}
+\label{lst:callback}
+Eine Herausforderung bei der Programmierung des Controllers und der WESs, 
+ist die zustandbasierte Herangehensweise und die Tatsache, dass die WESs nicht miteinander kommunizieren konnten.
+Es gab demnach zwei Arten von State-Machines, eine für den Controllern und die andere für die WESs.
+
+Das Testsetup besteht aus einem PC, der die Daten an den Controller weiter gibt, dieser verteilt die Daten weiter via ESP-NOW an die WESs.
+Für das Testbed wurde mit sieben WESs gearbeitet.
+\TODO{Bild vom Testsetup}
 
 \subsection{Collecting measurment results}
 \begin{itemize}
@@ -395,38 +475,43 @@ void addFixtureToPeerList(const uint8_t *mac_addr)
 \item digital encoding e.g.: 777477472717
 \end{itemize}
 
+Vom PC aus wird das Experiment gestartet, mittels Python Skript wird dann ein JSON über \ac{UART} an den Controller übermittelt.
+Im JSON stehen alle Parameter die für die Durchführung eines Tests benötigt sind.\href{tab:json}
+Zum Zeitpunkt der übertragung des JSON Strings sollte der Controller im idle sein, damit die Pakete korrekt eingelesen werden.
+\TODO{Tabelle des JSON mit Erklärung}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular} { lll }
+	\toprule
+	\multicolumn{1}{c}{Variable}
+	& \multicolumn{1}{c}{Example}
+	& \multicolumn{1}{c}{Explaination} \\
+	\midrule
+	VERBOSE               & 0 				& Enable VERBOSE \\
+	DEBUG                 & 0 				& Enable DEBUG \\
+	TIMESTAMP\_UART       & 0				& Enable UART timestamps \\
+	SEQUENCE\_REPITITIONS & 200				& Sequences per experiment \\
+	FULL\_REPETITIONS     & 1000			& Repeations of the experiment \\
+	MASTER\_CHANNEL       & 6				& Wifi Channel of the Controller \\
+	WES\_CHANNEL          & 6				& Wifi Channel of the WES \\
+	WAIT\_AFTER\_SEQ      & 0				& delay between sequences \\
+	WAIT\_AFTER\_REP\_EXP & 2000			& delay between experiments \\
+	IS\_BROADCASTING      & 1				& BC:=1, UC:=0 \\
+	RAPID\_REPITITION     & 2				& BC: Rapid Repetitions \\
+	CHANNEL\_TOTAL        & 160	 			& BC: Addressed Payload \\
+	BROADCAST\_FRAME\_SIZE& 200 			& BC: Maximum Payload/Brodcast \\
+	UNICAST\_FRAME\_SIZE  & 20				& UC: Payload/Unicast \\
+	WES\_COUNT            & 6				& UC: WES Count \\
+	AIRTIME               & 0				& Capute airtime\\
+	\bottomrule
+	\end{tabular}
+	\caption{JSON Experiment Setup}
+	\label{tab:json}
+\end{table}
+
 \begin{figure}
-	\includegraphics[scale=0.8]{figures/sequence_diagram.pdf}
-	\caption{Sequence diagram of the measurment}
+	\includegraphics[scale=0.8]{figures/sequence_diagram_drive.pdf}
+	\caption{Sequence Diagram of the Measurment}
 	\label{fig:sequenceDiagram}
 \end{figure}
-
-\begin{sequencediagram}
-	\newinst{c}{:computer}
-	\newthread{t}{:Transmitter}
-	\newinst[2]{w}{:WES 1}
-	\newinst{n}{:WES n}
-
-	% give test vector to transmitter via serial
-	% \begin{call}{c}{testVector()}{t}{ack()}
-	\mess{c}{Test Parameter}{t}
-
-	% \begin{sdblock}{}{distribute test parameter}
-	\begin{call}{t}{Test Parameter}{w}{ack()}
-	\end{call}
-	\begin{call}{t}{Test Parameter}{n}{ack()}
-	\end{call}
-	% \end{sdblock}
-
-	\mess[1]{t}{measurments}{w}
-	\mess[1]{t}{measurments}{n}	
-
-	\begin{call}{t}{request measurment}{w}{ack()}
-	\end{call}
-	\begin{call}{t}{request measurment}{n}{ack()}
-	\end{call}
-	% \begin{call}{t}{function()}{wn}{ack()}
-	% \end{call}
-	\mess{t}{Test Results}{c}
-
-\end{sequencediagram}
