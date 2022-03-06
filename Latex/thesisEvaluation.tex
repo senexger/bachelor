@@ -1,27 +1,110 @@
 
 \chapter{Evaluation}
 \label{sec:evaluation}
-\begin{itemize}
-\item measurement setup / results / evaluation / discussion
-\item whatever you have done, you must comment it, compare it to other systems, evaluate it
-\item usually, adequate graphs help to show the benefits of your approach
-\item each result/graph must not only be described, but also discussed (What's the reason for this peak? Why have you observed this effect? What does this tell about your architecture/system/implementation?)
-\item recommended length: approximately one third of the thesis.
-\end{itemize}
-
-\section*{Keep in Mind}
-\begin{itemize}
-\item metrics (SR, Latency, ...)
-\item compare with art-net all the time
-\item wireshark
-\end{itemize}
+% \begin{itemize}
+% \item measurement setup / results / evaluation / discussion
+% \item whatever you have done, you must comment it, compare it to other systems, evaluate it
+% \item usually, adequate graphs help to show the benefits of your approach
+% \item each result/graph must not only be described, but also discussed (What's the reason for this peak? Why have you observed this effect? What does this tell about your architecture/system/implementation?)
+% \item recommended length: approximately one third of the thesis.
+% \end{itemize}
 
 \section{Methodic}
-\begin{itemize}
-	\item Testbed
-	\item Collect Data
-	\item Seqence Diagram to explain 
-\end{itemize}
+One challenge in programming the controller and the WESs,
+is the state-based approach and the fact that the WESs can only communicate restricted to each other.
+There were therefore two types of state machines, one for the controller and one for the WESs.
+
+The testbed \cref{fig:testbed} is set up that the PC is connected to the microcontroller via wired \ac{UART}, this microcontroller is the controller.
+The controller then communicates exclusively via ESP-NOW with the WESs,
+these then control in different ways with the stage lights and motors.
+The WESs never respond to the controller for the actual application, the communication is unidirectional.
+However, in order to evaluate the test data, the WESs are put into a mode in which they send the data to the controller, also via ESP-NOW.
+From there, they are also sent to the PC via UART.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.75]{figures/TestFlow.pdf}
+	\caption{Data Flow for Measurement}
+	\label{fig:testbed}
+\end{figure}
+
+The experiment is started from the PC, a JSON is then transmitted to the controller via \ac{UART} using a Python script.
+The JSON contains all the parameters that are needed to carry out a test.
+At the time the JSON string is transmitted, the controller should be idle so that the packet is read correctly.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular} { lll }
+	\toprule
+	\multicolumn{1}{c}{Variable}
+	& \multicolumn{1}{c}{Example}
+	& \multicolumn{1}{c}{Explaination} \\
+	\midrule
+	VERBOSE               & 0 				& Enable VERBOSE \\
+	DEBUG                 & 0 				& Enable DEBUG \\
+	TIMESTAMP\_UART       & 0				& Enable UART timestamps \\
+	SEQUENCE\_REPITITIONS & 200				& Sequences per experiment \\
+	FULL\_REPETITIONS     & 1000			& Repeations of the experiment \\
+	MASTER\_CHANNEL       & 6				& Wifi Channel of the Controller \\
+	WES\_CHANNEL          & 6				& Wifi Channel of the WES \\
+	WAIT\_AFTER\_SEQ      & 0				& delay between sequences \\
+	WAIT\_AFTER\_REP\_EXP & 2000			& delay between experiments \\
+	IS\_BROADCASTING      & 1				& BC:=1, UC:=0 \\
+	RAPID\_REPITITION     & 2				& BC: Rapid Repetitions \\
+	CHANNEL\_TOTAL        & 160	 			& BC: Addressed Payload \\
+	BROADCAST\_FRAME\_SIZE& 200 			& BC: Maximum Payload/Brodcast \\
+	UNICAST\_FRAME\_SIZE  & 20				& UC: Payload/Unicast \\
+	WES\_COUNT            & 6				& UC: WES Count \\
+	AIRTIME               & 0				& Capture airtime\\
+	\bottomrule
+	\end{tabular}
+	\caption{JSON Experiment Setup}
+	\label{tab:json}
+\end{table}
+
+When the controller has received its JSON, it must go through three states, regardless of further input from the PC\cref{fig:sequenceDiagram}.
+\subsubsection*{Setup}
+After the start-up, the controller waits for a JSON. When the JSON is received, it sets the corresponding variables.
+It then forwards these to the individual WESs using unicast. 
+To be absolutely sure that the respective WES has received the setup information,
+the number of retransmits in the application layer is set to infinity.
+It distributes the data round robin, the MAC addresses of all WESs are hardcoded, but could also be transmitted via JSON.
+If the first byte of the setup unicast is set to 253, the WES knows that it is a metadata packet and handles it accordingly in its callback.
+\subsubsection*{Testing}
+When the controller has ensured that each WES has received the measurement data, it starts transmitting the dummy test data.
+Sequences are then sent according to the variable SEQUENCE\_REPETITIONS.
+The duration varies greatly depending on the number of sequences and the protocol used.
+\subsubsection*{Collecting}
+When the controller has processed all sequences, it makes a request to one of the WESs, 
+again with the help of a 100\% reliable unicast forced on the application layer.
+This then transmits the measured values and in turn ensures that these have also arrived at the controller.
+The measured values are then transmitted to the PC and the experiment is repeated until the required number of experiments has been completed.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.9]{figures/sequence_diagram_drive.pdf}
+	\caption{Sequence Diagram of the Measurment}
+	\label{fig:sequenceDiagram}
+\end{figure}
+
+\section{Wireshark measurements}
+
+To determine the actual airtime, the open source tool wireshark is suitable.
+In a recording you can see the composition of the ESP-NOW frames and the ratio of overhead to payload.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{figures/wiresharkUC.pdf}
+	\caption{Unicast Transmissions Recording from Wireshark}
+	\label{fig:wiresharkUC}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.4]{figures/wiresharkUCFrame.png}
+	\caption{Unicast Transmission Radio Information from Wireshark}
+	\label{fig:wiresharkUCTransmission}
+\end{figure}
+
 
 \section{Protocols under Study}
 \begin{itemize}
@@ -48,3 +131,11 @@
 \end{itemize}
 
 Why not 5GHz -> to expensive.\\
+
+
+\section*{Keep in Mind}
+\begin{itemize}
+\item metrics (SR, Latency, ...)
+\item compare with art-net all the time
+\item wireshark
+\end{itemize}
