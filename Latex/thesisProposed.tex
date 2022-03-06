@@ -10,25 +10,10 @@
 
 Different approaches are presented and discussed in this chapter using data link unicast or broadcast in different specifications,
 these were also empirically tested and evaluated in the \cref{sec:evaluation}.
-At the end of this chapter, the test setup was introduced and 
-it is briefly explained how the chips are programmed and how the measured values were generated and collected.
+At the end of this chapter, the test setup will be introduced and 
+it is briefly explained how the chips are programmed.
 
 \section{Design}
-
-The use of high-layer protocols, such as Art-Net \cref{sec:artnet}, in lighting technology involves a considerable overhead. 
-Because the lighting console does not talk directly to the \ac{WES}, communication must be controlled via an \ac{AP}, 
-which means that the \ac{IP} (layer 3) must be used for addressing and \ac{UDP} (layer 4) for transporting the data. 
-They both come withe additional headers. 
-Such an overhead can lead to latency, channel congestion and packet loss.
- 
-In an ad-hoc network \cref{itm:bss}, on the other hand, packets can be sent directly on the MAC (layer 2) \cref{tab:Layer}. 
-With a payload of a few bytes to each WES, keeping overheat small can be quite important. 
-Complexity problems as often typical in Ad-Hoc networks are not to be assumed, 
-since the controller at the light desk must normally stand in line of sight to the individual WES, 
-from there finally the lighting technician from there must have everything in the range of vision to be able to intervene. 
-One can therefore assume a simple star topology.
-In the following the ESP-NOW \cref{sub:espnow} protocol was chosen to distribute the packets low-level, 
-because even if it was not developed for this purpose the specification fits quite well to the requirements.
 
 \begin{table}[h]
 	\centering
@@ -58,21 +43,33 @@ because even if it was not developed for this purpose the specification fits qui
 			802.11b/g/n PHY\\ 
 			\hline
 		\end{tabular}
-		% \begin{tabular}{ |c| } 
-		% 	\hline
-		% 	Slim-Broadcast\\
-		% 	\\
-		% 	\\
-		% 	\hline
-		% 	802.11 DL/Broadcast\\
-		% 	\hline
-		% 	802.11b/g/n PHY\\ 
-		% 	\hline
-		% \end{tabular}
 	\end{tabular}
 	\caption{Art-Net Layer compared with Slim Data Link Layer}
 	\label{tab:Layer}
 \end{table}
+
+The use of high-layer protocols, such as Art-Net \cref{sec:artnet}, in lighting technology involves a considerable overhead. 
+Because the lighting console does not talk directly to the \ac{WES}, communication must be controlled via an \ac{AP}, 
+which means that the \ac{IP} (layer 3) must be used for addressing and \ac{UDP} (layer 4) for transporting the data. 
+They both come withe additional headers. 
+Such an overhead can lead to latency, channel congestion and packet loss.
+ 
+In an ad-hoc network \cref{itm:bss}, on the other hand, packets can be sent directly on the MAC (layer 2) \cref{tab:Layer}. 
+With a payload of a few bytes to each WES, keeping overheat small can be quite important. 
+Complexity problems as often typical in Ad-Hoc networks are not to be assumed, 
+since the controller at the light desk must normally stand in line of sight to the individual WES, 
+from there finally the lighting technician from there must have everything in the range of vision to be able to intervene. 
+One can therefore assume a simple star topology.
+In the following the ESP-NOW \cref{sub:espnow} protocol was chosen to distribute the packets low-level, 
+because even if it was not developed for this purpose the specification fits quite well to the requirements.
+
+\todo{topology of data flow isnt linked in the text}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.75]{figures/dataFlow.pdf}
+	\caption{Topology of the Data Flow}
+	\label{fig:testbed}
+\end{figure}
 
 For the purpose of this analysis, the controller transmits 20 Byte (analogue to 20 DMX channels) to every WESs.
 Four different metrics are considered, which where discussed in the requirements. \todo{ref to requirements}
@@ -168,9 +165,11 @@ One benefit of the unicast is the support of acknoledgements.
 The acknoledgements trigger a retransmission if no packet has arrived, therefore a controlled light will receive its signal in any case.
 So the reliability should be very good.
 
-\subsubsection*{Synchronisation}
+\subsubsection*{Synchronisation}\todo{or buffering delay?}
 
-Synchronising the unicast transmissions costs a lot of latency.
+Synchronising the unicast transmissions costs a lot of 
+\todo{...buffering delay}
+latency.
 This is because not only does each WES have to wait until its own packet has arrived,
 but until the packets have arrived at all the others.
 The implementation is chosen in such a way that each WES knows at which position of the round-robin it is
@@ -235,7 +234,7 @@ Assuming 10 WESs are to be addressed, each with 20 byte payload \ref{tab:airtime
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.5]{/home/walther/Documents/bachelor/Plot2/Graphs/bc_analytic.pdf}
+	\includegraphics[scale=0.6]{/home/walther/Documents/bachelor/Plot2/Graphs/bc_analytic.pdf}
 	\caption{Transmission Time of Broadcasts Depending on Payload}
 	\label{fig:bc_analytic}
 \end{figure}
@@ -249,6 +248,7 @@ It is easy to see that the additional overhead caused by adding another package 
 However, while compareing this to the latency of unicast \ref{tab:airtime_unicast_calc},
 it becomes clear that the low overhead and the missing acknoledgements lead to a significantly higher rate.
 A complete pass, i.e. addressing all WESs with 20 bytes, is already an order of magnitude faster from a number of 10 WESs.
+\todo{it's ok to make an example here?}
 
 \begin{align}
 	\text{Frequency}_{UC} &= \frac{1}{10 \cdot 1100\mu s} = 909 Hz \\
@@ -261,7 +261,7 @@ This effect should be even clearer under real conditions.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.5]{/home/walther/Documents/bachelor/Plot2/Graphs/bc_uc_transmissiontime_analytic.pdf}
+	\includegraphics[scale=0.6]{/home/walther/Documents/bachelor/Plot2/Graphs/bc_uc_transmissiontime_analytic.pdf}
 	\caption{Transmission Time of Unicast vs Broadcast}
 	\label{fig:bc_uc_transmissiontime_analytic}
 \end{figure}
@@ -270,7 +270,7 @@ This effect should be even clearer under real conditions.
 
 The huge advantage that the Slim Broadcast has over the Slim Unicast in terms of update frequency,
 comes at the cost of lower reliability.
-Broadcasts can't do acknolegements \todo{ref to fundamentionals, datalink, broadcast}, 
+Broadcasts can't do acknolegements,\todo{ref to fundamentionals, datalink, broadcast}
 a WES that has poor reception to the controller, will not receive packets and the controller cannot take countermeasures.
 
 \subsubsection*{Synchronisation}
@@ -299,7 +299,7 @@ In the formula below \cref{math:rr_sr}, with RR set to zero, there happens no re
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.5]{/home/walther/Documents/bachelor/Plot2/Graphs/rr_transmission_time.pdf}
+	\includegraphics[scale=0.6]{/home/walther/Documents/bachelor/Plot2/Graphs/rr_transmission_time.pdf}
 	\caption{Transmission Time with with different sets of Rapid Repetition (RR)}
 	\label{fig:rr_analytic}
 \end{figure}
@@ -340,18 +340,90 @@ while maintaining or even improving reliability.
 
 \section{Implementation}
 
-In this chapter a short hands-on is given on how to flash the microcontrollers for the testbed
-and which steps are necessary to get ESP-NOW running on theses chips.
-It also shows how the measurement data was collected,
-how the test setup was distributed from the PC to all the chips and how the data was subsequently returned to the PC.
+This section explains how the test setup was distributed from the PC to all the chips 
+and how the data was subsequently returned to the PC.
+and gives a short hands on - which steps are necessary to get ESP-NOW running on theses chips.
+
+\subsection{From Setup to Collecting measurments}
+
+One challenge in programming the controller and the WESs,
+is the state-based approach and the fact that the WESs can only communicate restricted to each other.
+There were therefore two types of state machines, one for the controller and one for the WESs.
+
+The testbed \cref{fig:testbed} is set up that the PC is connected to the microcontroller via wired \ac{UART}, this microcontroller is the controller.
+The controller then communicates exclusively via ESP-NOW with the WESs,
+these then control in different ways with the stage lights and motors.
+The WESs never respond to the controller for the actual application, the communication is unidirectional.
+However, in order to evaluate the test data, the WESs are put into a mode in which they send the data to the controller, also via ESP-NOW.
+From there, they are also sent to the PC via UART.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.75]{figures/TestFlow.pdf}
+	\caption{Data Flow for Measurement}
+	\label{fig:testbed}
+\end{figure}
+
+The experiment is started from the PC, a JSON is then transmitted to the controller via \ac{UART} using a Python script.
+The JSON contains all the parameters that are needed to carry out a test.
+At the time the JSON string is transmitted, the controller should be idle so that the packet is read correctly.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular} { lll }
+	\toprule
+	\multicolumn{1}{c}{Variable}
+	& \multicolumn{1}{c}{Example}
+	& \multicolumn{1}{c}{Explaination} \\
+	\midrule
+	VERBOSE               & 0 				& Enable VERBOSE \\
+	DEBUG                 & 0 				& Enable DEBUG \\
+	TIMESTAMP\_UART       & 0				& Enable UART timestamps \\
+	SEQUENCE\_REPITITIONS & 200				& Sequences per experiment \\
+	FULL\_REPETITIONS     & 1000			& Repeations of the experiment \\
+	MASTER\_CHANNEL       & 6				& Wifi Channel of the Controller \\
+	WES\_CHANNEL          & 6				& Wifi Channel of the WES \\
+	WAIT\_AFTER\_SEQ      & 0				& delay between sequences \\
+	WAIT\_AFTER\_REP\_EXP & 2000			& delay between experiments \\
+	IS\_BROADCASTING      & 1				& BC:=1, UC:=0 \\
+	RAPID\_REPITITION     & 2				& BC: Rapid Repetitions \\
+	CHANNEL\_TOTAL        & 160	 			& BC: Addressed Payload \\
+	BROADCAST\_FRAME\_SIZE& 200 			& BC: Maximum Payload/Brodcast \\
+	UNICAST\_FRAME\_SIZE  & 20				& UC: Payload/Unicast \\
+	WES\_COUNT            & 6				& UC: WES Count \\
+	AIRTIME               & 0				& Capture airtime\\
+	\bottomrule
+	\end{tabular}
+	\caption{JSON Experiment Setup}
+	\label{tab:json}
+\end{table}
+
+When the controller has received its JSON, it must go through three states, regardless of further input from the PC\cref{fig:sequenceDiagram}.
+\subsubsection*{Setup}
+After the start-up, the controller waits for a JSON. When the JSON is received, it sets the corresponding variables.
+It then forwards these to the individual WESs using unicast. 
+To be absolutely sure that the respective WES has received the setup information,
+the number of retransmits in the application layer is set to infinity.
+It distributes the data round robin, the MAC addresses of all WESs are hardcoded, but could also be transmitted via JSON.
+If the first byte of the setup unicast is set to 253, the WES knows that it is a metadata packet and handles it accordingly in its callback.
+\subsubsection*{Testing}
+When the controller has ensured that each WES has received the measurement data, it starts transmitting the dummy test data.
+Sequences are then sent according to the variable SEQUENCE\_REPETITIONS.
+The duration varies greatly depending on the number of sequences and the protocol used.
+\subsubsection*{Collecting}
+When the controller has processed all sequences, it makes a request to one of the WESs, 
+again with the help of a 100\% reliable unicast forced on the application layer.
+This then transmits the measured values and in turn ensures that these have also arrived at the controller.
+The measured values are then transmitted to the PC and the experiment is repeated until the required number of experiments has been completed.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.9]{figures/sequence_diagram_drive.pdf}
+	\caption{Sequence Diagram of the Measurment}
+	\label{fig:sequenceDiagram}
+\end{figure}
 
 \subsection*{How To ESP-NOW}
-
-% \begin{itemize}
-% 	\item broadcast unicast
-% 	\item IDE \& ESP hardware flashing
-% 	\item setup devices
-% \end{itemize}
 
 The developer boad ESP32 Devkit V1 used in the experiments \cref{sec:evaluation} for the collection of the data
 can be ordered cheaply from common (most favourably Chinese) websites. [3.79€, www.aliexpress.com, 3/3/22]\todo{zeitangabe website aliexpress?}
@@ -384,8 +456,11 @@ esp_now_init();
 \end{lstlisting}
 \label{lst:init}
 
-Later, the individual MAC addresses of the WESs must be entered.
+Later, the individual MAC addresses of the WESs must be saved.
 These are created in a separate header file and can then be added during the setup of the chip.
+The MAC address is needed to add the respective WES to the peerlist.
+However, the WES does not have to be switched on or within range for this, it is more a case of making the WES known to the controller.
+The Controller can store up to 20 devices in his peerlist at the same time.
 
 \begin{lstlisting}
 #ifndef MACLIST_H
@@ -458,60 +533,3 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_l
   }
 \end{lstlisting}
 \label{lst:callback}
-Eine Herausforderung bei der Programmierung des Controllers und der WESs, 
-ist die zustandbasierte Herangehensweise und die Tatsache, dass die WESs nicht miteinander kommunizieren konnten.
-Es gab demnach zwei Arten von State-Machines, eine für den Controllern und die andere für die WESs.
-
-Das Testsetup besteht aus einem PC, der die Daten an den Controller weiter gibt, dieser verteilt die Daten weiter via ESP-NOW an die WESs.
-Für das Testbed wurde mit sieben WESs gearbeitet.
-\TODO{Bild vom Testsetup}
-
-\subsection{Collecting measurment results}
-\begin{itemize}
-\item Collecting values
-\item state machine
-\item python script
-\item saving values
-\item digital encoding e.g.: 777477472717
-\end{itemize}
-
-Vom PC aus wird das Experiment gestartet, mittels Python Skript wird dann ein JSON über \ac{UART} an den Controller übermittelt.
-Im JSON stehen alle Parameter die für die Durchführung eines Tests benötigt sind.\href{tab:json}
-Zum Zeitpunkt der übertragung des JSON Strings sollte der Controller im idle sein, damit die Pakete korrekt eingelesen werden.
-\TODO{Tabelle des JSON mit Erklärung}
-
-\begin{table}[h]
-	\centering
-	\begin{tabular} { lll }
-	\toprule
-	\multicolumn{1}{c}{Variable}
-	& \multicolumn{1}{c}{Example}
-	& \multicolumn{1}{c}{Explaination} \\
-	\midrule
-	VERBOSE               & 0 				& Enable VERBOSE \\
-	DEBUG                 & 0 				& Enable DEBUG \\
-	TIMESTAMP\_UART       & 0				& Enable UART timestamps \\
-	SEQUENCE\_REPITITIONS & 200				& Sequences per experiment \\
-	FULL\_REPETITIONS     & 1000			& Repeations of the experiment \\
-	MASTER\_CHANNEL       & 6				& Wifi Channel of the Controller \\
-	WES\_CHANNEL          & 6				& Wifi Channel of the WES \\
-	WAIT\_AFTER\_SEQ      & 0				& delay between sequences \\
-	WAIT\_AFTER\_REP\_EXP & 2000			& delay between experiments \\
-	IS\_BROADCASTING      & 1				& BC:=1, UC:=0 \\
-	RAPID\_REPITITION     & 2				& BC: Rapid Repetitions \\
-	CHANNEL\_TOTAL        & 160	 			& BC: Addressed Payload \\
-	BROADCAST\_FRAME\_SIZE& 200 			& BC: Maximum Payload/Brodcast \\
-	UNICAST\_FRAME\_SIZE  & 20				& UC: Payload/Unicast \\
-	WES\_COUNT            & 6				& UC: WES Count \\
-	AIRTIME               & 0				& Capute airtime\\
-	\bottomrule
-	\end{tabular}
-	\caption{JSON Experiment Setup}
-	\label{tab:json}
-\end{table}
-
-\begin{figure}
-	\includegraphics[scale=0.8]{figures/sequence_diagram_drive.pdf}
-	\caption{Sequence Diagram of the Measurment}
-	\label{fig:sequenceDiagram}
-\end{figure}
