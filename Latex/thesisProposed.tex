@@ -462,6 +462,7 @@ The MAC address is needed to add the respective WES to the peerlist.
 However, the WES does not have to be switched on or within range for this, it is more a case of making the WES known to the controller.
 The Controller can store up to 20 devices in his peerlist at the same time.
 
+\todo{listing box prevent linebreaks on newpage}
 \begin{lstlisting}
 #ifndef MACLIST_H
 #define MACLIST_H
@@ -471,6 +472,7 @@ uint8_t WES_MAC_2[6] = { 0x24, 0x0A, 0xC4, 0x61, 0x19, 0x08 };
 uint8_t BC_MAC[6]    = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
 \end{lstlisting}
 \label{lst:macaddress}
+
 \begin{lstlisting}[caption=Add Peers]
 #include "maclist.h"
 
@@ -483,7 +485,6 @@ if (ESP_OK == status) {                     // check success
   Serial.println("[OK] Slave-peer added"); 
 }
 \end{lstlisting}
-\label{lst:addPeer}
 
 Sending an ESP-NOW unicast is performed with the method esp\_now\_send().
 The MAC address of the recipient is passed, a pointer to the payload to be transmitted and its length.
