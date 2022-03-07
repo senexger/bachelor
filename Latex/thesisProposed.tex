@@ -123,7 +123,7 @@ so the average backoff should take $\frac{CW_{min}}{2}$ slots, with a slottime o
 		PHY header: PLCP header				& 6 	& 48 \\
 		MAC headers							& 28	& 224 \\
 		MAC body							& 20 	& 160 \\
-		\textbf{= tx time data}				& 		& \textbf{746} \\
+		\textbf{= tx time data}				& 		& \textbf{786} \\
 		SIFS								& -		& 10 \\
 		PHY header: PLCP preamble			& 18	& 144 \\
 		PHY header: PLCP header				& 6		& 48 \\
@@ -136,7 +136,7 @@ so the average backoff should take $\frac{CW_{min}}{2}$ slots, with a slottime o
 \end{table}
 
 The total airtime of the transmission of data and ack, assuming the transmission arrived successfully, is $t_tx=1100\mu$s.
-Strictly speaking, the light could also be changed before the acknolegement is sent, i.e. after 746$\mu$s.
+Strictly speaking, the light could also be changed before the acknolegement is sent, i.e. after 786$\mu$s.
 The latency scales linearly, the delay to the n-th WES is:
 \begin{align}
 	\text{Airtime} = N \cdot t_{tx} = N \cdot 1100\mu s

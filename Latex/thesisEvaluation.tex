@@ -89,8 +89,10 @@ The measured values are then transmitted to the PC and the experiment is repeate
 
 \section{Wireshark measurements}
 
-To determine the actual airtime, the open source tool wireshark is suitable.
-In a recording you can see the composition of the ESP-NOW frames and the ratio of overhead to payload.
+The Wireshark tool is suitable for recording traffic.
+In order to record packets outside of a LAN, the WIFI card must be set to monitor mode.
+In this mode, frames from an ad-hoc network can also be sniffed, as is the case with ESP-NOW.
+In \cref{fig:wiresharkUC} it is clear to see that each unicast is followed by an acknolegement, as mentioned in the Chapter 3.
 
 \begin{figure}[h]
 	\centering
@@ -98,6 +100,16 @@ In a recording you can see the composition of the ESP-NOW frames and the ratio o
 	\caption{Unicast Transmissions Recording from Wireshark}
 	\label{fig:wiresharkUC}
 \end{figure}
+
+A look into the data frame \cref{fig:wiresharkUCTransmission} also shows the measured airtime of 696$\mu$s.
+Adding the average backoff of a free channel (160$\mu$s) and the DIFS (50$\mu$s) gives 906$\mu$s.
+In the calculation from \cref{tab:airtime_unicast_calc}, however, it was only 746$\mu$s.
+\todo{TOLJA!\\yes.... actually why?}The difference of 120$\mu$s can be... 
+Wireshark also recognises the category code of the Vendor Specific Action Frame that ESP-NOW uses.
+The payload of 20 bytes assumed for unicast in the experiment is given here as 31 bytes,
+presumably it has to do with the implementation of the action frame shown in \cref{fig:esp_now_vendor_format},
+even though I can only figure out an offset of 10 bytes.\todo{is this personal note OK?}
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.4]{figures/wiresharkUCFrame.png}
@@ -105,12 +117,43 @@ In a recording you can see the composition of the ESP-NOW frames and the ratio o
 	\label{fig:wiresharkUCTransmission}
 \end{figure}
 
+\href{lst:callback}
+A look at the 31 byte "payload" shows that ESP-NOW specific parts of wireshark have not been parsed correctly.
+From the representation \cref{fig:esp-now_frame_format} and \cref{fig:esp-now_frame_format} it can be deduced:
+
+that the first 4 bytes of the payload are still the random values and, according to Espressif, 
+do not belong to the Vendor Specific Content.
+These 4 bytes together with the following 1 byte (Element ID), 1 byte (length, interestingly specified as 25 Byte instead of 20),
+Organisation Identifier (3 bytes), Type (1 byte) and Version (1 byte) make up the difference of 11 bytes to the actual payload.
+\todo{This is barely readable}
+The payload is filled with the flag ff \cref{lst:callback} followed by the sequence number, in this example 0.
+The rest of the payload is filled with numbers, which are set to the value of the position in the payload.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.4]{figures/wiresharkPayload.png}
+	\caption{Unicast Payload Analysis with Wireshark}
+	\label{fig:wiresharkPayload}
+\end{figure}
 
 \section{Protocols under Study}
-\begin{itemize}
-	\item 
-\end{itemize}
-\subsection*{Unicast vs Broadcast}
+
+\subsection*{Slim Unicast vs Slim Broadcast}
+
+\subsubsection{Latency}
+\subsubsection{Reliability}
+\subsubsection{Latency}
+\subsubsection{Latency}
+
+\todo{how to show 100\% success ratio?}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{../Plot2/Graphs/SR_per_fixture_broadcast.pdf}
+	\caption{SR Broadcast}
+	\label{fig:sr_broadcast}
+\end{figure}
+
 \subsection*{Rapid Repetition}
 \subsection*{Delayed Repetition}
 \subsection*{Grouping}

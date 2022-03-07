@@ -43,6 +43,8 @@ It is the second layer of the \ac{OSI} model of computer networking illustrated 
 
 \section{IEEE 802.11 Specification Family}
 
+\todo{TOLJA: zu banal darüber zu reden?}
+
 The \ac{IEEE} 802 is a family of standards dealing with area networks different kinds.
 \begin{itemize}
 	\item 802.11 \ac{WLAN}
@@ -68,6 +70,8 @@ There are two \ac{BSS} defined:
 The most common use in 802.11 is the Infrastructure mode, which is commonly used in office and home enviroments.\\ 
 
 \subsection{Physical layer}
+
+\todo{TOLJA: Was soll ich zum PHY alles sagen?}
 
 In this thesis we sould take a breef look into the \ac{PHY} of the IEEE 802.11 standard, which is the first layer of the OSI model \ref{tab:OSI}.
 This layer provides mechanical, electrical and other functional tools to activate or deactivate physical connections, maintain them and transmit bits over them. 
@@ -136,9 +140,9 @@ It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
 	\item \textbf{Duration:} Contains the \ac{NAV} value, specifies the transmission time required for the frame. 
 	In order to save power to save energy, WES can defer access to the medium for this duration
 	\item \textbf{Address fields:} Certain address fields are specified by the relative position of the address field.
-	Not every address field is needed by certain frames.
+	Not every address field is needed by certain frames. Each device is associated with a \ac{MAC} address.
 	\begin{itemize}
-		\setlength\itemsep{-0.5em}
+		\setlength\itemsep{-0.0em}
 		\item \ac{BSSID}
 		\item Source Address
 		\item Destination Address
