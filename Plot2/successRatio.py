@@ -48,7 +48,6 @@ def sr_per_fixture_broadcast(data):
     plt.figure(num=None, figsize=None, dpi=800)
     plt.show()
     
-    # plt.savefig('/home/walther/Documents/bachelor/Plot2/Graphs/SR_per_fixture_broadcast.png', dpi=1000)
     fig.savefig('Graphs/SR_per_fixture_broadcast.pdf', bbox_inches='tight') 
     plt.close()
 
@@ -77,3 +76,17 @@ def sr_per_fixture_unicast():
 
 fig, ax1 = plt.subplots()
 sr_per_fixture_unicast()
+
+#%% Success Ratio Rapid Repetition
+
+# shrink data to rr = 1
+data_rr1 = np.zeros((int(SEQ_SIZE/2),FIX_SIZE,EXP_SIZE),dtype=int)
+
+for exp in range(0,EXP_SIZE):
+    for fix in range(0,FIX_SIZE):
+        for seq in range(0,int(SEQ_SIZE/2)):
+            if (data[2*seq, fix, exp] or data[2*seq+1, fix, exp]):
+                data_rr1[seq,fix,exp] = 1
+
+print(data[0:20 ,3,1])
+print(data_rr1[0:10,3,1])
