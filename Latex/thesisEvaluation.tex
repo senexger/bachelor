@@ -136,14 +136,32 @@ The rest of the payload is filled with numbers, which are set to the value of th
 	\label{fig:wiresharkPayload}
 \end{figure}
 
+For completeness, here is a recording of the broadcast traffic.
+The difference to the unicast traffic in \cref{wiresharkUCTransmission} is,
+that the destination address is bundled in a transmission of 160 bytes instead of being distributed in 8x20 byte packets.
+As already mentioned, the acknoledgments are not possible with the broadcast.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{figures/wiresharkBC.png}
+	\caption{Unicast Payload Analysis with Wireshark}
+	\label{fig:wiresharkBCTransmission}
+\end{figure}
+
 \section{Protocols under Study}
 
 \subsection*{Slim Unicast vs Slim Broadcast}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{../Plot2/Graphs/bc_uc_transmissiontime_wireshark.pdf}
+	\caption{E.g. Transmission Time of Slim Unicast and Slim Broadcast}
+	\label{fig:transmissionTime}
+\end{figure}
+
 \subsubsection{Latency}
+
 \subsubsection{Reliability}
-\subsubsection{Latency}
-\subsubsection{Latency}
 
 \todo{how to show 100\% success ratio?}
 

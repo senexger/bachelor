@@ -43,7 +43,7 @@ def plot_bc20_vs_bc200(ax):
     plt.ylim(0,10)
     plt.grid(True)
 
-    fig.savefig('Graphs/bc_uc_transmissiontime_analytic.pdf', bbox_inches='tight')  
+    # fig.savefig('Graphs/bc_uc_transmissiontime_analytic.pdf', bbox_inches='tight')  
     fig.show()  
 
 fig, ax = plt.subplots()
@@ -69,7 +69,7 @@ def plot_bc_up_to_200(ax):
     plt.ylim(0,10)
     plt.grid(True)
 
-    fig.savefig('Graphs/bc_analytic.pdf', bbox_inches='tight')  
+    # fig.savefig('Graphs/bc_analytic.pdf', bbox_inches='tight')  
     fig.show()  
 
 fig, ax = plt.subplots()
