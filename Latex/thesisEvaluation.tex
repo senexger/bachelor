@@ -27,6 +27,7 @@ From there, they are also sent to the PC via UART.
 	\caption{Data Flow for Measurement}
 	\label{fig:testbed}
 \end{figure}
+\todo{change N to the actual number of WESs = 7}
 
 The experiment is started from the PC, a JSON is then transmitted to the controller via \ac{UART} using a Python script.
 The JSON contains all the parameters that are needed to carry out a test.
@@ -173,8 +174,16 @@ As already mentioned, the acknoledgments are not possible with the broadcast.
 \end{figure}
 
 \subsection*{Rapid Repetition}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{../Plot2/Graphs/SR_of_node4_rr.pdf}
+	\caption{SR of WES4 with altered RRs}
+	\label{fig:sr_broadcast_wes4}
+\end{figure}
+
 \subsection*{Delayed Repetition}
-\subsection*{Grouping}
+\subsection*{Impact of Groupsize}
 
 \section{Results}
 \TODO{Difference between Results and Discussion?}

@@ -145,24 +145,25 @@ medianprops_purp = dict(linestyle='-', color='purple')
 fig, ax1 = plt.subplots()
 sr_per_node_bc_rr(sr_array)
 #%%
-#success ratio for node 3 broadcast with rapid repetition
+#success ratio for given node  with rr [0,6]
 
-def sr_per_node_bc_rr(array):
+def sr_of_node_bc_rr(array, node):
 
-    ax1.set_xlabel('Fixture enum.', color='black')
+    ax1.set_xlabel('Number of Rapid Rapid Repetitions', color='black')
     ax1.set_ylabel('Success Ratio in %') 
+
+    boxarray = [sr_array[0,::10,node], sr_array[1,::10,node], sr_array[2,::10,node], sr_array[3,::10,node], sr_array[4,::10,node], sr_array[5,::10,node]]
     
-    # ax1.boxplot(sr_array[0,::10,:], flierprops=flierprop_purp, medianprops=medianprops_purp)
-    ax1.boxplot(sr_array[1,::10,:], flierprops=flierprop_purp, medianprops=medianprops_purp)
+    ax1.boxplot(boxarray, flierprops=flierprop_purp, medianprops=medianprops_purp, positions=[0,1,2,3,4,5])
 
     plt.figure(num=None, figsize=None, dpi=799)
     plt.show()
     
-    fig.savefig('Graphs/SR_per_fixture_rr1.pdf', bbox_inches='tight') 
+    fig.savefig('Graphs/SR_of_node4_rr.pdf', bbox_inches='tight') 
     plt.close()
 
 flierprop_purp = dict(marker='s', markerfacecolor='purple', markersize=3)
 medianprops_purp = dict(linestyle='-', color='purple')
 
 fig, ax1 = plt.subplots()
-sr_per_node_bc_rr(sr_array)
+sr_of_node_bc_rr(sr_array, 3)
