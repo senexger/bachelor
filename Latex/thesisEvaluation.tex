@@ -138,7 +138,7 @@ The rest of the payload is filled with numbers, which are set to the value of th
 \end{figure}
 
 For completeness, here is a recording of the broadcast traffic.
-The difference to the unicast traffic in \cref{wiresharkUCTransmission} is,
+The difference to the unicast traffic in \cref{fig:wiresharkUCTransmission} is,
 that the destination address is bundled in a transmission of 160 bytes instead of being distributed in 8x20 byte packets.
 As already mentioned, the acknoledgments are not possible with the broadcast.
 
@@ -153,6 +153,10 @@ As already mentioned, the acknoledgments are not possible with the broadcast.
 
 \subsection*{Slim Unicast vs Slim Broadcast}
 
+In the design part it became clear that it is much more efficient 
+to reach many individual WESs with one broadcast instead of many individual unicasts.
+Tracking the transmissions with Wireshark also confirms this assumption \cref{fig:transmissionTime}.
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{../Plot2/Graphs/bc_uc_transmissiontime_wireshark.pdf}
@@ -160,11 +164,34 @@ As already mentioned, the acknoledgments are not possible with the broadcast.
 	\label{fig:transmissionTime}
 \end{figure}
 
-\subsubsection{Latency}
+The theoretical assumptions clearly correspond to the measured values,
+Additional latencies due to processing in the microcontroller or at the antenna are therefore hardly significant.
+When evaluating the graph, however, 
+it should be noted that eight unicast transmissions have the same payload as a single broadcast transmission, by a factor of 4.
+Therefore, a broadcast is clearly superior to a unicast in terms of latency, update frequency and synchronisation.
 
-\subsubsection{Reliability}
+Slim Unicast can only make a difference through its reliability.
+The channel in the experiment was free, so no retransmissions had to be sent, which would have delayed the transmission time even more.
+When implementing slim unicast, it makes sense to do without synchronisation, because the buffering delay would be too long.
+However, it is also difficult to estimate how many transmissions can be saved if only changed values trigger a transmission,
+but it makes sense to simulate a stress test because critical errors become apparent precisely
+when packets are lost and all values are changed.
 
+It can be said that Slim Broadcast is the superior design due to the much lower part of overhead, 
+because the data throughput is significantly higher.
+The WESs can also be synchronised more easily because the transmissions reach many people at the same time.
+The weak point, however, is reliability.
+
+\subsection*{Rapid Repetition}
 \todo{how to show 100\% success ratio?}
+
+Success Ratio is a good metric to measure reliability, 
+it is calculated from the number of successfully received packets and the total number of packets sent.
+In a test setup of 7 distributed WESs, some placed close to the controller, some at a slightly greater distance,
+this naturally varies greatly \cref{fig:sr_broadcast}.
+The measurement was carried out in a flat distributed over different rooms.
+Several WLANs are on the 2.4GHz band and lead to indifferences.
+For the slim broadcast, 160Byte packets were distributed in a 600 sequence. the experiment was repeated 1000 times.
 
 \begin{figure}[h]
 	\centering
@@ -173,7 +200,17 @@ As already mentioned, the acknoledgments are not possible with the broadcast.
 	\label{fig:sr_broadcast}
 \end{figure}
 
-\subsection*{Rapid Repetition}
+It shows that especially WESs 4 and WES 7 have poor reception.
+The reception of other WESs is much better.
+It should be said that with the Slim Unicast 100\% of the packets arrived and there was no loss of data.
+One approach to improving reliability at the expense of latency was rapid repetitions.
+
+With RR, it must be weighed up how many repetitions are sensible, 
+because at some point the performance beyond reliability is impaired too much.
+WES4 has the weakest reception and is supposed to represent a kind of worst-case scenario.
+The measurement data of the same measurement as for \cref{fig:sr_broadcast} are used as a basis,
+so that a comparability is given.
+With RR=0, the unchanged SR is taken over, with RR=X, X transmissions are always linked in pairs to one with an or.
 
 \begin{figure}[h]
 	\centering
@@ -182,13 +219,26 @@ As already mentioned, the acknoledgments are not possible with the broadcast.
 	\label{fig:sr_broadcast_wes4}
 \end{figure}
 
+It becomes clear that even a few repetitions lead to a significantly better SR.
+But it also becomes clear that this is no longer improved as much after two repetitions.
+However, a reliability of 100\% as with unicast is not necessarily achieved.
+A look at the measurement data shows why:
+\TODO{ein Beipsile der Messdaten geben, wo die "burst" errors deutlich werden.}
+
 \subsection*{Delayed Repetition}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.8]{figures/bufferingDelay.pdf}
+	\caption{SR for Buffering Delay with/without RR for WES4}
+	\label{fig:bufferingDelay}
+\end{figure}
+
 \subsection*{Impact of Groupsize}
 
 \section{Results}
 \TODO{Difference between Results and Discussion?}
 \begin{itemize}
-	\item Grafen miteinander verlgeichen?
 	\item Which method had the best results?
 	\item Tabelle mit allen Protokollen auflisten 
 \end{itemize}
