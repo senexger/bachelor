@@ -72,7 +72,8 @@ for exp in range(0,EXP_SIZE):
             sr_array[rr,exp,fix] = 100 - count_is_zero
 
 
-# print(data[:,:,-1])
+#%%
+print(data[0:40,3,1])
 #%%
 #success ratio for each node broadcast
 def sr_per_fixture_broadcast(data):

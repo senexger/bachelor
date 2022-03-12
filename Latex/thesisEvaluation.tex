@@ -163,6 +163,7 @@ Tracking the transmissions with Wireshark also confirms this assumption \cref{fi
 	\caption{E.g. Transmission Time of Slim Unicast and Slim Broadcast}
 	\label{fig:transmissionTime}
 \end{figure}
+\todo{Improve Graph. Transmissions is unclear}
 
 The theoretical assumptions clearly correspond to the measured values,
 Additional latencies due to processing in the microcontroller or at the antenna are therefore hardly significant.
@@ -196,7 +197,7 @@ For the slim broadcast, 160Byte packets were distributed in a 600 sequence. the 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{../Plot2/Graphs/SR_per_fixture_broadcast.pdf}
-	\caption{SR Broadcast}
+	\caption{SR des Broadcasts aller 7 WESs}
 	\label{fig:sr_broadcast}
 \end{figure}
 
@@ -222,8 +223,22 @@ With RR=0, the unchanged SR is taken over, with RR=X, X transmissions are always
 It becomes clear that even a few repetitions lead to a significantly better SR.
 But it also becomes clear that this is no longer improved as much after two repetitions.
 However, a reliability of 100\% as with unicast is not necessarily achieved.
-A look at the measurement data shows why:
-\TODO{ein Beipsile der Messdaten geben, wo die "burst" errors deutlich werden.}
+A look at the measurement data shows why \cref{fig:rrBitwise}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{figures/rrBitwise.pdf}
+	\caption{Bitwise Example of RR (WES=4, SeqNr.=9-24, ExpNr.=1)}
+	\label{fig:rrBitwise}
+\end{figure}
+
+The given excerpt is from an actual measurement of the WES4, 
+the channel here is really very bad and there is massive packet loss.
+When the repetitions are increased from RR=0 to RR=1, the loss of packets is slightly dampened.
+However, it is noticeable that even with RR=3,
+one sequence is still lost, despite the 4x costs of latency and throughput.
+The problem is that faulty packets often come clustered 
+and the repetitions still fall within the range of the bad channel.
 
 \subsection*{Delayed Repetition}
 
