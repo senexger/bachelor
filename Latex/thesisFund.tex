@@ -156,45 +156,29 @@ It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
 802.11ac and later using frame aggregation in order to reduce overhead.
 
 \subsection{Carrier Sense Multiple Access/Collision Avoidance}
-\TODO{shot explaination of CSMA/CD Kapitel komplett reworken and include graphics!}
-Multiple Access/Multiplexing: When Signals to/from different users share a common channel using time division methods (TDM/TDMA, CSMA)\todo{eigene Worte}\\
 
-DSSS: Usage of multiple antennas
-Direct Sequence Spread Spectrum. Spreading of the signal over a given bitsequence PN\\
+\ac{CSMA/CA} is composed of:
+\begin{itemize}
+	\setlength\itemsep{-0.0em}
+	\item \textbf{CS (Carrier Sense):} jede Station checkt ob das Medium frei ist, bevor sie sendet
+	\item \textbf{MA (Multiple Access)}: mehrer Stationen teilen sich ein Medium, dieses kann auch ein ein Kabel sein
+	\item \textbf{CD (Collision Detection):} Ein Ablaufplan verhindert, dass zwei Stationen zeigleich ihre Übertragung beginnen
+\end{itemize}
 
-Addressing\\
-In a LAN environment, devices are logically separated using 48-bit
-globally unique MAC addresses: example
-In IPv4 networks (e.g. Internet), nodes are logically separated
-using 32-bit globally unique IP addresses: example \\
+Before a station transmitts data it has to check or listen to the medium to avoid collisiion resulting in packet loss.
+Only when the medium is free, the station can transmit via the shared medium.
+When the medium is already in use t
 
-Routing\\
-• Routing in a (W)LAN is based on MAC addresses, never IP addresses.\\
-• A router (e.g. integrated with an access point) performs mapping between\\
-these two address types: \\
+Collision avoidance tries to avoid collisions before they happen in the first place.
 
-Address allocation\\
-• MAC addresses are associated with the hardware devices.\\
-• IP addresses can be allocated to (W)LAN devices either on a\\
-permanent basis or dynamically from an address pool using the
-Dynamic Host Configuration Protocol (DHCP). \\
-
-Mesh networks\\
-are able to relay frames from one device to another.
-• Provide coverage extension over multiple hops (e.g. Internet access)
-• Sufficient address information is required to be able to relay data from a
-source device to the ultimate destination (IP or MAC address).
-This can be used to extend the range from on \ac{WES} to another \ac{WES} over some other \ac{WES}.
-Since range isn't a critical parameter in this thesis, it hasn't to be further discussed.\\
-
-Beacon Frames\\
-contain the channel information found during passive scanning. Probe request are used in acting scanning.\\
 
 Backoff: \\
 random time delay to avoid collisions\\
 
 DIFS/SIFS:\\
 Delay between transmissions used for \ac{CSMA/CA}
+
+
 
 \subsection{Data Link Transmissions}
 \TODO{Short introduction}
