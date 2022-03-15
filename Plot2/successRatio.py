@@ -168,3 +168,5 @@ medianprops_purp = dict(linestyle='-', color='purple')
 
 fig, ax1 = plt.subplots()
 sr_of_node_bc_rr(sr_array, 3)
+
+#%% Delayed Repetitions

@@ -53,7 +53,7 @@
 \birthplace{Berlin}
 
 % Title of your thesis.
-\title{Evaluation of protocols for control stage lighting}
+\title{Evaluation of protocols \\for control stage lighting}
 
 % Degree program.
 \thesistype{Bachelor Thesis in Computer Engineering}\thesiscite{Bachelor Thesis~(Bachelorarbeit)}
@@ -120,26 +120,31 @@
 \addcontentsline{toc}{chapter}{Abstract}
 \begin{otherlanguage*}{american}
 
-about 1/2 page:
-\begin{enumerate}
-	\item Motivation (Why do I care?)
-	\item Problem statement (What problem are I trying to solve?)
-	\item Approach (How did I go about it)
-	\item Results (What's the answer?)
-	\item Conclusion (What are the implications of the answer?)
-\end{enumerate}
-	
+% about 1/2 page:
+% \begin{enumerate}
+% 	\item Motivation (Why do I care?)
+% 	\item Problem statement (What problem are I trying to solve?)
+% 	\item Approach (How did I go about it)
+% 	\item Results (What's the answer?)
+% 	\item Conclusion (What are the implications of the answer?)
+% \end{enumerate}
 
-In the field of lighting and stage technology, the challenge of controlling the individual installations, called 'fixtures', quickly and without complications is a recurring one. 
-Established solutions are realized via cables. 
+In the field of lighting and stage technology, the challenge of controlling the individual installations, quickly and without complications is a recurring one. 
+Established solutions are realized via cables using DMX-512a. 
+However, due to the progress in radio technology, wireless solutions based on 801.11 are becoming more and more common. 
 
-However, due to the progress in radio technology, wireless solutions are becoming more and more common. 
-Therefor is often expensive hardware needed.
-Parallel to this there is a fast growing market around creative and individually developed DIY projects, which have found their own niche. 
-Durch niedrigpreisige 
-While most commercial solutions still rely on expensive and complex wired control, it is particularly suitable for smaller projects to experiment with the new wireless technologies. 
-In this thesis I try to implement a wireless solution, which does not need an IP-Layer using the popular platform ESP and the properitary protocol ESP-NOW to distribute the light information to each fixture. 
-ESP-Now instead works more like an direct radio communication.
+But it is a challenge to send control signals, to many individual stations and to update them multiple times a second.
+Additionally a low latency and, of course, a certain reliability must be guaranteed.
+This is challenged because at typical locations, such as a concert, there are often very busy frequency bands.
+This thesis therefore examines an approach that attempts to reduce a large part of the overhead,
+by having the stations communicate with each other on an Ad-Hoc network at the data link layer,
+in order to improve the throughput.
+Different approaches with broadcast and unicast are evaluated analytically and experimentally.
+
+It can be shown that the overhead has a great influence on the transmission and that it is particularly extreme,
+because so many individual stations are often only controlled with very short control signals.
+The results show that the gain in throughput means that packets can be sent redundantly,
+which also leads to improvements in reliability.
 	
 \end{otherlanguage*}
 
@@ -157,6 +162,20 @@ ESP-Now instead works more like an direct radio communication.
 	\item verschiedene ansätze studiert, wie broadcast und unicasts
 	\item mit jeweils unterschiedlichen modifikationen
 \end{itemize}
+
+In the field of lighting and stage technology, the challenge of controlling the
+individual lights, called 'fixtures', quickly and without complications is a
+recurring one. 
+Established solutions are realized via cables, which are difficult to install and inflexible.
+
+
+
+
+Kabellose Lösungen werden durch bessere Technik und stetige Weiterentwicklung immer interessanter.
+jedoch stellt es sie nach wie vor eine Herausforderung zu sein die Steuersignale des Lichtpults kabellos zu verteilen. 
+denn es bekommen viele einzelne Stationen kurze Steuersignale, die ständig aktualisiert werden.
+
+
 
 \todo{TOLJA: Wirklich noch einmal auf deutsch?}
 

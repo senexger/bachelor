@@ -1,59 +1,81 @@
 \chapter{Introduction}
 %\chapter{Einleitung}
 
-\begin{itemize}
-	\item general motivation for your work, context and goals.
-	\item context: make sure to link where your work fits in
-	\item problem: gap in knowledge, too expensive, too slow, a deficiency, superseded technology
-	\item strategy: the way you will address the problem
-	\item recommended length: 1-2 pages.
-\end{itemize}
+% \begin{itemize}
+% 	\item general motivation for your work, context and goals.
+% 	\item context: make sure to link where your work fits in
+% 	\item problem: gap in knowledge, too expensive, too slow, a deficiency, superseded technology
+% 	\item strategy: the way you will address the problem
+% 	\item recommended length: 1-2 pages.
+% \end{itemize}
 
-In the subject area 
+\section*{Motivation/Requirements}
+% \begin{itemize}
+% 	\item Reliability
+% 	\item .. and why 100\% Reliability is not important (except pyrotechnics)
+% 	\item Lower latency
+% 	\item Synchronisation
+% 	\item higher update frequency
+% 	\item Range
+% \end{itemize}
 
-====
+Wireless networks are becoming increasingly popular, also in the field of lighting technology,
+because they can be more flexible and also more cost-effective.
+However, they also have limitations compared to wired solutions.
+In order to improve the properties of radio networks, a logic link layer approach is chosen in this thesis.
+to distribute the control signals to the individual stations,
+This promises better performance due to reduced overhead.
 
-In the field of lighting and stage technology, the challenge of controlling the individual installations, called 'fixtures', quickly and without complications is a recurring one. 
-Established solutions are realized via cables.
+The properties of the wired DMX-512a solution are taken as a baseline.
+The packets are to be distributed to all stations with an equally large update frequency,
+the latency between sending the control signal and switching the light should be as short as possible,
+the stations should control the lights synchronously and the reliability should still be as high as possible.
+The range should be at least 100m and the hardware used should be as cost-effective as possible.
 
-\section{Motivation/Requirements}
-\begin{itemize}
-	\item Reliability
-	\item .. and why 100\% Reliability is not important (except pyrotechnics)
-	\item Lower latency
-	\item Synchronisation
-	\item higher update frequency
-	\item Range
-\end{itemize}
+\section*{Motivation/Requirements}
+% \begin{itemize}
+% 	\item Reliability
+% 	\item .. and why 100\% Reliability is not important (except pyrotechnics)
+% 	\item Lower latency
+% 	\item Synchronisation
+% 	\item higher update frequency
+% 	\item Range
+% \end{itemize}
 
-\section{Challenges}
-\begin{itemize}
-\item low cost
-\item (ESP Platform)
-\item DIY community
-\end{itemize}
+There will always be a possibility to build an even more reliable system with extremely complex hardware,
+however, the focus of this thesis is to achieve results with low-cost hardware that can be compared 
+to the existing DMX-512a solution.
+The ESP-NOW protocol used here by the manufacturer Espressif is unfortunately proprietary
+and had additionally to be investigated due to the partly inaccurate or outdated documentation.
+Also, the complete control process finds place over microcontrollers, 
+which have to be programmed in a fundamentally different way than ordinary programs.
 
-\section{Problemstatement and Contribution WICHTIG}
-\begin{itemize}
-\item open source available on github [link]
-\item thought-provoking impulse for different approaches
-\item Protocol auf DL Layer/App Layer Ebene
-\item Art-Net baseline
-\item simulativ und experimentel untersucht
-\end{itemize}
+\section*{Contribution}
+% \begin{itemize}
+% \item open source available on github [link]
+% \item thought-provoking impulse for different approaches
+% \item Protocol auf DL Layer/App Layer Ebene
+% \item Art-Net baseline/DMX512a
+% \item simulativ und experimentel untersucht
+% \end{itemize}
 
-\section{Thesis Outline}
-\begin{itemize}
-	\item A First Implementation and Evaluation of the IEEE 802.11aa Group Addressed Transmission Service    
-		\subitem unsosliced Repetition
-		\subitem blockack
-	\item Evaluation of Error Control Mechanisms for 802.11b Multicast Transmissions
-		\subitem packet loss rate
-		\subitem ARQ, FEC
-	\item ESP-NOW communication protocol with ESP32
-		\subitem ESP-NOW details
-	\item The Working Principles of ESP32 and Analytical Comparision of using Low-Cost Microcontroller Modules in Embedded Systems Design
-		\subitem why the ESP32 is superior over arduino
-	\item Adaptive Cross-Layer Protection Strategies for Robust Scqalable Video Transmissions Over 802.11 WLANs
-	\item Voice Capacity of IEEE 802.11b, 802.11a and 802.11g Wireless LANs
-\end{itemize}
+A number of protocols are being developed on the DL layer/application layer,
+which offer promising improvements.
+It is shown that broadcasts are preferable to unicats
+and also become significantly more robust through adaptations.
+These were investigated simulatively and experimentally and compared with existing solutions.
+The test suite used on the test hardware is publicly available on Github.\todo{link in footnote}
+
+\section*{Thesis Outline}
+
+The thesis is divided into three main chapters.
+Chapter 3 explains the physical and data link layer, and the 802.11 spzifications family,
+existing light protocols are explained in order to better understand the new protocols that will be introduced later,
+in addition, the EPS32 hardware and the associated ESP-NOW protocol are briefly shown.
+
+Chapter 4 then specifies the various protocols developed and makes analytical assumptions.
+And it is explained how to work with the hardware used.
+
+Chapter 5 then explains the methodology, how the measurement data was collected and the technical implementation.
+Wireshark measurements are analysed and used to better understand the protocols.
+Afterwards, the protocol data is further evaluated and compared with the analytical approaches and with each other.

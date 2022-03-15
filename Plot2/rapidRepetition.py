@@ -169,3 +169,64 @@ def boxplot_sr_rapid_repetition_multi_node(rr_data_x, rr):
 
 fig, ax1 = plt.subplots()
 boxplot_sr_rapid_repetition_multi_node(sc_of_all_nodes, 0)
+
+#%% komplex...
+"""
+    Keyword arguments:
+    vector        -- decoded vector with zeros for one specific node
+    M             -- Delay for the delayed repetition
+    repetitions   -- the number of rapid-repetition
+"""
+RAPID_REPETITION = 2
+
+repetitions = 3
+vector = data[0:200, ]
+M = 2
+
+modulation = np.zeros((repetitions,len(vector)//repetitions), dtype=int)
+
+#? TODO is the RAPID-REPETITION NEEDED?
+for i in range(0,len(vector)-RAPID_REPETITION):
+    offset = (i // (M*repetitions)) * M
+    x      = (i //  M) % repetitions
+    y      = (i %   M)
+    
+    modulation[x][y+offset] = vector[i]
+
+for i in range(0, repetitions):
+    print('rr' + str(i) + '= ', modulation[i,:20])
+#%% Delayed Repetition
+input = np.zeros((100,1), dtype=int)
+for i in range(0,100):
+    input[i] = i
+# input = data4
+
+# data_dr_2_rr_1 = np.zeros((SEQ_SIZE, EXP_SIZE), dtype=int)
+# data_dr_3_rr_1 = np.zeros((SEQ_SIZE, EXP_SIZE), dtype=int)
+# data_dr_4_rr_1 = np.zeros((SEQ_SIZE, EXP_SIZE), dtype=int)
+# data_dr_1_rr_2 = np.zeros((100), dtype=int)
+
+data_dr_1_rr_3 = np.zeros((SEQ_SIZE, EXP_SIZE), dtype=int)
+max = 3*3
+for exp in range(0, 1):
+    for bg in range(0,10):
+        for i in range(0,max):
+            if i <  max/3:
+                data_dr_1_rr_3[i+bg*max, exp] = input[i*2       +bg*max, exp]
+            if i >= max/3:
+                data_dr_1_rr_3[i+bg*max, exp] = input[i*2+1-max +bg*max, exp]
+            if i >= max/2:
+                data_dr_1_rr_3[i+bg*max, exp] = input[i*2+1-max +bg*max, exp]
+print(data_dr_1_rr_3[0:20,0])
+
+# data_dr_1_rr_2 = np.zeros((SEQ_SIZE, EXP_SIZE), dtype=int)
+# max = 6
+# for exp in range(0, EXP_SIZE):
+#     for bg in range(0,10):
+#         for i in range(0,max):
+#             if i <  max/2:
+#                 data_dr_1_rr_2[i+bg*max, exp] = input[i*2       +bg*max, exp]
+#             if i >= max/2:
+#                 data_dr_1_rr_2[i+bg*max, exp] = input[i*2+1-max +bg*max, exp]
+# print(data_dr_1_rr_2[0:20,0])
+# print(data4[0:20,0])

@@ -35,7 +35,7 @@ def plot_bc20_vs_bc200(ax):
     plt.text(100, 2.9, 'RR=1')
     plt.text(100, 1.6, 'RR=0')
 
-    fig.savefig('Graphs/rr_transmission_time.pdf', bbox_inches='tight') 
+    # fig.savefig('Graphs/rr_transmission_time.pdf', bbox_inches='tight') 
     fig.show()  
 
 fig, ax = plt.subplots()

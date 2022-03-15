@@ -181,7 +181,7 @@ def notfall_plot():
     plt.grid()
     # fig.patch.set_facecolor('xkcd:white')
 
-    plt.savefig('/home/walther/Documents/bachelor/Graphs/SuccessRatioM.png', dpi=1000)
+    # plt.savefig('/home/walther/Documents/bachelor/Graphs/SuccessRatioM.png', dpi=1000)
     plt.show()
 
     return
@@ -204,10 +204,10 @@ def plot_success_bar_for_node2(array, node):
         std_errors[M-1] = np.std(array_to_success_vector(array, node, M, RAPID_REPETITION), ddof=1) / np.sqrt(np.size(np.std(array_to_success_vector(array, node, M, RAPID_REPETITION))) / 100)
         means[M-1]      = np.mean(array_to_success_vector(array, node, M, RAPID_REPETITION))
     
-    # RAPID_REPETITION = 3
-    # for M in range(1,7):
-    #     std_errors2[M-1] = np.std(array_to_success_vector(array, node, M, RAPID_REPETITION), ddof=1) / np.sqrt(np.size(np.std(array_to_success_vector(array, node, M, RAPID_REPETITION))) / 100)
-    #     means2[M-1]      = np.mean(array_to_success_vector(array, node, M, RAPID_REPETITION))
+    RAPID_REPETITION = 3
+    for M in range(1,7):
+        std_errors2[M-1] = np.std(array_to_success_vector(array, node, M, RAPID_REPETITION), ddof=1) / np.sqrt(np.size(np.std(array_to_success_vector(array, node, M, RAPID_REPETITION))) / 100)
+        means2[M-1]      = np.mean(array_to_success_vector(array, node, M, RAPID_REPETITION))
     
     # Maximum Delay
     # std_errors[6] = np.std(array_to_success_vector(array, node, SEND_REPETITION*RAPID_REPETITION, RAPID_REPETITION), ddof=1) / np.sqrt(np.size(np.std(array_to_success_vector(array, node, SEND_REPETITION*RAPID_REPETITION, RAPID_REPETITION))) / 100)
@@ -233,7 +233,7 @@ def plot_success_bar_for_node2(array, node):
     plt.grid()
     # fig.patch.set_facecolor('xkcd:white')
 
-    plt.savefig('/home/walther/Documents/bachelor/Graphs/SuccessRatioM.png', dpi=1000)
+    # plt.savefig('/home/walther/Documents/bachelor/Graphs/SuccessRatioM.png', dpi=1000)
     plt.show()
 
     return
@@ -273,7 +273,7 @@ def plot_success_bar_for_node(array, node):
     plt.grid()
     # fig.patch.set_facecolor('xkcd:white')
 
-    plt.savefig('/home/walther/Documents/bachelor/Graphs/SuccessRatioM.png', dpi=1000)
+    # plt.savefig('/home/walther/Documents/bachelor/Graphs/SuccessRatioM.png', dpi=1000)
     plt.show()
 
     return
@@ -353,7 +353,7 @@ def grouping_plot(array):
     plt.ylabel('Success Ratio in %')
     plt.xlabel('Groupsize')
     plt.grid()
-    plt.savefig('/home/walther/Documents/bachelor/Graphs/groupingOverM.jpg', dpi=2000)
+    # plt.savefig('/home/walther/Documents/bachelor/Graphs/groupingOverM.jpg', dpi=2000)
     plt.show()
 
 fig, ax1 = plt.subplots()
@@ -366,7 +366,7 @@ def diff_vector(array, node, modulation):
 
     # skip first 200, because measurement was broken
     arrayDecoded = decode_array_to_vector(array1D[200:])
-    # print('decoded_array =',arrayDecoded[:18])
+    print('decoded_array =',arrayDecoded[:18])
 
     vectorModulation = vector_modulation(arrayDecoded, modulation)
     # print('vector_modulation (%i)\n' % modulation,vectorModulation[:,:10])
@@ -434,7 +434,7 @@ def diff_plot(diff_array):
     # plt.xticks([0,1,2,3,4], ['1','2','3','4''#Seq'])
     plt.ylabel('Delay between nodes')
     plt.xlabel('Modulation M')
-    plt.savefig('/home/walther/Documents/bachelor/Graphs/delay.png', dpi=2000)
+    # plt.savefig('/home/walther/Documents/bachelor/Graphs/delay.png', dpi=2000)
     plt.show()
 
 fig, ax1 = plt.subplots()
@@ -465,7 +465,7 @@ def delay_plot_bc_overModulation():
     plt.grid()
     plt.ylabel('Buffering Delay')
     plt.xlabel('Delayed Repetitions DR')
-    plt.savefig('/home/walther/Documents/bachelor/Graphs/delayOverModulationBCDeterministic.png', dpi=1000)
+    # plt.savefig('/home/walther/Documents/bachelor/Graphs/delayOverModulationBCDeterministic.png', dpi=1000)
     plt.show()
 
 fig, ax1 = plt.subplots()
