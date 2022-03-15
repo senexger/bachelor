@@ -160,47 +160,54 @@ It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
 \ac{CSMA/CA} is composed of:
 \begin{itemize}
 	\setlength\itemsep{-0.0em}
-	\item \textbf{CS (Carrier Sense):} jede Station checkt ob das Medium frei ist, bevor sie sendet
-	\item \textbf{MA (Multiple Access)}: mehrer Stationen teilen sich ein Medium, dieses kann auch ein ein Kabel sein
-	\item \textbf{CD (Collision Detection):} Ein Ablaufplan verhindert, dass zwei Stationen zeigleich ihre Übertragung beginnen
+	\item \textbf{CS (Carrier Sense):} Each station checks whether the medium is free before transmitting
+	\item \textbf{MA (Multiple Access)}: Several stations share one medium, which can also be a cable.
+	\item \textbf{CD (Collision Detection):} A schedule prevents two stations from starting their transmission at the same time.
 \end{itemize}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.75]{figures/CSMA_CD.pdf}
+	\caption{CSMA/CA with and without Acknolegements}
+	\label{fig:CSMACD}
+\end{figure}
+
 Before a station transmitts data it has to check or listen to the medium to avoid collisiion resulting in packet loss.
-Only when the medium is free, the station can transmit via the shared medium.
-When the medium is already in use t
-
-Collision avoidance tries to avoid collisions before they happen in the first place.
-
-
-Backoff: \\
-random time delay to avoid collisions\\
-
-DIFS/SIFS:\\
-Delay between transmissions used for \ac{CSMA/CA}
-
-
+Only when the medium is free, the station waits for a \ac{DIFS} and a random backoff.
+The backoff is a random time within a \ac{CW} to prevent all stations from transmitting immediately after the \ac{DIFS}.
+The \ac{CW} consists of several slots, each consisting of 20$\mu$s in 802.11b.
+If a transmission was not successful, the station doubles the \ac{CW}, 
+this doubles the average waiting time and is intended to prevent re-collisions.
+The minimum \ac{CW} in 802.11b is set to 16 slots.
 
 \subsection{Data Link Transmissions}
-\TODO{Short introduction}
+
+When packets are sent on the data link layer, they do not contain the headers to the layers above, such as TCP/IP.
+Therefore, IP addresses cannot be used to transmit packets to another network.
+There are three basic types of data link transmissions: unicast, broadcast and multicast.
 
 \subsubsection*{Unicast}
 
 The link layer unicast is used to send data over an single hop to the target \ac{WES} destination.
-The link layer of each \ac{WES} checks the destination MAC address in the link layer header and discards the frame if the destinatin address does not match its own address.\\
-Unicast is by default reliable.
-E.g. the \ac{AP} wants to transmit a packet to one specific \ac{WES}\\
-When the Unicast reaches the destination \ac{WES} an acknowledgement frame is send back after the \ac{SIFS} + backoff.\todo{when to explain CSMA/DC?}
+The link layer of each \ac{WES} checks the destination MAC address in the link layer header and 
+discards the frame if the destination address does not match its own address.
+It is therefore a direct communication between the transmitter and the WES.
 
+Unicast is by default reliable.
+When the Unicast reaches the destination \ac{WES} an acknowledgement frame is send back after the \ac{SIFS} + backoff.\todo{when to explain CSMA/DC?}
 If the acknowledgement is not successfully received by the sender, the sender will repeat the transmission for a given number.
 When the number is exceeded, the packet could not be delivered. 
 If the number is set to zero, the unicast can be considered as non-reliable.
 \TODO{example}
 
-\todo{complete figure UC}
 \begin{figure}[h]
 	\centering
-	\begin{tikzpicture}[main/.style = {draw, circle}] 
-		\node[main] (1) {$x_1$}; 
+	\begin{tikzpicture}[node distance={15mm}, main/.style = {draw, circle}] 
+		\node[main] (1) 				{TX}; 
+		\node[main] (2) [right=0cm and 2cm of 1]	{$\text{RX}_1$}; 
+		\node[main] (3) [above of =2]				{$\text{RX}_2$}; 
+		\node[main] (4) [below of =2]				{$\text{RX}_3$}; 
+		\draw[->] (1) -- (2);
 	\end{tikzpicture} 
 	\caption{Unicast Transmission}
 	\label{fig:unicast_topology}
@@ -218,14 +225,19 @@ In addition, the sender of a broadcast does not know how many WESs he is address
 Retransmitting acknoledgements would lead to massive collision and loss of acknoledgements.
 E.g. management information in a \ac{WLAN} is sent in a broadcast mode, because it has to reach every \ac{WES} and isn't worth to be acknoleged.
 
-\todo{complete figure BC}
 \begin{figure}[h]
 	\centering
-	\begin{tikzpicture}[main/.style = {draw, circle}] 
-		\node[main] (1) {$x_1$}; 
+	\begin{tikzpicture}[node distance={15mm}, main/.style = {draw, circle}] 
+		\node[main] (1) 				{TX}; 
+		\node[main] (2) [right=0cm and 2cm of 1]	{$\text{RX}_1$}; 
+		\node[main] (3) [above of =2]				{$\text{RX}_2$}; 
+		\node[main] (4) [below of =2]				{$\text{RX}_3$}; 
+		\draw[->] (1) -- (2);
+		\draw[->] (1) -- (3);
+		\draw[->] (1) -- (4);
 	\end{tikzpicture} 
-	\caption{Broadcast Transmission}
-	\label{fig:broadcast_topology}
+	\caption{Unicast Transmission}
+	\label{fig:unicast_topology}
 \end{figure}
 
 \subsubsection*{Multicast}
@@ -237,15 +249,20 @@ There are different approaches to realize acknowledgements for mutlicasts, they 
 \TODO{examples for multicast ack + related work}
 Level 2 multicast is often used for large files in audio or video streams, where a big amount of data is distributed and multiple clients listen simultaneously.
 
-\todo{complete figure MC}
 \begin{figure}[h]
 	\centering
-	\begin{tikzpicture}[main/.style = {draw, circle}] 
-		\node[main] (1) {$x_1$}; 
+	\begin{tikzpicture}[node distance={15mm}, main/.style = {draw, circle}] 
+		\node[main] (1) 				{TX}; 
+		\node[main] (2) [right=0cm and 2cm of 1]	{$\text{RX}_1$}; 
+		\node[main] (3) [above of =2]				{$\text{RX}_2$}; 
+		\node[main] (4) [below of =2]				{$\text{RX}_3$}; 
+		\draw[->] (1) -- (2);
+		\draw[->] (1) -- (4);
 	\end{tikzpicture} 
-	\caption{Multicast Transmission}
-	\label{fig:multicast_topology}
+	\caption{Unicast Transmission}
+	\label{fig:unicast_topology}
 \end{figure}
+\todo{complete figure MC}
 
 
 \section{Light protocols}
