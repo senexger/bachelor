@@ -27,7 +27,6 @@ From there, they are also sent to the PC via UART.
 	\caption{Data Flow for Measurement}
 	\label{fig:testbed}
 \end{figure}
-\todo{change N to the actual number of WESs = 7}
 
 The experiment is started from the PC, a JSON is then transmitted to the controller via \ac{UART} using a Python script.
 The JSON contains all the parameters that are needed to carry out a test.
@@ -103,8 +102,8 @@ In \cref{fig:wiresharkUC} it is clear to see that each unicast is followed by an
 \end{figure}
 
 A look into the data frame \cref{fig:wiresharkUCTransmission} also shows the measured airtime of 696$\mu$s.
+In the calculation from \cref{tab:airtime_unicast_calc}, however, it was only 536$\mu$s.
 Adding the average backoff of a free channel (160$\mu$s) and the DIFS (50$\mu$s) gives 906$\mu$s.
-In the calculation from \cref{tab:airtime_unicast_calc}, however, it was only 746$\mu$s.
 \todo{TOLJA!\\yes.... actually why?}The difference of 120$\mu$s can be... 
 Wireshark also recognises the category code of the Vendor Specific Action Frame that ESP-NOW uses.
 The payload of 20 bytes assumed for unicast in the experiment is given here as 31 bytes,

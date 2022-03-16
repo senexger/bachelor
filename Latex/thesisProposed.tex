@@ -115,7 +115,7 @@ so the average backoff should take $\frac{CW_{min}}{2}$ slots, with a slottime o
 		\toprule
 		\multicolumn{1}{c}{Frame segment}
 		& \multicolumn{1}{c}{Byte}
-		& \multicolumn{1}{c}{Airtime in $\mu$s} \\
+		& \multicolumn{1}{c}{Duration in $\mu$s} \\
 		\midrule
 		DIFS								& -		& 50 \\
 		Average Backoff						& -		& 160 \\
@@ -217,7 +217,7 @@ Assuming 10 WESs are to be addressed, each with 20 byte payload \ref{tab:airtime
 		\toprule
 		\multicolumn{1}{c}{Frame segment}
 		& \multicolumn{1}{c}{Byte}
-		& \multicolumn{1}{c}{Airtime in $\mu$s} \\
+		& \multicolumn{1}{c}{Duration in $\mu$s} \\
 		\midrule
 		DIFS								& -		& 50 \\
 		Average Backoff						& -		& 160 \\
@@ -248,7 +248,6 @@ It is easy to see that the additional overhead caused by adding another package 
 However, while compareing this to the latency of unicast \ref{tab:airtime_unicast_calc},
 it becomes clear that the low overhead and the missing acknoledgements lead to a significantly higher rate.
 A complete pass, i.e. addressing all WESs with 20 bytes, is already an order of magnitude faster from a number of 10 WESs.
-\todo{it's ok to make an example here?}
 
 \begin{align}
 	\text{Frequency}_{UC} &= \frac{1}{10 \cdot 1100\mu s} = 909 Hz \\
@@ -272,6 +271,7 @@ The huge advantage that the Slim Broadcast has over the Slim Unicast in terms of
 comes at the cost of lower reliability.
 Broadcasts can't do acknolegements,\todo{ref to fundamentionals, datalink, broadcast}
 a WES that has poor reception to the controller, will not receive packets and the controller cannot take countermeasures.
+\cref{sec:DLbroadcast}
 
 \subsubsection*{Synchronisation}
 Insead of transmitting to several fixtures after each other slim broadcast just transmitts to all fixtures at the same time.
