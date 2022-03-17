@@ -17,7 +17,6 @@ which are located in the first and second layer of the \ac{OSI} Model.
 It also explains what types of transmissions exist.
 In addition, the hardware used for this thesis is introduced.
 The ESP-NOW protocol running on this hardware is also explained.
-\todo{introduction in chapter Fundamentals ok?}
 
 \begin{table}[h]
 	\centering
@@ -67,9 +66,7 @@ There are two \ac{BSS} defined:
 \end{itemize}
 The most common use in 802.11 is the Infrastructure mode, which is commonly used in office and home enviroments.\\ 
 
-\subsection{Physical layer}
-
-\todo{TOLJA: Was soll ich zum PHY alles sagen?}
+\subsection*{Physical layer}
 
 In this thesis we sould take a breef look into the \ac{PHY} of the IEEE 802.11 standard, which is the first layer of the OSI model \ref{tab:OSI}.
 This layer provides mechanical, electrical and other functional tools to activate or deactivate physical connections, maintain them and transmit bits over them. 
@@ -96,7 +93,7 @@ There are several complements to the 802.11 standard, the most common are:
 
 In this thesis the rather basic 802.11b is used with a transmission rate of 1Mbit/s.
 
-\subsection{Data Link Layer}
+\subsection*{Data Link Layer}
 
 The \ac{DL} Layer is the second lowest layer of the \ac{OSI} Model \ref{tab:OSI} and is split in two sublayers. 
 The \ac{LLC} sublayer which multiplex protocols over the MAC layer while transmitting and to de-multiplex the protocols while receiving.
@@ -155,7 +152,7 @@ It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
 
 802.11ac and later using frame aggregation in order to reduce overhead.
 
-\subsection{Carrier Sense Multiple Access/Collision Avoidance}
+\subsection*{Carrier Sense Multiple Access/Collision Avoidance}
 
 \ac{CSMA/CA} is composed of:
 \begin{itemize}
@@ -180,7 +177,7 @@ If a transmission was not successful, the station doubles the \ac{CW},
 this doubles the average waiting time and is intended to prevent re-collisions.
 The minimum \ac{CW} in 802.11b is set to 16 slots.
 
-\subsection{Data Link Transmissions}
+\subsection*{Data Link Transmissions}
 
 When packets are sent on the data link layer, they do not contain the headers to the layers above, such as TCP/IP.
 Therefore, IP addresses cannot be used to transmit packets to another network.
@@ -359,14 +356,15 @@ Special hardware that supports Art-Net at the factory is expensive because of th
 
 Almost every 802.11 capable \ac{MCU} could be picked for this research.
 But there are several reasons why the ESP Platform from Espressif is a valid choice.
-There are several chips provided by Espressif with WiFi specifications, these chips are very affordable (\todo{TOLJA: ESP32 Kosten in € 2021 aufführen? Link? Datum?}) 
+There are several chips provided by Espressif with WiFi specifications, these chips are very affordable
+\footnote{3.86 at \url{www.aliexpress.com}, 10.3.2022}
 and althrough the ongoing chip crysis (2021) there are easy to get, in contrast of the also very popular Chips from the manufacturer Arduino, which are also more expansive.
 Espressif supports an own development IDF to flash the chips, with minor tweeks it's also to use the Arduino IDE.\\
-However the properitary protocol ESP-Now which, just supported in the ESP Ecosystem, is discussed below \cref{sub:ESP-Now} 
+However the properitary protocol ESP-Now which, just supported in the ESP Ecosystem, is discussed below.
 and has promising properties for a solid and fast realisation of a low level protocol.
-\TODO{paper about esp above arduino}
+\todo{paper about esp above arduino}
 
-\subsection{ESP32 Hardware}
+\subsection*{ESP32 Hardware}
 
 The chip ESP32 is quite common in DIY projects around everything from home automation to light installations 
 and can baught on development boards, which are ready to use.
@@ -394,12 +392,15 @@ The chip \ref{fig:esp32} is promoted with several features:
 	\label{fig:esp32}%
 \end{figure}
 
-\TODO{final words to the ESP32 Hardware - a lot of features for a cheap hardware}
+It can be said that the ESP32 is a low-cost 32-bit microcontroller,
+which is quite powerful despite its low power consumption.
+The extensive set of features makes it suitable for integration into a wide range of smart environments.
 
-\subsection{ESP-Now}
+\subsection*{ESP-Now}
 \label{sub:espnow}
 ESP-NOW is a properitary protocol developed by Espressif. 
-ESP-NOW is widely used in smart light, remote controlling, sensor, etc\todo{cite ESP documentation website}. 
+ESP-NOW is widely used in smart light, remote controlling, sensor, etc
+\footnote{\url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}\label{note:espressif}}.
 It is a conectionless protocol, so the \ac{WES}'s are in Ad-Hoc mode insted of \ac{STA}.
 It is just supported on the ESP8266, ESP32 and ESP32s, all chipsets from Espressif, but they are compatible with each other.
 Because of this, a ESP-Chip as gateway is needed to interact from the outside to the ESP-NOW communication. 
@@ -408,7 +409,7 @@ Through the hardware limitation of the boards it can just be used on the 2.4 GHz
 ESP-NOW allows 10 ESPs for pairing with encryption and up to 20 without encryption.
 Espressif promises throuput of up to 30MBit/s with and a possible range of up to 1km.
 However \emph{\textcite{ESPNOWPaper}} measured a range of the unmodified onboard antenna of the ESP32 
-and just got a \emph{\textcite{ESPNOWPaper} stable commication up to 190m in open field}.\\
+and just got a \emph{\textcite{ESPNOWPaper} stable commication up to 190m in open field}.
 
 The focus of the ESP-NOW protocol is on low power consumption.
 A connectionless communication between \ac{WES}'s not only saves energy during the authentication process, 
@@ -422,13 +423,10 @@ For very small payloads, this offset can become dispropotional.
 The default ESP-NOW bit rate is 1 Mbps it uses a channelwidth of 20MHz, there is no double channel (40Mbit/s or higher) used.
 But e.g. the low energy, high range protocol Long Range Wide Area Network (LoRaWAN) suffers from a to slow throuput for this application.
 
-To undersant what ESP-NOW does it needs to take a look to the vendor-specific action frame transmiting ESP-NOW data. 
-\todo{cite somehow the ESP-NOW documentation pdf: ESP-IDF Programming Guide: ESP-NOW, source: \url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}}
-\TODO{Explain Vendor Specific Frames!}
-
-% \url{https://www.heise.de/tipps-tricks/}
-
-visualized in \ref{fig:esp-now_frame_format}.
+To undersant what ESP-NOW does it needs to take a look to the vendor-specific action frame transmiting ESP-NOW data,
+these are Action Frames desinged for vendor-specific signaling.
+The compositions of the frame are broken down in more detail in \cref{fig:esp_now_frame_format} and \cref{fig:esp_now_vendor_format}
+\footnote{Also from \ref{note:espressif}}
 
 \begin{table}[h]
 	\centering
@@ -445,9 +443,10 @@ visualized in \ref{fig:esp-now_frame_format}.
 		\makecell{\footnotesize{4}} & \makecell{\footnotesize{7 $\sim$ 255}} & \makecell{\footnotesize{4}} \\
 	\end{tabularx}
 	\caption{ESP-NOW Frame Format}
-	\label{fig:esp-now_frame_format}
+	\label{fig:esp_now_frame_format}
 \end{table}
 
+\todo{check out at the end, if formatation is broken}
 \begin{itemize}
 	\setlength\itemsep{-0.0em}
 	\item \textbf{MAC Header:} As ESP-NOW is connectionless, the MAC header differs from that of standard frames.
@@ -457,8 +456,6 @@ visualized in \ref{fig:esp-now_frame_format}.
 	\item \textbf{Vendor Specific Content:} The Vendor Specific Content contains vendor-specific fields (table \ref{fig:esp_now_vendor_format})
 	\item \textbf{Frame Check Sequence:} Used for error correction in layer 2.
 \end{itemize}
-
-Inside of the ESP-NOW frame \ref{fig:esp-now_frame_format} is the vendor specific content visualized in \ref{fig:esp_now_vendor_format}. 
 
 \begin{table}[h]
 	\begin{tblr}{	hlines,
@@ -484,12 +481,12 @@ Inside of the ESP-NOW frame \ref{fig:esp-now_frame_format} is the vendor specifi
 	\item \textbf{Type:} The Type field is set to the value (4) indicating ESP-NOW.
 	\item \textbf{Version:} The Version field is set to the version of ESP-NOW.
 	\item \textbf{Body:} The Body contains the ESP-NOW data.
-	\todo{this is cited from espressif manual!!}
 \end{itemize}
 
-It is worth to mention, that the vendor specific content \ref{fig:esp-now_frame_format} is allowed to contain up to 255 byte,
+It is worth to mention, that the vendor specific content (\ref{fig:esp_now_frame_format}) is allowed to contain up to 255 byte,
 but the sum over all values in \ref{fig:esp_now_vendor_format} if the body would contain the maximum of 250 bytes, 
-leads to a total of 260 bytes.\todo{255 != 250 is it really that important?}
+leads to a total of 260 bytes.
+\todo{255 != 250 is it really that important?}
 The values are from the documentation of ESP-NOW from Espressif.
 They also claim, that broadcast is not supported in ESP-NOW, but it is.
 It seems that the documentation isn't complitly finished (or translated).

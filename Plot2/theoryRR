@@ -59,8 +59,10 @@ def plot_rr_sr(ax):
         sr_bad[i]  = 1 - (1-0.8) ** (rr[i]+1)
         sr_good[i] = 1 - (1-0.99) ** (rr[i]+1)
 
-    ax.plot(rr, sr_bad*100,  '-', label='Broadcast', markerfacecolor='none', linewidth=1.3, color='darkmagenta')
-    ax.plot(rr, sr_good*100, '-', label='Broadcast', markerfacecolor='none', linewidth=1.3, color='darkblue')
+    ax.plot(rr, sr_bad*100,  '-', label='Good Channel', markerfacecolor='none', linewidth=1.3, color='darkmagenta')
+    ax.plot(rr, sr_good*100, '-', label='Bad Channel' , markerfacecolor='none', linewidth=1.3, color='darkblue')
+
+    ax.legend(loc='best', frameon=False)
     ax.set_xlabel('Number of RR')
     ax.set_ylabel('SR')
     plt.text(1.5, 99, 'Good')

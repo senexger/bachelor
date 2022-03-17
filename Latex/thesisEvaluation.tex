@@ -103,8 +103,8 @@ In \cref{fig:wiresharkUC} it is clear to see that each unicast is followed by an
 
 A look into the data frame \cref{fig:wiresharkUCTransmission} also shows the measured airtime of 696$\mu$s.
 In the calculation from \cref{tab:airtime_unicast_calc}, however, it was only 536$\mu$s.
+\todo{yes.... actually why such a big difference?}
 Adding the average backoff of a free channel (160$\mu$s) and the DIFS (50$\mu$s) gives 906$\mu$s.
-\todo{TOLJA!\\yes.... actually why?}The difference of 120$\mu$s can be... 
 Wireshark also recognises the category code of the Vendor Specific Action Frame that ESP-NOW uses.
 The payload of 20 bytes assumed for unicast in the experiment is given here as 31 bytes,
 presumably it has to do with the implementation of the action frame shown in \cref{fig:esp_now_vendor_format},
@@ -221,8 +221,6 @@ With RR=0, the unchanged SR is taken over, with RR=X, X transmissions are always
 
 It becomes clear that even a few repetitions lead to a significantly better SR.
 But it also becomes clear that this is no longer improved as much after two repetitions.
-However, a reliability of 100\% as with unicast is not necessarily achieved.
-A look at the measurement data shows why \cref{fig:rrBitwise}.
 
 \begin{figure}[h]
 	\centering
@@ -231,6 +229,8 @@ A look at the measurement data shows why \cref{fig:rrBitwise}.
 	\label{fig:rrBitwise}
 \end{figure}
 
+However, a reliability of 100\% as with unicast is not necessarily achieved.
+A look at the measurement data shows why \cref{fig:rrBitwise}.
 The given excerpt is from an actual measurement of the WES4, 
 the channel here is really very bad and there is massive packet loss.
 When the repetitions are increased from RR=0 to RR=1, the loss of packets is slightly dampened.
@@ -238,13 +238,14 @@ However, it is noticeable that even with RR=3,
 one sequence is still lost, despite the 4x costs of latency and throughput.
 The problem is that faulty packets often come clustered 
 and the repetitions still fall within the range of the bad channel.
+\todo{vlt spicy: 2RR can be better than 3RR}
 
 \subsection*{Delayed Repetition}
 
 To circumvent this circumstance, the sequences can be nested \cref{fig:badChannel},
 this is only possible in combination with the Rapid Repetitions.
 Subsequently swapping the sequence numbers makes it possible to make an evaluation on the same data.
-WES4 is chosen again because the packet loss is greatest here.
+WES4 is chosen again because the packet loss is very high.
 
 \begin{figure}[h]
 	\centering
@@ -262,6 +263,7 @@ It also shows that the use of the buffering delay does not improve the success r
 that one less repetition could be sent.
 In addition, the use of buffering delay has a cost in latency, as mentioned in FIGURE. \todo{link to graphic of buffering delay latency theory}.
 It must therefore be weighed up whether the additional latency justifies the increased success ratio.
+\todo{tell about syncronization problems}
 
 \subsection*{Impact of Groupsize}
 
@@ -278,11 +280,43 @@ In the following, the Success Ratio is only considered successful if the control
 Evaluation \todo{optional: write evaluation}
 
 \section{Results}
-\TODO{Difference between Results and Discussion?}
+\todo{Difference between Results and Discussion?}
 \begin{itemize}
 	\item Which method had the best results?
 	\item Tabelle mit allen Protokollen auflisten 
 \end{itemize}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular} { lll }
+	\toprule
+	\multicolumn{1}{c}{Variable}
+	& \multicolumn{1}{c}{Example}
+	& \multicolumn{1}{c}{Explaination} \\
+	
+	\midrule
+	VERBOSE               & 0 				& Enable VERBOSE \\
+	DEBUG                 & 0 				& Enable DEBUG \\
+	TIMESTAMP\_UART       & 0				& Enable UART timestamps \\
+	SEQUENCE\_REPITITIONS & 200				& Sequences per experiment \\
+	FULL\_REPETITIONS     & 1000			& Repeations of the experiment \\
+	MASTER\_CHANNEL       & 6				& Wifi Channel of the Controller \\
+	WES\_CHANNEL          & 6				& Wifi Channel of the WES \\
+	WAIT\_AFTER\_SEQ      & 0				& delay between sequences \\
+	WAIT\_AFTER\_REP\_EXP & 2000			& delay between experiments \\
+	IS\_BROADCASTING      & 1				& BC:=1, UC:=0 \\
+	RAPID\_REPITITION     & 2				& BC: Rapid Repetitions \\
+	CHANNEL\_TOTAL        & 160	 			& BC: Addressed Payload \\
+	BROADCAST\_FRAME\_SIZE& 200 			& BC: Maximum Payload/Brodcast \\
+	UNICAST\_FRAME\_SIZE  & 20				& UC: Payload/Unicast \\
+	WES\_COUNT            & 6				& UC: WES Count \\
+	AIRTIME               & 0				& Capture airtime\\
+	\bottomrule
+	\end{tabular}
+	\caption{JSON Experiment Setup}
+	\label{tab:json}
+\end{table}
+%mastertabelle:
 
 
 

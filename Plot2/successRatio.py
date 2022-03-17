@@ -85,6 +85,8 @@ def sr_per_fixture_broadcast(data):
             sr_array[exp,fix] = 100* (1 - count_is_zero/SEQ_SIZE)
             # print(1- count_is_zero/SEQ_SIZE)
 
+    print(np.average(sr_array, axis=0))
+
     ax1.set_xlabel('Fixture enum.', color='black')
     ax1.set_ylabel('Success Ratio in %') 
     
@@ -103,48 +105,31 @@ fig, ax1 = plt.subplots()
 sr_per_fixture_broadcast(data)
 
 #%%
-#success ratio for each node broadcast
-def sr_per_fixture_unicast():
-    sr_array = np.zeros((EXP_SIZE,FIX_SIZE))
-
-    for exp in range(0,EXP_SIZE):
-        for fix in range(0,FIX_SIZE):
-            sr_array[exp,fix] = 1
-
-    ax1.set_xlabel('Fixture enum.', color='black')
-    ax1.set_ylabel('Success Ratio in %') 
-    
-    ax1.boxplot(sr_array[::10,:], flierprops=square_red, meanprops=medianprops_purp)
-
-    plt.show()
-    plt.close()
-
-fig, ax1 = plt.subplots()
-sr_per_fixture_unicast()
-
-
-#%%
 #success ratio for node 3 broadcast with rapid repetition
+# TODO This mastermind function should do the DR Job, just by getting a shifted input!
 
-def sr_per_node_bc_rr(array):
+def sr_per_node_bc_rr(array, rr):
 
     ax1.set_xlabel('Fixture enum.', color='black')
     ax1.set_ylabel('Success Ratio in %') 
     
     # ax1.boxplot(sr_array[0,::10,:], flierprops=flierprop_purp, medianprops=medianprops_purp)
-    ax1.boxplot(sr_array[1,::10,:], flierprops=flierprop_purp, medianprops=medianprops_purp)
+    ax1.boxplot(sr_array[rr,::10,:], flierprops=flierprop_purp, medianprops=medianprops_purp)
+
+    print(np.average(sr_array[rr,:,:], axis=0))
+    print(np.average(np.average(sr_array[rr,:,:], axis=0)))
 
     plt.figure(num=None, figsize=None, dpi=799)
     plt.show()
     
-    fig.savefig('Graphs/SR_per_fixture_rr1.pdf', bbox_inches='tight') 
+    # fig.savefig('Graphs/SR_per_fixture_rrX.pdf', bbox_inches='tight') 
     plt.close()
 
 flierprop_purp = dict(marker='s', markerfacecolor='purple', markersize=3)
 medianprops_purp = dict(linestyle='-', color='purple')
 
 fig, ax1 = plt.subplots()
-sr_per_node_bc_rr(sr_array)
+sr_per_node_bc_rr(sr_array, 3)
 #%%
 #success ratio for given node  with rr [0,6]
 

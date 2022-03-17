@@ -72,7 +72,7 @@ because even if it was not developed for this purpose the specification fits qui
 \end{figure}
 
 For the purpose of this analysis, the controller transmits 20 Byte (analogue to 20 DMX channels) to every WESs.
-Four different metrics are considered, which where discussed in the requirements. \todo{ref to requirements}
+Four different metrics are considered, which where discussed in the requirements.
 \begin{itemize}
 	\item \textbf{Latency} \\
 	What is the latency from commanding the controller to the estimated reaction at the WES e.g. lighting of a light?
@@ -290,6 +290,13 @@ The idea is not to wait for a missing acknolegedment, but to increase the probab
 The reliability of the Slim Broadcast with Rapid Repetition is improved with every rapid repetition (RR).
 In the formula below \cref{math:rr_sr}, with RR set to zero, there happens no repetition.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{/home/walther/Documents/bachelor/Plot2/Graphs/theory_sr_rr.pdf}
+	\caption{Success Ratio Increase With Increasing Number of RR}
+	\label{fig:theory_rr_sc}
+\end{figure}
+
 \begin{align}
 	\label{math:rr_sr}
 	\text{SR}_{RR}(RR)	&= 1-(1-\text{SR})^{RR+1} \\
@@ -297,19 +304,19 @@ In the formula below \cref{math:rr_sr}, with RR set to zero, there happens no re
 	\text{SR}_{RR}(1) 	&= 1-(1-\text{SR})^{2}
 \end{align}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.6]{/home/walther/Documents/bachelor/Plot2/Graphs/rr_transmission_time.pdf}
-	\caption{Transmission Time with with different sets of Rapid Repetition (RR)}
-	\label{fig:rr_analytic}
-\end{figure}
-
 The RR makes it possible to reach WESs with poor reception much more reliably,
 However, WESs that have very good reception also receive the same packet redundantly.
 The update frequency of a BC with RR must be divided by the number of repetitions, compared to one without repetitions,
 the same applies to the latency when synchronisation is required.
 However, in contrast to unicast, broadcast offers such shorter transmission times,
 that at least a few repetitions can be accepted. \cref{fig:rr_analytic}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{/home/walther/Documents/bachelor/Plot2/Graphs/rr_transmission_time.pdf}
+	\caption{Transmission Time with with different sets of RR}
+	\label{fig:rr_analytic}
+\end{figure}
 
 \subsection*{Delayed Rapid Repetition}
 \label{sub:DelayedRepetition}
@@ -342,14 +349,11 @@ while maintaining or even improving reliability.
 \todo{Explain Problem with synchronization?!}
 
 \section{Implementation}
-\TODO{Check, because of split from testbed}
 
-This section explains how the test setup was distributed from the PC to all the chips 
-and how the data was subsequently returned to the PC
-and gives a short hands on - which steps are necessary to get ESP-NOW running on theses chips.
-
-The developer boad ESP32 Devkit V1 used in the experiments \cref{sec:evaluation} for the collection of the data
-can be ordered cheaply from common (most favourably Chinese) websites. [3.79€, www.aliexpress.com, 3/3/22]\todo{zeitangabe website aliexpress?}
+The developer boad ESP32 Devkit V1 used in the experiments (\cref{sec:evaluation}) for the collection of the data
+can be ordered cheaply 
+\footnote{3.79€, www.aliexpress.com, 3/3/22}
+from common (most favourably Chinese) websites. 
 The most accessible way to flash a chip is using the Arduino IDE, which can be easy configured for flashing ESPs.
 A more precise approach is to use the IDF of Espressif itself, 
 which can also be easily made to work by installing the toolchain and build tools and an Plugin for your favorite IDE.
@@ -357,17 +361,16 @@ which can also be easily made to work by installing the toolchain and build tool
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.4]{figures/ESP-ISF.png}
-	\caption{Flashing ESP. From the website of Espressif}
+	\caption{Flashing ESP}
 	\label{fig:ESP-IDF}
+	\footnote{\url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/_images/what-you-need.png, 3.3.2022}}
 \end{figure}
-\todo{link und Quellenangabe: https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html}
 
-Espressif has provided a user guide for the use of ESP-NOW.
-\todo{for later use: ESP-NOW User Guide, V1, source: \url{https://www.espressif.com/en/support/documents/}}
-Unfortunately, some of the information is highly outdated, for example, it claims that broadcast is not supported.
-However, more detailed information can be found on the website [link].
-\url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}
-\todo{link einpflegen}
+Espressif has provided a user guide for the use of ESP-NOW ~\cite{ESPNOWGuide},
+but unfortunately it contains some of informations which are outdated, 
+for example, it claims that broadcast is not supported.
+However, more detailed information can be found on the website.
+% \footnote{\url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}}.
 
 To use ESP-NOW on an ESP, only a few steps are necessary.
 The chip must activate Wifi and put it in STA mode and ESP-NOW can be activated.
