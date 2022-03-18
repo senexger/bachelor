@@ -11,7 +11,7 @@
 % \end{itemize}
 
 In this chapter the fundamentals required for understanding the different approaches 
-in this thesis using are explained.
+in this thesis are explained.
 This contains basic knowledge of the physical- and data link layer,
 which are located in the first and second layer of the \ac{OSI} Model.
 It also explains what types of transmissions exist.
@@ -57,8 +57,8 @@ There are two \ac{BSS} defined:
 	\item Infrastructure BSS\\
 	A central element manages the network and all the traffic goes through. 
 	Every \ac{STA} must always communicate via the \ac{AP} and never directly - exceptional: Direct Link Mode.
-	An initial association must take place to use this \ac{BSS}.
-	This is the most common mode a \ac{WLAN} is used.
+	An initial association must take place to use the Infrastructure \ac{BSS}.
+	
 	\item Independent BSS\\
 	A network without a central station, where the network topology can flexible change over time.
 	The communication happens directly between the Wireless Endsystems.
@@ -75,10 +75,10 @@ There are several complements to the 802.11 standard, the most common are:
 
 \begin{itemize}
 	\item 802.11b \\
-	supports larger bitrates with \ac{DSSS} or \ac{FHSS} as modulation from 1Mbit/s to 11Mbit/s.
+	supports larger bitrates with \ac{DSSS} or \ac{FHSS} as modulation from 1Mbps to 11Mbbps.
 	It uses the 2.4 GHz ISM band.
 	\item 802.11a and 802.11g \\
-	with \ac{OFDM} data rates are increased up to 54 Mbit/s.
+	with \ac{OFDM} data rates are increased up to 54 Mbps.
 	Where 802.11a is in the 5GHz ISM band 802.11g uses the 2.4GHz ISM band.
 	\item 802.11n\\
 	It also uses \ac{OFDM} and improves with additionaly \ac{MIMO}, channel bonding and frame aggregation to increase the bandwidth and decrease the overhead.
@@ -91,7 +91,7 @@ There are several complements to the 802.11 standard, the most common are:
 	Also called WiFi6.
 \end{itemize}
 
-In this thesis the rather basic 802.11b is used with a transmission rate of 1Mbit/s.
+There are a few more specifications, in this thesis the rather basic 802.11b is used with a transmission rate of 1Mbps.
 
 \subsection*{Data Link Layer}
 
@@ -102,7 +102,7 @@ and it also adds frame sequence numbers.
 But in this thesis we focus on the other data link sublayer.
 
 The \ac{MAC} includes network protocols that regulate how multiple computers share the physical transmission medium they use. 
-Without regulation, collisions and data loss would occur in the shared medium if several WES were to transmit simultaneously.
+Without regulation, collisions and data loss would occur in the shared medium if several stations were to transmit simultaneously.
 The \ac{MAC} Protocol Data Unit is additional added inside of the \ac{PHY} Payload. 
 It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
 
@@ -133,7 +133,7 @@ It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
 		\item 10 Data Frame
 	\end{itemize}
 	\item \textbf{Duration:} Contains the \ac{NAV} value, specifies the transmission time required for the frame. 
-	In order to save power to save energy, WES can defer access to the medium for this duration
+	In order to save power to save energy, stations can defer access to the medium for this duration
 	\item \textbf{Address fields:} Certain address fields are specified by the relative position of the address field.
 	Not every address field is needed by certain frames. Each device is associated with a \ac{MAC} address.
 	\begin{itemize}

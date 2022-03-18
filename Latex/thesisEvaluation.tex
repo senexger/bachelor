@@ -265,75 +265,162 @@ In addition, the use of buffering delay has a cost in latency, as mentioned in F
 It must therefore be weighed up whether the additional latency justifies the increased success ratio.
 \todo{tell about syncronization problems}
 
-\subsection*{Impact of Groupsize}
+% TODO
+% \subsection*{Impact of Groupsize}
 
-\todo{optional}
-When controlling lighting installations, the human eye does not notice so clearly 
-if all lights are switched synchronously but with a delay.
-However, it is clearly noticeable when a single light reacts with a delay.
-With the BUffering Delay, synchronisation can be achieved, 
-but what happens if a control signal does not arrive even despite RR and BD?
-In the following, the Success Ratio is only considered successful if the control signals have arrived at all WESs.
+% \todo{optional}
+% When controlling lighting installations, the human eye does not notice so clearly 
+% if all lights are switched synchronously but with a delay.
+% However, it is clearly noticeable when a single light reacts with a delay.
+% With the BUffering Delay, synchronisation can be achieved, 
+% but what happens if a control signal does not arrive even despite RR and BD?
+% In the following, the Success Ratio is only considered successful if the control signals have arrived at all WESs.
 
-\TODO{optional: SR Figure, different approaches with groupsize of 7, UC, BC, RR=1, RR=1+DR=1 RR=2, RR=2+DR+1, RR=3. RR=3+DR=1, RR=3+DR+2}
+% \TODO{optional: SR Figure, different approaches with groupsize of 7, UC, BC, RR=1, RR=1+DR=1 RR=2, RR=2+DR+1, RR=3. RR=3+DR=1, RR=3+DR+2}
 
-Evaluation \todo{optional: write evaluation}
+% Evaluation \todo{optional: write evaluation}
 
 \section{Results}
-\todo{Difference between Results and Discussion?}
-\begin{itemize}
-	\item Which method had the best results?
-	\item Tabelle mit allen Protokollen auflisten 
-\end{itemize}
+% \begin{itemize}
+% 	\item Which method had the best results?
+% 	\item Tabelle mit allen Protokollen auflisten 
+% \end{itemize}
+
+In the measurements, the unicast approach with 20 bytes each or a broadcast with 160 bytes were sent to the 7 WES.
+The metrics latency, update interval, reliability and synchronisation are compared in the table \cref{tab:results}.
 
 \begin{table}[h]
 	\centering
-	\begin{tabular} { lll }
+	\begin{tabular} { llllll }
 	\toprule
-	\multicolumn{1}{c}{Variable}
-	& \multicolumn{1}{c}{Example}
-	& \multicolumn{1}{c}{Explaination} \\
-	
+	\multicolumn{1}{c}{Slim}
+	& \multicolumn{1}{c}{}
+	& \multicolumn{1}{c}{Update}
+	& \multicolumn{2}{c}{Reliability in \%} 
+	& \multicolumn{1}{c}{} \\
+
+	\multicolumn{1}{c}{Protocol}
+	& \multicolumn{1}{c}{Latency in $\mu$s}
+	& \multicolumn{1}{c}{Interval in $\mu$s}
+	& \multicolumn{1}{c}{Average}
+	& \multicolumn{1}{c}{WES 4}
+	& \multicolumn{1}{c}{Sync} \\
+
 	\midrule
-	VERBOSE               & 0 				& Enable VERBOSE \\
-	DEBUG                 & 0 				& Enable DEBUG \\
-	TIMESTAMP\_UART       & 0				& Enable UART timestamps \\
-	SEQUENCE\_REPITITIONS & 200				& Sequences per experiment \\
-	FULL\_REPETITIONS     & 1000			& Repeations of the experiment \\
-	MASTER\_CHANNEL       & 6				& Wifi Channel of the Controller \\
-	WES\_CHANNEL          & 6				& Wifi Channel of the WES \\
-	WAIT\_AFTER\_SEQ      & 0				& delay between sequences \\
-	WAIT\_AFTER\_REP\_EXP & 2000			& delay between experiments \\
-	IS\_BROADCASTING      & 1				& BC:=1, UC:=0 \\
-	RAPID\_REPITITION     & 2				& BC: Rapid Repetitions \\
-	CHANNEL\_TOTAL        & 160	 			& BC: Addressed Payload \\
-	BROADCAST\_FRAME\_SIZE& 200 			& BC: Maximum Payload/Brodcast \\
-	UNICAST\_FRAME\_SIZE  & 20				& UC: Payload/Unicast \\
-	WES\_COUNT            & 6				& UC: WES Count \\
-	AIRTIME               & 0				& Capture airtime\\
+	UC        & 696-59128 &7393-59128 & 100.00 & 100.00 & no \\
+	UC sync   &7581-59128 &59128      & 100.00 & 100.00 & yes \\
+	BC        & 1816      & 2087      & 95.45  & 80.50  & yes \\
+	BC 1xRR   & 3903      & 4174      & 98.37  & 93.00  & yes \\
+	BC 2xRR   & 5990      & 6261      & 99.40  & 98.22  & yes \\
+	BC 3xRR   & 8077      & 8341      & 99.62  & 99.04  & yes \\
+	BC 1xRR+DR& XXXX      & 4163      & XX.00  & XX.00  & yes \\
+	BC 2xRR+DR& XXXX      & 6022      & XX.00  & XX.00  & yes \\
+	BC 3xRR+DR& XXXX      & 6022      & XX.00  & XX.00  & yes \\
+	DMX (base)& 22700     & 22700     & 100.00 & 100.00 & yes \\
 	\bottomrule
 	\end{tabular}
-	\caption{JSON Experiment Setup}
-	\label{tab:json}
+	\caption{Comparison of the measured results}
+	\label{tab:results}
 \end{table}
 %mastertabelle:
 
+It quickly becomes apparent that the Slim Unicast, both with and without synchronisation, 
+is more reliable than the broadcast, but also has much greater latencies and update intervals.
+These values become particularly extreme when the lights are to react synchronously.
+In the absence of synchronisation, the values vary greatly, 
+because the latency varies depending on whether the WES is in the first or last position of the round robin
+and on the number of retransmissions that have to be made if a packet is lost.
 
+With the solutions that use a broadcast, it becomes clear that synchronisation between the WESs is always given,
+because all WESs receive the signal at the same time.
+The update frequency is also comparable to the update interval,
+The difference is mainly due to the DIFS and the backoff that have to be waited for before the second sequence can be sent.
+But the reliability especially for WES4 is to low (80.5\%).
+The use of rapid repetitions also shows that the reliability of the weaker WES4 in particular is extremely improved.
+With 3 rapid repetitions, the reliability reaches a range that is also acceptable for the WES4 (99\%).
+
+Finally, there is the use of delayed repetition (DR) to broadcasts with rapid repetition (RR).
+Here, only the delayed repetition with the interlacing of a sequence is shown,
+as the effect is greatest here.
+It is noticeable that the latency due to the retention of the packets is no longer close to the update frequency, 
+as with the other broadcasts, but even higher.
+The effect of the delayed repetition fades into the background when the RR are set to 3.
+
+Compared with DMX as a baseline, it shows that with this specific setup,
+the broadcast is also good with 3 RR, whether with or without DR.
+Only the reliability is below that of DMX, albeit only just,
+because even the WES with the worst reception has a success ratio of over 99\%.
+Der Unicast kommt jedoch schon bei diesem kleinen Setup an seine Grenzen,
+auch wenn auf eine Synchronisation verzichtet werden würde.
 
 \chapter{Conclusion \& Discussion}
-\begin{itemize}
-\item summarize again what your paper did, but now emphasize more the results, and comparisons
-\item write conclusions that can be drawn from the results found and the discussion presented in the paper
-\item future work (be very brief, explain what, but not much how, do not speculate about results or impact)
-\item recommended length: one page.
-\end{itemize}
+% \begin{itemize}
+% \item summarize again what your paper did, but now emphasize more the results, and comparisons
+% \item write conclusions that can be drawn from the results found and the discussion presented in the paper
+% \item future work (be very brief, explain what, but not much how, do not speculate about results or impact)
+% \item recommended length: one page.
+% \end{itemize}
 
-Why not 5GHz -> to expensive.\\
+This thesis introduces various protocols optimised for lighting technology.
+These were investigated analytically and experimentally.
+A special feature of the protocols is that they send packets on the data link layer and have
+and have additional adaptations in the application layer to improve reliability.
 
+The analytical examination showed that the unicast
+scales poorly with a large number of stations,
+because the packets only have a few bytes of payload, the additional overhead is too great.
+The calculations have shown that even with a small number of stations, a single broadcast packet
+distributes the control signals twice as fast.
+In practice, this effect could be even more pronounced,
+because an error-free channel without need of retransmissions, was always assumed.
 
-\section*{Keep in Mind}
-\begin{itemize}
-\item metrics (SR, Latency, ...)
-\item compare with art-net all the time
-\item wireshark
-\end{itemize}
+With broadcast, on the other hand, there is no reliability.
+The assumptions for the duration of the distribution of all control signals to the stations,
+were made with a perfectly clean channel,
+but in a realistic scenario, packet loss must be expected.
+Rapit repetition in the application layer is intended to counteract this.
+By sending the same sequence multiple times, lost packets can be compensated for.
+If the channel is unclean over a longer period of time, the Delayed Rapid Repetition,
+is supposed to close these gaps by staggering the sequences.
+
+The measurements confirmed the analyses.
+The unicast packets arrived successfully at the stations 100\% of the time.
+With the broadcast packets, there were significant losses recorded.
+It had become apparent that reception was particularly poor at one of the stations,
+this station was then selected to simulate a bad-case scenario.
+The use of rapid repetition led to a significant increase in reliability at this station.
+However, up to three retransmissions were necessary to bring the success ratio of the weakest station to over 99\%.
+Delayed Rapid Repetitions, with interleaving the sequences, on the other hand, 
+had a rather small effect on the success ratio,
+especially when many repetitions were sent.
+The additional latency caused by the Delayed Rapid Repetition
+does not justify the small improvement in the success ratio and is therefore not recommended.
+
+For the test set-up, a separate procedure protocol was developed,
+which should guarantee the smooth running of the test.
+One difficulty was to ensure that the stations were always in the correct state.
+A controller sent 160 bytes of control information per sequence to 8 different stations.
+This was sent either in 20 byte packets as unicast or as a single 160 byte packet as broadcast.
+This, of course, corresponds to a very small stage setup.
+A DMX Universe is 512 bytes, so it would be interesting to see
+how the protocols would behave if they had to distribute the data to 30 stations.
+In reality, the size of the control signals of a single station also varies greatly,
+which has not been investigated here.
+
+The ESP-NOW protocol was used to implement the transmissions on the data link layer.
+A connectionless protocol, which is proprietary, but allows the development of a simple and robust prototype,
+originally optimised for low energy.
+It only runs on the low-cost platform of the manufacturer Espressif.
+It has some limitations that make it difficult to use in practice.
+The payload of a transmission may not exceed 250 bytes, 
+that if the control signal exceeds 250 bytes, two broadcasts must be sent, provided with an ID.
+Also limiting is, that no more than 20 stations can be paired with the controller.
+Because the protocol only runs on the ESP platform, the transmitter must also be an ESP chip.
+This limits the choice of physical layers.
+Thus, the behaviour of the 5GHz frequency band was not investigated.
+In the tests, only 1 Mbps was transmitted, the outdated IEEE 802.11b was used,
+as the investigation with wireshark showed.
+According to the data sheet, the ESP chip used can achieve data rates of up to 150 Mbps.
+
+The prototype protocols were able to show that transmissions in the data link layer can work properly,
+however, tests with larger setups and a non-proprietary protocol are still pending.

@@ -9,7 +9,14 @@
 % 	\item recommended length: 1-2 pages.
 % \end{itemize}
 
-\section*{Motivation/Requirements}
+One part of lighting technology is about controlling lights or installations to match a stage for a given event.
+These installations can be moving heads, strobes or even fog machines.
+Wireless networks in general are becoming increasingly popular, also in the field of lighting technology,
+here they are more flexible and also more cost-effective then wired solutions.
+However, they also have their own limitations,
+in this thesis, protocols are introduced to address some of these.
+
+\section*{Motivation and Requirements}
 % \begin{itemize}
 % 	\item Reliability
 % 	\item .. and why 100\% Reliability is not important (except pyrotechnics)
@@ -19,16 +26,11 @@
 % 	\item Range
 % \end{itemize}
 
-\todo{Introduction Introduction (sic!) schreiben}
-
-Wireless networks are becoming increasingly popular, also in the field of lighting technology,
-because they can be more flexible and also more cost-effective.
-However, they also have limitations compared to wired solutions.
-In order to improve the properties of radio networks, a logic link layer approach is chosen in this thesis.
+In order to improve the properties of radio networks, a logic link layer approach is chosen in this thesis,
 to distribute the control signals to the individual stations,
 This promises better performance due to reduced overhead.
 
-The properties of the wired DMX-512a solution are taken as a baseline.
+The properties of the wired DMX-512a protocol solution are taken as a baseline.
 The packets are to be distributed to all stations with an equally large update frequency,
 the latency between sending the control signal and switching the light should be as short as possible,
 the stations should control the lights synchronously and the reliability should still be as high as possible.
@@ -61,25 +63,26 @@ which have to be programmed in a fundamentally different way than ordinary progr
 % \item simulativ und experimentel untersucht
 % \end{itemize}
 
-A number of protocols are being developed on the DL layer/application layer,
+In this thesis a number of protocols are being developed on the data link layer/application layer,
 which offer promising improvements.
 It is shown that broadcasts are preferable to unicats
 and also become significantly more robust through adaptations.
 These were investigated simulatively and experimentally and compared with existing solutions.
-The test suite used on the test hardware is publicly available on Github.
+The test suite used on the test hardware is publicly available on Github,
+as well as the collected measurement data.
 \footnote{\url{www.github.com}}
-\todo{update footnote}
+\todo{update link, tkn gitlab link...}
 
 \section*{Thesis Outline}
 
 The thesis is divided into three main chapters.
-Chapter 3 explains the physical and data link layer, and the 802.11 spzifications family,
-existing light protocols are explained in order to better understand the new protocols that will be introduced later,
+Chapter 3 explains the 802.11 spzifications family, the physical and the data link layer.
+Existing light protocols are explained in order to better understand the new protocols that will be introduced later,
 in addition, the EPS32 hardware and the associated ESP-NOW protocol are briefly shown.
 
 Chapter 4 then specifies the various protocols developed and makes analytical assumptions.
 And it is explained how to work with the hardware used.
 
-Chapter 5 then explains the methodology, how the measurement data was collected and the technical implementation.
+Chapter 5 then explains the methodology, how the measurement data was collected with a technical implementation.
 Wireshark measurements are analysed and used to better understand the protocols.
 Afterwards, the protocol data is further evaluated and compared with the analytical approaches and with each other.
