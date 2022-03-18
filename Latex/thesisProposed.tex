@@ -40,7 +40,7 @@ it is briefly explained how the chips are programmed.
 			\hline
 			802.11 DL/UC or BC\\
 			\hline
-			802.11b/g/n PHY\\ 
+			802.11* PHY\\ 
 			\hline
 		\end{tabular}
 	\end{tabular}
@@ -78,9 +78,13 @@ Four different metrics are considered, which where discussed in the requirements
 	What is the latency from commanding the controller to the estimated reaction at the WES e.g. lighting of a light?
 	For the sake of simplicity, delays caused by the microcontroller instruction set, data distribution and 
 	control of the light installation are neglected and the focus is placed only on the airtime.
+	Low latency is important so that the lighting technician can intervene live in the light show,
+	but the lights do not react with delay.
 	\item \textbf{Update Frequency}\\
 	How often can the we update all WESs per second? 
-	This results in how smooth movement of moving heads are moving or how smooth the transition of the color of an LED can be performed.
+	This results in how smooth movement of moving heads are moving or how smooth the transition
+	of the color of an LED can be performed
+	and the control can be adapted rhythmically to the musical beat.
 	\item \textbf{Reliability}\\
 	Wie sicher kommen die vom Controller gesendeten Daten bei den WESs an?
 	Lack of reliability can result 
@@ -106,8 +110,13 @@ The airtime using 1Mbit/s is rather easy calculated, every Byte (8 Bits) takes 8
 For a full transmission the PHY and MAC preamble and header be transmitted twice, once for the data and once for the acknowledgement.
 The MAC body contains the payload, which depends of the needs of the addressed \ac{WES}.
 In a perfect clean channel the sender hasn't to defer, but has to take a \ac{DIFS} plus a backoff.
-A perfect empty channel resets the CW to CW$_{min}$, which are 16 slots in 802.11b,
-so the average backoff should take $\frac{CW_{min}}{2}$ slots, with a slottime of 20$\mu$s follows an average backoff of 160$\mu$s.
+A perfect empty channel resets the CW to CW$_{min}$, which are 31 slots in 802.11b
+and a slot time of 20$\mu$s an average delay of $370\mu$s is estimated.
+
+\begin{align}
+	\frac{CW_{min}}{2}=\frac{31}{2}=16.5 \\
+	20\mu s \cdot 16.5 = 370\mu s
+\end{align}
 
 \begin{table}[h]
 	\centering
@@ -118,12 +127,12 @@ so the average backoff should take $\frac{CW_{min}}{2}$ slots, with a slottime o
 		& \multicolumn{1}{c}{Duration in $\mu$s} \\
 		\midrule
 		DIFS								& -		& 50 \\
-		Average Backoff						& -		& 160 \\
+		Average Backoff						& -		& 370 \\
 		PHY header: PLCP preamble			& 18	& 144 \\
 		PHY header: PLCP header				& 6 	& 48 \\
 		MAC headers							& 28	& 224 \\
 		MAC body							& 20 	& 160 \\
-		\textbf{= tx time data}				& 		& \textbf{786} \\
+		\textbf{= tx time data}				& 		& \textbf{956} \\
 		SIFS								& -		& 10 \\
 		PHY header: PLCP preamble			& 18	& 144 \\
 		PHY header: PLCP header				& 6		& 48 \\
@@ -136,10 +145,10 @@ so the average backoff should take $\frac{CW_{min}}{2}$ slots, with a slottime o
 \end{table}
 
 The total airtime of the transmission of data and ack, assuming the transmission arrived successfully, is $t_tx=1100\mu$s.
-Strictly speaking, the light could also be changed before the acknolegement is sent, i.e. after 786$\mu$s.
+Strictly speaking, the light could also be changed before the acknolegement is sent, i.e. after 956$\mu$s.
 The latency scales linearly, the delay to the n-th WES is:
 \begin{align}
-	\text{Airtime} = N \cdot t_{tx} = N \cdot 1100\mu s
+	\text{Airtime} = N \cdot t_{tx} = N \cdot 1270\mu s
 \end{align}
 
 In order to avoid unnecessary load on the radio channel, Art-Net transmit only the changes.
@@ -147,31 +156,29 @@ In the worst case, however, changes affect all WESs at the same time.
 
 \subsubsection*{Update Frequency}
 Following the approach of DMX and updating the 'bus' every 44Hz, would made by sending the packets round robin via unicast. 
-\todo{Discuss the inimportance of order of round robin in unicast}
 With a correspondingly high number of WESs, this could be challenge with a transmission speed of 1MBit/s, 
 it also scales linearly with each additional WES. 
 In an labor steril empty channel, denying all side latencys, there airtime could be for N WESs:
 \begin{align}
-	\text{Frequency} = \frac{1}{N \cdot 1100\mu s} = \frac{9090}{N} Hz
+	\text{Frequency} = \frac{1}{N \cdot 1270\mu s} = \frac{787.4}{N} Hz
 \end{align}
 
-For 10 WESs, addressed with respectively 20 Byte, it would still be 909Hz.
-This is far above the update frequency of DMX, but also very unrealistic and just intended to show,
+For 10 WESs, addressed with respectively 20 Byte, it would still be 787.4 Hz.
+This is far above the update frequency of DMX with 44Hz, but also very unrealistic and just intended to show,
 that it could theoretically be within the realm of possibility.
 
 \subsubsection*{Reliability}
 
-One benefit of the unicast is the support of acknoledgements. 
+A benefit of the unicast is the support of acknoledgements. 
 The acknoledgements trigger a retransmission if no packet has arrived, therefore a controlled light will receive its signal in any case.
 So the reliability should be very good.
 
-\subsubsection*{Synchronisation}\todo{or buffering delay?}
+\subsubsection*{Synchronisation}
 
 Synchronising the unicast transmissions costs a lot of 
-\todo{...buffering delay}
-latency.
+latency, through buffering delay.
 This is because not only does each WES have to wait until its own packet has arrived,
-but until the packets have arrived at all the others.
+but until all the packets have arrived at all WESs.
 The implementation is chosen in such a way that each WES knows at which position of the round-robin it is
 and delays the execution of the successfully received transmission until the last WES has also received its signal.
 The delay must then be calculated deterministically.
@@ -179,17 +186,15 @@ In ESP-NOW, the default is set to 8 retransmissions, so in the worst case it is 
 and that for each WES.
 
 \begin{align} 
-	\text{Airtime}_{sync} &= 8 \cdot N \cdot 1100\mu s = N \cdot 8800\mu s \\
-	\text{Frequency}_{sync} &= \frac{1}{N * 8800\mu s} = \frac{1136}{N} Hz
+	\text{Airtime}_{sync} &= 8 \cdot N \cdot 1270\mu s = N \cdot 10160\mu s \\
+	\text{Frequency}_{sync} &= \frac{1}{N * 10160\mu s} = \frac{98.42}{N} Hz
 \end{align} 
 
 The idea of the slim unicast is, that a transmission to each device is very fast, because the transmitted payload small.
 However, since we are sending many small packets, it can be assumed that we will be sending a lot of overhead.
-So we playing off reliability against transmission speed.
+So it's playing off reliability against transmission speed.
 It can be said that synchronisation is a feature that should be dispensed with in the slim unicast for the sake of latency.
-
-Unfortunately the ESP-Now protocol does not allow to control the number of retransmissions before the packet is discarded.
-\todo{Is it tru, that retransmission can't be controlled in ESP-NOW?}
+An approach that has not been explored is to reduce the number of retransmissions.
 
 \subsection*{Slim Broadcast}
 
@@ -202,8 +207,9 @@ The broadcast must also spend one byte of payload for the sequence number.
 Only in the application layer do the WESs discard the incorrect broadcasts and read out their area from the entire payload.
 
 For the unicast the payload was assumed to be 20 byte for each WES, the same amount is assumed for each WES in the Slim Broadcast calculations.
-The maximum payload of the broadcast is also fixed to 200 byte, because when it is close to the 250 byte limit, 
-reliability is supposed to collapse.\todo{quelle 200 byte}
+The maximum payload of the broadcast is reduced to 200 byte, instead of the possible 250 bytes, 
+because when it is close to the 250 byte limit, reliability is supposed to collapse.
+\todo{cite something 250 byte max payload ESPNOW}
 
 \subsubsection*{Latency}
 
@@ -220,12 +226,12 @@ Assuming 10 WESs are to be addressed, each with 20 byte payload \ref{tab:airtime
 		& \multicolumn{1}{c}{Duration in $\mu$s} \\
 		\midrule
 		DIFS								& -		& 50 \\
-		Average Backoff						& -		& 160 \\
+		Average Backoff						& -		& 330 \\
 		PHY header: PLCP preamble			& 18	& 144 \\
 		PHY header: PLCP header				& 6 	& 48 \\
 		MAC headers							& 28	& 224 \\
 		MAC body							& 200 	& 1600 \\
-		\textbf{= tx time data}				& 		& \textbf{2286} \\
+		\textbf{= tx time data}				& 		& \textbf{2456} \\
 		\bottomrule
 	\end{tabular}
 	\caption{Composition the Broadcast Airtime}
@@ -250,8 +256,8 @@ it becomes clear that the low overhead and the missing acknoledgements lead to a
 A complete pass, i.e. addressing all WESs with 20 bytes, is already an order of magnitude faster from a number of 10 WESs.
 
 \begin{align}
-	\text{Frequency}_{UC} &= \frac{1}{10 \cdot 1100\mu s} = 909 Hz \\
-	\text{Frequency}_{BC} &= \frac{1}{2286\mu s} = 4347 Hz
+	\text{Frequency}_{UC} &= \frac{1}{10 \cdot 1270\mu s} = 78.7 Hz \\
+	\text{Frequency}_{BC} &= \frac{1}{2456\mu s} = 407.2 Hz
 \end{align}
 
 Even if these values are only remotely comparable with real measurement data, it is clear,
@@ -276,9 +282,9 @@ a WES that has poor reception to the controller, will not receive packets and th
 \subsubsection*{Synchronisation}
 Insead of transmitting to several fixtures after each other slim broadcast just transmitts to all fixtures at the same time.
 This solves the problem of synchronization for less than 200 channel.
-For more than 200 each WES has to wait until the last broadcast is arrived, 
-even if the broadcast must be discarded anyway because the required channel has already been arrived previous,
-deterministically calculated, the latency of all required broadcasts added up.\todo{ist der Satz gramatisch flasch? Lass ihn einfach weg...}
+For more than 200 each WES has to wait until the last broadcast has arrived.
+In contrast to unicast, the buffering delay can be calculated almost deterministically for broadcast 
+due to the absence of automatic retransmissions.
 
 \subsection*{Rapid Repetition}
 
@@ -293,7 +299,7 @@ In the formula below \cref{math:rr_sr}, with RR set to zero, there happens no re
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{/home/walther/Documents/bachelor/Plot2/Graphs/theory_sr_rr.pdf}
-	\caption{Success Ratio Increase With Increasing Number of RR}
+	\caption{Success Ratio increase with increasing number of RR}
 	\label{fig:theory_rr_sc}
 \end{figure}
 
@@ -314,7 +320,7 @@ that at least a few repetitions can be accepted. \cref{fig:rr_analytic}
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{/home/walther/Documents/bachelor/Plot2/Graphs/rr_transmission_time.pdf}
-	\caption{Transmission Time with with different sets of RR}
+	\caption{Transmission Time with with different sets of RR over rising Payload}
 	\label{fig:rr_analytic}
 \end{figure}
 
@@ -332,27 +338,38 @@ The latency, on the other hand, is significantly increased, especially when sync
 In the given example of \cref{fig:badChannel} the WESs has to wait for 5 times the duration of a broadcast transmission, instead of three.
 
 \begin{figure}[h]
+	\centering
 	\includegraphics[scale=0.75]{figures/BadChannel.pdf}
 	\caption{Rapid Repetition = 3 over a occuring noise}
 	\label{fig:badChannel}
 \end{figure}
 
-The delay of the Delayed Repetition can also be extended considerably.
+The delay of the Delayed Rapid Repetition (DR) can also be extended considerably.
 In extreme cases, it could be set to the number of sequences, which is of course impractical,
 but interleaving two or three sequences could help counteract persistent noise.
 
-With delayed repetition, improved reliability comes at the cost of latency, not update frequency.
-The measurement results \cref{sec:evaluation} will show whether the use of delayed repetition can reduce the number of rapid repetitions 
-while maintaining or even improving reliability.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.60]{../Plot2/Graphs/bc_dr.pdf}
+	\caption{Latency of DR, transmitting 200 Byte}
+	\label{fig:dr_delay}
+\end{figure}
 
-\todo{Buffering delay Latency figure}
-\todo{Explain Problem with synchronization?!}
+With DR, improved reliability comes at the cost of latency, not update frequency,
+because no more packets are sent, only the order is shifted.
+If no repetition is applied, the delayed rapid repetition has no influence,
+which is why the graph \cref{fig:dr_delay} remains constant for RR=0.
+The greater the RR and the delay of the DR, the more packets where send
+between the first and the last packet of each sequence.
+
+The measurement results \cref{sec:evaluation} will show whether the use of delayed repetition 
+can reduce the number of rapid repetitions while maintaining or even improving reliability.
 
 \section{Implementation}
 
 The developer boad ESP32 Devkit V1 used in the experiments (\cref{sec:evaluation}) for the collection of the data
 can be ordered cheaply 
-\footnote{3.79€, www.aliexpress.com, 3/3/22}
+\footnote{3.79€, www.aliexpress.com, ESP32 Devboard V1, 3/3/22}
 from common (most favourably Chinese) websites. 
 The most accessible way to flash a chip is using the Arduino IDE, which can be easy configured for flashing ESPs.
 A more precise approach is to use the IDF of Espressif itself, 
@@ -381,6 +398,8 @@ WiFi.mode(WIFI_STA);
 esp_now_init();
 \end{lstlisting}
 \label{lst:init}
+
+\todo{check formatation in the final version}
 
 Later, the individual MAC addresses of the WESs must be saved.
 These are created in a separate header file and can then be added during the setup of the chip.

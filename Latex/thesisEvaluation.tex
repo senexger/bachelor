@@ -196,7 +196,7 @@ For the slim broadcast, 160Byte packets were distributed in a 600 sequence. the 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{../Plot2/Graphs/SR_per_fixture_broadcast.pdf}
-	\caption{SR des Broadcasts aller 7 WESs}
+	\caption{SR of Broadcasts for 7 WESs}
 	\label{fig:sr_broadcast}
 \end{figure}
 
@@ -395,6 +395,10 @@ had a rather small effect on the success ratio,
 especially when many repetitions were sent.
 The additional latency caused by the Delayed Rapid Repetition
 does not justify the small improvement in the success ratio and is therefore not recommended.
+In conclusion, it can be said that 100\% reliability in lighting technology is desirable,
+but if the update interval is high enough,
+the next sequence will transmit a new or unchanged control signal shortly afterwards anyway.
+A correspondingly high update frequency reduces the influence of missing individual packets.
 
 For the test set-up, a separate procedure protocol was developed,
 which should guarantee the smooth running of the test.

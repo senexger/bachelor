@@ -127,15 +127,15 @@ It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
 	\setlength\itemsep{-0.0em}
 	\item \textbf{Frame Control Field:} Discribes the Type of frame:
 	\begin{itemize}
-		\setlength\itemsep{-0.5em}
+		\setlength\itemsep{-0.0em}
 		\item 00 Manegement Frame
 		\item 01 Control Frame
 		\item 10 Data Frame
 	\end{itemize}
 	\item \textbf{Duration:} Contains the \ac{NAV} value, specifies the transmission time required for the frame. 
-	In order to save power to save energy, stations can defer access to the medium for this duration
+	In order to save energy, stations can defer access to the medium for the given duration.
 	\item \textbf{Address fields:} Certain address fields are specified by the relative position of the address field.
-	Not every address field is needed by certain frames. Each device is associated with a \ac{MAC} address.
+	Not every address field is needed by certain frames. Each device is associated with a unique \ac{MAC} address.
 	\begin{itemize}
 		\setlength\itemsep{-0.0em}
 		\item \ac{BSSID}
@@ -169,7 +169,7 @@ It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
 	\label{fig:CSMACD}
 \end{figure}
 
-Before a station transmitts data it has to check or listen to the medium to avoid collisiion resulting in packet loss.
+Before a station transmitts data it has to check or listen to the medium to avoid collision resulting in packet loss.
 Only when the medium is free, the station waits for a \ac{DIFS} and a random backoff.
 The backoff is a random time within a \ac{CW} to prevent all stations from transmitting immediately after the \ac{DIFS}.
 The \ac{CW} consists of several slots, each consisting of 20$\mu$s in 802.11b.
@@ -246,11 +246,10 @@ Transmitting the same packet multiple times via unicast is wasteful.
 For this purpose, there is a corresponding multicast addresses. 
 They exist only as destination addresses.
 
-There are different approaches to realize acknowledgements for mutlicasts, they differ mainly by the respective field of application.
-\todo{examples for multicast ack + related work}
+Beim Multicast ist der einsatz von Acknolegements möglich, weil der Sender weiß wieviele Empfänger es gibt.
+There are different approaches to realize acknowledgements for mutlicasts, they differ mainly by the respective field of application,
+an approach for robust multicast in video transmissions is given by Mihaela van der Schaar et al. in \cite{EvaluationOfErrorControl}.
 Level 2 multicast is often used for large files in audio or video streams, where a big amount of data is distributed and multiple clients listen simultaneously.
-\todo{link another paper?}
-
 
 \begin{figure}[h]
 	\centering
@@ -271,8 +270,8 @@ Level 2 multicast is often used for large files in audio or video streams, where
 There are several lighting protocols that are used. The field of application ranges from wired CAN buses over ethernet cables to wireless WLAN networks.
 To give a short insight, some of the most important protocols are explained below.
 
-\subsection*{DMX-512A}
-\ac{DMX} 512A, is the current industry standard for stage lighting. It is based on \ac{CANproto}, therefore it uses wires.
+\subsection*{DMX-512a}
+\ac{DMX} 512a, is the current industry standard for stage lighting. It is based on \ac{CANproto}, therefore it uses wires.
 Physically is the DMX protocol transmitted over a differential pair of lines using the RS-485 voltage levels. 
 The bus signal is updated with 44Hz.
 According to the specification are XLR-5 type connectors are to be used (\cref{fig:xlr}
@@ -324,7 +323,7 @@ The third fixture is a moving head, it occupies channels 9-18 directly behind th
 The remaining channels are still unoccupied.
 The terminator is connected to the end of the DMX bus.
 If a byte does not have a high enough resolution, merging two bytes to a dual channel of 2 byte or 65536 different values insted of 256.
-The 360 degree rotation of a moving head is described roughly in the first byte and in fine steps in the other.
+E.g. the 360 degree rotation of a moving head is described roughly in the first byte and in fine steps in the other.
 
 Since \ac{DMX} is unidirectional it can be assumed that the endsystems generally only receive or forward (daisy chain) control signals sent from the control console.
 This is a major limitation of DMX, beside of the rather small universe size.
@@ -344,13 +343,15 @@ Art-Net is a protocol that moves away from the CAN bus and distributes the data 
 The approach remains the same, the individual stations are controlled with a constant update frequency.
 There is no longer a limitation of 512 channel universes.
 A universe at Art-Net describes 32,768 DMX universes over a single network, far more than is realistically used.
-In standard mode, the packets are distributed to the stations with unicasts, by means of connectionless UDP.
+In standard mode, the packets are distributed to the stations with unicasts, by means of connectionless \ac{UDP}.
 
 Because Art-Net is a network protocol, it is also able to distribute packets via WLAN.
-The lighting console talks to an access point via Ethernet or WLAN and this access point forwards the control signals to the individual station.
+The lighting console talks to an \ac{AP} via Ethernet or WLAN 
+and this access point forwards the control signals to the individual station.
 The choice of WLAN specification is mainly determined by the stations,
-es ist also nicht auf 2.4 GHz oder 5 GHz beschränkt.
-Special hardware that supports Art-Net at the factory is expensive because of the development costs and relatively low quantities.
+so it is just limited to 2.4 GHz or 5 GHz.
+Special hardware that supports Art-Net at the factory is expensive
+because of the development costs and the relatively low quantities.
 
 \section{ESP Platform}
 
@@ -399,8 +400,8 @@ The extensive set of features makes it suitable for integration into a wide rang
 \subsection*{ESP-Now}
 \label{sub:espnow}
 ESP-NOW is a properitary protocol developed by Espressif. 
-ESP-NOW is widely used in smart light, remote controlling, sensor, etc
-\footnote{\url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}\label{note:espressif}}.
+\emph{ESP-NOW is widely used in smart light, remote controlling, sensor, etc.}
+\footnote{\url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}\label{note:espressif}}
 It is a conectionless protocol, so the \ac{WES}'s are in Ad-Hoc mode insted of \ac{STA}.
 It is just supported on the ESP8266, ESP32 and ESP32s, all chipsets from Espressif, but they are compatible with each other.
 Because of this, a ESP-Chip as gateway is needed to interact from the outside to the ESP-NOW communication. 
@@ -408,8 +409,8 @@ Because of this, a ESP-Chip as gateway is needed to interact from the outside to
 Through the hardware limitation of the boards it can just be used on the 2.4 GHz frequncy band.
 ESP-NOW allows 10 ESPs for pairing with encryption and up to 20 without encryption.
 Espressif promises throuput of up to 30MBit/s with and a possible range of up to 1km.
-However \emph{\textcite{ESPNOWPaper}} measured a range of the unmodified onboard antenna of the ESP32 
-and just got a \emph{\textcite{ESPNOWPaper} stable commication up to 190m in open field}.
+However Roberto Pasic et al. \cite{ESPNOWCommunication} measured a range of the unmodified onboard antenna of the ESP32 
+and just got a \emph{stable commication up to 190m in open field}.
 
 The focus of the ESP-NOW protocol is on low power consumption.
 A connectionless communication between \ac{WES}'s not only saves energy during the authentication process, 
