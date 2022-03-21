@@ -123,7 +123,7 @@ From the representation \cref{fig:esp-now_frame_format} and \cref{fig:esp-now_fr
 
 that the first 4 bytes of the payload are still the random values and, according to Espressif, 
 do not belong to the Vendor Specific Content.
-These 4 bytes together with the following 1 byte (Element ID), 1 byte (length, interestingly specified as 25 Byte instead of 20),
+These 4 bytes together with the following 1 byte (Element ID), 1 byte (length, interestingly specified as 25 byte instead of 20),
 Organisation Identifier (3 bytes), Type (1 byte) and Version (1 byte) make up the difference of 11 bytes to the actual payload.
 \todo{This is barely readable}
 The payload is filled with the flag ff \cref{lst:callback} followed by the sequence number, in this example 0.
@@ -166,8 +166,11 @@ Tracking the transmissions with Wireshark also confirms this assumption \cref{fi
 
 The theoretical assumptions clearly correspond to the measured values,
 Additional latencies due to processing in the microcontroller or at the antenna are therefore hardly significant.
-When evaluating the graph, however, 
-it should be noted that eight unicast transmissions have the same payload as a single broadcast transmission, by a factor of 4.
+The update interval for the unicast increases sharply as the number of stations increases,
+whereas the broadcast increases only slowly. With unicast, it can be seen that the measured values fluctuate around the values assumed in theory.
+This is because these are exemplary values from the Wireshark measurement \cref{fig:wiresharkUC} and these are not averaged over all experiments,
+the fluctuation can be explained by the fact that the backoff is randomly selected from the \ac{CW}.
+Measurments of the transmission time for broadcasts with smaller payloads where not made.
 Therefore, a broadcast is clearly superior to a unicast in terms of latency, update frequency and synchronisation.
 
 Slim Unicast can only make a difference through its reliability.
@@ -183,15 +186,14 @@ The WESs can also be synchronised more easily because the transmissions reach ma
 The weak point, however, is reliability.
 
 \subsection*{Rapid Repetition}
-\todo{how to show 100\% success ratio?}
 
 Success Ratio is a good metric to measure reliability, 
 it is calculated from the number of successfully received packets and the total number of packets sent.
 In a test setup of 7 distributed WESs, some placed close to the controller, some at a slightly greater distance,
 this naturally varies greatly \cref{fig:sr_broadcast}.
 The measurement was carried out in a flat distributed over different rooms.
-Several WLANs are on the 2.4GHz band and lead to indifferences.
-For the slim broadcast, 160Byte packets were distributed in a 600 sequence. the experiment was repeated 1000 times.
+Several WLANs are on the 2.4GHz band too and lead to indifferences.
+For the slim broadcast, 160 byte packets were distributed in a 600 sequences, the experiment was repeated 1000 times.
 
 \begin{figure}[h]
 	\centering
@@ -202,6 +204,8 @@ For the slim broadcast, 160Byte packets were distributed in a 600 sequence. the 
 
 It shows that especially WESs 4 and WES 7 have poor reception.
 The reception of other WESs is much better.
+WES1, WES2 and WES3 where in the same room as the controller, 
+WES1 in particular was only a few centimetres away from the transmitter and actually has no packet loss either.
 It should be said that with the Slim Unicast 100\% of the packets arrived and there was no loss of data.
 One approach to improving reliability at the expense of latency was rapid repetitions.
 
@@ -238,7 +242,11 @@ However, it is noticeable that even with RR=3,
 one sequence is still lost, despite the 4x costs of latency and throughput.
 The problem is that faulty packets often come clustered 
 and the repetitions still fall within the range of the bad channel.
-\todo{vlt spicy: 2RR can be better than 3RR}
+Erwähnenswert ist, dass einzelne Sequenzen bei RR=2 ankommen, obwohl sie bei RR=3 verloren werden.
+This can also be seen in \cref{fig:rrBitwise}, the second and third sequence of RR=2 happily get over the channel interference,
+whereas the second sequence of RR=3 falls right into the interference and is therefore lost.
+Of course, this is rather rarely the case, 
+which can be seen in the significantly increased success ratio in \cref{fig:sr_broadcast_wes4}.
 
 \subsection*{Delayed Repetition}
 
@@ -287,7 +295,7 @@ It must therefore be weighed up whether the additional latency justifies the inc
 % \end{itemize}
 
 In the measurements, the unicast approach with 20 bytes each or a broadcast with 160 bytes were sent to the 7 WES.
-The metrics latency, update interval, reliability and synchronisation are compared in the table \cref{tab:results}.
+The metrics latency, update frequency, reliability and synchronisation are compared in the table \cref{tab:results}.
 
 \begin{table}[h]
 	\centering
@@ -301,7 +309,7 @@ The metrics latency, update interval, reliability and synchronisation are compar
 
 	\multicolumn{1}{c}{Protocol}
 	& \multicolumn{1}{c}{Latency in $\mu$s}
-	& \multicolumn{1}{c}{Interval in $\mu$s}
+	& \multicolumn{1}{c}{Frequency in $\mu$s}
 	& \multicolumn{1}{c}{Average}
 	& \multicolumn{1}{c}{WES 4}
 	& \multicolumn{1}{c}{Sync} \\
@@ -325,7 +333,7 @@ The metrics latency, update interval, reliability and synchronisation are compar
 %mastertabelle:
 
 It quickly becomes apparent that the Slim Unicast, both with and without synchronisation, 
-is more reliable than the broadcast, but also has much greater latencies and update intervals.
+is more reliable than the broadcast, but also has much better latencies and update frequency.
 These values become particularly extreme when the lights are to react synchronously.
 In the absence of synchronisation, the values vary greatly, 
 because the latency varies depending on whether the WES is in the first or last position of the round robin
@@ -333,7 +341,6 @@ and on the number of retransmissions that have to be made if a packet is lost.
 
 With the solutions that use a broadcast, it becomes clear that synchronisation between the WESs is always given,
 because all WESs receive the signal at the same time.
-The update frequency is also comparable to the update interval,
 The difference is mainly due to the DIFS and the backoff that have to be waited for before the second sequence can be sent.
 But the reliability especially for WES4 is to low (80.5\%).
 The use of rapid repetitions also shows that the reliability of the weaker WES4 in particular is extremely improved.
@@ -396,7 +403,7 @@ especially when many repetitions were sent.
 The additional latency caused by the Delayed Rapid Repetition
 does not justify the small improvement in the success ratio and is therefore not recommended.
 In conclusion, it can be said that 100\% reliability in lighting technology is desirable,
-but if the update interval is high enough,
+but if the update frequency is high enough,
 the next sequence will transmit a new or unchanged control signal shortly afterwards anyway.
 A correspondingly high update frequency reduces the influence of missing individual packets.
 

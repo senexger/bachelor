@@ -71,7 +71,7 @@ because even if it was not developed for this purpose the specification fits qui
 	\label{fig:testbed}
 \end{figure}
 
-For the purpose of this analysis, the controller transmits 20 Byte (analogue to 20 DMX channels) to every WESs.
+For the purpose of this analysis, the controller transmits 20 byte (analogue to 20 DMX channels) to every WESs.
 Four different metrics are considered, which where discussed in the requirements.
 \begin{itemize}
 	\item \textbf{Latency} \\
@@ -105,7 +105,7 @@ this process is just analogous to  mapping the corresponding IP addresses after 
 \subsubsection*{Latency}
 
 Latency describes the time between a command and the expected response, here considered as airtime.
-The airtime using 1Mbit/s is rather easy calculated, every Byte (8 Bits) takes 8$\mu$s.
+The airtime using 1Mbit/s is rather easy calculated, every byte (8 Bits) takes 8$\mu$s.
 
 For a full transmission the PHY and MAC preamble and header be transmitted twice, once for the data and once for the acknowledgement.
 The MAC body contains the payload, which depends of the needs of the addressed \ac{WES}.
@@ -163,7 +163,7 @@ In an labor steril empty channel, denying all side latencys, there airtime could
 	\text{Frequency} = \frac{1}{N \cdot 1270\mu s} = \frac{787.4}{N} Hz
 \end{align}
 
-For 10 WESs, addressed with respectively 20 Byte, it would still be 787.4 Hz.
+For 10 WESs, addressed with respectively 20 byte, it would still be 787.4 Hz.
 This is far above the update frequency of DMX with 44Hz, but also very unrealistic and just intended to show,
 that it could theoretically be within the realm of possibility.
 
@@ -201,7 +201,7 @@ An approach that has not been explored is to reduce the number of retransmission
 The ESP-Now protocol supports both unicast and broadcast.
 Instead of transmitting every unicast after each other, 
 Slim Broadcast transmitts a broadcast with the payload of all channels at the same time to all fixtures.
-If there is a need for more than 250 Byte (DMX channel) a second broadcasts has to be send to transmit containing the missing data.
+If there is a need for more than 250 byte (DMX channel) a second broadcasts has to be send to transmit containing the missing data.
 To achieve this, each WES must be told in advance at which position in the payload its data is located.
 The broadcast must also spend one byte of payload for the sequence number.
 Only in the application layer do the WESs discard the incorrect broadcasts and read out their area from the entire payload.

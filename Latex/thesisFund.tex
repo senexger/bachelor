@@ -308,7 +308,7 @@ Due to the fact that a DMX universe always has its own bus, starting from a new 
 
 A channel in the event technology/CAN-Bus is to distinguish between e.g. a WiFi channel.
 Each endsystem is assigned at least one, but usually several channels.
-Every endsystems knows which channel is intended for it, this must to be preset.
+Every endsystem knows which channel is intended for it, this must to be preset.
 
 \begin{figure}[h]
 	\centering
@@ -338,14 +338,14 @@ It is also not reliable, the use of fire installations is therefore considered t
 % 	\item related work
 % \end{itemize}
 
-To deal with the limitations of DMX, some further developments have been built, the most common being Art-Net.
+To deal with the limitations of DMX, some further developments have been developed, the most common being Art-Net.
 Art-Net is a protocol that moves away from the CAN bus and distributes the data via Ethernet in an \ac{LAN}.
 The approach remains the same, the individual stations are controlled with a constant update frequency.
 There is no longer a limitation of 512 channel universes.
 A universe at Art-Net describes 32,768 DMX universes over a single network, far more than is realistically used.
 In standard mode, the packets are distributed to the stations with unicasts, by means of connectionless \ac{UDP}.
 
-Because Art-Net is a network protocol, it is also able to distribute packets via WLAN.
+Because Art-Net is a network protocol, it is also able and designed to distribute packets via WLAN.
 The lighting console talks to an \ac{AP} via Ethernet or WLAN 
 and this access point forwards the control signals to the individual station.
 The choice of WLAN specification is mainly determined by the stations,
@@ -363,12 +363,13 @@ and althrough the ongoing chip crysis (2021) there are easy to get, in contrast 
 Espressif supports an own development IDF to flash the chips, with minor tweeks it's also to use the Arduino IDE.\\
 However the properitary protocol ESP-Now which, just supported in the ESP Ecosystem, is discussed below.
 and has promising properties for a solid and fast realisation of a low level protocol.
-\todo{paper about esp above arduino}
+
 
 \subsection*{ESP32 Hardware}
 
 The chip ESP32 is quite common in DIY projects around everything from home automation to light installations 
 and can baught on development boards, which are ready to use.
+
 The chip \ref{fig:esp32} is promoted with several features: 
 \footnote{The most recent ESP32 datasheet can be found the documentation page of Espressif, here used: V3.3\\
 	\url{https://www.espressif.com/en/support/documents/technical-documents}}
@@ -396,6 +397,7 @@ The chip \ref{fig:esp32} is promoted with several features:
 It can be said that the ESP32 is a low-cost 32-bit microcontroller,
 which is quite powerful despite its low power consumption.
 The extensive set of features makes it suitable for integration into a wide range of smart environments.
+\cite{TheWorkingPrincipalsOfESP32}
 
 \subsection*{ESP-Now}
 \label{sub:espnow}
