@@ -12,7 +12,7 @@
 One part of lighting technology is about controlling lights or installations to match a stage for a given event.
 These installations can be moving heads, strobes or even fog machines.
 Wireless networks in general are becoming increasingly popular, also in the field of lighting technology,
-here they are more flexible and also more cost-effective then wired solutions.
+here they are more flexible and also more cost-effective than wired solutions.
 However, they also have their own limitations,
 in this thesis, protocols are introduced to address some of these.
 
@@ -34,7 +34,7 @@ The properties of the wired DMX-512a protocol solution are taken as a baseline.
 The packets are to be distributed to all stations with an equally large update frequency,
 the latency between sending the control signal and switching the light should be as short as possible,
 the stations should control the lights synchronously and the reliability should still be as high as possible.
-The range should be at least 100m and the hardware used should be as cost-effective as possible.
+The range should be at least 100 m and the hardware used should be as cost-effective as possible.
 
 \section*{Challenges}
 % \begin{itemize}
@@ -65,10 +65,10 @@ which have to be programmed in a fundamentally different way than ordinary progr
 
 In this thesis a number of protocols are being developed on the data link layer/application layer,
 which offer promising improvements.
-It is shown that broadcasts are preferable to unicats
+It is shown that broadcasts are preferable to unicasts
 and also become significantly more robust through adaptations.
 These were investigated simulatively and experimentally and compared with existing solutions.
-The test suite used on the test hardware is publicly available on Github,
+The test suite used on the test hardware is publicly available on GitHub,
 as well as the collected measurement data.
 \footnote{\url{www.github.com}}
 \todo{update link, tkn gitlab link...}
@@ -76,7 +76,7 @@ as well as the collected measurement data.
 \section*{Thesis Outline}
 
 The thesis is divided into three main chapters.
-Chapter 3 explains the 802.11 spzifications family, the physical and the data link layer.
+Chapter 3 explains the 802.11 specifications family, the physical and the data link layer.
 Existing light protocols are explained in order to better understand the new protocols that will be introduced later,
 in addition, the EPS32 hardware and the associated ESP-NOW protocol are briefly shown.
 
@@ -84,5 +84,5 @@ Chapter 4 then specifies the various protocols developed and makes analytical as
 And it is explained how to work with the hardware used.
 
 Chapter 5 then explains the methodology, how the measurement data was collected with a technical implementation.
-Wireshark measurements are analysed and used to better understand the protocols.
+Wireshark's measurements are analyzed and used to better understand the protocols.
 Afterwards, the protocol data is further evaluated and compared with the analytical approaches and with each other.

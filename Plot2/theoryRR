@@ -70,7 +70,7 @@ def plot_rr_sr(ax):
     plt.xticks(rr)
     plt.grid(True)
 
-    fig.savefig('Graphs/theory_sr_rr.pdf', bbox_inches='tight')  
+    # fig.savefig('Graphs/theory_sr_rr.pdf', bbox_inches='tight')  
     fig.show()  
 
 

@@ -63,7 +63,6 @@ One can therefore assume a simple star topology.
 In the following the ESP-NOW \cref{sub:espnow} protocol was chosen to distribute the packets low-level, 
 because even if it was not developed for this purpose the specification fits quite well to the requirements.
 
-\todo{topology of data flow isnt linked in the text}
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.75]{figures/dataFlow.pdf}
@@ -71,26 +70,29 @@ because even if it was not developed for this purpose the specification fits qui
 	\label{fig:testbed}
 \end{figure}
 
-For the purpose of this analysis, the controller transmits 20 byte (analogue to 20 DMX channels) to every WESs.
+For the purpose of this analysis, the controller transmits 20 byte (analogue to 20 DMX channels) to 8 WESs.
+The dataflow is shown in \cref{fig:testbed}, 
+both the controller and the WESs are implemented with the ESP32 harware.
 Four different metrics are considered, which where discussed in the requirements.
 \begin{itemize}
 	\item \textbf{Latency} \\
-	What is the latency from commanding the controller to the estimated reaction at the WES e.g. lighting of a light?
-	For the sake of simplicity, delays caused by the microcontroller instruction set, data distribution and 
-	control of the light installation are neglected and the focus is placed only on the airtime.
+	The time that elapses between sending the command to the controller, transmitting it to the WESs and switching the lights.
+	For the sake of simplicity, delays caused by the microcontroller and
+	control of the light installation are neglected and the focus is placed on 802.11 affected parameters.
 	Low latency is important so that the lighting technician can intervene live in the light show,
 	but the lights do not react with delay.
 	\item \textbf{Update Frequency}\\
-	How often can the we update all WESs per second? 
+	The frequency with which the controller can send the control signals every WES once a second.
 	This results in how smooth movement of moving heads are moving or how smooth the transition
 	of the color of an LED can be performed
-	and the control can be adapted rhythmically to the musical beat.
+	and the control can be adapted rhythmically to a musical beat.
 	\item \textbf{Reliability}\\
-	Wie sicher kommen die vom Controller gesendeten Daten bei den WESs an?
+	The security with which the data sent by the controller actually arrives at the WES.
 	Lack of reliability can result 
 	in two WESs positioned next to each other not behaving the same because one of them only receives half of the signals.
 	\item \textbf{Synchronisation}\\
-	Are the signals sent to different WESs carried out at the same time?
+	Das synchrone Ansteuern der Lichter durch die WES. 
+	For synchronisation, each WES must wait a buffering delay until the last WES has also received a signal.
 	If two of the WESs are to be controlled simultaneously, 
 	but the signal was transmitted one after the other, they have to wait for each other so that the lights change at the same time.
 \end{itemize}
@@ -155,15 +157,15 @@ In order to avoid unnecessary load on the radio channel, Art-Net transmit only t
 In the worst case, however, changes affect all WESs at the same time.
 
 \subsubsection*{Update Frequency}
-Following the approach of DMX and updating the 'bus' every 44Hz, would made by sending the packets round robin via unicast. 
+Following the approach of DMX and updating the 'bus' every 44Hz, would be made by sending the packets round-robin via unicast. 
 With a correspondingly high number of WESs, this could be challenge with a transmission speed of 1MBit/s, 
 it also scales linearly with each additional WES. 
-In an labor steril empty channel, denying all side latencys, there airtime could be for N WESs:
+In a labor steril empty channel, denying all side latencys, there airtime could be for N WESs:
 \begin{align}
 	\text{Frequency} = \frac{1}{N \cdot 1270\mu s} = \frac{787.4}{N} Hz
 \end{align}
 
-For 10 WESs, addressed with respectively 20 byte, it would still be 787.4 Hz.
+For 10 WESs, addressed with respectively 20 bytes, it would still be 787.4 Hz.
 This is far above the update frequency of DMX with 44Hz, but also very unrealistic and just intended to show,
 that it could theoretically be within the realm of possibility.
 
@@ -201,13 +203,13 @@ An approach that has not been explored is to reduce the number of retransmission
 The ESP-Now protocol supports both unicast and broadcast.
 Instead of transmitting every unicast after each other, 
 Slim Broadcast transmitts a broadcast with the payload of all channels at the same time to all fixtures.
-If there is a need for more than 250 byte (DMX channel) a second broadcasts has to be send to transmit containing the missing data.
+If there is a need for more than 250 byte (DMX channel) a second broadcasts has to be sent to transmit containing the missing data.
 To achieve this, each WES must be told in advance at which position in the payload its data is located.
 The broadcast must also spend one byte of payload for the sequence number.
 Only in the application layer do the WESs discard the incorrect broadcasts and read out their area from the entire payload.
 
-For the unicast the payload was assumed to be 20 byte for each WES, the same amount is assumed for each WES in the Slim Broadcast calculations.
-The maximum payload of the broadcast is reduced to 200 byte, instead of the possible 250 bytes, 
+For the unicast the payload was assumed to be 20 bytes for each WES, the same amount is assumed for each WES in the Slim Broadcast calculations.
+The maximum payload of the broadcast is reduced to 200 bytes, instead of the possible 250 bytes, 
 because when it is close to the 250 byte limit, reliability is supposed to collapse.
 \todo{cite something 250 byte max payload ESPNOW}
 
@@ -275,13 +277,13 @@ This effect should be even clearer under real conditions.
 
 The huge advantage that the Slim Broadcast has over the Slim Unicast in terms of update frequency,
 comes at the cost of lower reliability.
-Broadcasts can't do acknolegements,\todo{ref to fundamentionals, datalink, broadcast}
-a WES that has poor reception to the controller, will not receive packets and the controller cannot take countermeasures.
-\cref{sec:DLbroadcast}
+Broadcasts can't do acknolegements,
+a WES that has poor reception to the controller, will not receive packets and the controller cannot take countermeasures
+as already discribed in \cref{sec:DLbroadcast}.
 
 \subsubsection*{Synchronisation}
 Insead of transmitting to several fixtures after each other slim broadcast just transmitts to all fixtures at the same time.
-This solves the problem of synchronization for less than 200 channel.
+This solves the problem of synchronisation for less than 200 channels.
 For more than 200 each WES has to wait until the last broadcast has arrived.
 In contrast to unicast, the buffering delay can be calculated almost deterministically for broadcast 
 due to the absence of automatic retransmissions.
@@ -320,17 +322,17 @@ that at least a few repetitions can be accepted. \cref{fig:rr_analytic}
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{/home/walther/Documents/bachelor/Plot2/Graphs/rr_transmission_time.pdf}
-	\caption{Transmission Time with with different sets of RR over rising Payload}
+	\caption{Transmission Time with different sets of RR over rising Payload}
 	\label{fig:rr_analytic}
 \end{figure}
 
 \subsection*{Delayed Rapid Repetition}
 \label{sub:DelayedRepetition}
 
-To push the idea of rapid repetion even further, should also temporarily occuring noise be taken into account.\todo{displaced repetition vs delayed repetition}
+To push the idea of rapid repetion even further, should also temporarily occuring noise be taken into account.\todo{displaced repetition or delayed repetition which is better?}
 This can cause all the repetitions to be captured at once.
 If the individual repetitions of the first sequence are sent displaced together with those of the second sequence,
-then the probability that at least one of the repetitions is not detected by a occuring noise noise is increased.
+then the probability that at least one of the repetitions is not detected by an occuring noise is increased.
 
 By staggering the individual sequences, the update frequency is not affected,
 because just as many packets are sent as with Slim Broadcast RR.
@@ -351,7 +353,7 @@ but interleaving two or three sequences could help counteract persistent noise.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.60]{../Plot2/Graphs/bc_dr.pdf}
-	\caption{Latency of DR, transmitting 200 Byte}
+	\caption{Latency of DR, transmitting 200 Bytes}
 	\label{fig:dr_delay}
 \end{figure}
 
@@ -369,11 +371,11 @@ can reduce the number of rapid repetitions while maintaining or even improving r
 
 The developer boad ESP32 Devkit V1 used in the experiments (\cref{sec:evaluation}) for the collection of the data
 can be ordered cheaply 
-\footnote{3.79€, www.aliexpress.com, ESP32 Devboard V1, 3/3/22}
+\footnote{3.79 €, www.aliexpress.com, ESP32 Devboard V1, 3/3/22}
 from common (most favourably Chinese) websites. 
 The most accessible way to flash a chip is using the Arduino IDE, which can be easy configured for flashing ESPs.
 A more precise approach is to use the IDF of Espressif itself, 
-which can also be easily made to work by installing the toolchain and build tools and an Plugin for your favorite IDE.
+which can also be easily made to work by installing the toolchain and build tools and a Plugin for your favorite IDE.
 
 \begin{figure}[h]
 	\centering
@@ -384,13 +386,13 @@ which can also be easily made to work by installing the toolchain and build tool
 \end{figure}
 
 Espressif has provided a user guide for the use of ESP-NOW ~\cite{ESPNOWGuide},
-but unfortunately it contains some of informations which are outdated, 
+but unfortunately it contains some of the informations which are outdated, 
 for example, it claims that broadcast is not supported.
 However, more detailed information can be found on the website.
 % \footnote{\url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}}.
 
 To use ESP-NOW on an ESP, only a few steps are necessary.
-The chip must activate Wifi and put it in STA mode and ESP-NOW can be activated.
+The chip must activate Wi-Fi and put it in STA mode and ESP-NOW can be activated.
 The two libraries "esp\_wifi.h" and "esp\_now.h" are required for this.
 
 \begin{lstlisting}[caption=Init ESP-NOW]
@@ -433,7 +435,7 @@ if (ESP_OK == status) {                     // check success
 
 Sending an ESP-NOW unicast is performed with the method esp\_now\_send().
 The MAC address of the recipient is passed, a pointer to the payload to be transmitted and its length.
-In the case of a broadcast, the address field is filled with the broadcast address ff:ff:ff:ff:ff:ff),
+In the case of a broadcast, the address field is filled with the broadcast address (ff:ff:ff:ff:ff:ff),
 The function esp\_now\_register\_send\_cb can be used to check whether the cast was successfully sent out.
 It is important to write as little code as possible in such a callback function.
 If you send the next package only after receiving the dispatch confirmation, then you can be sure that the packages are sent in the correct format,

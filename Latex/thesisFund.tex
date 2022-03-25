@@ -60,7 +60,7 @@ There are two \ac{BSS} defined:
 	An initial association must take place to use the Infrastructure \ac{BSS}.
 	
 	\item Independent BSS\\
-	A network without a central station, where the network topology can flexible change over time.
+	A network without a central station, where the network topology can flexibly change over time.
 	The communication happens directly between the Wireless Endsystems.
 	Efficent routing can became a problem in more complex topologys.
 \end{itemize}
@@ -95,15 +95,15 @@ There are a few more specifications, in this thesis the rather basic 802.11b is 
 
 \subsection*{Data Link Layer}
 
-The \ac{DL} Layer is the second lowest layer of the \ac{OSI} Model \ref{tab:OSI} and is split in two sublayers. 
+The \ac{DL} Layer is the second-lowest layer of the \ac{OSI} Model \ref{tab:OSI} and is split in two sublayers. 
 The \ac{LLC} sublayer which multiplex protocols over the MAC layer while transmitting and to de-multiplex the protocols while receiving.
 LLC provides the hop-to-hop flow and error control, allows multipoint communication over networks 
-and it also adds frame sequence numbers.
+and it adds frame sequence numbers.
 But in this thesis we focus on the other data link sublayer.
 
 The \ac{MAC} includes network protocols that regulate how multiple computers share the physical transmission medium they use. 
 Without regulation, collisions and data loss would occur in the shared medium if several stations were to transmit simultaneously.
-The \ac{MAC} Protocol Data Unit is additional added inside of the \ac{PHY} Payload. 
+The \ac{MAC} Protocol Data Unit is additional added inside the \ac{PHY} Payload. 
 It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
 
 \begin{figure}[h]
@@ -185,7 +185,7 @@ There are three basic types of data link transmissions: unicast, broadcast and m
 
 \subsubsection*{Unicast}
 
-The link layer unicast is used to send data over an single hop to the target \ac{WES} destination.
+The link layer unicast is used to send data over a single hop to the target \ac{WES} destination.
 The link layer of each \ac{WES} checks the destination MAC address in the link layer header and 
 discards the frame if the destination address does not match its own address.
 It is therefore a direct communication between the transmitter and the WES.
@@ -289,8 +289,8 @@ The endsystems in DMX512 are called fixture because it's most likely a lighting 
 this could be a moving-head, fresnel, spotlight, stroboscope or any other light installation.
 It could also be a fog machine that emits fog on an appropriate signal.
 
-All devices are daisy chained together visualized in \ref{fig:dmx_diagram}.
-The DMX controller is in the begin of each chain.
+All devices are daisy-chained together visualized in \ref{fig:dmx_diagram}.
+The DMX controller is in the beginning of each chain.
 The receiving endsystems, are chained behind each other from output to input. 
 A terminator, specified in the DMX specification, is to be connected to the final output.
  
@@ -302,13 +302,13 @@ A terminator, specified in the DMX specification, is to be connected to the fina
 	\label{fig:dmx_diagram}
 \end{figure}
 
-The hole chain is called DMX-Universe and can contain a set of 512 channel.
+The hole chain is called DMX-Universe and can contain a set of 512 channels.
 If there is a need of more channels one needs more DMX universes - each channel consists of one byte.
 Due to the fact that a DMX universe always has its own bus, starting from a new controller can lead to inconveniences.
 
-A channel in the event technology/CAN-Bus is to distinguish between e.g. a WiFi channel.
+A channel in the event technology/CAN-Bus is to distinguish between e.g. a Wi-Fi channel.
 Each endsystem is assigned at least one, but usually several channels.
-Every endsystem knows which channel is intended for it, this must to be preset.
+Every endsystem knows which channel is intended for it, this must be preset.
 
 \begin{figure}[h]
 	\centering
@@ -322,8 +322,8 @@ The second fixture is only a dimmer that can be dimmed in 256 steps, therefore i
 The third fixture is a moving head, it occupies channels 9-18 directly behind the dimmer.
 The remaining channels are still unoccupied.
 The terminator is connected to the end of the DMX bus.
-If a byte does not have a high enough resolution, merging two bytes to a dual channel of 2 byte or 65536 different values insted of 256.
-E.g. the 360 degree rotation of a moving head is described roughly in the first byte and in fine steps in the other.
+If a byte does not have a high enough resolution, merging two bytes to a dual channel of 2 bytes or 65536 different values insted of 256.
+E.g. the 360-degree rotation of a moving head is described roughly in the first byte and in fine steps in the other.
 
 Since \ac{DMX} is unidirectional it can be assumed that the endsystems generally only receive or forward (daisy chain) control signals sent from the control console.
 This is a major limitation of DMX, beside of the rather small universe size.
@@ -339,7 +339,7 @@ It is also not reliable, the use of fire installations is therefore considered t
 % \end{itemize}
 
 To deal with the limitations of DMX, some further developments have been developed, the most common being Art-Net.
-Art-Net is a protocol that moves away from the CAN bus and distributes the data via Ethernet in an \ac{LAN}.
+Art-Net is a protocol that moves away from the CAN bus and distributes the data via Ethernet in a \ac{LAN}.
 The approach remains the same, the individual stations are controlled with a constant update frequency.
 There is no longer a limitation of 512 channel universes.
 A universe at Art-Net describes 32,768 DMX universes over a single network, far more than is realistically used.
@@ -357,11 +357,11 @@ because of the development costs and the relatively low quantities.
 
 Almost every 802.11 capable \ac{MCU} could be picked for this research.
 But there are several reasons why the ESP Platform from Espressif is a valid choice.
-There are several chips provided by Espressif with WiFi specifications, these chips are very affordable
+There are several chips provided by Espressif with Wi-Fi specifications, these chips are very affordable
 \footnote{3.86 at \url{www.aliexpress.com}, 10.3.2022}
 and althrough the ongoing chip crysis (2021) there are easy to get, in contrast of the also very popular Chips from the manufacturer Arduino, which are also more expansive.
 Espressif supports an own development IDF to flash the chips, with minor tweeks it's also to use the Arduino IDE.\\
-However the properitary protocol ESP-Now which, just supported in the ESP Ecosystem, is discussed below.
+However, the properitary protocol ESP-Now which, just supported in the ESP Ecosystem, is discussed below
 and has promising properties for a solid and fast realisation of a low level protocol.
 
 
@@ -377,7 +377,7 @@ The chip \ref{fig:esp32} is promoted with several features:
 	\setlength\itemsep{-0.0em}
 	\item Fast CPU (2 cores at 240 MHz)
 	\item 802.11 b/g/n with up to 150 Mbps (2.4GHz)
-	\item Wifi Multimedia (WMM)
+	\item Wi-fi Multimedia (WMM)
 	\item Immediate Block ACK
 	\item Automatic Beacon monitoring (hardware TSF)
 	\item Virtual Wi-Fi Interfaces
@@ -404,29 +404,29 @@ The extensive set of features makes it suitable for integration into a wide rang
 ESP-NOW is a properitary protocol developed by Espressif. 
 \emph{ESP-NOW is widely used in smart light, remote controlling, sensor, etc.}
 \footnote{\url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}\label{note:espressif}}
-It is a conectionless protocol, so the \ac{WES}'s are in Ad-Hoc mode insted of \ac{STA}.
+It is a connectionless protocol, so the \ac{WES}'s are in Ad-Hoc mode instead of \ac{STA}.
 It is just supported on the ESP8266, ESP32 and ESP32s, all chipsets from Espressif, but they are compatible with each other.
-Because of this, a ESP-Chip as gateway is needed to interact from the outside to the ESP-NOW communication. 
+Because of this, an ESP-Chip is needed as a gateway to interact from the outside to the ESP-NOW communication. 
 
-Through the hardware limitation of the boards it can just be used on the 2.4 GHz frequncy band.
+Through the hardware limitation of the boards it can just be used on the 2.4 GHz frequency band.
 ESP-NOW allows 10 ESPs for pairing with encryption and up to 20 without encryption.
-Espressif promises throuput of up to 30MBit/s with and a possible range of up to 1km.
-However Roberto Pasic et al. \cite{ESPNOWCommunication} measured a range of the unmodified onboard antenna of the ESP32 
-and just got a \emph{stable commication up to 190m in open field}.
+Espressif promises throughput of up to 30MBit/s with and a possible range of up to 1 km.
+However, Roberto Pasic et al. \cite{ESPNOWCommunication} measured a range of the unmodified onboard antenna of the ESP32 
+and just got a \emph{stable commication up to 190 m in open field}.
 
 The focus of the ESP-NOW protocol is on low power consumption.
 A connectionless communication between \ac{WES}'s not only saves energy during the authentication process, 
-Additionally, is the commonication the the properties of the ad-hoc mode, direct and not over a second access point.
-The protocol has a limitation of a limeted payload of 250 byte for each transmission.
-It also has a much less overhead, which results in shorter airtime, less disturbances and also less power consumption through the antenna 
+Additionally, is the commonication the properties of the ad-hoc mode, direct and not over a second access point.
+The protocol has a limitation of a limeted payload of 250 bytes for each transmission.
+It also has a much less overhead, which results in shorter airtime, fewer disturbances and also less power consumption through the antenna 
 (latter is not relevant for this thesis).
-There is no TCP/IP header to be transmited. 
-For very small payloads, this offset can become dispropotional.
+There is no TCP/IP header to be transmitted. 
+For very small payloads, this offset can become disproportional.
 
-The default ESP-NOW bit rate is 1 Mbps it uses a channelwidth of 20MHz, there is no double channel (40Mbit/s or higher) used.
-But e.g. the low energy, high range protocol Long Range Wide Area Network (LoRaWAN) suffers from a to slow throuput for this application.
+The default ESP-NOW bit rate is 1 Mbps it uses a channel width of 20MHz, there is no double channel (40Mbit/s or higher) used.
+But e.g., the low energy, high range protocol Long Range Wide Area Network (LoRaWAN) suffers from a too slow throuput for this application.
 
-To undersant what ESP-NOW does it needs to take a look to the vendor-specific action frame transmiting ESP-NOW data,
+To undersant what ESP-NOW does it need to take a look to the vendor-specific action frame transmiting ESP-NOW data,
 these are Action Frames desinged for vendor-specific signaling.
 The compositions of the frame are broken down in more detail in \cref{fig:esp_now_frame_format} and \cref{fig:esp_now_vendor_format}
 \footnote{Also from \ref{note:espressif}}
@@ -455,7 +455,7 @@ The compositions of the frame are broken down in more detail in \cref{fig:esp_no
 	\item \textbf{MAC Header:} As ESP-NOW is connectionless, the MAC header differs from that of standard frames.
 	\item \textbf{Category Code:} The Category Code field is set to the value(127) indicating the vendor-specific category.
 	\item \textbf{Organization Identifier:} The Organization Identifier contains a unique identifier (0x18fe34), which is the first three bytes of MAC address applied by Espressif.
-	\item \textbf{Random Value:} The Random Value filed is used to prevents relay attacks.
+	\item \textbf{Random Value:} The Random Value filed is used to prevent relay attacks.
 	\item \textbf{Vendor Specific Content:} The Vendor Specific Content contains vendor-specific fields (table \ref{fig:esp_now_vendor_format})
 	\item \textbf{Frame Check Sequence:} Used for error correction in layer 2.
 \end{itemize}
@@ -486,10 +486,10 @@ The compositions of the frame are broken down in more detail in \cref{fig:esp_no
 	\item \textbf{Body:} The Body contains the ESP-NOW data.
 \end{itemize}
 
-It is worth to mention, that the vendor specific content (\ref{fig:esp_now_frame_format}) is allowed to contain up to 255 byte,
+It is worth to mention, that the vendor specific content (\ref{fig:esp_now_frame_format}) is allowed to contain up to 255 bytes,
 but the sum over all values in \ref{fig:esp_now_vendor_format} if the body would contain the maximum of 250 bytes, 
+\todo{255 != 250 is it really that important, skip?}
 leads to a total of 260 bytes.
-\todo{255 != 250 is it really that important?}
 The values are from the documentation of ESP-NOW from Espressif.
 They also claim, that broadcast is not supported in ESP-NOW, but it is.
-It seems that the documentation isn't complitly finished (or translated).
+It seems that the documentation isn't completely finished (or translated).
