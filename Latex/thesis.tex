@@ -130,24 +130,28 @@
 % 	\item Conclusion (What are the implications of the answer?)
 % \end{enumerate}
 
-In the field of lighting and stage technology, the challenge of controlling the individual installations, 
+In the field of lighting and stage technology, the challenge of controlling the individual installations 
 quickly and without complications is a recurring one.
-Established solutions are realized via cables using the DMX-512a protocol. 
-However, due to the progress in radio technology 
-wireless solutions based on IEEE 801.11 are becoming more and more common. 
-But with these it is a challenge to send control signals, 
-to many individual stations and to update them multiple times a second.
-Additionally, a low latency and, of course, a certain reliability must be guaranteed.
-This is challenged because at typical locations, such as a concert, there are often very busy frequency bands.
-This thesis therefore examines an approach attempting to reduce a large part of the overhead,
-by having the stations communicate with each other on an Ad-Hoc network at the data link layer,
-in order to develop an improved wireless protocol.
-Different approaches with broadcast and unicast are evaluated analytically and experimentally.
+Established solutions are still realized via cables, 
+while wireless solutions are more flexible, at the cost of reliability.
+Especially when the radio channel is disturbed, dropouts in reliability can occur,
+which is often the case at typical venues like concerts.
+By controlling many nodes with only small payloads, the overhead is significant.
 
-It can be shown that the overhead has a great influence on the transmission and that it is particularly extreme,
-because so many individual stations are often only controlled with very short control signals.
-The results show that the gain in throughput means that packets can be sent redundantly,
-which also leads to improvements in reliability.
+This thesis targets the problem of efficient and reliable wireless control of light installations 
+by proposing a low-overhead data link layer solution on top of IEEE 802.11 physical layer
+supporting both reliable unicast and broadcast operation,
+based on unsolicited delayed repeated transmissions.
+The latter is scalable which is important in case a large group of nodes need to be controlled.
+
+The proposed protocols were analyzed analytically 
+as well as by means of experiments in a small indoor testbed using the ESP-NOW protocol. 
+Results reveal that the proposed approaches are outperforming state-of-the-art 
+(i.e., ARTNet over TCP/UDP and WiFi stack) by XX in terms of reliability, YY in latency and … Moreover, 
+it enables time synchronized operation on a set of nodes, e.g., 
+for purpose of time controlled configuration of lighting, 
+which is not performed with state-of-the-art solutions.
+
 
 \end{otherlanguage*}
 
@@ -163,7 +167,7 @@ hauptsächlich auf Basis von IEEE 801.11 durch.
 
 Allerdings ist es eine Herausforderung, Steuersignale an viele einzelne Stationen zu senden 
 und dies mehrmals pro Sekunde.
-Außerdem muss eine geringe Latenzzeit und natürlich eine gewisse Zuverlässigkeit gewährleistet sein.
+Außerdem muss eine geringe Latenzzeit und auf natürliche Art und Weise eine gewisse Zuverlässigkeit gewährleistet sein.
 Dies wird dadurch erschwert, dass an typischen Standorten, wie z.B. einem Konzert, 
 die Frequenzbänder oft stark ausgelastet sind. 
 In dieser Arbeit wird ein Ansatz untersucht, der versucht, einen großen Teil des Overheads zu reduzieren,

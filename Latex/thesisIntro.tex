@@ -10,7 +10,7 @@
 % \end{itemize}
 
 One part of lighting technology is about controlling lights or installations to match a stage for a given event.
-These installations can be moving heads, strobes or even fog machines.
+These installations can be moving heads, strobes, or even fog machines.
 Wireless networks in general are becoming increasingly popular, also in the field of lighting technology,
 here they are more flexible and also more cost-effective than wired solutions.
 However, they also have their own limitations,
@@ -50,7 +50,7 @@ There will always be a possibility to build an even more reliable system with ex
 however, the focus of this thesis is to achieve results with low-cost hardware that can be compared 
 to the existing DMX-512a solution.
 The ESP-NOW protocol used here by the manufacturer Espressif is unfortunately proprietary
-and had additionally to be investigated due to the partly inaccurate or outdated documentation.
+and had to be investigated additionally due to the partly inaccurate or outdated documentation.
 Also, the complete control process finds place over microcontrollers, 
 which have to be programmed in a fundamentally different way than ordinary programs.
 
@@ -69,8 +69,7 @@ It is shown that broadcasts are preferable to unicasts
 and also become significantly more robust through adaptations.
 These were investigated simulatively and experimentally and compared with existing solutions.
 The test suite used on the test hardware is publicly available on GitHub,
-as well as the collected measurement data.
-\footnote{\url{www.github.com}}
+as well as the collected measurement data\footnote{\url{www.github.com}}.
 \todo{update link, tkn gitlab link...}
 
 \section*{Thesis Outline}
@@ -80,9 +79,9 @@ Chapter 3 explains the 802.11 specifications family, the physical and the data l
 Existing light protocols are explained in order to better understand the new protocols that will be introduced later,
 in addition, the EPS32 hardware and the associated ESP-NOW protocol are briefly shown.
 
-Chapter 4 then specifies the various protocols developed and makes analytical assumptions.
-And it is explained how to work with the hardware used.
+Chapter 4 then specifies the various protocols developed and makes analytical assumptions and
+additional explains the given hardware.
 
-Chapter 5 then explains the methodology, how the measurement data was collected with a technical implementation.
+Chapter 5 then introduces the methodology, how the measurement data was collected with a technical implementation.
 Wireshark's measurements are analyzed and used to better understand the protocols.
 Afterwards, the protocol data is further evaluated and compared with the analytical approaches and with each other.
