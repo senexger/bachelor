@@ -32,29 +32,31 @@ H. Kareem and D. Dunaev \cite{TheWorkingPrincipalsOfESP32} observed that
 \emph{the recently growing demand for the control and automation of a wide variety of devices and gadgets has
 led to a rapid expansion in embedded systems market}.
 When selecting the platform for the experiments in this thesis, the ESP32 was chosen, 
-which was compared analytical along with Arduino embedded systems from the two,
+which was compared analytically along with Arduino embedded systems from the two,
 with the result, \emph{to highlight the advantages of the ESP32 in designing embedded systems compared to similar boards}.
 
-Due to the fact that many individual stations are controlled in stage lighting, often with very short signals, there is sometimes an extreme overhead.
+Due to the fact that many individual stations are controlled in stage lighting, 
+often with very short signals, this can sometimes lead to an extreme overhead.
 \emph{Overhead is} 
 according to Y. Xiao \cite{PerformanceEnhancement}
 \emph{one of the fundamental problems of MAC inefficiency, and it includes MAC header, frame check sequence, and physical header.}
-But also DIFS, SIFS can be be classified as overhead.
+But also interframe spaces can be classified as overhead.
 
 The impact of transmission overhead is also researched by Nurul Sarkar \cite{TheImpactOfOverheads}
-he pointed out the DCF inefficiency and develpoed a protocol that
+he pointed out the DCF inefficiency and developed a protocol that
 \emph{is a simple packet scheduling mechanism that can be used to reduce transmission overheads of DCF and to improve the performance. 
 The key idea is to create a temporary buffer unit at the MAC layer for each active connection on the network 
-where multiple packets are accumulated nd combined into a single large packet}.
-In this thesis where also broadcasts used to address multiple stations in order to reduce overhead compared to multiple unicast transmissions.
+where multiple packets are accumulated and combined into a single large packet}.
+In this thesis broadcasts are used to address multiple stations 
+in order to reduce overhead compared to multiple unicast transmissions.
 Nurul Sarkar \cite{TheImpactOfOverheads} also took a look into 
 \emph{its impact on throughput for a single-user wireless ad hoc network},
-which where used in this thesis.
+which were used in this thesis.
 
 Addressing to multiple stations is often realized with multicasts, 
-because, unlike broadcasts, acknolegements can be sent. One approach to this is presented by Pablo Salvador et. al. 
+because, unlike broadcasts, acknowledgements can be sent. One approach to this is presented by Pablo Salvador et. al. 
 \cite{AFirstImplementation}
-They experimentally investigate the IEEE 802.11aa GATS and test block acknolegements.
+they experimentally investigate the IEEE 802.11aa GATS and test block acknowledgements.
 Also unsolicited retries where researched by them: 
 \emph{the idea is to improve reliability with a very somple scheme, wich does not requre a 
 closed loop between the sender and the receivers(s), and therefore the price to pay is efficiency}.

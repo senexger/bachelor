@@ -8,8 +8,9 @@
 % 	\item recommended length: approximately one third of the thesis.
 % \end{itemize}
 
-Different approaches are presented and discussed in this chapter using data link unicast or broadcast in different specifications,
-these were also empirically tested and evaluated in the \cref{sec:evaluation}.
+Different approaches are presented and discussed in this chapter 
+using data link unicast or broadcast in different specifications,
+these were also empirically tested and evaluated in \cref{sec:evaluation}.
 At the end of this chapter, the test setup will be introduced and 
 it is briefly explained how the chips are programmed.
 
@@ -44,23 +45,25 @@ it is briefly explained how the chips are programmed.
 			\hline
 		\end{tabular}
 	\end{tabular}
-	\caption{Art-Net Layer compared with Slim Data Link Layer}
+	\caption{Art-Net Layer compared to Slim Data Link Layer}
 	\label{tab:Layer}
 \end{table}
 
-The use of high-layer protocols, such as Art-Net \cref{sec:artnet}, in lighting technology involves a considerable overhead. 
+The use of high-layer protocols, described in Art-Net \cref{sec:artnet}, 
+in lighting technology involves a considerable overhead. 
 Because the lighting console does not talk directly to the \ac{WES}, communication must be controlled via an \ac{AP}, 
 which means that the \ac{IP} (layer 3) must be used for addressing and \ac{UDP} (layer 4) for transporting the data. 
-They both come withe additional headers. 
-Such an overhead can lead to latency, channel congestion and packet loss.
+They both come with additional headers. 
+Such an overhead can lead to more latency, higher channel congestion and packet loss.
  
-In an ad-hoc network \cref{itm:bss}, on the other hand, packets can be sent directly on the MAC (layer 2) \cref{tab:Layer}. 
-With a payload of a few bytes to each WES, keeping overheat small can be quite important. 
-Complexity problems as often typical in Ad-Hoc networks are not to be assumed, 
-since the controller at the light desk must normally stand in line of sight to the individual WES, 
-from there finally the lighting technician from there must have everything in the range of vision to be able to intervene. 
+Ad-hoc networks seen in \cref{itm:bss}, on the other hand, packets can be sent directly on the MAC (layer 2).
+With a payload of a few bytes to each WES keeping overhead small can be quite important. 
+Complexity problems as often typical in ad-hoc networks are not to be assumed, 
+since the controller at the light desk must normally stand in line of sight to the individual WES.
+Because the lighting technician also has to keep an eye on everything from there.
+
 One can therefore assume a simple star topology.
-In the following the ESP-NOW \cref{sub:espnow} protocol was chosen to distribute the packets low-level, 
+In the following the ESP-NOW protocol (\cref{sub:espnow}) was chosen to distribute the packets low-level, 
 because even if it was not developed for this purpose the specification fits quite well to the requirements.
 
 \begin{figure}[h]
@@ -70,31 +73,34 @@ because even if it was not developed for this purpose the specification fits qui
 	\label{fig:testbed}
 \end{figure}
 
-For the purpose of this analysis, the controller transmits 20 byte (analogue to 20 DMX channels) to 8 WESs.
+For the purpose of this analysis, the controller transmits 20 bytes (analogue to 20 DMX channels) to 8 WESs.
 The dataflow is shown in \cref{fig:testbed}, 
 both the controller and the WESs are implemented with the ESP32 harware.
 Four different metrics are considered, which where discussed in the requirements.
 \begin{itemize}
 	\item \textbf{Latency} \\
-	The time that elapses between sending the command to the controller, transmitting it to the WESs and switching the lights.
+	The time that elapses between sending the command to the controller, 
+	transmitting it to the WESs and switching the lights.
 	For the sake of simplicity, delays caused by the microcontroller and
 	control of the light installation are neglected and the focus is placed on 802.11 affected parameters.
 	Low latency is important so that the lighting technician can intervene live in the light show,
-	but the lights do not react with delay.
+	and the lights do react in time.
 	\item \textbf{Update Frequency}\\
-	The frequency with which the controller can send the control signals every WES once a second.
-	This results in how smooth movement of moving heads are moving or how smooth the transition
-	of the color of an LED can be performed
-	and the control can be adapted rhythmically to a musical beat.
+	The frequency with which the controller can send the control signals every WES.
+	This results in 
+	how continous movement of moving heads are moving,
+	how fluid the transition of the color can be performed and
+	how exact the control can be adapted to a musical beat.
 	\item \textbf{Reliability}\\
-	The security with which the data sent by the controller actually arrives at the WES.
+	The security with which the data sent by the controller actually arrives at the \ac{WES}s.
 	Lack of reliability can result 
 	in two WESs positioned next to each other not behaving the same because one of them only receives half of the signals.
 	\item \textbf{Synchronisation}\\
-	Das synchrone Ansteuern der Lichter durch die WES. 
+	The synchronous control of the lights by the WES.
 	For synchronisation, each WES must wait a buffering delay until the last WES has also received a signal.
 	If two of the WESs are to be controlled simultaneously, 
-	but the signal was transmitted one after the other, they have to wait for each other so that the lights change at the same time.
+	but the signal was transmitted one after the other, 
+	they have to wait for each other so that the lights change at the same time.
 \end{itemize}
 
 \subsection*{Slim Unicast}
@@ -107,13 +113,14 @@ this process is just analogous to  mapping the corresponding IP addresses after 
 \subsubsection*{Latency}
 
 Latency describes the time between a command and the expected response, here considered as airtime.
-The airtime using 1Mbit/s is rather easy calculated, every byte (8 Bits) takes 8$\mu$s.
+The airtime using 1 Mbit/s is rather easy calculated, every byte (8 Bits) takes 8 $\mu$s.
 
-For a full transmission the PHY and MAC preamble and header be transmitted twice, once for the data and once for the acknowledgement.
-The MAC body contains the payload, which depends of the needs of the addressed \ac{WES}.
-In a perfect clean channel the sender hasn't to defer, but has to take a \ac{DIFS} plus a backoff.
+For a full transmission the PHY and MAC preamble and header has to be transmitted twice, 
+once for the data and once for the acknowledgement.
+The MAC body contains the payload, which depends upon the addressed \ac{WES}.
+In a perfect clean channel the sender does not need to defer, but has to take a \ac{DIFS} plus a backoff.
 A perfect empty channel resets the CW to CW$_{min}$, which are 31 slots in 802.11b
-and a slot time of 20$\mu$s an average delay of $370\mu$s is estimated.
+and a slot time of 20 $\mu$s an average delay of 370 $\mu$s is estimated.
 
 \begin{align}
 	\frac{CW_{min}}{2}=\frac{31}{2}=16.5 \\
@@ -146,21 +153,26 @@ and a slot time of 20$\mu$s an average delay of $370\mu$s is estimated.
 	\label{tab:airtime_unicast_calc}
 \end{table}
 
-The total airtime of the transmission of data and ack, assuming the transmission arrived successfully, is $t_tx=1100\mu$s.
-Strictly speaking, the light could also be changed before the acknolegement is sent, i.e. after 956$\mu$s.
-The latency scales linearly, the delay to the n-th WES is:
+The total airtime of the transmission of the data and acknowledgement, 
+assuming the transmission arrived successfully, is $t_tx=1100\mu$s.
+Strictly speaking, the light could change before the acknowledgement is sent, 
+i.e., after 956$\mu$s.
+The latency scales linearly, the delay on the n-th WES is:
+
 \begin{align}
 	\text{Airtime} = N \cdot t_{tx} = N \cdot 1270\mu s
 \end{align}
 
-In order to avoid unnecessary load on the radio channel, Art-Net transmit only the changes.
+In order to avoid unnecessary load on the radio channel, Art-Net transmits only the changes.
 In the worst case, however, changes affect all WESs at the same time.
 
 \subsubsection*{Update Frequency}
-Following the approach of DMX and updating the 'bus' every 44Hz, would be made by sending the packets round-robin via unicast. 
-With a correspondingly high number of WESs, this could be challenge with a transmission speed of 1MBit/s, 
+Following the approach of DMX and updating the 'bus' every 44Hz,
+would be achieved by sending the packets round-robin via unicast. 
+With a correspondingly high number of WESs, this could be challenged with a transmission speed of 1 MBit/s, 
 it also scales linearly with each additional WES. 
-In a labor steril empty channel, denying all side latencys, there airtime could be for N WESs:
+In a labor steril empty channel, denying all side latencies, the airtime for N WESs could be:
+
 \begin{align}
 	\text{Frequency} = \frac{1}{N \cdot 1270\mu s} = \frac{787.4}{N} Hz
 \end{align}
@@ -171,28 +183,28 @@ that it could theoretically be within the realm of possibility.
 
 \subsubsection*{Reliability}
 
-A benefit of the unicast is the support of acknoledgements. 
-The acknoledgements trigger a retransmission if no packet has arrived, therefore a controlled light will receive its signal in any case.
+A benefit of the unicast is the support of acknowledgements. 
+The acknowledgements trigger a retransmission if no packet has arrived, therefore a controlled light will receive its signal in any case.
 So the reliability should be very good.
 
 \subsubsection*{Synchronisation}
 
 Synchronising the unicast transmissions costs a lot of 
 latency, through buffering delay.
-This is because not only does each WES have to wait until its own packet has arrived,
-but until all the packets have arrived at all WESs.
+This is because not only does each WES need to wait until its own packet has arrived,
+but until all the packets have arrived at each WES.
 The implementation is chosen in such a way that each WES knows at which position of the round-robin it is
 and delays the execution of the successfully received transmission until the last WES has also received its signal.
 The delay must then be calculated deterministically.
 In ESP-NOW, the default is set to 8 retransmissions, so in the worst case it is assumed that a packet is sent 8 times
-and that for each WES.
+for each WES.
 
 \begin{align} 
 	\text{Airtime}_{sync} &= 8 \cdot N \cdot 1270\mu s = N \cdot 10160\mu s \\
 	\text{Frequency}_{sync} &= \frac{1}{N * 10160\mu s} = \frac{98.42}{N} Hz
 \end{align} 
 
-The idea of the slim unicast is, that a transmission to each device is very fast, because the transmitted payload small.
+The idea of the slim unicast is, that a transmission to each device is very fast, because the transmitted payload is small.
 However, since we are sending many small packets, it can be assumed that we will be sending a lot of overhead.
 So it's playing off reliability against transmission speed.
 It can be said that synchronisation is a feature that should be dispensed with in the slim unicast for the sake of latency.
@@ -202,11 +214,13 @@ An approach that has not been explored is to reduce the number of retransmission
 
 The ESP-Now protocol supports both unicast and broadcast.
 Instead of transmitting every unicast after each other, 
-Slim Broadcast transmitts a broadcast with the payload of all channels at the same time to all fixtures.
-If there is a need for more than 250 byte (DMX channel) a second broadcasts has to be sent to transmit containing the missing data.
+Slim Broadcast transmits a broadcast with the payload of all channels at the same time to all fixtures.
+If there is a need for more than 250 byte (DMX channel) a second broadcast has to be sent 
+to transmit the missing data.
 To achieve this, each WES must be told in advance at which position in the payload its data is located.
 The broadcast must also spend one byte of payload for the sequence number.
-Only in the application layer do the WESs discard the incorrect broadcasts and read out their area from the entire payload.
+In the application layer the WESs discard the incorrect broadcasts or read out their assigned section
+from the entire payload.
 
 For the unicast the payload was assumed to be 20 bytes for each WES, the same amount is assumed for each WES in the Slim Broadcast calculations.
 The maximum payload of the broadcast is reduced to 200 bytes, instead of the possible 250 bytes, 
@@ -215,9 +229,10 @@ because when it is close to the 250 byte limit, reliability is supposed to colla
 
 \subsubsection*{Latency}
 
-The latency of the broadcast is easier to calculate than that of unicast, because the acknoledgments are no longer necessary.
+The latency of the broadcast is easier to calculate than that of unicast, 
+because the acknowledgements are no longer necessary.
 In return, the payload of a single transmission increases.
-Assuming 10 WESs are to be addressed, each with 20 byte payload \ref{tab:airtime_broadcast_calc}.
+Assuming 10 WESs are to be addressed, each with 20 byte payload visualized in \ref{tab:airtime_broadcast_calc}.
 
 \begin{table}[h]
 	\centering
@@ -236,7 +251,7 @@ Assuming 10 WESs are to be addressed, each with 20 byte payload \ref{tab:airtime
 		\textbf{= tx time data}				& 		& \textbf{2456} \\
 		\bottomrule
 	\end{tabular}
-	\caption{Composition the Broadcast Airtime}
+	\caption{Composition of the Broadcast Airtime}
 	\label{tab:airtime_broadcast_calc}
 \end{table}
 
@@ -253,9 +268,11 @@ It is easy to see that the additional overhead caused by adding another package 
 
 \subsubsection*{Update Frequency}
 
-However, while compareing this to the latency of unicast \ref{tab:airtime_unicast_calc},
-it becomes clear that the low overhead and the missing acknoledgements lead to a significantly higher rate.
-A complete pass, i.e. addressing all WESs with 20 bytes, is already an order of magnitude faster from a number of 10 WESs.
+However, while compareing the latency of the unicast to the latency of the broadcast visualized in (\ref{fig:bc_uc_transmissiontime_analytic}),
+it becomes clear that the low overhead and the missing acknowledgements lead to a significantly higher rate.
+Even with a WES, the transmission time is somewhat shorter due to the lack of the acknowledgement,
+a complete cycle, i.e., addressing all WESs with 20 bytes,
+is already an order of magnitude faster from a number of 10 WESs.
 
 \begin{align}
 	\text{Frequency}_{UC} &= \frac{1}{10 \cdot 1270\mu s} = 78.7 Hz \\
@@ -264,7 +281,7 @@ A complete pass, i.e. addressing all WESs with 20 bytes, is already an order of 
 
 Even if these values are only remotely comparable with real measurement data, it is clear,
 that the throughput is significantly higher with broadcast than with unicast.
-This effect should be even clearer under real conditions.
+This effect should be seen clearer under real conditions.
 
 \begin{figure}[h]
 	\centering
@@ -276,13 +293,14 @@ This effect should be even clearer under real conditions.
 \subsubsection*{Reliability}
 
 The huge advantage that the Slim Broadcast has over the Slim Unicast in terms of update frequency,
-comes at the cost of lower reliability.
-Broadcasts can't do acknolegements,
-a WES that has poor reception to the controller, will not receive packets and the controller cannot take countermeasures
+comes with the cost of lower reliability.
+Broadcasts can't use acknowlegements,
+a WES that has poor reception to the controller, will not receive packets.
+The controller cannot take countermeasures
 as already discribed in \cref{sec:DLbroadcast}.
 
 \subsubsection*{Synchronisation}
-Insead of transmitting to several fixtures after each other slim broadcast just transmitts to all fixtures at the same time.
+Insead of transmitting to several fixtures after each other slim broadcast transmits to all fixtures at the same time.
 This solves the problem of synchronisation for less than 200 channels.
 For more than 200 each WES has to wait until the last broadcast has arrived.
 In contrast to unicast, the buffering delay can be calculated almost deterministically for broadcast 
@@ -290,13 +308,14 @@ due to the absence of automatic retransmissions.
 
 \subsection*{Rapid Repetition}
 
-\todo{Is Rapid Repetition a appropriate name? Unsosliced Repetition is better siehe Paper?}
-
-To improve the reliability of the slim broadcast, the same transmission can simply be repeated unsolicited.
-The idea is not to wait for a missing acknolegedment, but to increase the probability that one of the packets got through.
+To improve the reliability of the slim broadcast, 
+the same sequence can simply be repeated unsolicited.
+The idea is not to wait for a missing acknowledgement, 
+but to increase the probability that one of the packets got through.
 \todo{Cite paper A First Implementation and Evaluation of the IEEE 802.11aa Group Addressed Transmission Service}
-The reliability of the Slim Broadcast with Rapid Repetition is improved with every rapid repetition (RR).
-In the formula below \cref{math:rr_sr}, with RR set to zero, there happens no repetition.
+The reliability of the Slim Broadcast with Rapid Repetition improves with every rapid repetition (RR).
+In the \cref{math:rr_sr}, with RR set to zero no repetition occurs, 
+the results are visualized in \cref{fig:theory_rr_sc}.
 
 \begin{figure}[h]
 	\centering
@@ -312,12 +331,14 @@ In the formula below \cref{math:rr_sr}, with RR set to zero, there happens no re
 	\text{SR}_{RR}(1) 	&= 1-(1-\text{SR})^{2}
 \end{align}
 
-The RR makes it possible to reach WESs with poor reception much more reliably,
+The RR makes it possible to reach WESs with poor reception much more reliably.
 However, WESs that have very good reception also receive the same packet redundantly.
-The update frequency of a BC with RR must be divided by the number of repetitions, compared to one without repetitions,
-the same applies to the latency when synchronisation is required.
-However, in contrast to unicast, broadcast offers such shorter transmission times,
-that at least a few repetitions can be accepted. \cref{fig:rr_analytic}
+The update frequency of a BC with RR must be divided by the number of repetitions, 
+compared to one without repetitions,
+and the latency multiplies when using synchronisation.
+However, in contrast to unicast, broadcast offers much shorter transmission times,
+that at least a few repetitions can be accepted. 
+\cref{fig:rr_analytic} shows the multiplicative offset, for each further retransmission.
 
 \begin{figure}[h]
 	\centering
@@ -329,15 +350,18 @@ that at least a few repetitions can be accepted. \cref{fig:rr_analytic}
 \subsection*{Delayed Rapid Repetition}
 \label{sub:DelayedRepetition}
 
-To push the idea of rapid repetion even further, should also temporarily occuring noise be taken into account.\todo{displaced repetition or delayed repetition which is better?}
+To push the idea of rapid repetion even further, long burst of packet loss be taken into account.
 This can cause all the repetitions to be captured at once.
-If the individual repetitions of the first sequence are sent displaced together with those of the second sequence,
-then the probability that at least one of the repetitions is not detected by an occuring noise is increased.
+If the individual repetitions of the first sequence 
+are sent displaced together with those of the second sequence,
+then the probability increases that at least one of the repetitions 
+is not affected by long bursts of packet loss.
 
-By staggering the individual sequences, the update frequency is not affected,
-because just as many packets are sent as with Slim Broadcast RR.
+Staggering the individual sequences, does not affect the update frequency at all,
+because just as many packets are sent as with Slim Broadcast using RR.
 The latency, on the other hand, is significantly increased, especially when synchronisation is maintained.
-In the given example of \cref{fig:badChannel} the WESs has to wait for 5 times the duration of a broadcast transmission, instead of three.
+In the given example of \cref{fig:badChannel} 
+the WESs has to wait for 5 times the duration of a broadcast transmission, instead of three.
 
 \begin{figure}[h]
 	\centering
@@ -357,41 +381,43 @@ but interleaving two or three sequences could help counteract persistent noise.
 	\label{fig:dr_delay}
 \end{figure}
 
-With DR, improved reliability comes at the cost of latency, not update frequency,
-because no more packets are sent, only the order is shifted.
+With DR, improved reliability comes at the cost of latency, not update frequency.
+Because no more packets are sent, only the order is shifted.
 If no repetition is applied, the delayed rapid repetition has no influence,
-which is why the graph \cref{fig:dr_delay} remains constant for RR=0.
-The greater the RR and the delay of the DR, the more packets where send
+which is why the graph in \cref{fig:dr_delay} remains constant for RR=0.
+The greater the RR and the delay of the DR, the more packets were send
 between the first and the last packet of each sequence.
 
-The measurement results \cref{sec:evaluation} will show whether the use of delayed repetition 
+The measurement results introduced in \cref{sec:evaluation} will show whether the use of delayed repetition 
 can reduce the number of rapid repetitions while maintaining or even improving reliability.
 
 \section{Implementation}
 
-The developer boad ESP32 Devkit V1 used in the experiments (\cref{sec:evaluation}) for the collection of the data
-can be ordered cheaply 
+The developer board ESP32 Devkit V1 used in the experiments (\cref{sec:evaluation}) 
+and the collection of the data can be ordered cheaply 
 \footnote{3.79 €, www.aliexpress.com, ESP32 Devboard V1, 3/3/22}
 from common (most favourably Chinese) websites. 
-The most accessible way to flash a chip is using the Arduino IDE, which can be easy configured for flashing ESPs.
+The most accessible way to flash a chip is using the Arduino IDE, which can be configured for flashing ESPs.
 A more precise approach is to use the IDF of Espressif itself, 
-which can also be easily made to work by installing the toolchain and build tools and a Plugin for your favorite IDE.
+which can also be made to work by installing the toolchain and build tools and a Plugin for your favorite IDE.
+An illustration can be found in \cref{fig:ESP-IDF}
+\footnote{\url{Image is avalible at https://docs.espressif.com/projects/esp-idf/en/latest/esp32/_images/what-you-need.png, 3.3.2022}}.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.4]{figures/ESP-ISF.png}
-	\caption{Flashing ESP}
+	\caption{Flashing the ESP}
 	\label{fig:ESP-IDF}
-	\footnote{\url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/_images/what-you-need.png, 3.3.2022}}
 \end{figure}
 
-Espressif has provided a user guide for the use of ESP-NOW ~\cite{ESPNOWGuide},
-but unfortunately it contains some of the informations which are outdated, 
-for example, it claims that broadcast is not supported.
+Espressif has provided a user guide for the use of ESP-NOW 
+\footnote{Available at \url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html}},
+but unfortunately it contains some outdated information, 
+for example, claiming that broadcast is not supported.
 However, more detailed information can be found on the website.
 % \footnote{\url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}}.
 
-To use ESP-NOW on an ESP, only a few steps are necessary.
+Only a few steps are necessary, to use ESP-NOW on an ESP.
 The chip must activate Wi-Fi and put it in STA mode and ESP-NOW can be activated.
 The two libraries "esp\_wifi.h" and "esp\_now.h" are required for this.
 
@@ -406,7 +432,8 @@ esp_now_init();
 Later, the individual MAC addresses of the WESs must be saved.
 These are created in a separate header file and can then be added during the setup of the chip.
 The MAC address is needed to add the respective WES to the peerlist.
-However, the WES does not have to be switched on or within range for this, it is more a case of making the WES known to the controller.
+However, the WES does not have to be switched on or has to be in range for this, 
+it is more a case of making the WES known to the controller.
 The Controller can store up to 20 devices in his peerlist at the same time.
 
 \todo{listing box prevent linebreaks on newpage}
@@ -434,12 +461,12 @@ if (ESP_OK == status) {                     // check success
 \end{lstlisting}
 
 Sending an ESP-NOW unicast is performed with the method esp\_now\_send().
-The MAC address of the recipient is passed, a pointer to the payload to be transmitted and its length.
-In the case of a broadcast, the address field is filled with the broadcast address (ff:ff:ff:ff:ff:ff),
-The function esp\_now\_register\_send\_cb can be used to check whether the cast was successfully sent out.
+The MAC address of the recipient is passed, also a pointer to the payload and its length.
+In the case of a broadcast, the address field is filled with the broadcast address (ff:ff:ff:ff:ff:ff).
+The function esp\_now\_register\_send\_cb can be used to check whether the cast was successfully sent.
 It is important to write as little code as possible in such a callback function.
-If you send the next package only after receiving the dispatch confirmation, then you can be sure that the packages are sent in the correct format,
-that the packages are sent in the correct order.
+Sending the next package only after receiving the dispatch confirmation, 
+ensures that the packets are sent in the correct order.
 
 \begin{lstlisting}[caption=Send ESP-NOW Cast UC/BC]
 void metaInformationToSlaves(const uint8_t *peer_addr, struct_advanced_meta metaData) {

@@ -11,14 +11,17 @@
 
 \section{Methodology}
 One challenge in programming the controller and the WESs,
-is the state-based approach and the fact that the WESs can only communicate restricted to each other.
+is the state-based approach and the fact that the WESs can only communicate restricted with each other.
 There were therefore two types of state machines, one for the controller and one for the WESs.
 
-The testbed \cref{fig:testbed} is set up that the PC is connected to the microcontroller via wired \ac{UART}, this microcontroller is the controller.
-The controller then communicates exclusively via ESP-NOW with the WESs,
+The testbed \cref{fig:testbed} is set up so that the PC is connected to the microcontroller 
+via wired \ac{UART}, this microcontroller is the controller.
+The controller communicates exclusively via ESP-NOW with the WESs,
 these then control in different ways with the stage lights and motors.
 The WESs never respond to the controller for the actual application, the communication is unidirectional.
-However, in order to evaluate the test data, the WESs are put into a mode in which they send the data to the controller, also via ESP-NOW.
+However, in order to evaluate the test data, 
+the WESs are put into a mode in which they send the data to the controller, 
+also via ESP-NOW.
 From there, they are also sent to the PC via UART.
 
 \begin{figure}[h]
