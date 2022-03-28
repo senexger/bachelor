@@ -55,7 +55,7 @@ plt.ylabel('broadcast transmission')
 plt.xlabel('iteration of broadcasts')
 plt.yticks([0,1], ["fail", "success"])
 fig.patch.set_facecolor('xkcd:white')
-plt.savefig('/home/walther/Documents/bachelor/Graphs/100broadcastsOverTime.png', dpi=300)
+# plt.savefig('/home/walther/Documents/bachelor/Graphs/100broadcastsOverTime.png', dpi=300)
 plt.show()
 
 
@@ -82,7 +82,7 @@ plt.xlabel('node id')
 plt.grid()
 fig.patch.set_facecolor('xkcd:white')
 
-plt.savefig('/home/walther/Documents/bachelor/Graphs/successRatioPerNode.png', dpi=300)
+# plt.savefig('/home/walther/Documents/bachelor/Graphs/successRatioPerNode.png', dpi=300)
 plt.show()
 
 # %%
@@ -123,7 +123,7 @@ plt.ylabel('sucess ratio in %')
 plt.xlabel('number of nodes allowed to miss')
 plt.grid()
 fig.patch.set_facecolor('xkcd:white')
-plt.savefig('/home/walther/Documents/bachelor/Graphs/successfullX.png', dpi=300)
+# plt.savefig('/home/walther/Documents/bachelor/Graphs/successfullX.png', dpi=300)
 plt.show()
 # %%
 # Grouping Broadcast
@@ -161,7 +161,7 @@ plt.ylabel('sucess ratio in %')
 plt.xlabel('number of nodes allowed to miss')
 plt.grid()
 fig.patch.set_facecolor('xkcd:white')
-plt.savefig('/home/walther/Documents/bachelor/Graphs/successfullX.png', dpi=300)
+# plt.savefig('/home/walther/Documents/bachelor/Graphs/successfullX.png', dpi=300)
 plt.show()
 
 accomulation_sum = np.sum(array, axis=1)

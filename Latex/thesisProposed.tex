@@ -11,8 +11,8 @@
 Different approaches are presented and discussed in this chapter 
 using data link unicast or broadcast in different specifications,
 these were also empirically tested and evaluated in \cref{sec:evaluation}.
-At the end of this chapter, the test setup will be introduced and 
-it is briefly explained how the chips are programmed.
+At the end of this chapter, the test setup will be introduced, 
+and it is briefly explained how the chips are programmed.
 
 \section{Design}
 
@@ -225,7 +225,7 @@ from the entire payload.
 For the unicast the payload was assumed to be 20 bytes for each WES, the same amount is assumed for each WES in the Slim Broadcast calculations.
 The maximum payload of the broadcast is reduced to 200 bytes, instead of the possible 250 bytes, 
 because when it is close to the 250 byte limit, reliability is supposed to collapse.
-\todo{cite something 250 byte max payload ESPNOW}
+\todo{Cite something 250 byte max payload ESPNOW}
 
 \subsubsection*{Latency}
 
@@ -385,7 +385,7 @@ With DR, improved reliability comes at the cost of latency, not update frequency
 Because no more packets are sent, only the order is shifted.
 If no repetition is applied, the delayed rapid repetition has no influence,
 which is why the graph in \cref{fig:dr_delay} remains constant for RR=0.
-The greater the RR and the delay of the DR, the more packets were send
+The greater the RR and the delay of the DR, the more packets were sent
 between the first and the last packet of each sequence.
 
 The measurement results introduced in \cref{sec:evaluation} will show whether the use of delayed repetition 
@@ -395,12 +395,12 @@ can reduce the number of rapid repetitions while maintaining or even improving r
 
 The developer board ESP32 Devkit V1 used in the experiments (\cref{sec:evaluation}) 
 and the collection of the data can be ordered cheaply 
-\footnote{3.79 €, www.aliexpress.com, ESP32 Devboard V1, 3/3/22}
+\footnote{€3.79, www.aliexpress.com, ESP32 Devboard V1, 3/3/22}
 from common (most favourably Chinese) websites. 
 The most accessible way to flash a chip is using the Arduino IDE, which can be configured for flashing ESPs.
 A more precise approach is to use the IDF of Espressif itself, 
 which can also be made to work by installing the toolchain and build tools and a Plugin for your favorite IDE.
-An illustration can be found in \cref{fig:ESP-IDF}
+An illustration can be found in \cref{fig:ESP-IDF}.
 \footnote{\url{Image is avalible at https://docs.espressif.com/projects/esp-idf/en/latest/esp32/_images/what-you-need.png, 3.3.2022}}.
 
 \begin{figure}[h]
@@ -436,7 +436,7 @@ However, the WES does not have to be switched on or has to be in range for this,
 it is more a case of making the WES known to the controller.
 The Controller can store up to 20 devices in his peerlist at the same time.
 
-\todo{listing box prevent linebreaks on newpage}
+\todo{Listing box prevent linebreaks on newpage}
 \begin{lstlisting}
 #ifndef MACLIST_H
 #define MACLIST_H

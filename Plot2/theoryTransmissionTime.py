@@ -109,7 +109,7 @@ def plot_dr(ax):
     # plt.ylim(0,13)
     plt.grid(True)
 
-    fig.savefig('Graphs/bc_dr.pdf', bbox_inches='tight')  
+    # fig.savefig('Graphs/bc_dr.pdf', bbox_inches='tight')  
     fig.show()  
 
 fig, ax = plt.subplots()
