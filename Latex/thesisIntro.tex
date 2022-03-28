@@ -17,12 +17,14 @@ to adapt them to the stage.
 Wireless connections have advantages over wired solutions such as flexibility and cost-efficiency.
 However, they also have their own limitations.
 This thesis addresses approaches that could further optimise state-of-the-art solutions like Art-Net and DMX-512a.
+In \cref{fig:illustration} are wired and wireless controls illustrated.
+
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.55]{figures/illustration.pdf}
     \label{fig:illustration}
-    \caption{Illustration of a stage light installation}
+    \caption{Illustration of a stage light installation (Wired or Wireless)}
 \end{figure}
 
 \section*{Motivation and Requirements}
@@ -62,7 +64,6 @@ Lastly, the range should be at least 100 m and the hardware used should be as co
 
 The utilized ESP-NOW protocol from the manufacturer Espressif is proprietary
 and had to be investigated additionally due to the partly inaccurate or outdated documentation.
-
 The complete control process takes place over microcontrollers, 
 which have to be programmed in a fundamentally different way than ordinary programs.
 

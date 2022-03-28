@@ -249,7 +249,7 @@ They exist only as destination addresses.
 With multicast, the use of acknowledgements is possible because the sender knows how many receivers there are.
 There are different approaches to realize acknowledgements for mutlicasts, 
 they differ mainly by the respective field of application,
-an approach for robust multicast in video transmissions is given by Mihaela van der Schaar et al. in \cite{EvaluationOfErrorControl}.
+an approach for robust multicast in video transmissions is given by Jérome Lacan et al. in \cite{EvaluationOfErrorControl}.
 Level 2 multicast is often used for large files in audio or video streams, 
 where a big amount of data is distributed and multiple clients listen simultaneously.
 
@@ -281,7 +281,7 @@ According to the specification XLR-5 type connectors are to be used (\cref{fig:x
 \begin{figure}[h]
 	\centering
 	\includegraphics[trim={0 0 0 0.0cm}, clip, scale=0.05]{figures/XLR_stecker.png}
-	\caption{XLR5 Pinout - Officialy Used for DMX}
+	\caption{XLR5 Pinout - officialy used for DMX}
 	\label{fig:xlr}
 \end{figure}
 
@@ -356,7 +356,7 @@ because of the development costs and the relatively low quantities.
 
 \section{ESP Platform}
 
-Almost every 802.11 capable \ac{MCU} could be picked for this research.
+Almost every 802.11 capable Microcontroller unit could be picked for this research.
 But there are several reasons why the ESP Platform from Espressif is a valid choice.
 There are several chips provided by Espressif with Wi-Fi specifications, these chips are very affordable
 \footnote{3.86 at \url{www.aliexpress.com}, 10.3.2022}
@@ -371,9 +371,8 @@ and has promising properties for a solid and fast realisation of a low level pro
 The chip ESP32 is quite common in DIY projects around everything from home automation to light installations 
 and can be bought as development boards, which are ready to use.
 
-The chip \ref{fig:esp32} is promoted with several features: 
-\footnote{The most recent ESP32 datasheet can be found the documentation page of Espressif, here used: V3.3\\
-	\url{https://www.espressif.com/en/support/documents/technical-documents}}
+The most recent ESP32 datasheet can be found the documentation page of Espressif.
+The chip \ref{fig:esp32} is promoted with several features \cite{ESP32Datasheet}:
 \begin{itemize}
 	\setlength\itemsep{-0.0em}
 	\item Fast CPU (2 cores at 240 MHz)
@@ -397,7 +396,7 @@ The chip \ref{fig:esp32} is promoted with several features:
 
 It can be said that the ESP32 is a low-cost 32-bit microcontroller,
 which is quite powerful despite its low power consumption.
-The extensive set of features makes it suitable for integration into a wide range of smart environments.
+\emph{The extensive set of features makes it suitable for integration into a wide range of smart environments.}
 \cite{TheWorkingPrincipalsOfESP32}
 
 \subsection*{ESP-Now}
@@ -452,7 +451,6 @@ The compositions of the frame are broken down in more detail in \cref{fig:esp_no
 	\label{fig:esp_now_frame_format}
 \end{table}
 
-\todo{Check out at the end, if formatation is broken}
 \begin{itemize}
 	\setlength\itemsep{-0.0em}
 	\item \textbf{MAC Header:} As ESP-NOW is connectionless, the MAC header differs from that of standard frames.
@@ -495,7 +493,6 @@ It is worth to mention, that the vendor specific content (\ref{fig:esp_now_frame
 But the sum over all values (\ref{fig:esp_now_vendor_format}), if the body would contain the maximum of 250 bytes, 
 leads to a total of 260 bytes.
 The values are from the documentation of ESP-NOW from Espressif.
-They also claim in the ESP-NOW documentation, that broadcast is not supported, but it is.
+They also claim in the ESP-NOW User Guide \cite{ESPNOWUserGuide}, that \emph{broadcast is not supported}, but it is.
 It seems that the documentation
-\footnote{\url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}}
 isn't completely finished (or translated).

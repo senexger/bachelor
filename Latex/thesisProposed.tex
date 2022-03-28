@@ -45,7 +45,7 @@ and it is briefly explained how the chips are programmed.
 			\hline
 		\end{tabular}
 	\end{tabular}
-	\caption{Art-Net Layer compared to Slim Data Link Layer}
+	\caption{Art-Net Layer Compared to Introduced Slim Data Link Layer}
 	\label{tab:Layer}
 \end{table}
 
@@ -154,9 +154,9 @@ and a slot time of 20 $\mu$s an average delay of 370 $\mu$s is estimated.
 \end{table}
 
 The total airtime of the transmission of the data and acknowledgement, 
-assuming the transmission arrived successfully, is $t_tx=1100\mu$s.
+assuming the transmission arrived successfully, is $t_{tx}=1270\mu$s.
 Strictly speaking, the light could change before the acknowledgement is sent, 
-i.e., after 956$\mu$s.
+i.e., after 956$\mu$s (\cref{tab:airtime_unicast_calc}).
 The latency scales linearly, the delay on the n-th WES is:
 
 \begin{align}
@@ -225,7 +225,6 @@ from the entire payload.
 For the unicast the payload was assumed to be 20 bytes for each WES, the same amount is assumed for each WES in the Slim Broadcast calculations.
 The maximum payload of the broadcast is reduced to 200 bytes, instead of the possible 250 bytes, 
 because when it is close to the 250 byte limit, reliability is supposed to collapse.
-\todo{Cite something 250 byte max payload ESPNOW}
 
 \subsubsection*{Latency}
 
@@ -312,7 +311,6 @@ To improve the reliability of the slim broadcast,
 the same sequence can simply be repeated unsolicited.
 The idea is not to wait for a missing acknowledgement, 
 but to increase the probability that one of the packets got through.
-\todo{Cite paper A First Implementation and Evaluation of the IEEE 802.11aa Group Addressed Transmission Service}
 The reliability of the Slim Broadcast with Rapid Repetition improves with every rapid repetition (RR).
 In the \cref{math:rr_sr}, with RR set to zero no repetition occurs, 
 the results are visualized in \cref{fig:theory_rr_sc}.
@@ -320,7 +318,7 @@ the results are visualized in \cref{fig:theory_rr_sc}.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{/home/walther/Documents/bachelor/Plot2/Graphs/theory_sr_rr.pdf}
-	\caption{Success Ratio increase with increasing number of RR}
+	\caption{Success Ratio Increase with Increasing Number of RR}
 	\label{fig:theory_rr_sc}
 \end{figure}
 
@@ -343,7 +341,7 @@ that at least a few repetitions can be accepted.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{/home/walther/Documents/bachelor/Plot2/Graphs/rr_transmission_time.pdf}
-	\caption{Transmission Time with different sets of RR over rising Payload}
+	\caption{Transmission Time with Different Sets of RR over Rising Payload}
 	\label{fig:rr_analytic}
 \end{figure}
 
@@ -366,7 +364,7 @@ the WESs has to wait for 5 times the duration of a broadcast transmission, inste
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.75]{figures/BadChannel.pdf}
-	\caption{Burst error without and with DR}
+	\caption{Burst Error without and with DR}
 	\label{fig:badChannel}
 \end{figure}
 
@@ -377,7 +375,7 @@ but interleaving two or three sequences could help counteract persistent noise.
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.60]{../Plot2/Graphs/bc_dr.pdf}
-	\caption{Latency of DR, transmitting 200 Bytes}
+	\caption{Latency of DR, Transmitting 200 Bytes}
 	\label{fig:dr_delay}
 \end{figure}
 
@@ -400,8 +398,8 @@ from common (most favourably Chinese) websites.
 The most accessible way to flash a chip is using the Arduino IDE, which can be configured for flashing ESPs.
 A more precise approach is to use the IDF of Espressif itself, 
 which can also be made to work by installing the toolchain and build tools and a Plugin for your favorite IDE.
-An illustration can be found in \cref{fig:ESP-IDF}.
-\footnote{\url{Image is avalible at https://docs.espressif.com/projects/esp-idf/en/latest/esp32/_images/what-you-need.png, 3.3.2022}}.
+An illustration\footnote{Image is avalible at \url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/_images/what-you-need.png, 3.3.2022}}
+can be found in \cref{fig:ESP-IDF}.
 
 \begin{figure}[h]
 	\centering
@@ -410,8 +408,7 @@ An illustration can be found in \cref{fig:ESP-IDF}.
 	\label{fig:ESP-IDF}
 \end{figure}
 
-Espressif has provided a user guide for the use of ESP-NOW 
-\footnote{Available at \url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html}},
+Espressif has provided a guide for the use of ESP-NOW\footnote{Available at \url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html}},
 but unfortunately it contains some outdated information, 
 for example, claiming that broadcast is not supported.
 However, more detailed information can be found on the website.
@@ -427,8 +424,6 @@ esp_now_init();
 \end{lstlisting}
 \label{lst:init}
 
-\todo{check formatation in the final version}
-
 Later, the individual MAC addresses of the WESs must be saved.
 These are created in a separate header file and can then be added during the setup of the chip.
 The MAC address is needed to add the respective WES to the peerlist.
@@ -436,7 +431,6 @@ However, the WES does not have to be switched on or has to be in range for this,
 it is more a case of making the WES known to the controller.
 The Controller can store up to 20 devices in his peerlist at the same time.
 
-\todo{Listing box prevent linebreaks on newpage}
 \begin{lstlisting}
 #ifndef MACLIST_H
 #define MACLIST_H
