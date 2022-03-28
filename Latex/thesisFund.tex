@@ -110,20 +110,10 @@ It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
 
 \begin{figure}[h]
 	\centering
-	\begin{bytefield}[bitwidth=1.1em, bitheight=\widthof{~Duration~}, boxformatting={\centering\small}]{29}
-		\bitheader[endianness=little]{0-29} \\
-		\bitbox{2}{FC} &
-		\bitbox{2}{\rotatebox{90}{Duration}} &
-		\bitbox{6}{Address\\1} &
-		\bitbox{6}{Address\\2} &
-		\bitbox{6}{Address\\3} &
-		\bitbox{2}{SC} &
-		\bitbox{6}{Address\\4}
-	\end{bytefield}
-	\caption{MAC header of a WLAN frame}
-	\label{fig:mac_header}%
+	\includegraphics[scale=0.67]{figures/MACFrame.pdf}
+	\label{fig:mac_header}
+	\caption{Mac Frame Header}
 \end{figure}
-\todo{Payload and FCS are missing}
 
 \begin{itemize}
 	\setlength\itemsep{-0.0em}
@@ -147,8 +137,9 @@ It contains the \ac{MAC} Header and encapsulated in it the \ac{MSDU}.
 		\item Receiving STA Address
 	\end{itemize}
 	\item \textbf{Sequence Control:} Sequence number of the current frame modulo 4096.
-	\item \textbf{MAC Payload:} The actual payload information of the \ac{MAC} layer. 
+	\item \textbf{MAC Body:} The actual payload information of the \ac{MAC} layer. 
 	The actual payload can differ, because the headers of the \ac{LLC} and ip etc. has to be subtracted.
+	\item \textbf{QoS Control:} Identifies the Quality of Service parameter of the data frame
 	\item \textbf{Frame Check Frequence:} The sender calculates the checksum for the entire data block and appends it to the end of the block.
 \end{itemize}
 
@@ -441,7 +432,7 @@ high range protocol Long Range Wide Area Network (LoRaWAN) suffers from a too sl
 To understand what ESP-NOW does one must take a look to the vendor-specific action frame transmiting ESP-NOW data,
 these are Action Frames desinged for vendor-specific signaling.
 The compositions of the frame are broken down in more detail in \cref{fig:esp_now_frame_format} and \cref{fig:esp_now_vendor_format}
-\footnote{Also from \ref{note:espressif}}
+\footnote{\url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}}
 
 \begin{table}[h]
 	\centering
@@ -471,6 +462,8 @@ The compositions of the frame are broken down in more detail in \cref{fig:esp_no
 	\item \textbf{Vendor Specific Content:} The Vendor Specific Content contains vendor-specific fields (table \ref{fig:esp_now_vendor_format})
 	\item \textbf{Frame Check Sequence:} Used for error correction in layer 2.
 \end{itemize}
+
+\newpage
 
 \begin{table}[h]
 	\begin{tblr}{	hlines,
@@ -504,5 +497,5 @@ leads to a total of 260 bytes.
 The values are from the documentation of ESP-NOW from Espressif.
 They also claim in the ESP-NOW documentation, that broadcast is not supported, but it is.
 It seems that the documentation
-\footnote{Also from \ref{note:espressif}}
+\footnote{\url{https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html}}
 isn't completely finished (or translated).

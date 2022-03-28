@@ -245,38 +245,31 @@ the channel here is bad and causes several bursts of packet loss.
 Increasing the repetitions from RR=0 to RR=1, slightly dampes the loss of packets.
 However, it is noticeable that even with RR=3,
 one sequence is still lost, despite the 4 times costs of latency and throughput.
-The problem is that faulty packets often come clustered 
+The problem is that faulty packets often come clustered, 
 and the repetitions still fall within the range of the bad channel.
-It is worth mentioning that individual sequences arrive at RR=2, although they are lost at RR=3.
-This can also be seen in \cref{fig:rrBitwise}, 
-the second and third sequence of RR=2 get over the channel interference,
-whereas the second sequence of RR=3 falls right into the interference and is therefore lost.
-Of course, this is rather rarely the case, 
-which can be seen in the significantly increased success ratio.
 
 \subsection*{Delayed Repetition}
 
-To circumvent this circumstance, the sequences can be nested in \cref{fig:badChannel},
+To circumvent this circumstance, the sequences can be nested as shown in \cref{fig:badChannel},
 this is only possible in combination with the Rapid Repetitions.
-Subsequently, swapping the sequence numbers makes it possible to make an evaluation on the same data.
-WES4 is chosen again because the packet loss is very high.
+In \cref{figure:sr_dr} the success ratio of the WES4 is shown again,
+but this time the DR is varied, for RR=1,2,3 respectively.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.8]{figures/bufferingDelay.pdf}
-	\caption{SR for Buffering Delay with/without RR for WES4}
-	\label{fig:bufferingDelay}
+	\includegraphics[scale=0.8]{../Plot2/Graphs/SR_per_DR.pdf}
+	\caption{SR for different sets of DR and RR}
+	\label{fig:sr_dr}
 \end{figure}
-\todo{update Graphic!}
 
-In \cref{fig:bufferingDelay} it is quite clear that the success ratio increases the longer the delay of the repetition is.
-It can therefore be proofed that the success ratio is noticeably improved with a constant update frequency, 
-already with a buffering delay of 1, is the effect significant. \todo{How significant - after the plot is updated, give an exact example}
-It also shows that the use of the buffering delay does not improve the success ratio so much 
-that one less repetition could be sent.
-In addition, the use of buffering delay has a cost in latency, as mentioned in FIGURE. \todo{Link to graphic of buffering delay latency theory}.
-It must therefore be weighed up whether the additional latency justifies the increased success ratio.
-\todo{Address syncronization problem?}
+It is noticeable that regardless of the DR, the number of RRs has a significantly greater influence on the success ratio.
+However, a slight improvement between DR=0 and DR=3 can be observed.
+In particular, the outliers are smaller, which indicates that the bursts of missing packages are better compensated,
+this becomes particularly clear with RR=2.
+
+The use of delayed repetition has a cost in latency, as visualized in \cref{fig:dr_delay},
+but it does not increase the update frequency, because the same number of packets is sent per sequence.
+It must therefore be weighed up whether the additional latency justifies the minimal increased success ratio.
 
 % TODO
 % \subsection*{Impact of Groupsize}
@@ -351,14 +344,11 @@ The difference is mainly due to the DIFS and the backoff
 which have to be waited for before the second repetition can be sent.
 But the reliability without RR especially for WES4 is too low (80.5\%).
 But the use of rapid repetitions also shows that the reliability of the weaker WES4 in particular is extremely improved.
-With 3 rapid repetitions, the reliability reaches a range that is also acceptable for the WES4 (99\%).
+With 3 rapid repetitions, the reliability reaches a range that is also acceptable even for the WES4 (99\%).
 
 Finally, there is the use of delayed repetition (DR) to broadcasts with rapid repetition (RR).
-Here, only the delayed repetition with the interlacing of a sequence is shown,
-as the effect is greatest here.
-It is noticeable that the latency due to the retention of the packets is no longer close to the update frequency, 
-as with the other broadcasts, but even higher.
-The effect of the delayed repetition fades into the background when the RR is set to 3
+The table clearly shows that the update frequency remains the same with the DR used, but the latency increases noticeably.
+The effect on the success ratio of the delayed repetition fades out when the RR is set to 3, 
 and it is more worthwhile to keep the already high latency as low as possible.
 
 Compared with DMX as a baseline, it shows that with this specific setup,
