@@ -29,8 +29,22 @@ void setupBroadcast() {
   broadcastArray[3] = broadcastData4;
   broadcastArray[4] = broadcastData5;
 
-  WiFi.mode(WIFI_STA);
-  Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
+  //! REMOVE ME
+  Serial.print("broadcastData1");
+  for (int i=1; i < BROADCAST_FRAME_SIZE +1; i++) { 
+    if (i % 2 == 0) {
+      broadcastData1.dmxFrame[i] = 0; 
+      Serial.print(0);
+    }
+    else {
+      broadcastData1.dmxFrame[i] = 255; 
+      Serial.print(255);
+    }
+  }
+  Serial.println("");
+  broadcastArray[0] = broadcastData1;
+
+  broadcastData1.broadcastId = 1;
 
   InitESPNow();
 
@@ -39,24 +53,9 @@ void setupBroadcast() {
 
   // Once ESPNow is successfully Init, we will register for Send CB to
   // get the status of Trasnmitted packet
-  if(DEBUG) esp_now_register_send_cb(onDataSent);
+  if(VERBOSE) esp_now_register_send_cb(onDataSent);
 
   // // esp_now_register_recv_cb(onDataRecvBroadcast);
-}
-
-// send meta Data to Slave with BroadcastID and Offset
-void metaInformationToSlaves(const uint8_t *peer_addr, struct_advanced_meta metaData) {
-  metaData.metaCode = 33;
-  if(VERBOSE) {
-    Serial.print("[Info] Send DMX Information ");
-    Serial.print((int) sizeof(metaData));
-    Serial.println(" (B)");
-  }
-  esp_err_t unicastResult = esp_now_send(peer_addr, 
-                                        (uint8_t *) &metaData,
-                                        sizeof(metaData));
-                                        
-  if(DEBUG) espNowStatus(unicastResult);
 }
 
 void createMetaPackage(){
@@ -72,16 +71,22 @@ void createMetaPackage(){
   advanced_meta.master_channel       = MASTER_CHANNEL;
   advanced_meta.slave_channel        = SLAVE_CHANNEL;
   advanced_meta.dmx_broadcasting     = DMX_BROADCASTING;
+
   advanced_meta.channel_total        = CHANNEL_TOTAL;
   advanced_meta.broadcast_frame_size = BROADCAST_FRAME_SIZE;
   advanced_meta.unicast_frame_size   = UNICAST_FRAME_SIZE;
-  advanced_meta.unicast_slave_count  = UNICAST_SLAVE_COUNT;
+  advanced_meta.SLAVE_COUNT          = SLAVE_COUNT;
+  advanced_meta.rapid_repitition     = RAPID_REPITITION;
   advanced_meta.send_repitition      = SEND_REPITITION;
   advanced_meta.wait_after_send      = WAIT_AFTER_SEND;
   advanced_meta.wait_after_rep_send  = WAIT_AFTER_REP_SEND;
 }
 
-void sendDataEspBroadcast() {
+void sendDataEspBroadcast(uint8_t repetition, uint8_t rapidRepetition) {
+  broadcastArray[0].dmxFrame[0] = 255; // geht das?
+  broadcastArray[0].dmxFrame[1] = repetition;
+  broadcastArray[0].dmxFrame[2] = rapidRepetition;
+
   if(VERBOSE) Serial.println("[Info] ESP DATA Broadcasting");
 
   for (int i = 0; i*BROADCAST_FRAME_SIZE < CHANNEL_TOTAL ; i++) {
@@ -89,14 +94,19 @@ void sendDataEspBroadcast() {
       Serial.print("[Info] DATA Broadcast "); 
       Serial.print(broadcastArray[i].broadcastId); 
       Serial.print(" (");
-      Serial.print(i*BROADCAST_FRAME_SIZE);Serial.print("/");Serial.print(CHANNEL_TOTAL);
+      Serial.print((i+1)*BROADCAST_FRAME_SIZE);Serial.print("/");Serial.print(CHANNEL_TOTAL);
       Serial.println(")");
     }
-    // Measure airtime with timestamp
+
+    // TODO user millis instead of delay!
+    if (rapidRepetition == 1 && TIMESTAMP) setTimestampS(repetition);
+    delay(WAIT_AFTER_SEND);
+    if (rapidRepetition == 1 && TIMESTAMP) getTimestampS(repetition);
+
+    // setTimestamp();
     esp_err_t broadcastResult = esp_now_send(SLAVE_MAC_ARRAY[0], // == BROADCAST_MAC
                                             (uint8_t *) &broadcastArray[i].dmxFrame,
                                             BROADCAST_FRAME_SIZE);
     if(DEBUG) espNowStatus(broadcastResult);
-    delay(WAIT_AFTER_SEND); // No delay crashs the system
   }
 }

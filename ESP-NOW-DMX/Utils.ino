@@ -10,20 +10,15 @@
 // peerlist information
 esp_now_peer_info_t peer_info;
 
-void addPeersForESP() {
-  addNodeToPeerlist(SLAVE_MAC_1);
-  addNodeToPeerlist(SLAVE_MAC_2);
-  addNodeToPeerlist(SLAVE_MAC_3);
-}
-
 // peerlist information
 void addNodeToPeerlist(const uint8_t *mac_addr) {
   // add peer to send the slave information
-  bool exists = esp_now_is_peer_exist(mac_addr);
-  if (!exists) {
+  if (!esp_now_is_peer_exist(mac_addr)) {
+    // // TODO add parameter for channel
+    // peer_info.channel = 13; // 0-14, default 0?
+    // peer_info.ifidx = ESP_IF_WIFI_STA; // ?
+    // peer_info.encrypt = false; // ?
     memcpy(peer_info.peer_addr, mac_addr, 6);
-    // peer_info.ifidx = ESP_IF_WIFI_STA;
-    // peer_info.encrypt = false;
     esp_err_t status = esp_now_add_peer(&peer_info);
     if (ESP_OK != status && DEBUG)
       Serial.println("[ERROR] Could not add peer");
@@ -37,12 +32,17 @@ void addNodeToPeerlist(const uint8_t *mac_addr) {
 
 // Init ESP Now with fallback
 void InitESPNow() {
-  WiFi.disconnect();
+  // TODO here is something to do...
+  // WiFi.disconnect();
+  WiFi.mode(WIFI_STA);
+  // Serial.println(Wifi.channel());
+  if (VERBOSE) Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
+
   if (esp_now_init() == ESP_OK) {
-    Serial.println("ESPNow success");
+    if (DEBUG) Serial.println("[OK] ESPNow success");
   }
   else {
-    Serial.println("ESPNow init failed");
+    if (DEBUG) Serial.println("[ERR] ESPNow init failed");
     ESP.restart();
   }
 
@@ -59,11 +59,6 @@ void InitESPNow() {
 }
 
 // +++ Timestamping +++
-
-// using pointer would be more beautiful
-unsigned long timestamp;
-unsigned long timediff;
-
 void setTimestamp() {
   if (VERBOSE) Serial.println("Start Timestamp");
   timestamp = (unsigned long) (esp_timer_get_time() );
@@ -74,6 +69,19 @@ unsigned long getTimestamp() {
   if (VERBOSE) Serial.print("[T] "); // sic!
   Serial.println(timediff);
   return timediff;
+}
+
+// Timestampings for transmission time measurments
+void setTimestampS(int r) {
+  if (VERBOSE) Serial.println("Start Timestamp");
+  timestampS[r] = (unsigned long) (esp_timer_get_time() );
+  return;
+}
+unsigned long getTimestampS(int r) {
+  timediffS[r] = (unsigned long) (esp_timer_get_time() ) - timestampS[r];
+  if (VERBOSE) Serial.print("[T] "); // sic!
+  // Serial.println(timediffS[r]);
+  return timediffS[r];
 }
 
 // Init ESP Timer with fallback
@@ -133,6 +141,8 @@ void printSettings(){
   Serial.print("CHANNEL_TOTAL:            ");Serial.println(CHANNEL_TOTAL);
   Serial.print("BROADCAST_FRAME_SIZE:     ");Serial.println(BROADCAST_FRAME_SIZE);
   Serial.print("UNICAST_FRAME_SIZE:       ");Serial.println(UNICAST_FRAME_SIZE);
+  Serial.print("SLAVE_COUNT:              ");Serial.println(SLAVE_COUNT);
+  Serial.print("RAPID_REPITITION:         ");Serial.println(RAPID_REPITITION);
   Serial.print("SEND_REPITITION:          ");Serial.println(SEND_REPITITION);
   Serial.print("WAIT_AFTER_SEND:          ");Serial.println(WAIT_AFTER_SEND);
   Serial.print("WAIT_AFTER_REP_SEND:      ");Serial.println(WAIT_AFTER_REP_SEND);
@@ -140,8 +150,23 @@ void printSettings(){
 
   // Constants
   Serial.print("MAX_BROADCAST_FRAME_SIZE: ");Serial.println(MAX_BROADCAST_FRAME_SIZE);
-  Serial.print("MAX_UNICAST_FRAME_SIZE:   ");Serial.println(MAX_UNICAST_FRAME_SIZE);
-  Serial.print("MAX_SLAVES:               ");Serial.println(WAIT_AFTER_REP_SEND);
+  Serial.print("MAX_FRAME_SIZE:   ");Serial.println(MAX_FRAME_SIZE);
+  Serial.print("MAX_SLAVES:               ");Serial.println(MAX_SLAVES);
   Serial.println("+++++++++++++++++++++++++++++++");
   return;
+}
+
+void printMac(const uint8_t* mac_addr) {
+  for (int i=0; i < 6; i++) {
+    Serial.print(mac_addr[i], HEX);Serial.print(":");
+  }
+  Serial.println();
+}
+
+void printArray(const uint8_t* incomingData, int data_len) {
+  Serial.print("incomingData: [");
+  for (int i=0; i<data_len; i++) {
+    Serial.print(incomingData[i]); if (i!=data_len-1) Serial.print(", ");
+  }
+  Serial.print("] ("); Serial.print(data_len); Serial.println("B)");
 }

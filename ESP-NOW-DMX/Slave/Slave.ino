@@ -21,13 +21,19 @@
 #endif
 
 // Variable to store if sending data was successful
-String success;
 String puropse = "SLAVE";
 
 // Variables for sending and receiving
 bool isDmxMetaReceived = 0;
 uint8_t broadcastId;
 uint8_t offset;
+
+// Timestamping
+// using pointer would be more beautiful
+unsigned long timestamp;
+unsigned long timediff;
+unsigned long timestampS[200];
+unsigned long timediffS[200];
 
 // UART checking
 HardwareSerial &hSerial = Serial2; //can be Serial2 as well, just use proper pins
@@ -45,13 +51,6 @@ typedef struct struct_esp_data_broadcast {
 typedef struct struct_esp_data_unicast {
   uint8_t payload[MAX_BROADCAST_FRAME_SIZE];
 } struct_esp_data_unicast;
-
-// // // gives the slave the information where to find his channel
-// // typedef struct struct_dmx_meta {
-// //   uint8_t isMetaData; // should set to -1
-// //   uint8_t broadcastID; // must be positive
-// //   uint8_t broadcastOffset;
-// // } struct_dmx_meta;
 
 // new architecture 
 typedef struct struct_advanced_meta {
@@ -73,8 +72,9 @@ typedef struct struct_advanced_meta {
   uint16_t channel_total;
   uint8_t broadcast_frame_size;
   uint8_t unicast_frame_size;
-  uint8_t unicast_slave_count;
-  uint8_t send_repitition;
+  uint8_t SLAVE_COUNT;
+  uint8_t rapid_repitition;
+  uint16_t send_repitition;
   uint16_t wait_after_send;
   uint16_t wait_after_rep_send;
 } struct_advanced_meta;
@@ -87,75 +87,49 @@ struct_advanced_meta      dmx_meta;
 
 int thisBroadcastID;
 int thisBroadcastOffset;
+int correctCastCount = 0;
+
+uint8_t successRatioArray[MAX_FRAME_SIZE];
 
 void setup() {
-  // Setup Serial
   Serial.begin(115200);
   hSerial.begin(115200); // open Serial Port to the Master RX2 TX2 GND
+
+  Serial.println("Version 0.1");
   Serial.println("Slave Node here");
 
   Serial.println("init success!");
-  // addPeer(MAC_ADDRESS);
 
-  // Just setup a default ESP mode
   setupEspNow();
+  addNodeToPeerlist(MASTER_MAC);
+
+  for (uint8_t i=0; i< MAX_FRAME_SIZE; i++) {
+    successRatioArray[i] = 0;
+  }
 }
 
 void loop() {
-  // Serial2.println("A");
-
-  // printSettings();
-
-  // // Send message via ESP-NOW if MetaData wasn't received
-  // // Wäre gut, wenn man das hier gar nicht benötigen würde...
-  // if (!isDmxMetaReceived && DMX_BROADCASTING) 
-  //   sendESPCast(MAC_ADDRESS);
-  // else if (VERBOSE) 
-  //   Serial.println("DMX Meta already received");
-
-  // wait for incomming messages
+  // wait for incoming messages
   delay(10000);
 }
 
-// callback when data is recv from Master just printing incomming data
-void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
-  if(VERBOSE) Serial.println("VERBOSE: OnDataRecv()");
-  // TODO ist das sinnvoll?!
-  if (AIRTIME) {
-    Serial2.print("!");
-  }
-  // Serial.print("Data len: "); Serial.println(data_len);
+void sendResultsToMaster() {
+  if(VERBOSE) Serial.println("Sending successRatioArray");
 
-  // META PACKAGE HANDLING
-  if (incommingData[0]) { // == advanced_Meta.metaCode from master struct
-    applyMetaInformation(incommingData, data_len);
-  }
-  // DATA PACKAGE HANDLING
-  else {
-    // TODO only if the package is addressed to this node
-    if (checkPayload(incommingData, data_len)) {
-      // if(DEBUG) { 
-        Serial.print("[OK] Rcvd: "); 
-        Serial.print(data_len);
-        Serial.println(" B (not broken)");
-      // }
-    }
-    else {
-      // if(DEBUG) {
-        Serial.print("[ERROR] Incomming Data broken: "); 
-        Serial.print(data_len);
-        Serial.println(" B");
-      // }
-    }
-    getTimestamp();
-    setTimestamp();
+  esp_err_t unicastResult = esp_now_send(MASTER_MAC,
+                                          (uint8_t *) &successRatioArray,
+                                          SEND_REPITITION);
+  if(DEBUG) espNowStatus(unicastResult);
+  
+  for (uint8_t i=0; i< MAX_FRAME_SIZE; i++) {
+    successRatioArray[i] = 0;
   }
 }
 
 void setupEspNow() {
   //Set device in AP mode to begin with
   WiFi.mode(WIFI_STA);
-  Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
+  if (VERBOSE) Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
 
   // Init ESPNow with a fallback logic
   InitESPNow();

@@ -9,7 +9,7 @@
 %
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{ccs-thesis}[2019/04/02 The CCS Thesis Class]  % YYYY/MM/DD
+\ProvidesClass{ccs-thesis}[2021/02/08 The CCS Thesis Class]  % YYYY/MM/DD
 
 
 % -----------------------------------------------------------------------------
@@ -104,7 +104,6 @@
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
 \RequirePackage{textcomp}
-\RequirePackage{fixltx2e}
 \ifthenelse{\boolean{earlydraft}}{
 	\newcommand{\mydisableprotrusion}{}
 }{
@@ -115,7 +114,7 @@
 
 % Graphics insertion and filetypes' order of precedence
 \RequirePackage[pdftex]{graphicx}
-\pdfminorversion=6
+\pdfminorversion=7
 \DeclareGraphicsRule{.out.png}{png}{.out.png}{}
 \ifthenelse{\boolean{earlydraft}}{
 	\DeclareGraphicsExtensions{.thumb.jpg,.out.png,.pdf,.png,.jpg}
@@ -261,13 +260,9 @@
 
 % The Acronym package
 \RequirePackage{acro}
-\@ifpackagelater{acro}{2019/02/17}{
-	% work around bug in 2019/02/17
-	\NewDocumentCommand\acrodef{mO{#1}mG{}}{\DeclareAcronym{#1}{short={#2}, long={#3}, foreign-plural={}, #4}}
-}{
-	\NewDocumentCommand\acrodef{mO{#1}mG{}}{\DeclareAcronym{#1}{short={#2}, long={#3}, #4}}
-}
 
+\@ifpackagelater{acro}{2020/04/29}{
+\NewDocumentCommand\acrodef{mO{#1}mG{}}{\DeclareAcronym{#1}{short={#2}, long={#3}, #4}}
 % Set up Acronyms for Enumerate
 \newlist{acronyms}{description}{1}
 \setlist[acronyms]{
@@ -276,9 +271,42 @@
 	noitemsep,
 	itemindent=0pt,
 }
-% \DeclareAcroListStyle{acronyms}{list}{list=acronyms}
+\NewAcroTemplate[list]{acronyms}{%
+  \acroheading
+  \acropreamble
+  \begin{acronyms}
+    \acronymsmapF{%
+      \item[\acrowrite{short}\acroifT{alt}{/\acrowrite{alt}}]
+        \acrowrite{list}%
+        \acroifT{foreign}{ (\acrowrite{foreign})}%
+        \acroifT{extra}{, \acrowrite{extra}}%
+        \acropagefill
+        \acropages
+          {\acrotranslate{page}\nobreakspace}
+          {\acrotranslate{pages}\nobreakspace}%
+      }
+      {\item\AcroRerun}
+  \end{acronyms}
+}
+\acsetup{list/heading={chapter*},list/name={\glossarytitlename},list/template=acronyms,format/extra={\emph}}
+}{
+\@ifpackagelater{acro}{2019/02/17}{
+	% work around bug in 2019/02/17
+	\NewDocumentCommand\acrodef{mO{#1}mG{}}{\DeclareAcronym{#1}{short={#2}, long={#3}, foreign-plural={}, #4}}
+}{
+	\NewDocumentCommand\acrodef{mO{#1}mG{}}{\DeclareAcronym{#1}{short={#2}, long={#3}, #4}}
+}
+% Set up Acronyms for Enumerate
+\newlist{acronyms}{description}{1}
+\setlist[acronyms]{
+	labelwidth=7em,
+	leftmargin=7.5em,
+	noitemsep,
+	itemindent=0pt,
+}
+\DeclareAcroListStyle{acronyms}{list}{list=acronyms}
 \acsetup{list-heading={chapter*},list-name={\glossarytitlename},list-style=acronyms,extra-style=comma,extra-format={\emph}}
-
+}
 
 % Make automatically inserted "blank pages" really blank
 \RequirePackage{emptypage}

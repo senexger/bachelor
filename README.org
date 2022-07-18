@@ -14,10 +14,10 @@ Ablauf:
 ** Strom von meinem Hub liefert nicht genug Strom, wenn Tastaturbeleutung eingeschaltet ist
 ** USB Kabel ist kein Datenkabel
 ** Chip ist kaputt gegangen
-** Power HUB external
-works like a charme :)
 ** Variable wurde nur bei Neustart zurückgesetzt
 Weil ich den chip so häufig neu geflasht habe, ist der Fehler nur selten auf getaucht
+** Nach Standby sind dev0 und dev1 verstauscht
+deswegen wird dann gelegentlich der Master mit Slave code geflasht und andersherum
 * FLOW
 ** Master
 - SerialBegin
@@ -54,7 +54,7 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
   + [X] bitrate - selber messen? keine Doku! ~1 Mbps
     - erreichte rountrip rate: 0.6 ms, gut?
 * DONE Unicast reparieren
-* TODO Code verschönern [44%]
+* TODO Code verschönern [62%]
 ** TODO ESP IDE Optimierunge:n
 - [ ] SDK macht wohl doch einen Unterschied!
 - [ ] Optimierung:
@@ -65,21 +65,20 @@ Optional: In the ideal case, the master splits all Broadcasts in same sized pack
   + also entweder den Slave korregieren, sodass er den anderen struct verwendet
   + ODER den Master auf den Slave struct herunterbrechen und hinnehmen, dass der Payload nicht so schön formatiert ist
 ** TODO maclist.h informationen besser einbinden
-- [ ] Get meta information from maclist.h
-** TODO Plotten: Latenz/Sendung und Latenz/Payload
+- [-] Get meta information from maclist.h
 ** DONE Airtime 100 times Unicast
 ** DONE Airtime 100 times Broadcast
-** TODO MAC in HEX printen
+** DONE MAC in HEX printen
 ** TODO DEBUG und VERBOSE sinnvoll trennen
 + DEBUG: Schritte die im Flow vorkommen oder explizit davon abweichen
 + VERBOSE: Informationen über den aktuellen zustand
 ** DONE Feherlmeldung: TXQ_BLOCK=2000 bekämpfen
+* DONE Plotten: Latenz/Sendung und Latenz/Payload
 * DONE Präsentation vorbereiten [2020-12-14]
 * DONE Tolja schreiben
 * DONE Unicast reparieren
-* TODO Package loss fixen
+* DONE Package loss fixen
 Wenn Pakete zu schnell hintereinander versendet werden, dann führt das zu Paketverlusten. Genaueres habe ich gefinden in der Doku von Espressif
-* KILL Telefonkonferenz [2021-11-01 14:00]
 * DONE variablen.h anlegen
 * DONE GPIO communication packet ackn (UART)
 1) UART
@@ -101,7 +100,7 @@ Wenn Pakete zu schnell hintereinander versendet werden, dann führt das zu Paket
 The ESP has three UART controllers UART0, UART1 and UART2) use UART1 or 2
 here is how to setup uart on the ESP32
 https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/uart.html
-* TODO Pythonbridge Modul [100%]
+* DONE Pythonbridge Modul [100%]
 ** DONE Write python bridge
 ** DONE Why does it break with the python bridge?!
 ** DONE Fix Problem with broadcasting now
@@ -132,9 +131,8 @@ immer eine leere Zeile nach jedem Print...
 * DONE change esp_now_register_recv_cb in Abhängigkeit von Unicast/broadcast
 Einfach UnicastSetup erneut ausführen?
 * DONE Degbug C header chaos
-* TODO find related work
 * DONE Tolja Mail schreiben
-* TODO Espressif Mail schicken?
+* KILL Espressif Mail schicken?
 * DONE dynamic struct
 Wenn ich daten verschicke, dann sollen die Pakete natürlich nicht immer MAX_LENGTH haben, deswgen darf das struct nicht direkt so groß angelegt werden.
 Lösung: Einfach die Länge des zu übertragenden Signals beschneiden und +1 rechnen
@@ -146,7 +144,6 @@ Dann kann für broadcast gleich die gefragte id übermittelt werden, aber ich se
 * DONE Split stupid unicast struct
 ein Array in dem die Macaddressen gespeichert sind, durch über das iteriert werden kann und eins in dem die Fakedaten gespeichert sind - kann doch nicht so schwer sein!
 - in der Funktion master unicast
-* TODO Rework Slave Broadcast&Unicast all in one
 * DONE !!!BUG!!! isbroadcasting state problem
 Wenn isbroadcasting auf 0 gestetzt ist funktioniert es nicht
 Wenn isbroadcasting auf 1 gestetz ist funktioniert es
@@ -165,9 +162,234 @@ in der unicastmaster:74 läuft etwas falsch
   z.B.: ein unicastroundtrip mit jeweils 20 Byts
 * DONE WAIT_AFTER_SEND uint16_t?
 Ich glaube ich muss den Wert vergrößern, es sei denn es ists beim Testen nicht notwendig
-* TODO advanced_Meta_struct instead of MACLIST constansts
-das struct in dem alle Werte drin stehen könnte auch genommen werden um diese Werte zu benutzen.
-Dann wäre ein Aufruf zb: meta.broadcastId anstelle von BROADCASTID, dann muss es nicht zweimal gemacht werden
-* TODO der slave scheint immer korrekte pakete zu empfangen
-* TODO Serial to Python Plot
+* DONE der slave scheint immer korrekte pakete zu empfangen
+* DONE usefull bitrate vs peak bitrate
+* DONE RapidRepition
+Mache ich das überhaupt? Ist das nicht eher RapidDiscarding?
+* DONE SuccessRatio for multiple Slaves
+** Master
+- OnDataRecv Callback
+** Slave
+- Erstellt ein Array, in das die richtig angekommenden Nachrichten ausgewertet werden
+* DONE Fix Wired SuccessRatioArray Flag on SuccessRatio[1]
+* DONE Fix incomming data [0,1] verwirrung
+incomming data hat nun ein Flag was so gut versteckt ist, dass es hoffentlich nicht auffliegen wird. Da nicht mehr als 250 byte übertragen werden können, ich aber werte bis 255 vergeben kann, nutze ich die Bytes 253 und 254 für besondere Flags. Theoretisch wäre jetzt noch Raum für andere Flags.
+* DONE Serial to Python Plot
 https://makersportal.com/blog/2018/2/25/python-datalogger-reading-the-serial-output-from-arduino-to-analyze-data-using-pyserial
+- [X] Fix " " bug
+- [X] Understand example code
+- [X] Maybe Clear all output from Master for clearer results
+* DONE Mysterious 2 Problem
+Beim Sammeln der Daten wird eine zwei in das SucessArray geschrieben. Das passiert irgendwie, wenn der Master versucht die Daten von den Slaves ab zu fragen.
+Lösung: Es gibt nun einen Code, wenn der nicht in einer Nachricht an die Slaves eingetragen ist, dann verwerfen sie die Nachricht.
+* DONE Daten für Plots sammeln
+* DONE Plots erstellen
+- [X] Diagrammnamen finden
+- [X] entsprechendes Diagramm erstellen
+- [X] Großen Datenblock richtig einlesen
+- [X] Cofidence Interval
+- [ ] Alle plots verschönern
+* DONE repair axis
+* DONE Neue Messung machen, mit größeren Abständen und mehr Knoten
+Tatsächlich habe ich dieselben Knoten genommen und einfach ein neues Experiment laufen lassen, diesmal allerdings mit deutlich größeren Abständen
+* DONE Neue Messung plotten, erst vergleichend, dann ergänzend
+- Einmal Messung über alle Datenblöcke erstellen
+- Testmessung verwenden
+* DONE Plos exportieren
+* DONE Nette Mail schreiben
+* DONE Testen ob nach SLAVE_COUNT Namensänderung der Code noch funktioniert
+* DONE Eventuel eine rückmeldung geben, wie weit der Fortschritt bei der Messung ist
+* DONE Master soll in das csv schreiben, von welchem Slave die Daten kommen (statt der 9999)
+* DONE Präsentation ausarbeiten
+* DONE Rework Slave Broadcast&Unicast all in one
+* DONE Ensure that meta-packets really arrive the nodes
+- ich glaube das geht auf application layer tatsächlich nur, indem ich mir in einer Variable merke, dass eine ein Paket nicht abgeschickt wurde und ich darauf hin einer Variable abspeichere, ob das Paket erfolgreich ankam. Ich bleibe so lange in eienr While schleife gefangen und sende so oft wieder das paket, bis der Knoten mir erfolgreich zurück schreibt, dass das Paket angekommen ist.
+- Ich werde jetzt eine eigene Funktion schreiben, die sicherstellt, dass ein Paket sicher angekommen ist.
+* DONE Testmessung mit reliable unicasts
+CLOSED: [2021-05-28 Fr 04:59]
+* DONE Ist reliable unicast auch in Slave->Master Richtung notwendig??
+CLOSED: [2021-05-28 Fr 04:59]
+ist auf jeden Fall sauberer. Und sollte gemacht werden.
+* DONE Standardfehler -> Standarderror
+CLOSED: [2021-05-28 Fr 14:59]
+* DONE Accomulation mit Kombinatorik/Gruppengröße
+CLOSED: [2021-09-02 Do 13:19]
+* DONE Broadcast Rapid Rapitition Zeitmessung
+- [X] Rapid sending kommt an, muss aber noch gesondert behandelt werden.
+- [X] Der Slave soll auslesen, welcher rr wert gesetzt ist und dann in das success
+- [X] array mit dem Multiplikator [1,2,4] eintragen.
+- [X] In der Auswertung kann man dann wieder herauslesen, ob der Broadcast bei
+  einem, zweien oder allen drei angekommen ist.
+* DONE unicast testen
+CLOSED: [2021-06-03 Do 04:21]
+* DONE Dauer bei Unicast vs Broadcast bei 50 Wiederholungen ausgeben lassen
+CLOSED: [2021-06-03 Do 23:41]
+* DONE Code aufräumen:
+CLOSED: [2021-09-02 Do 13:19]
+253, 254, 255 durch Konstanzen ersetzen wie IS_METADATA, IS_DMX_DATA, IS_SEND_RESULTS
+* DONE Fix Error: after successfull test, Master needs to be restarted
+CLOSED: [2021-06-03 Do 23:41]
+After successfull test Master needs restart.
+* DONE Python plots erstellen
+CLOSED: [2021-06-11 Fr 16:47]
+n = np.zeros 1000
+for i in range 3
+n += number % 2
+number = number // 2
+* DONE Python plots schöner machen
+CLOSED: [2021-06-24 Do 03:48]
+* DONE Measurment: Transmission Time Unicast
+CLOSED: [2021-06-24 Do 03:57]
+* DONE Plot: Alle transmission times (zumindest vergleichbare)
+CLOSED: [2021-06-24 Do 10:32]
+* DONE Meeting with Tolja [2021-06-24 11:00]
+CLOSED: [2021-06-25 Fr 11:25]
+* DONE Redo UART round-trip-time
+CLOSED: [2021-07-10 Sa 11:24]
+Alter Wert: 433 us
+Versuch 1000 Mal wiederholen und darüber die Zeit messen.
+1. Nimm Zeistempel
+2. ? wird verschickt
+3. bei Ankunft von ? wird ! zurück geschrieben
+4. Nimm zweiten Zeitstempel
+* DONE Nachdenken über Änderungen
+CLOSED: [2021-07-10 Sa 11:23]
+Die Änderungen sind für spätere Test vermutlich nicht brauchbar. Allerdings wäre
+es auch schade sie weg zu werfen. Es muss eine Möglichkeit gefunden werden sie
+zu integrieren. Vielleicht in eine andere Datei?
+* DONE Messung: 8 Nodes
+CLOSED: [2021-07-08 Do 08:16]
+Messung durchführen bei der alle 8 Knoten ihre success Ratio senden. Das
+Experiment mit 200 Repititions 5 Mal wiederholen, damit ich auf 1000 Versuche
+komme. Mit den RR sind es dann teilweise sogar deutlich mehr Sendungen
+** DONE UART serial testen
+CLOSED: [2021-06-30 Mi 01:37]
+hatte schon funktioniert muss aber wieder getestet werden.
+Der Master soll Messen, sobald der Slave zu einem Knoten das erste Paket
+erfolgreich erhalten hat. Das kommt dann oben in den Header rein
+*** DONE UART reparieren
+CLOSED: [2021-06-29 Di 15:53]
+*** DONE UART round-trip-time
+CLOSED: [2021-06-29 Di 23:32]
+433 us
+** DONE Unicast anpassen
+CLOSED: [2021-07-06 Di 02:28]
+- [X] Gesendet werden 160B große Pakete im Broadcast, im Unicast 8 x 20B große Pakete.
+- [X] Problem: Zeitmessung scheint nicht korrekt. Beispielprogramm spackt ebenfalls
+    Ist okay, aber nicht geil. Ein 2000 us Delay wird als 1980 us gemessen. Sollte genau genug sein?!
+** DONE Unicast Messung
+CLOSED: [2021-07-06 Di 02:29]
+Ich habe zwei Messungen durch geführt, einmal mit 3ms und einmal mit 4ms delay
+- [X] Messe die Transmission time für das Senden an den ersten Knoten
+- [X] Speichere die Messung in einem Array
+- [X] Übergib das Array am Ende der Messung
+        in dem Array steht die Transmissin time jedes Packtets.
+- [X] 200 Messungen durchführen
+  + rr =1
+  + sr = 200
+  + sc = 1
+  + bc = 0
+  + w8 = 4
+  + sz = 20
+** KILL Broadcast Messung
+CLOSED: [2021-07-08 Do 07:03]
+- Messe die Transmission time für das Senden
+- Vergleiche mit den Messungen an die anderen Knoten
+* DONE Broadcast Success Ratio eintragen
+CLOSED: [2021-07-08 Do 08:10]
+Wenn alle Knoten das Paket empfangen haben, dann werte als 1, wenn nur ein Knoten
+das Paket nicht erhalten hat, dann ist die Success Ratio bei 0
+* DONE Meeting with Tolja [2021-07-08]
+CLOSED: [2021-07-10 Sa 11:23]
+- Versuchsaufbau!
+- Latenz eines Packets angeben und nicht über die gesamt Sequence
+- [-] Diagram zeigen bei dem die Resends des Unicasts zur Geltung kommen
+
+* DONE Broadcast Messung [0/0]
+CLOSED: [2021-07-13 Di 06:20]
+** DONE success ratio korrekt erfassen
+CLOSED: [2021-07-12 Mo 01:20]
+** DONE Berechnung korrekt ausführen!
+CLOSED: [2021-07-13 Di 06:20]
+* DONE Slides in drive teilen [2021-07-15]
+CLOSED: [2021-08-30 Mo 12:05]
+* DONE Success Ratio over M
+CLOSED: [2021-07-19 Mo 10:38]
+* DONE Kontrolliere Grouping um vierten Knoten
+CLOSED: [2021-09-02 Do 00:41]
+* DONE Slides in Drive checken
+CLOSED: [2021-09-02 Do 13:20]
+* DONE Python Funktionskette prüfen
+CLOSED: [2021-08-30 Mo 14:24]
+* DONE Grouping über alle Kombinationen
+CLOSED: [2021-09-01 Mi 10:59]
+* DONE Gouping should use RR
+CLOSED: [2021-09-02 Do 00:41]
+* DONE Check Diff Vector
+CLOSED: [2021-09-02 Do 13:20]
+* DONE Delay berechnen
+CLOSED: [2021-09-02 Do 13:20]
+* DONE Paper lesen/markieren
+CLOSED: [2021-09-02 Do 13:20]
+* DONE Warten auf Mail von Tolja
+CLOSED: [2021-09-01 Mi 10:26]
+* DONE Namen für BA finden
+CLOSED: [2021-09-07 Di 10:11]
+* TODO VERBOSE/DEBUG Klammern setzen, sinnvoll
+- DEBUG: Alle Nachrichten, die nur minimal den effizienten Ablauf stören und im
+  Fehlerfall auftreten.
+- VERBOSE: Informationen über jeden einzelnen Prozess
+- Sonst: keine Kommentare oder nur an stellen, an denen sie KEINE Auswirkung auf
+  die Performance haben.
+* DONE Paket größe variieren?
+CLOSED: [2022-01-29 Sa 01:09]
+* DONE Slides aufräumen
+CLOSED: [2021-09-03 Fr 13:44]
+* DONE Meeting 14:00 Uhr
+CLOSED: [2021-09-03 Fr 13:44]
+* DONE Meeting Mo 14:00
+CLOSED: [2021-09-06 Mo 22:37]
+* DONE Foliensatz überarbeiten
+CLOSED: [2021-09-10 Fr 10:00]
+- [ ] 100% Scale
+- [ ] Hold-Back to Delayed-Repetition
+- [ ] Formatieren
+- [ ] Formel von Delay plotten
+  + Graf in Abhängigkeit von M und R
+* DONE Formel für Delay finden
+CLOSED: [2021-09-10 Fr 10:00]
+* DONE [#B] Wireshark Messung durchführen! [0/0]
+CLOSED: [2021-10-26 Di 15:13]
+** DONE Korrekten Channel wählen
+CLOSED: [2021-10-13 Mi 11:35]
+* TODO Improve ab arrayToVector rr als parameter
+damit man flexibel die rr anpassen kann!
+* DONE Python code aufräumen
+CLOSED: [2021-10-23 Sa 12:25]
+* TODO Refreshrate berechnen
+* TODO Delay plotten
+* TODO Tabellendokument verstehen!
+* DONE Mail an Tolja!!
+CLOSED: [2021-10-23 Sa 12:25]
+* DONE Arbeit anmelden
+CLOSED: [2021-10-06 Mi 17:57]
+* DONE Meeting mit Tolja vorbereiten!
+CLOSED: [2021-10-26 Di 15:13    ]
+* TODO Wireshark messung verarbeiten
+** TODO Kanalzeit berechnen und zwar nicht mit send vs onDataSend.
+Vielleicht eher mit UART?
+** TODO Reliability von Unicast untersuchen
+zu erwarten ist, dass jedes Paket 8 mal versucht wird zu senden und danach dann
+abgebrochen wird.
+** TODO Find magic number
+* DONE Mittwochsmeeting vorbereiten
+CLOSED: [2022-01-29 Sa 01:08]
+* DONE RR=2 Buffering Delay analysieren
+CLOSED: [2022-01-29 Sa 01:08]
+* TODO Unicast Brechnungen durchführen
+* TODO Alle Plots überarbeiten!
+- [ ] Default design entwerfen
+- [ ] Format Data useful
+- [ ] Transmission Time UC/BC for nodes 1-20
+
+* TODO find related work

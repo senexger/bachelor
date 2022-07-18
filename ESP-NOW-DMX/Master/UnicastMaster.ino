@@ -1,31 +1,22 @@
 #include "MacList.h"
 
-uint8_t unicastData[MAX_UNICAST_FRAME_SIZE];
+uint8_t unicastData[MAX_FRAME_SIZE];
 
 void setupUnicast() {
-  Serial.println("Setup Unicast");
-
-  for (int i=0; i <= MAX_UNICAST_FRAME_SIZE; i++) {
+  // TODO is this better working with uint8 ?!
+  for (uint8_t i=0; i <= MAX_FRAME_SIZE; i++) {
     unicastData[i] = i;
   }
-
-  WiFi.mode(WIFI_STA);
-  Serial.print("STA MAC: "); Serial.println(WiFi.macAddress());
 
   InitESPNow();
 
   // adding peers to the peerlist - allowing to send esp-now
   Serial.println("Adding Slaves to peerlist:");
-  addNodeToPeerlist(SLAVE_MAC_ARRAY[0]);
-  addNodeToPeerlist(SLAVE_MAC_1);
-  addNodeToPeerlist(SLAVE_MAC_2);
-  addNodeToPeerlist(SLAVE_MAC_3);
-  addNodeToPeerlist(SLAVE_MAC_4);
-  addNodeToPeerlist(SLAVE_MAC_5);
+  for (int i = 0; i <= 9; i++) {
+    addNodeToPeerlist(SLAVE_MAC_ARRAY[i]);
+  }
 
-  if(DEBUG) esp_now_register_send_cb(onDataSent);
-  // TODO usage for acknoledgements?
-  // esp_now_register_recv_cb(onDataRecvUnicast);
+  if(VERBOSE) esp_now_register_send_cb(onDataSent);
 }
 
 // TODO what are you doing?! Cloning MAC for the setup function?
@@ -35,12 +26,30 @@ void copyArray(uint8_t array[6], uint8_t copy[6]) {
   }
 }
 
+// send meta Data to Slave with BroadcastID or Unicast and Offset
+void metaInformationToSlaves(const uint8_t *peer_addr, struct_advanced_meta metaData) {
+  metaData.metaCode = 253;
+
+  if(VERBOSE) {
+    Serial.print("[Info] Send DMX Information to "); printMac(peer_addr);
+    Serial.print((int) sizeof(metaData));
+    Serial.println(" (B)");
+  }
+
+  esp_err_t unicastResult = sendUnicastReliable(peer_addr, metaData);
+  if(DEBUG) espNowStatus(unicastResult);
+}
+
 // send data
-void sendDataEspUnicast() {
+void sendDataEspUnicast(uint8_t repetition) {
+
+  unicastData[0] = 255;
+  unicastData[1] = repetition;
+
   if(VERBOSE) Serial.println("[Info] Init DMX Unicasting");
 
   // Starting with 1 because zero is the BROADCAST ADDRESS
-  for (int i = 1; i <= UNICAST_SLAVE_COUNT; i++) {
+  for (int i = 1; i <= SLAVE_COUNT; i++) {
     if(VERBOSE) { 
       Serial.print("Unicast: "); Serial.println(i);
       for (int j=0; j < 6; j++) {
@@ -49,10 +58,51 @@ void sendDataEspUnicast() {
       Serial.println("");
     }
 
-    esp_err_t unicastResult = esp_now_send(SLAVE_MAC_ARRAY[1], // ! HOTFIX
-                                          (uint8_t *) &unicastData, // ??
+    if (i == 1 && repetition != 0 && TIMESTAMP) waitForSerial(repetition-1);
+    if (i == 1 && TIMESTAMP) setTimestampS(repetition);
+
+    esp_err_t unicastResult = esp_now_send(SLAVE_MAC_ARRAY[i],
+                                          (uint8_t *) &unicastData,
                                           UNICAST_FRAME_SIZE);
     if(DEBUG) espNowStatus(unicastResult);
     delay(WAIT_AFTER_SEND); // No delay crashs the system
+  }
+}
+
+/* select each node and send an request unicast */
+void collectData(const uint8_t *peer_addr, struct_advanced_meta metaData) {
+
+  metaData.metaCode = 254;
+
+  while (toCollectFromMac != BROADCAST_MAC) {
+    if(VERBOSE) { Serial.print("Collect Data from "); printMac(peer_addr); }
+    esp_err_t unicastResult = esp_now_send(peer_addr,
+                                          (uint8_t *) &metaData,
+                                          sizeof(metaData));
+    // if(DEBUG) espNowStatus(unicastResult);
+    delay(WAIT_AFTER_SEND + WAIT_AFTER_REP_SEND);
+  }
+}
+
+esp_err_t sendUnicastReliable(const uint8_t *peer_addr, struct_advanced_meta data) {
+  esp_err_t reliableResult;
+  while(!success) {
+    Serial.println("reliable sending...");
+    reliableResult = esp_now_send(peer_addr, 
+                                          (uint8_t *) &data,
+                                          sizeof(data));
+    delay(WAIT_AFTER_SEND + WAIT_AFTER_REP_SEND + 1000);
+  }
+  success = 0;
+  return reliableResult;
+}
+
+void waitForSerial(int r) {
+  while(true) {
+    if(hSerial.available()) {
+      Serial.write(hSerial.read());Serial.println("");
+      timestampS[r] = getTimestampS(r);
+      break;
+    }
   }
 }

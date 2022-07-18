@@ -1,6 +1,6 @@
-// // callback when data is recv from Master just printing incomming data
-// void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incommingData, int data_len) {
-//   memcpy(&dmxData, incommingData, sizeof(dmxData));
+// // callback when data is recv from Master just printing incoming data
+// void OnDataRecv(const uint8_t *mac_addr, const uint8_t *incomingData, int data_len) {
+//   memcpy(&dmxData, incomingData, sizeof(dmxData));
 //   Serial.print("Bytes received: "); Serial.print(data_len);
   
 //   // magic number 20 should be data_len

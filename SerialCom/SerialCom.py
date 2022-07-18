@@ -3,6 +3,8 @@ import json
 import serial
 from pprint import pprint
 import random
+import csv
+import datetime
 
 if __name__ == "__main__":
     print ("Ready...")
@@ -14,38 +16,84 @@ if __name__ == "__main__":
         bytesize=serial.EIGHTBITS,\
         timeout=2.5
     )
-    # data = {}
-    # data["operation"] = "channel"
+
     test1 = {
         "VERBOSE"               : 0,
         "DEBUG"                 : 0,
-        "TIMESTAMP"             : 1,
+        "TIMESTAMP"             : 0,
         "AIRTIME"               : 0,
-        "FULL_REPETITIONS"      : 1,
-        "DMX_BROADCASTING"      : 1,
+        "FULL_REPETITIONS"      : 10,
+        "DMX_BROADCASTING"      : 0,
 
-        "CHANNEL_TOTAL"         : 600,
-        "BROADCAST_FRAME_SIZE"  : 200,
-        "UNICAST_FRAME_SIZE"    : 2,
-        "UNICAST_SLAVE_COUNT"   : 1,
-        "SEND_REPITITION"       : 1000,  
-        "WAIT_AFTER_SEND"       : 3,
-        "WAIT_AFTER_REP_SEND"   : 0
+        "CHANNEL_TOTAL"         : 160,
+        "BROADCAST_FRAME_SIZE"  : 160,
+        "UNICAST_FRAME_SIZE"    : 20,
+        "SLAVE_COUNT"           : 1,
+        "RAPID_REPITITION"      : 3,
+        "SEND_REPITITION"       : 10,
+        "WAIT_AFTER_SEND"       : 0,
+        "WAIT_AFTER_REP_SEND"   : 1000
     }
- 
-    data=json.dumps(test1)
-    print (data)
 
-    if ser.isOpen():
-        ser.write(data.encode('ascii'))
-        ser.flush()
-        while (True):
-            try:
-                incoming = ser.readline().decode("utf-8")
-                print (incoming, end="")
-            except Exception as e:
-                print (e)
-                pass
-        ser.close()
-    else:
-        print ("opening error")
+
+    PY_DEBUG = True
+
+    for size in [160]:
+        test1['BROADCAST_FRAME_SIZE'] = size
+        test1['CHANNEL_TOTAL'] = size
+        # for rapid in range (1,4):
+        #     test1['RAPID_REPITITION'] = rapid
+        for wait in [4]:
+            # test1['WAIT_AFTER_SEND'] = wait
+
+            current_time = datetime.datetime.now().strftime("_%m-%d-%H:%M:%S")
+            data=json.dumps(test1)
+            print (data)
+
+            bc = test1['DMX_BROADCASTING'    ]
+            sz = test1['BROADCAST_FRAME_SIZE']
+            # sz = test1['UNICAST_FRAME_SIZE'  ]
+            sc = test1['SLAVE_COUNT'         ]
+            rr = test1['RAPID_REPITITION'    ]
+            rp = test1['SEND_REPITITION'     ]
+            w8 = test1['WAIT_AFTER_SEND'     ]
+
+            exp_name = f'uc{bc}_size{sz}_r{rp}_rr{rr}_wait{w8}'
+            print(f'--->{exp_name}')
+            # RUN EXPERIMENT
+            if ser.isOpen():
+                ser.write(data.encode('ascii'))
+                ser.flush()
+
+                currentSlave = 0
+
+                while (True):
+
+                    try:
+                        incoming = ser.readline().decode("utf-8")
+                        print (incoming, end=" ")
+                        if ('DONE' in incoming):
+                            currentSlave += 1
+                            if (currentSlave == test1['SLAVE_COUNT']):
+                                # with open(f'/home/walther/Documents/bachelor/Data/latency/broadcast{exp_name}{current_time}.csv', 'a', newline='') as file:
+                                #     writer = csv.writer(file, delimiter=',')
+                                #     writer.writerow([int(9999)])
+                                break
+
+                        # with open(f'/home/walther/Documents/bachelor/Data/latency/broadcast{exp_name}{current_time}.csv', 'a', newline='') as file:
+                        #     writer = csv.writer(file, delimiter=',')
+                        #     writer.writerow([int(incoming)])
+
+                    except Exception as e:
+                        print (e)
+                        pass
+
+                    if ('===FINITO===' in incoming):
+                        break
+
+            else:
+                print ("opening error")
+
+            # time.sleep(1)
+
+    ser.close()
